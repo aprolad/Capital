@@ -149,13 +149,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAP_window.cpp" />
+    <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAP_window.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
+    <ClInclude Include="Graphics\CAP_shaderAux.h" />
+    <ClInclude Include="Graphics\GUI.h" />
+    <ClInclude Include="Graphics\SceneComposer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphics\shaders\fragment.sh" />
     <None Include="Graphics\shaders\vertex.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
