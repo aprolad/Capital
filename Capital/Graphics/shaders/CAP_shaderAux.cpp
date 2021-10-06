@@ -12,8 +12,6 @@ GLuint createVertexShader(const char* path)
 	std::string s;
 	while (input >> sstr.rdbuf());
 	s = sstr.str();
-	std::cout << sstr.str() << std::endl;
-
 
 	const char* vertex = s.c_str();
 	GLuint vertexShader;
@@ -36,11 +34,11 @@ GLuint createFragmentShader(const char* path)
 
 
 	std::ifstream input("Graphics/shaders/fragment.sh");
-	std::stringstream sstr1;
-	std::string s1;
-	while (input >> sstr1.rdbuf());
-	s1 = sstr1.str();
-	const char* fr = s1.c_str();
+	std::stringstream sstr;
+	std::string s;
+	while (input >> sstr.rdbuf());
+	s = sstr.str();
+	const char* fr = s.c_str();
 	GLuint fragmentShader;
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fr, NULL);
@@ -54,4 +52,26 @@ GLuint createFragmentShader(const char* path)
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog1 << std::endl;
 	}
 	return fragmentShader;
+}
+GLuint createShaderProgram(GLuint vertex, GLuint fragment)
+{
+
+	
+	GLuint shaderProgram;
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertex);
+	glAttachShader(shaderProgram, fragment);
+	glLinkProgram(shaderProgram);
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
+
+	GLint success;
+	GLchar infoLog[512];
+	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+	return shaderProgram;
 }

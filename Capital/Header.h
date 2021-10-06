@@ -1,0 +1,11 @@
+#pragma once
+#include <glew.h>
+#include <glfw3.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include "CAP_window.h"
+#include "Graphics/CAP_shaderAux.h"
+#include "Graphics/CAP_graphics.h"
+#include "Callbacks/Callbacks.h"

@@ -149,15 +149,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAP_window.cpp" />
+    <ClCompile Include="Graphics\shaders\CAP_graphics.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Callbacks\Callbacks.h" />
     <ClInclude Include="CAP_window.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
     <ClInclude Include="Graphics\GUI.h" />
     <ClInclude Include="Graphics\SceneComposer.h" />
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\shaders\fragment.sh" />
