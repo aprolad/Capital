@@ -5,27 +5,30 @@
 GLFWwindow* window;
 
 graphicObject base;
+sceneComposer mainMenu;
+
 void OGL_mainLoop()
 {
 	GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
 	GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
-	GLuint shaderProgram = createShaderProgram(vertexShader, fragmentShader);
+	shaderProgram = createShaderProgram(vertexShader, fragmentShader);
 	
 	base.init();
-
-
+	mainMenu.buttons.resize(2);
+	mainMenu.buttons[0].poly = base;
+	mainMenu.buttons[1].poly = base;
+	mainMenu.buttons[1].y += -0.5;
+	glUseProgram(shaderProgram);
 	while (!glfwWindowShouldClose(window))
 	{
-
-		glfwPollEvents();
-
-		glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
+		GLfloat timeValue = glfwGetTime();
+		GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+		GLfloat redValue = (cos(timeValue) / 2) + 0.5;
+		GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 		glUseProgram(shaderProgram);
-		glBindVertexArray(base.VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glBindVertexArray(0);
+		glUniform4f(vertexColorLocation, redValue, greenValue, 0.0f, 1.0f);
+		glfwPollEvents();
+		mainMenu.draw();
 
 		glfwSwapBuffers(window);
 	}

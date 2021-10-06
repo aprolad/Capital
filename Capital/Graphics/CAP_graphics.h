@@ -2,6 +2,9 @@
 #include <glew.h>
 #include <glfw3.h>
 #include <iostream>
+GLuint shaderProgram;
+
+
 class graphicObject
 {
 public:
@@ -9,9 +12,10 @@ public:
 	void init()
 	{
 		GLfloat vertices[] = {
-	  -0.5f, -0.5f, 0.0f,
-	   0.5f, -0.5f, 0.0f,
-	   0.0f,  0.5f, 0.0f
+	  0.2f, -0.2f, 0.0f,
+	   0.2f, 0.2f, 0.0f,
+	   -0.2f, -0.2f, 0.0f,
+	   -0.2f,  0.2f, 0.0f
 		};
 
 		glGenVertexArrays(1, &VAO);
@@ -25,6 +29,12 @@ public:
 		glEnableVertexAttribArray(0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+	void draw()
+	{
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glBindVertexArray(0);
 	}
 
