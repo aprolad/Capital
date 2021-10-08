@@ -27,6 +27,9 @@
     <ClCompile Include="Graphics\shaders\CAP_graphics.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="audio.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAP_window.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="audio.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
