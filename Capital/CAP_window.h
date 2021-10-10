@@ -1,5 +1,3 @@
 #pragma once
-#include <glew.h>
-#include <glfw3.h>
-#include <iostream>
+#include "Header.h"
 int windowInit(GLFWwindow* &window);
