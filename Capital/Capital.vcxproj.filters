@@ -13,25 +13,31 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\graphics">
+      <UniqueIdentifier>{c50c2d51-9d98-4e6c-bb96-2f060502f496}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CAP_window.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="audio.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="GUI.cpp">
+    <ClCompile Include="buttons.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="CAP_graphics.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Исходные файлы\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
+      <Filter>Исходные файлы\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="CAP_window.cpp">
+      <Filter>Исходные файлы\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +66,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Header.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="buttons.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

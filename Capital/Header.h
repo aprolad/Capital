@@ -18,5 +18,5 @@
 #include "scene.h"
 #include "Graphics/SceneComposer.h"
 #include "audio.h"
-//extern sceneComposer scMain;
+#include "buttons.h"
 

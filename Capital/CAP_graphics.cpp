@@ -2,10 +2,10 @@
 void graphicObject::init()
 {
 	GLfloat vertices[] = {
-	0.2f, -0.2f, 0.0f,
-	0.2f, 0.2f, 0.0f,
-   -0.2f, -0.2f, 0.0f,
-   -0.2f,  0.2f, 0.0f
+	-0.8f, -1.2f, 0.0f,
+	-0.8f, -0.8f, 0.0f,
+    -1.2f, -1.2f, 0.0f,
+    -1.2f, -0.8f, 0.0f
 	};
 
 	glGenVertexArrays(1, &VAO);

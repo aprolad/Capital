@@ -17,36 +17,38 @@ public:
 		this->size = 0.2;
 		poly = base;
 	}
-	quadButton(double x, double y)
+	quadButton(double x, double y, double size)
 	{
 		this->x = x;
 		this->y = y;
 		this->size = 0.2;
 		poly = base;
 	}
+	void (*func)(void);
 	double x, y;
 	double size;
 	graphicObject poly;
 	void draw();
-	void mouseCallback(double mx, double my)
+	void mouseCallback(double mx, double my) 
 	{
-		//	if (mx > (x - 0.2) && mx < (x + 0.2) && my >(y - 0.2) && my < (y + 0.2))
-		//		exit(1);
+		std::cout << y - size << " " << my << std::endl;
+		if (mx > (x - size) && mx < (x + size) && my >(y - size) && my < (y + size))
+			(*func)();
 	}
 };
 class exitButton : public quadButton
 {
 public:
-	exitButton(double x, double y)
+	exitButton(double x, double y, double size)
 	{
 		this->x = x;
 		this->y = y;
-		this->size = 0.2;
-		poly = base;
+		this->size = size;
+		//poly = base;
 	}
 	void mouseCallback(double mx, double my)
 	{
-		if (mx > (x - size) && mx < (x + size) && my >(-y - size) && my < (-y + size))
+		if (mx > (x - size) && mx < (x + size) && my >(y - size) && my < (y + size))
 			exit(1);
 	}
 
@@ -54,15 +56,25 @@ public:
 class startButton : public quadButton
 {
 public:
-	startButton(double x, double y)
+	startButton(double x, double y, double size)
 	{
 		this->x = x;
 		this->y = y;
-		this->size = 0.2;
+		this->size = size;
 		poly = base;
 	}
 	void mouseCallback(double mx, double my);
-
+};
+class returnButton : public quadButton
+{
+public:
+	returnButton(double x, double y, double size)
+	{
+		this->x = x;
+		this->y = y;
+		this->size = size;
+		poly = base;
+	}
 };
 class map : public graphicObject
 {

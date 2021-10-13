@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="buttons.cpp" />
     <ClCompile Include="CAP_graphics.cpp" />
     <ClCompile Include="CAP_window.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
+    <ClInclude Include="buttons.h" />
     <ClInclude Include="Callbacks\Callbacks.h" />
     <ClInclude Include="CAP_window.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />

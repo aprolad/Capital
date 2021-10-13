@@ -1,28 +1,34 @@
 #define GLEW_STATIC
 #include "Header.h"
 #undef main
+
 GLFWwindow* window;
-
-
 mainMenuScene mainMenu;
 sceneComposer scMain;
+
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+void config()
+{
+	scMain.scene.resize(1);
+	mainMenu.bn.push_back(new exitButton(1, 0.5, 0.2));
+	mainMenu.bn.push_back(new startButton(1, 1, 0.2));
+	scMain.scene[0] = &mainMenu;
+	scMain.scene.push_back(new mapScene());
+	returnButton *b =new returnButton(1.8, 1.8, 0.2);
+	b -> func = exitFromMainMenu;
+	scMain.scene[1] -> bn.push_back(b);
+	
+}
 void OGL_mainLoop()
 {
-	
-	
-	scMain.scene.resize(1);
 	
 	GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
 	GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
 	shaderProgram = createShaderProgram(vertexShader, fragmentShader);
 	base.init();
 	
-	mainMenu.bn.push_back(new exitButton(0, -0.5));
-	mainMenu.bn.push_back(new startButton(0, 0.0));
+	config();
 
-	scMain.scene[0] = &mainMenu;
-	scMain.scene.push_back(new mapScene());
 	glUseProgram(shaderProgram);
 	while (!glfwWindowShouldClose(window))
 	{
@@ -67,6 +73,6 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		
 		glfwGetCursorPos(window, &xpos, &ypos);
 	//	std::cout << ((xpos / 1280) * 2) - 1 << " " << ((ypos / 1024) * 2) - 1 << std::endl;
-		scMain.mouseInvoke(((xpos / 1280) * 2) - 1, ((ypos / 1024) * 2) - 1);
+		scMain.mouseInvoke(((xpos / 1280) * 2), ((1024-ypos)/1024) * 2);
 	}
 }
