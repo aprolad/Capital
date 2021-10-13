@@ -149,9 +149,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="CAP_graphics.cpp" />
     <ClCompile Include="CAP_window.cpp" />
-    <ClCompile Include="Graphics\shaders\CAP_graphics.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

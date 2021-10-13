@@ -14,6 +14,9 @@
 #include "Graphics/CAP_shaderAux.h"
 #include "Graphics/CAP_graphics.h"
 #include "Callbacks/Callbacks.h"
+#include "Graphics/GUI.h"
+#include "scene.h"
 #include "Graphics/SceneComposer.h"
 #include "audio.h"
+//extern sceneComposer scMain;
 

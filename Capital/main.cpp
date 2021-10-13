@@ -4,13 +4,14 @@
 GLFWwindow* window;
 
 
-scene mainMenu;
-
+mainMenuScene mainMenu;
+sceneComposer scMain;
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void OGL_mainLoop()
 {
-	sceneComposer main;
-	main.scene.resize(1);
+	
+	
+	scMain.scene.resize(1);
 	
 	GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
 	GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
@@ -18,9 +19,10 @@ void OGL_mainLoop()
 	base.init();
 	
 	mainMenu.bn.push_back(new exitButton(0, -0.5));
-	mainMenu.bn.push_back(new quadButton(0, -0.0));
+	mainMenu.bn.push_back(new startButton(0, 0.0));
 
-	main.scene[0] = mainMenu;
+	scMain.scene[0] = &mainMenu;
+	scMain.scene.push_back(new mapScene());
 	glUseProgram(shaderProgram);
 	while (!glfwWindowShouldClose(window))
 	{
@@ -31,7 +33,7 @@ void OGL_mainLoop()
 		glUseProgram(shaderProgram);
 		glUniform4f(vertexColorLocation, redValue, greenValue, 0.0f, 1.0f);
 		glfwPollEvents();
-		main.draw();
+		scMain.draw();
 
 		glfwSwapBuffers(window);
 	}
@@ -65,6 +67,6 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		
 		glfwGetCursorPos(window, &xpos, &ypos);
 	//	std::cout << ((xpos / 1280) * 2) - 1 << " " << ((ypos / 1024) * 2) - 1 << std::endl;
-		mainMenu.bn[0]->mouseCallback(((xpos / 1280) * 2) - 1, ((ypos / 1024) * 2) - 1);
+		scMain.mouseInvoke(((xpos / 1280) * 2) - 1, ((ypos / 1024) * 2) - 1);
 	}
 }

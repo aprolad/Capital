@@ -24,10 +24,13 @@
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\shaders\CAP_graphics.cpp">
+    <ClCompile Include="audio.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="audio.cpp">
+    <ClCompile Include="GUI.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CAP_graphics.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,13 +53,13 @@
     <ClInclude Include="Callbacks\Callbacks.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="audio.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
