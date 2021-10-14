@@ -12,7 +12,8 @@ GLuint createVertexShader(const char* path)
 	std::string s;
 	while (input >> sstr.rdbuf());
 	s = sstr.str();
-
+	if (s.empty())
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << std::endl;
 	const char* vertex = s.c_str();
 	GLuint vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -33,7 +34,7 @@ GLuint createFragmentShader(const char* path)
 {
 
 
-	std::ifstream input("Graphics/shaders/fragment.sh");
+	std::ifstream input(path);
 	std::stringstream sstr;
 	std::string s;
 	while (input >> sstr.rdbuf());

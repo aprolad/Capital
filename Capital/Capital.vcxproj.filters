@@ -79,5 +79,11 @@
     <None Include="Graphics\shaders\fragment.sh">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="Graphics\shaders\vertexFont.sh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Graphics\shaders\fragmentFont.sh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>
