@@ -28,6 +28,7 @@ public:
 	double x, y;
 	double size;
 	graphicObject poly;
+	std::string text;
 	void draw();
 	void mouseCallback(double mx, double my) 
 	{

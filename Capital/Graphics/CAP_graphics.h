@@ -13,3 +13,4 @@ class graphicObject
 };
 extern graphicObject base;
 extern GLuint shaderProgram;
+extern GLuint fontShader;

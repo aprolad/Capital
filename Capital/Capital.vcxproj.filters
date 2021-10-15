@@ -16,6 +16,9 @@
     <Filter Include="Исходные файлы\graphics">
       <UniqueIdentifier>{c50c2d51-9d98-4e6c-bb96-2f060502f496}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\graphics">
+      <UniqueIdentifier>{19321a82-73f3-48a2-95c5-7cc3d65b4f4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,20 +42,11 @@
     <ClCompile Include="CAP_window.cpp">
       <Filter>Исходные файлы\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="font.cpp">
+      <Filter>Исходные файлы\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CAP_window.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\CAP_graphics.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\GUI.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\SceneComposer.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\CAP_shaderAux.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -62,14 +56,29 @@
     <ClInclude Include="audio.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="buttons.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\CAP_graphics.h">
+      <Filter>Файлы заголовков\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CAP_window.h">
+      <Filter>Файлы заголовков\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GUI.h">
+      <Filter>Файлы заголовков\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Файлы заголовков\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\SceneComposer.h">
+      <Filter>Файлы заголовков\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Файлы заголовков\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

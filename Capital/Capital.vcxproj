@@ -152,6 +152,7 @@
     <ClCompile Include="buttons.cpp" />
     <ClCompile Include="CAP_graphics.cpp" />
     <ClCompile Include="CAP_window.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="buttons.h" />
     <ClInclude Include="Callbacks\Callbacks.h" />
     <ClInclude Include="CAP_window.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
     <ClInclude Include="Graphics\GUI.h" />

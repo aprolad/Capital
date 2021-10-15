@@ -19,4 +19,4 @@
 #include "Graphics/SceneComposer.h"
 #include "audio.h"
 #include "buttons.h"
-
+#include "font.h"
