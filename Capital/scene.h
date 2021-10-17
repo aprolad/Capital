@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Graphics/GUI.h"
+#include "game/playground.h"
 class scene
 {
 	public:
@@ -30,16 +31,18 @@ class mainMenuScene : virtual public scene
 class mapScene : virtual public scene
 {
 	public:
-		mapScene()
+		mapScene(playground pl)
 		{
+			this->pl = pl;
 			a = map();
 			a.init();
 		}
 		map a;
+		playground pl;
 		void draw()
 		{
 			for (int i = 0; i < bn.size(); i++)
 				bn[i]->draw();
-			//a.display();
+			pl.draw();
 		}
 };

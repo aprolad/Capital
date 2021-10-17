@@ -54,8 +54,8 @@ void fontInit()
 		};
 		Characters.insert(std::pair<GLchar, Character>(c, character));
 	}
-	FT_Done_Face(face);   // Завершение работы с шрифтом face
-	FT_Done_FreeType(ft); // Завершение работы FreeType
+	FT_Done_Face(face);   
+	FT_Done_FreeType(ft);
 
 }
 void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)

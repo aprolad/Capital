@@ -5,12 +5,19 @@
 
 class graphicObject
 {
-	private:
+	protected:
 		GLuint VBO, VAO;
 	public:
 	void init();
 	void draw();
 };
+class graphicTiles : public graphicObject
+{
+public:
+//	void draw();
+//	void init();
+};
 extern graphicObject base;
+extern graphicTiles baseGT;
 extern GLuint shaderProgram;
 extern GLuint fontShader;

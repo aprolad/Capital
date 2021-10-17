@@ -153,9 +153,11 @@
     <ClCompile Include="CAP_graphics.cpp" />
     <ClCompile Include="CAP_window.cpp" />
     <ClCompile Include="font.cpp" />
+    <ClCompile Include="game\playground.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="misc\configLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -163,11 +165,13 @@
     <ClInclude Include="Callbacks\Callbacks.h" />
     <ClInclude Include="CAP_window.h" />
     <ClInclude Include="font.h" />
+    <ClInclude Include="game\playground.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
     <ClInclude Include="Graphics\GUI.h" />
     <ClInclude Include="Graphics\SceneComposer.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="scene.h" />
   </ItemGroup>
   <ItemGroup>
