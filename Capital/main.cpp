@@ -7,22 +7,27 @@
 
 GLFWwindow* window;
 mainMenuScene mainMenu;
+gameScene gameSc;
 sceneComposer scMain;
 resolution screenResolution;
-playground pl;
+
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void config()
 {
-	pl.generate();
 
-	scMain.scene.resize(1);
+
+	scMain.scene.resize(2);
 	mainMenu.bn.push_back(new exitButton(500, 300, 100));
 	mainMenu.bn.push_back(new startButton(500, 700, 150));
 	scMain.scene[0] = &mainMenu;
-	scMain.scene.push_back(new mapScene(pl));
+	
 	returnButton *b =new returnButton(screenResolution.x - 100, screenResolution.y - 100, 100);
 	b -> func = exitFromMainMenu;
-	scMain.scene[1] -> bn.push_back(b);
+
+
+	gameSc.bn.push_back(b);
+	scMain.scene[1] = &gameSc;
+	
 
 
 	
@@ -30,7 +35,7 @@ void config()
 
 void OGL_mainLoop()
 {
-	
+	circle.circleInit();
 	GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
 	GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
 	shaderProgram = createShaderProgram(vertexShader, fragmentShader);
@@ -54,8 +59,9 @@ void OGL_mainLoop()
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		glfwPollEvents();
-
+		
 		scMain.draw();
+	
 		glUseProgram(fontShader);
 		
 		transformLoc = glGetUniformLocation(fontShader, "projection");
@@ -78,7 +84,7 @@ int main()
 	}
 	Mix_AllocateChannels(1);
 	sample s("audio/1wav.wav", 32000);
-	s.play();
+	//s.play();
 
 	OGL_mainLoop();
 

@@ -21,4 +21,3 @@
 #include "buttons.h"
 #include "font.h"
 #include "misc/configLoader.h"
-#include "game/playground.h"

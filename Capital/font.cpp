@@ -7,6 +7,8 @@
 #include <map>
 #include "font.h"
 std::map<GLchar, Character> Characters;
+GLuint VAO;
+GLuint VBO;
 void fontInit()
 {
 	FT_Library ft;
@@ -56,16 +58,15 @@ void fontInit()
 	}
 	FT_Done_Face(face);   
 	FT_Done_FreeType(ft);
-
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
 }
 void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	GLuint VAO;
-	GLuint VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	
+
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);

@@ -54,9 +54,6 @@
     <ClCompile Include="buttons.cpp">
       <Filter>Исходные файлы\misc</Filter>
     </ClCompile>
-    <ClCompile Include="game\playground.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -71,7 +68,7 @@
     <ClInclude Include="Graphics\GUI.h">
       <Filter>Файлы заголовков\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
+    <ClInclude Include="Scene.h">
       <Filter>Файлы заголовков\graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\SceneComposer.h">
@@ -79,9 +76,6 @@
     </ClInclude>
     <ClInclude Include="font.h">
       <Filter>Файлы заголовков\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="game\playground.h">
-      <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
       <Filter>Файлы заголовков\misc</Filter>
