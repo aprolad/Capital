@@ -7,7 +7,7 @@ class scene
 	public:
 		std::vector<button*> bn;
 		virtual void draw() {};
-		void mouseInvoke(double mx, double my)
+		virtual void mouseInvoke(double mx, double my)
 		{
 			for (int i = 0; i < bn.size(); i++)
 				bn[i]->mouseCallback(mx, my);
@@ -28,6 +28,8 @@ class mainMenuScene : virtual public scene
 				bn[i]->draw();
 		}
 };
+
+
 class gameScene : virtual public scene
 {
 public:
@@ -39,6 +41,8 @@ public:
 	}
 	void draw()
 	{
+
+
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->draw();
 	}

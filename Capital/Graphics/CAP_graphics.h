@@ -11,12 +11,7 @@ class graphicObject
 	void init();
 	void draw();
 };
-class graphicTiles : public graphicObject
-{
-public:
-//	void draw();
-//	void init();
-};
+
 struct circleBase
 {
 	GLuint VAO, VBO;
@@ -30,7 +25,6 @@ struct circleBase
 			vertices[i * 3] = sin(i * PI / 180) * 50;
 			vertices[i * 3 + 1] = cos(i * PI / 180) * 50;
 			vertices[i * 3 + 2] = 0;
-			//std::cout << vertices[i * 3];
 		}
 		glGenVertexArrays(1, &this->VAO);
 		glGenBuffers(1, &this->VBO);
@@ -56,6 +50,5 @@ struct circleBase
 
 extern graphicObject base;
 extern circleBase circle;
-extern graphicTiles baseGT;
 extern GLuint shaderProgram;
 extern GLuint fontShader;

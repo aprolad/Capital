@@ -32,7 +32,6 @@ public:
 	void draw();
 	void mouseCallback(double mx, double my) 
 	{
-		std::cout << y - size << " " << my << std::endl;
 		if (mx > (x - size) && mx < (x + size) && my >(y - size) && my < (y + size))
 			(*func)();
 	}
@@ -45,7 +44,6 @@ public:
 		this->x = x;
 		this->y = y;
 		this->size = size;
-		//poly = base;
 	}
 	void mouseCallback(double mx, double my)
 	{

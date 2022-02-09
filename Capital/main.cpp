@@ -2,7 +2,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include "Header.h"
-
+#include "Interface/mainStatistic.h"
 #undef main
 
 GLFWwindow* window;
@@ -25,12 +25,10 @@ void config()
 	b -> func = exitFromMainMenu;
 
 
-	gameSc.bn.push_back(b);
-	scMain.scene[1] = &gameSc;
+	mainScene.bn.push_back(b);
+	scMain.scene[1] = &mainScene;
 	
-
-
-	
+	scMain.shader = &shaderProgram;
 }
 
 void OGL_mainLoop()
@@ -76,7 +74,6 @@ int main()
 	loadConfig(screenResolution.x, screenResolution.y);
 	windowInit(window);
 	base.init();
-	baseGT.init();
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {

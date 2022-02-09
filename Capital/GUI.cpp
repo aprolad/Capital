@@ -31,7 +31,7 @@ void map::display()
 	glm::mat4 trans;
 	trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
 	vec = trans * vec;
-	//
+
 	GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 	draw();

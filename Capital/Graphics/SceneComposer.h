@@ -5,7 +5,9 @@ class sceneComposer
 {
 	private:
 		int scenePointer;
+		
 	public:
+		GLuint* shader;
 		sceneComposer()
 		{
 			scenePointer = 0;
@@ -20,12 +22,15 @@ class sceneComposer
 		void mouseInvoke(double mx, double my)
 		{
 			scene[scenePointer]->mouseInvoke(mx, my);
+
 		}
 		void draw()
 		{
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+			glUniform4f(glGetUniformLocation(*shader, "ourColor"), 0.3,0,0,1);
 			scene[scenePointer]->draw();
 		}
 };
 extern sceneComposer scMain;
+ 

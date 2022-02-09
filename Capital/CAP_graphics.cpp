@@ -29,7 +29,6 @@ void graphicObject::draw()
 	glBindVertexArray(0);
 }
 
-graphicTiles baseGT;
 graphicObject base;
 circleBase circle;
 GLuint shaderProgram;
