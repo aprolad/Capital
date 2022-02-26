@@ -28,7 +28,7 @@ class sceneComposer
 		{
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			glUniform4f(glGetUniformLocation(*shader, "ourColor"), 0.3,0,0,1);
+			glUniform4f(glGetUniformLocation(*shader, "ourColor"), 0.0,0,0,1);
 			scene[scenePointer]->draw();
 		}
 };

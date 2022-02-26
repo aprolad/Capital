@@ -5,12 +5,14 @@
 #include "Interface/mainStatistic.h"
 #undef main
 
+extern simulation sim;
+
+
 GLFWwindow* window;
 mainMenuScene mainMenu;
-gameScene gameSc;
 sceneComposer scMain;
 resolution screenResolution;
-
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void config()
 {
@@ -97,4 +99,14 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		glfwGetCursorPos(window, &xpos, &ypos);
 		scMain.mouseInvoke(xpos, screenResolution.y - ypos);
 	}
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+		sim.pause();
+
 }

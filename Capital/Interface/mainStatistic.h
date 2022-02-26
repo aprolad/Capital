@@ -1,14 +1,16 @@
 #pragma once
 #include "../Scene.h"
 
+#include "game/simulation.h"
 
-
+simulation sim;
 
 class panel
 {
 	public:
 		 void draw()
 		{
+			 using namespace std;
 			 double size = 100;
 			 glUseProgram(shaderProgram);
 			 glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
@@ -18,7 +20,9 @@ class panel
 			 GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 			 glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			 base.draw();
-			 RenderText(fontShader, "Population:", 200, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+			 string str = "Population: ";
+			 str = str + std::to_string(int(sim.population));
+			 RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 		};
 };
 
@@ -27,6 +31,7 @@ class EconPanel : virtual public panel
 	public:
 		void draw()
 		{
+			using namespace std;
 			double size = 100;
 			glUseProgram(shaderProgram);
 			glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
@@ -36,7 +41,9 @@ class EconPanel : virtual public panel
 			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			base.draw();
-			RenderText(fontShader, "Gdp:", 200, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+			string str = "GDP: ";
+			str = str + std::to_string(sim.GDP);
+			RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 		};
 };
 
@@ -139,7 +146,25 @@ public:
 
 };
 
-
+class textElement
+{
+	public:
+		void draw()
+		{
+			using namespace std;
+			double size = 100;
+			glUseProgram(shaderProgram);
+			glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
+			glm::mat4 trans;
+			trans = glm::translate(trans, glm::vec3(200, 200, 0.0f));
+			trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
+			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			string str = "Date: ";
+			str = str + std::to_string(sim.date);
+			RenderText(fontShader, str, 1000, 1000, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		}
+};
 
 demographicsMenu demographics(0, 0);
 economicsMenu economics(220, 0);
@@ -158,7 +183,7 @@ class mainStat : virtual public scene
 		rootMenus.push_back(&economics);
 	}
 	std::vector<rootMenu*> rootMenus;
-
+	textElement date;
 	void mouseInvoke(double mx, double my)
 	{
 		for (int i = 0; i < rootMenus.size(); i++)
@@ -170,10 +195,12 @@ class mainStat : virtual public scene
 	
 	void draw()
 	{
+		sim.cycle();
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->draw();
 		for (int i = 0; i < rootMenus.size(); i++)
 			rootMenus[i]->draw(1280, 1024);
+		date.draw();
 	}
 	private:
 
