@@ -166,6 +166,7 @@
     <ClInclude Include="Callbacks\Callbacks.h" />
     <ClInclude Include="CAP_window.h" />
     <ClInclude Include="font.h" />
+    <ClInclude Include="game\EconPanels.h" />
     <ClInclude Include="game\simulation.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />

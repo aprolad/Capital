@@ -35,7 +35,6 @@ void config()
 
 void OGL_mainLoop()
 {
-	circle.circleInit();
 	GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
 	GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
 	shaderProgram = createShaderProgram(vertexShader, fragmentShader);

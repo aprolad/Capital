@@ -2,7 +2,7 @@
 #include "../Scene.h"
 
 #include "game/simulation.h"
-
+#include "game/EconPanels.h"
 simulation sim;
 
 class panel
@@ -12,6 +12,7 @@ class panel
 		{
 			 using namespace std;
 			 double size = 100;
+			 
 			 glUseProgram(shaderProgram);
 			 glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 			 glm::mat4 trans;
@@ -19,33 +20,14 @@ class panel
 			 trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
 			 GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 			 glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			 base.draw();
+
+			 drawRectangle(-50, -50, 50, 50);
 			 string str = "Population: ";
 			 str = str + std::to_string(int(sim.population));
 			 RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 		};
 };
 
-class EconPanel : virtual public panel
-{
-	public:
-		void draw()
-		{
-			using namespace std;
-			double size = 100;
-			glUseProgram(shaderProgram);
-			glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
-			glm::mat4 trans;
-			trans = glm::translate(trans, glm::vec3(200, 200, 0.0f));
-			trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
-			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			base.draw();
-			string str = "GDP: ";
-			str = str + std::to_string(sim.GDP);
-			RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
-		};
-};
 
 
 void resetActive(int callerId);
@@ -64,6 +46,25 @@ public:
 	}
 	virtual void draw(int resx, int resy) {};
 	virtual void mouseCallback(int mx, int my) {};
+};
+
+class econSubMenu
+{
+	public:
+		EconPanel p;
+		void draw()
+		{
+			double size = 100;
+			glUseProgram(shaderProgram);
+			glm::mat4 trans;
+			trans = glm::translate(trans, glm::vec3(120, 800, 0.0f));
+			glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform") , 1, GL_FALSE, glm::value_ptr(trans));
+
+			drawRectangle(-100, -50, 100, 50);
+			RenderText(fontShader, "Primary sector", 50, 790, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+
+			p.draw();
+		}
 };
 
 
@@ -110,7 +111,7 @@ public:
 class economicsMenu : virtual public rootMenu
 {
 public:
-	EconPanel p;
+	econSubMenu p;
 	economicsMenu(int x, int y)
 	{
 		this->x = x;
@@ -136,9 +137,15 @@ public:
 		trans = glm::translate(trans, glm::vec3(size + x, resy - size / 2 - y, 0.0f));
 		trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		if (active)
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.2, 1);
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		base.draw();
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
 		RenderText(fontShader, "Economics", x + size - size * 0.9, resy - size / 2 - y, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		
+		
 		if (active)
 			p.draw();
 

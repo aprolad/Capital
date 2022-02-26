@@ -104,6 +104,9 @@
     <ClInclude Include="game\simulation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="game\EconPanels.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\shaders\vertex.sh">
