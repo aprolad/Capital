@@ -3,14 +3,26 @@
 struct GDP
 {
 	double farmingGDP;
+	double miningGDP;
 	double total;
 	double calcTotalGdp()
 	{
-		return farmingGDP;
+		total = farmingGDP + miningGDP;
+		return total;
 	}
 };
 
-
+class industry
+{
+public:
+	double productivity;
+	double output;
+	double workers;
+	void compute()
+	{
+		output = workers * productivity;
+	}
+};
 class simulation
 {
 	bool go;
@@ -22,11 +34,17 @@ class simulation
 			go = false;
 			dependencyRate = 0.70;
 			computeOneDay();
+			agriculture.productivity = 2;
+			mining.productivity = 3;
 		}
+		industry agriculture, mining;
 		int date;
 		double population;
+		double laborPool;
 		GDP GDP;
 		double dependencyRate;
+		double preference;
+		double foodSupply;
 		void pause()
 		{
 			go = !go;
@@ -35,10 +53,26 @@ class simulation
 		{
 			date += 1;
 
-			population += population * 0.0001;
+			agriculture.workers = laborPool * (preference / 100);
+			mining.workers = laborPool * (1 - preference / 100);
 
-			GDP.total = population * dependencyRate;
+			agriculture.compute();
+			mining.compute();
 
+			foodSupply = (agriculture.output - population)/population * 100;
+
+			if (foodSupply < 10 && preference < 100)
+				preference += 1;
+			if (foodSupply > 20 && preference > 0)
+				preference -= 1;
+
+			population += population * 0.00002 * foodSupply;
+
+			laborPool = int(population * dependencyRate);
+
+			GDP.farmingGDP = agriculture.output * 1;
+			GDP.miningGDP = mining.output * 1;
+			GDP.calcTotalGdp();
 		}
 		void cycle()
 		{
