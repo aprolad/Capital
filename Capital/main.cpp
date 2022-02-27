@@ -17,7 +17,6 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void config()
 {
 
-
 	scMain.scene.resize(2);
 	mainMenu.bn.push_back(new exitButton(500, 300, 100));
 	mainMenu.bn.push_back(new startButton(500, 700, 150));

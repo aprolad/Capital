@@ -5,6 +5,8 @@
 #include "game/EconPanels.h"
 simulation sim;
 
+int choosenSubMenu;
+
 class panel
 {
 	public:
@@ -48,24 +50,74 @@ public:
 	virtual void mouseCallback(int mx, int my) {};
 };
 
-class econSubMenu
+class econPrimaryMenu
 {
 	public:
-		EconPanel p;
+		EconPanelPrimary p;
+		void mouseInvoke(int mx, int my)
+		{
+			int size = 100;
+			int x = 20;
+			int x2 = 220;
+			int y = 750;
+			int y2 = 850;
+
+			if (mx > x && mx < x2 && my > y && my < y2)
+			{
+				choosenSubMenu = 1;
+			}
+		}
 		void draw()
 		{
-			double size = 100;
 			glUseProgram(shaderProgram);
 			glm::mat4 trans;
 			trans = glm::translate(trans, glm::vec3(120, 800, 0.0f));
 			glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform") , 1, GL_FALSE, glm::value_ptr(trans));
 
 			drawRectangle(-100, -50, 100, 50);
-			RenderText(fontShader, "Primary sector", 50, 790, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
-
+			RenderText(fontShader, "Primary sector", 50, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+			if (choosenSubMenu == 1)
 			p.draw();
 		}
 };
+
+class econReportMenu
+{
+public:
+	bool active;
+	EconPanel p;
+	void mouseInvoke(int mx, int my)
+	{
+		int size = 100;
+		int x = 270;
+		int x2 = 470;
+		int y = 750;
+		int y2 = 850;
+		
+		if (mx > x && mx < x2 && my > y && my < y2)
+		{
+			choosenSubMenu = 0;
+		}
+	}
+	void draw()
+	{
+		glUseProgram(shaderProgram);
+		glm::mat4 trans;
+		trans = glm::translate(trans, glm::vec3(370, 800, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+
+		drawRectangle(-100, -50, 100, 50);
+		RenderText(fontShader, "Report", 300, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		if (choosenSubMenu == 0)
+		p.draw();
+	}
+};
+
+
+
+
+
+
 
 
 class demographicsMenu : virtual public rootMenu
@@ -111,13 +163,16 @@ public:
 class economicsMenu : virtual public rootMenu
 {
 public:
-	econSubMenu p;
+	econPrimaryMenu p;
+	econReportMenu ep;
 	economicsMenu(int x, int y)
 	{
 		this->x = x;
 		this->y = y;
 	}
 	void mouseCallback(int mx, int my) {
+		ep.mouseInvoke(mx, my);
+		p.mouseInvoke(mx, my);
 		int size = 100;
 		my = resy - my;
 		if (mx > (x) && mx < (x + 2 * size) && my >(y - 0.5 * size) && my < (y + 1.5 * size))
@@ -147,7 +202,10 @@ public:
 		
 		
 		if (active)
+		{
 			p.draw();
+			ep.draw();
+		}
 
 	}
 
