@@ -23,6 +23,25 @@ public:
 		output = workers * productivity;
 	}
 };
+class agriculture : public industry
+{
+	public:
+		agriculture()
+		{
+			totalArableLand = 1000;
+		}
+		void compute()
+		{
+			double usedLand;
+			if (workers < totalArableLand)
+				usedLand = workers;
+			else
+				usedLand = totalArableLand;
+
+			output = usedLand * productivity;
+		}
+		double totalArableLand;
+};
 class simulation
 {
 	bool go;
@@ -39,7 +58,8 @@ class simulation
 			computeOneDay();
 			
 		}
-		industry agriculture, mining;
+		industry  mining;
+		agriculture agriculture;
 		int date;
 		double population;
 		double laborPool;
@@ -64,9 +84,9 @@ class simulation
 
 			foodSupply = (agriculture.output - population)/population * 100;
 
-			if (foodSupply < 10 && preference < 100)
+			if (foodSupply < 10 && preference < 100 && laborPool < agriculture.totalArableLand)
 				preference += 1;
-			if (foodSupply > 20 && preference > 0)
+			if (foodSupply > 20 && preference > 0 || agriculture.workers > agriculture.totalArableLand)
 				preference -= 1;
 
 			population += population * 0.00002 * foodSupply;
