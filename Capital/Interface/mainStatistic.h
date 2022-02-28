@@ -73,11 +73,15 @@ class econPrimaryMenu
 			glm::mat4 trans;
 			trans = glm::translate(trans, glm::vec3(120, 800, 0.0f));
 			glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform") , 1, GL_FALSE, glm::value_ptr(trans));
-
-			drawRectangle(-100, -50, 100, 50);
-			RenderText(fontShader, "Primary sector", 50, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 			if (choosenSubMenu == 1)
-			p.draw();
+				glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.2, 1);
+			
+			drawRectangle(-100, -50, 100, 50);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+			RenderText(fontShader, "Primary sector", 50, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+			if (choosenSubMenu == 1)	
+				p.draw();
 		}
 };
 
@@ -106,7 +110,13 @@ public:
 		trans = glm::translate(trans, glm::vec3(370, 800, 0.0f));
 		glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
 
+		if (choosenSubMenu == 0)
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.2, 1);
+
 		drawRectangle(-100, -50, 100, 50);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+
 		RenderText(fontShader, "Report", 300, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		if (choosenSubMenu == 0)
 		p.draw();

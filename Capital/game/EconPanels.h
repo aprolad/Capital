@@ -47,8 +47,8 @@ public:
 		str1 = str1 + std::to_string(sim.GDP.miningGDP);
 		RenderText(fontShader, str1, 120, 250, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 
-		str1 = "PREF: ";
-		str1 = str1 + std::to_string(sim.preference);
+		str1 = "Labor pool: ";
+		str1 = str1 + std::to_string(int(sim.laborPool));
 		RenderText(fontShader, str1, 120, 300, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 	};
 };

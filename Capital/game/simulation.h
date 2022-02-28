@@ -33,9 +33,11 @@ class simulation
 			date = 0;
 			go = false;
 			dependencyRate = 0.70;
-			computeOneDay();
 			agriculture.productivity = 2;
 			mining.productivity = 3;
+			preference = 100;
+			computeOneDay();
+			
 		}
 		industry agriculture, mining;
 		int date;
@@ -52,6 +54,7 @@ class simulation
 		void computeOneDay()
 		{
 			date += 1;
+			laborPool = int(population * dependencyRate);
 
 			agriculture.workers = laborPool * (preference / 100);
 			mining.workers = laborPool * (1 - preference / 100);
@@ -68,7 +71,7 @@ class simulation
 
 			population += population * 0.00002 * foodSupply;
 
-			laborPool = int(population * dependencyRate);
+			
 
 			GDP.farmingGDP = agriculture.output * 1;
 			GDP.miningGDP = mining.output * 1;
