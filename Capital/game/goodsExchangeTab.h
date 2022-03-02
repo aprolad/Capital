@@ -4,18 +4,20 @@ class goodsTab
 {
 public:
 	bool active;
+	void (*reset)();
 	void mouseInvoke(int mx, int my)
 	{
-		int size = 100;
-		int x = 20;
-		int x2 = 220;
-		int y = 750;
-		int y2 = 850;
+		int x = 440;
+		int x2 = 640;
+		int y = 880;
+		int y2 = 1080;
 
 		if (mx > x && mx < x2 && my > y && my < y2)
 		{
-			active = !active;
-			choosenTab = 3;
+			bool actTemp = active;
+			reset();
+			if (actTemp == false)
+			active = true;
 		}
 	}
 	void draw()
@@ -27,6 +29,11 @@ public:
 		drawRectangle(-100, -100, 100, 100);
 
 		RenderText(fontShader, "Goods",500, 980, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		if (active)
+		{
+			glUseProgram(shaderProgram);
+			drawRectangle(-000, -300, 600, -900);
+		}
 
 	}
 };

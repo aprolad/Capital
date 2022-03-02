@@ -50,8 +50,12 @@ public:
 		RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		str = "Agriculture workers: ";
-		str = str + std::to_string(sim.agriculture.workers);
-		RenderText(fontShader, str, 820, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		str = str + std::to_string(int(sim.agriculture.workers));
+		RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+		str = "Total arable land: ";
+		str = str + std::to_string(int(sim.agriculture.totalArableLand));
+		RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
 class EconPanelPrimary

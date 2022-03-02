@@ -33,7 +33,7 @@ class panel
 
 
 
-void resetActive(int callerId);
+void resetActive();
 class rootMenu
 {
 public:
@@ -142,11 +142,13 @@ public:
 	}
 	void mouseCallback(int mx, int my) {
 		int size = 100;
-		my = resy - my;
+		my = screenResolution.y - my;
 		if (mx > (x) && mx < (x + 2 * size) && my >(y - 0.5 * size) && my < (y + 1.5 * size))
 		{
-			active = !active;
-			choosenTab = 1;
+			bool actTemp = active;
+			resetActive();
+			if (actTemp == false)
+				active = true;
 		}
 			
 	}
@@ -185,11 +187,13 @@ public:
 		ep.mouseInvoke(mx, my);
 		p.mouseInvoke(mx, my);
 		int size = 100;
-		my = resy - my;
+		my = screenResolution.y - my;
 		if (mx > (x) && mx < (x + 2 * size) && my >(y - 0.5 * size) && my < (y + 1.5 * size))
 		{
-			active = !active;
-			choosenTab = 2;
+			bool actTemp = active;
+			resetActive();
+			if (actTemp == false)
+				active = true;
 		}
 
 	}
@@ -244,9 +248,8 @@ class textElement
 
 demographicsMenu demographics(0, 0);
 economicsMenu economics(220, 0);
-
-
 goodsTab gt;
+
 class mainStat : virtual public scene
 {
 	public:
@@ -258,6 +261,7 @@ class mainStat : virtual public scene
 		resolutionY = resy;
 		rootMenus.push_back(&demographics);
 		rootMenus.push_back(&economics);
+		gt.reset = resetActive;
 	}
 	std::vector<rootMenu*> rootMenus;
 	textElement date;
@@ -272,7 +276,6 @@ class mainStat : virtual public scene
 	
 	void draw()
 	{
-		resetActive();
 		sim.cycle();
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->draw();
@@ -294,8 +297,9 @@ mainStat mainScene(1280, 1024);
 
 void resetActive()
 {
-	if (choosenTab == 1)
+	for (int i = 0; i < mainScene.rootMenus.size(); i++)
 	{
-		mainScene.rootMenus[]
+			mainScene.rootMenus[i]->active = false;
 	}
+	gt.active = false;
 }

@@ -85,9 +85,9 @@ class simulation
 			foodSupply = (agriculture.output - population)/population * 100;
 
 			if (foodSupply < 10 && preference < 100 && laborPool < agriculture.totalArableLand)
-				preference += 1;
+				preference += 0.1;
 			if (foodSupply > 20 && preference > 0 || agriculture.workers > agriculture.totalArableLand)
-				preference -= 1;
+				preference -= 0.1;
 
 			population += population * 0.00002 * foodSupply;
 
