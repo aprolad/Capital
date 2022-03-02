@@ -3,10 +3,11 @@
 
 #include "game/simulation.h"
 #include "game/EconPanels.h"
+#include "game/goodsExchangeTab.h"
 simulation sim;
 
 int choosenSubMenu;
-
+int choosenTab;
 class panel
 {
 	public:
@@ -46,7 +47,7 @@ public:
 		resx = 1280;
 		resy = 1024;
 	}
-	virtual void draw(int resx, int resy) {};
+	virtual void draw() {};
 	virtual void mouseCallback(int mx, int my) {};
 };
 
@@ -145,23 +146,23 @@ public:
 		if (mx > (x) && mx < (x + 2 * size) && my >(y - 0.5 * size) && my < (y + 1.5 * size))
 		{
 			active = !active;
-			resetActive(0);
+			choosenTab = 1;
 		}
 			
 	}
 	
-	void draw(int resx, int resy)
+	void draw()
 	{
 		double size = 100;
 		glUseProgram(shaderProgram);
 		glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(size + x, resy - size / 2 + y, 0.0f));
+		trans = glm::translate(trans, glm::vec3(size + x, screenResolution.y - 50 - size / 2 + y, 0.0f));
 		trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		base.draw();
-		RenderText(fontShader, "Demographics", x + size - size * 0.9, resy - size / 2 - y, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		RenderText(fontShader, "Demographics", x + size - size * 0.9, screenResolution.y - 50 - size / 2 - y, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 		if (active)
 			p.draw();
 
@@ -188,18 +189,18 @@ public:
 		if (mx > (x) && mx < (x + 2 * size) && my >(y - 0.5 * size) && my < (y + 1.5 * size))
 		{
 			active = !active;
-			resetActive(1);
+			choosenTab = 2;
 		}
 
 	}
 	
-	void draw(int resx, int resy)
+	void draw()
 	{
 		double size = 100;
 		glUseProgram(shaderProgram);
 		glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(size + x, resy - size / 2 - y, 0.0f));
+		trans = glm::translate(trans, glm::vec3(size + x, screenResolution.y - 50 - size / 2 - y, 0.0f));
 		trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		if (active)
@@ -208,7 +209,7 @@ public:
 		base.draw();
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
 
-		RenderText(fontShader, "Economics", x + size - size * 0.9, resy - size / 2 - y, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		RenderText(fontShader, "Economics", x + size - size * 0.9, screenResolution.y - 50 - size / 2 - y, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 		
 		
 		if (active)
@@ -245,10 +246,11 @@ demographicsMenu demographics(0, 0);
 economicsMenu economics(220, 0);
 
 
-
+goodsTab gt;
 class mainStat : virtual public scene
 {
 	public:
+		static int choosenTab;
 		int resolutionX, resolutionY;
 	mainStat(int resx, int resy)
 	{
@@ -265,17 +267,22 @@ class mainStat : virtual public scene
 			rootMenus[i]->mouseCallback(mx, my);
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->mouseCallback(mx, my);
-		
+		gt.mouseInvoke(mx, my);
 	}
 	
 	void draw()
 	{
+		resetActive();
 		sim.cycle();
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->draw();
 		for (int i = 0; i < rootMenus.size(); i++)
-			rootMenus[i]->draw(1280, 1024);
+			rootMenus[i]->draw();
+
+		gt.draw();
+
 		date.draw();
+
 	}
 	private:
 
@@ -285,11 +292,10 @@ class mainStat : virtual public scene
 
 mainStat mainScene(1280, 1024);
 
-void resetActive(int callerId)
+void resetActive()
 {
-	for (int i = 0; i < mainScene.rootMenus.size(); i++)
+	if (choosenTab == 1)
 	{
-		if (i != callerId)
-			mainScene.rootMenus[i]->active = false;
+		mainScene.rootMenus[]
 	}
 }

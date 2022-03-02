@@ -107,6 +107,9 @@
     <ClInclude Include="game\EconPanels.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="game\goodsExchangeTab.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\shaders\vertex.sh">
