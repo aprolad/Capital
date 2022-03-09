@@ -12,6 +12,42 @@ struct GDP
 	}
 };
 
+
+
+class population
+{
+public:
+	double population;
+	double laborPool;
+	double dependencyRate;
+	void calc()
+	{
+		laborPool = int(population * dependencyRate);
+	}
+};
+class consumerGoods
+{
+public:
+	consumerGoods()
+	{
+		price = 2;
+	}
+	double aggregateDemand;
+	double naturalOutput;
+	double price;
+	void calc(population p)
+	{
+		aggregateDemand = p.population;
+		price = price + (aggregateDemand - naturalOutput) * 0.000001;
+
+		
+	}
+};
+class exchange
+{
+public:
+
+};
 class industry
 {
 public:
@@ -26,11 +62,12 @@ public:
 class agriculture : public industry
 {
 	public:
+		consumerGoods wheat;
 		agriculture()
 		{
 			totalArableLand = 1000;
 		}
-		void compute()
+		void compute(population p)
 		{
 			double usedLand;
 			if (workers < totalArableLand)
@@ -38,7 +75,11 @@ class agriculture : public industry
 			else
 				usedLand = totalArableLand;
 
-			output = usedLand * productivity;
+			wheat.naturalOutput = usedLand * productivity;
+
+			output = wheat.naturalOutput;
+
+			wheat.calc(p);
 		}
 		double totalArableLand;
 };
@@ -48,10 +89,10 @@ class simulation
 	public:
 		simulation()
 		{
-			population = 1000;
+			population.population = 1000;
 			date = 0;
 			go = false;
-			dependencyRate = 0.70;
+			population.dependencyRate = 0.70;
 			agriculture.productivity = 2;
 			mining.productivity = 3;
 			preference = 100;
@@ -60,11 +101,10 @@ class simulation
 		}
 		industry  mining;
 		agriculture agriculture;
+		population population;
 		int date;
-		double population;
-		double laborPool;
 		GDP GDP;
-		double dependencyRate;
+		
 		double preference;
 		double foodSupply;
 		void pause()
@@ -74,26 +114,26 @@ class simulation
 		void computeOneDay()
 		{
 			date += 1;
-			laborPool = int(population * dependencyRate);
+			double wht = agriculture.wheat.price;
+			population.calc();
 
-			agriculture.workers = laborPool * (preference / 100);
-			mining.workers = laborPool * (1 - preference / 100);
+			agriculture.workers = population.laborPool * (preference / 100);
+			mining.workers = population.laborPool * (1 - preference / 100);
 
-			agriculture.compute();
+			agriculture.compute(population);
 			mining.compute();
 
-			foodSupply = (agriculture.output - population)/population * 100;
+			foodSupply = (agriculture.output - population.population)/ population.population * 100;
 
-			if (foodSupply < 10 && preference < 100 && laborPool < agriculture.totalArableLand)
+			if (foodSupply < 20 && preference < 100)
 				preference += 0.1;
-			if (foodSupply > 20 && preference > 0 || agriculture.workers > agriculture.totalArableLand)
+			else if (preference > 0 && foodSupply > 0)
 				preference -= 0.1;
-
-			population += population * 0.00002 * foodSupply;
+			population.population += population.population * 0.00002 * foodSupply;
 
 			
 
-			GDP.farmingGDP = agriculture.output * 1;
+			GDP.farmingGDP = agriculture.output * agriculture.wheat.price;
 			GDP.miningGDP = mining.output * 1;
 			GDP.calcTotalGdp();
 		}

@@ -81,7 +81,7 @@ public:
 		RenderText(fontShader, str1, 120, 250, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 
 		str1 = "Labor pool: ";
-		str1 = str1 + std::to_string(int(sim.laborPool));
+		str1 = str1 + std::to_string(int(sim.population.laborPool));
 		RenderText(fontShader, str1, 120, 300, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 	
 		agSub.draw();

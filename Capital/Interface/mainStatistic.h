@@ -26,7 +26,7 @@ class panel
 
 			 drawRectangle(-100, -150, 100, 150);
 			 string str = "Population: ";
-			 str = str + std::to_string(int(sim.population));
+			 str = str + std::to_string(int(sim.population.population));
 			 RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		};
 };
