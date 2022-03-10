@@ -1,5 +1,5 @@
 #pragma once
-
+#include <random>
 struct GDP
 {
 	double farmingGDP;
@@ -14,15 +14,51 @@ struct GDP
 
 
 
-class population
+class demography
 {
 public:
+	demography()
+	{
+		population = 1000;
+		totalFertilityRate = 8;
+		for (int i = 0; i < 100000; i++)
+		{
+			agePyramid[i] = 0;
+		}
+		agePyramid[6000] = 1000;
+	}
+	double birthRate;
 	double population;
 	double laborPool;
 	double dependencyRate;
+	double totalFertilityRate;
+	int agePyramid[100000];
+
 	void calc()
 	{
-		laborPool = int(population * dependencyRate);
+		srand(time(0));
+		population = 0;
+		laborPool = 0;
+		for (int i = 0; i < 100000; i++)
+		{
+			population += agePyramid[i];
+
+			//Расчет работоспособного населения
+			if (i > 5110 && i < 23725)
+				laborPool += agePyramid[i];
+
+			dependencyRate = 1 - laborPool / (population + 1);
+
+			// Расчет рождаемости
+			if (i > 5475 && i < 16425)
+			{
+				int chance = rand() % int(10950 / 8); // Шанс родить в этот день одной женщине
+				if (chance < agePyramid[i]) // Количество шансов = количество женщин
+					agePyramid[0]++;
+			}
+
+		}
+		
 	}
 };
 class consumerGoods
@@ -35,9 +71,9 @@ public:
 	double aggregateDemand;
 	double naturalOutput;
 	double price;
-	void calc(population p)
+	void calc(demography p)
 	{
-		aggregateDemand = p.population;
+		aggregateDemand = p.population - ((price - 2) * (p.population) / 100);
 		price = price + (aggregateDemand - naturalOutput) * 0.000001;
 
 		
@@ -67,7 +103,7 @@ class agriculture : public industry
 		{
 			totalArableLand = 1000;
 		}
-		void compute(population p)
+		void compute(demography p)
 		{
 			double usedLand;
 			if (workers < totalArableLand)
@@ -83,13 +119,25 @@ class agriculture : public industry
 		}
 		double totalArableLand;
 };
+class forestry : public industry
+{
+public:
+
+};
+class fishing : public industry
+{
+
+};
+class hunting : public industry
+{
+
+};
 class simulation
 {
 	bool go;
 	public:
 		simulation()
 		{
-			population.population = 1000;
 			date = 0;
 			go = false;
 			population.dependencyRate = 0.70;
@@ -101,7 +149,10 @@ class simulation
 		}
 		industry  mining;
 		agriculture agriculture;
-		population population;
+		forestry forestry;
+		hunting hunting;
+		fishing fishing;
+		demography population;
 		int date;
 		GDP GDP;
 		
@@ -114,22 +165,21 @@ class simulation
 		void computeOneDay()
 		{
 			date += 1;
-			double wht = agriculture.wheat.price;
 			population.calc();
 
-			agriculture.workers = population.laborPool * (preference / 100);
-			mining.workers = population.laborPool * (1 - preference / 100);
+			agriculture.workers = int(population.laborPool * (preference / 100));
+			mining.workers = int(population.laborPool * (1 - preference / 100));
 
 			agriculture.compute(population);
 			mining.compute();
 
 			foodSupply = (agriculture.output - population.population)/ population.population * 100;
 
-			if (foodSupply < 20 && preference < 100)
-				preference += 0.1;
+			if (foodSupply < 20 && preference < 100 && agriculture.workers < agriculture.totalArableLand)
+				preference += 0.01;
 			else if (preference > 0 && foodSupply > 0)
-				preference -= 0.1;
-			population.population += population.population * 0.00002 * foodSupply;
+				preference -= 0.01;
+			
 
 			
 

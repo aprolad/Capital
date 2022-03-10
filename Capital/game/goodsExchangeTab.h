@@ -37,7 +37,7 @@ public:
 		
 
 
-		RenderText(fontShader, "Goods",500, 980, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		RenderText(fontShader, "Goods",450, 980, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		if (active)
 		{
 			glUseProgram(shaderProgram);
@@ -45,7 +45,7 @@ public:
 
 			string str = "Wheat price: ";
 			str = str + std::to_string(sim.agriculture.wheat.price);
-			RenderText(fontShader, str, 500, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+			RenderText(fontShader, str, 700, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 
 	}
