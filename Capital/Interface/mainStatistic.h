@@ -20,8 +20,8 @@ class panel
 			for (int i = 0; i < 400; i++)
 			{
 				temp = 0;
-				for (int c = 0; c < 49; c++)
-					temp += sim.population.agePyramid[i*49+c];
+				for (int c = 0; c < 99; c++)
+					temp += sim.population.agePyramid[i*99+c];
 				pyrChart.data[i] = temp;
 			}
 			 using namespace std;

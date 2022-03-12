@@ -33,13 +33,13 @@ public:
 	{
 		agePyramid.resize(100000);
 		population = 1000;
-		totalFertilityRate = 8;
+		totalFertilityRate = 6;
 		for (int i = 0; i < 100000; i++)
 		{
 			agePyramid[i] = 0;
 		}
-		for (int i=0; i<10000; i++)
-		agePyramid[i] = 50;
+		for (int i=0000; i<10000; i++)
+		agePyramid[i] = 500;
 	}
 	double birthRate;
 	int population;
@@ -73,7 +73,7 @@ public:
 			// Расчет рождаемости
 			if (i > 5475 && i < 16425)
 			{
-				int chance = rand() % int(10950 / 8 * 2);// Шанс родить в этот день одной женщине
+				int chance = rand() % int(10950 / totalFertilityRate * 2);// Шанс родить в этот день одной женщине
 				if (chance < agePyramid[i]) // Количество шансов = количество женщин
 				{
 					agePyramid[0]++;
@@ -85,16 +85,16 @@ public:
 
 			if (i > 6000 && i <30000)
 			{
-				int chance = rand() % int(30000-i/12000*29000); // Шанс умереть в этот день одному человеку
+				int chance = rand() % int(30000-i/17000*29000); // Шанс умереть в этот день одному человеку
 				if (chance < agePyramid[i]) // Количество шансов = количество людей
 				{
 					agePyramid[i]--;
 					fat++;
 				}
 			}
-			else
+			if (i < 3000)
 			{
-				int chance = rand() % int(500 + i*10); // Шанс умереть в этот день одному человеку
+				int chance = rand() % int(1000+i*10); // Шанс умереть в этот день одному человеку
 				if (chance < agePyramid[i]) // Количество шансов = количество людей
 				{
 					agePyramid[i]--;
@@ -117,9 +117,9 @@ public:
 	double aggregateDemand;
 	double naturalOutput;
 	double price;
-	void calc(demography p)
+	void calc(demography* p)
 	{
-		aggregateDemand = p.population - ((price - 2) * (p.population) / 100);
+		aggregateDemand = p->population - ((price - 2) * (p->population) / 100);
 		//price = price + (aggregateDemand - naturalOutput) * 0.000001;
 
 		
@@ -147,9 +147,9 @@ class agriculture : public industry
 		consumerGoods wheat;
 		agriculture()
 		{
-			totalArableLand = 100000;
+			totalArableLand = 400000;
 		}
-		void compute(demography p)
+		void compute(demography* p)
 		{
 			double usedLand;
 			if (workers < totalArableLand)
@@ -216,14 +216,14 @@ class simulation
 			agriculture.workers = int(population.laborPool * (preference / 100));
 			mining.workers = int(population.laborPool * (1 - preference / 100));
 
-			agriculture.compute(population);
+			agriculture.compute(&population);
 			mining.compute();
 
 			foodSupply = (agriculture.output - population.population)/ population.population * 100;
 
 			if (foodSupply < 20 && preference < 100 && agriculture.workers < agriculture.totalArableLand)
 				preference += 0.01;
-			else if (preference > 0 && foodSupply > 0)
+			else if (preference > 0 && foodSupply > 0 || agriculture.workers > agriculture.totalArableLand)
 				preference -= 0.01;
 			
 
