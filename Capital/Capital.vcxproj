@@ -154,6 +154,7 @@
     <ClCompile Include="CAP_window.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game\simulation.cpp" />
+    <ClCompile Include="Graphics\chartBuilder.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Interface\mainStatistic.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="game\simulation.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
+    <ClInclude Include="Graphics\chartBuilder.h" />
     <ClInclude Include="Graphics\GUI.h" />
     <ClInclude Include="Graphics\SceneComposer.h" />
     <ClInclude Include="Header.h" />

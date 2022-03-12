@@ -60,6 +60,9 @@
     <ClCompile Include="game\simulation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\chartBuilder.cpp">
+      <Filter>Исходные файлы\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -108,6 +111,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="game\goodsExchangeTab.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\chartBuilder.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

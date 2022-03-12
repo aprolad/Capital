@@ -3,6 +3,7 @@
 #include <glfw3.h>
 #include <iostream>
 #define PI 3.14159265
+extern GLuint VBO1, VAO1;
 class graphicObject
 {
 	protected:

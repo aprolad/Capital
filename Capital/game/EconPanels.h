@@ -1,11 +1,13 @@
 #pragma once
 #include "../Scene.h"
 #include "simulation.h"
+#include "../Graphics/chartBuilder.h"
 extern simulation sim;
 
 class EconPanel
 {
 public:
+	chart ch;
 	void draw()
 	{
 		using namespace std;
@@ -20,6 +22,8 @@ public:
 		string str = "GDP: ";
 		str = str + std::to_string(sim.GDP.total);
 		RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		ch.data = sim.GDP.history;
+		ch.draw();
 	};
 };
 class econSubPanel

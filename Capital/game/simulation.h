@@ -1,13 +1,24 @@
 #pragma once
 #include <random>
+#include <vector>
+using namespace std;
 struct GDP
 {
+	GDP()
+	{
+		history.resize(100);
+	}
 	double farmingGDP;
 	double miningGDP;
 	double total;
+	vector<double> history;
 	double calcTotalGdp()
 	{
+		
 		total = farmingGDP + miningGDP;
+
+		history.insert(history.begin(), total);
+		history.pop_back();
 		return total;
 	}
 };
@@ -19,26 +30,30 @@ class demography
 public:
 	demography()
 	{
+		agePyramid.resize(100000);
 		population = 1000;
 		totalFertilityRate = 8;
 		for (int i = 0; i < 100000; i++)
 		{
 			agePyramid[i] = 0;
 		}
-		agePyramid[6000] = 1000;
+		for (int i=0; i<3000; i++)
+		agePyramid[6000 + i] = 10;
 	}
 	double birthRate;
 	double population;
 	double laborPool;
 	double dependencyRate;
 	double totalFertilityRate;
-	int agePyramid[100000];
+	std::vector<int> agePyramid;
 
 	void calc()
 	{
 		srand(time(0));
 		population = 0;
 		laborPool = 0;
+		agePyramid.insert(agePyramid.begin(), 0);
+		agePyramid.pop_back();
 		for (int i = 0; i < 100000; i++)
 		{
 			population += agePyramid[i];
@@ -74,7 +89,7 @@ public:
 	void calc(demography p)
 	{
 		aggregateDemand = p.population - ((price - 2) * (p.population) / 100);
-		price = price + (aggregateDemand - naturalOutput) * 0.000001;
+		//price = price + (aggregateDemand - naturalOutput) * 0.000001;
 
 		
 	}
@@ -101,7 +116,7 @@ class agriculture : public industry
 		consumerGoods wheat;
 		agriculture()
 		{
-			totalArableLand = 1000;
+			totalArableLand = 100000;
 		}
 		void compute(demography p)
 		{
@@ -142,7 +157,7 @@ class simulation
 			go = false;
 			population.dependencyRate = 0.70;
 			agriculture.productivity = 2;
-			mining.productivity = 3;
+			mining.productivity = 5;
 			preference = 100;
 			computeOneDay();
 			
