@@ -38,8 +38,8 @@ public:
 		{
 			agePyramid[i] = 0;
 		}
-		for (int i=0; i<3000; i++)
-		agePyramid[6000 + i] = 10;
+		for (int i=0; i<10000; i++)
+		agePyramid[i] = 50;
 	}
 	double birthRate;
 	int population;
@@ -85,13 +85,23 @@ public:
 
 			if (i > 6000 && i <30000)
 			{
-				int chance = rand() % int(6000 - i/10000 * 4999 - i/100); // Ўанс умереть в этот день одному человеку
+				int chance = rand() % int(30000-i/12000*29000); // Ўанс умереть в этот день одному человеку
 				if (chance < agePyramid[i]) //  оличество шансов = количество людей
 				{
 					agePyramid[i]--;
 					fat++;
 				}
 			}
+			else
+			{
+				int chance = rand() % int(500 + i*10); // Ўанс умереть в этот день одному человеку
+				if (chance < agePyramid[i]) //  оличество шансов = количество людей
+				{
+					agePyramid[i]--;
+					fat++;
+				}
+			}
+
 
 		}
 		

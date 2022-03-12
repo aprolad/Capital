@@ -54,7 +54,12 @@ void ageChart::draw()
 	std::vector<double>::iterator max = std::max_element(std::begin(data), std::end(data));
 
 	double range = (*max - *min) + 1;
-	double sizing = 0;//	*max = 400;
+
+	maxHistory.push_front(*max);
+	maxHistory.pop_back();
+	double maxHistoryT = 0;
+	for (int i = 0; i < 100; i++)
+		maxHistoryT += maxHistory[i];
 	glUseProgram(shaderProgram);
 	glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 	glm::mat4 trans;
@@ -62,11 +67,11 @@ void ageChart::draw()
 	GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 	int dtr = 0;
-	GLfloat vertices[300];
-	for (int i = 0; i < 300; i += 3)
+	GLfloat vertices[1200];
+	for (int i = 0; i < 1200; i += 3)
 	{
 		vertices[i] = i;
-		vertices[i + 1] = (data[dtr] - *min) / (*max - *min + 1) * 400;
+		vertices[i + 1] = (data[dtr]/(maxHistoryT/100)) * 400;
 		vertices[i + 2] = 0;
 		dtr++;
 	};
@@ -83,6 +88,10 @@ void ageChart::draw()
 	glBindVertexArray(0);
 
 	glBindVertexArray(VAO1);
-	glDrawArrays(GL_LINE_STRIP, 0, 100);
+	glDrawArrays(GL_LINE_STRIP, 0, 400);
 	glBindVertexArray(0);
+
+	string str = "";
+	str = str + std::to_string(int(*max));
+	RenderText(fontShader, str, 540, 750, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 }
