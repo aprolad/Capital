@@ -7,7 +7,7 @@ struct GDP
 {
 	GDP()
 	{
-		history.resize(100);
+		history.resize(300);
 	}
 	double farmingGDP;
 	double miningGDP;
@@ -85,7 +85,7 @@ public:
 
 			if (i > 6000 && i <30000)
 			{
-				int chance = rand() % int(6000 - i/10000 * 5999); // Ўанс умереть в этот день одному человеку
+				int chance = rand() % int(6000 - i/10000 * 4999 - i/100); // Ўанс умереть в этот день одному человеку
 				if (chance < agePyramid[i]) //  оличество шансов = количество людей
 				{
 					agePyramid[i]--;

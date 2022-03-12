@@ -19,8 +19,8 @@ class panel
 			for (int i = 0; i < 100; i++)
 			{
 				temp = 0;
-				for (int c = 0; c < 99; c++)
-					temp += sim.population.agePyramid[i * 200 + 99];
+				for (int c = 0; c < 199; c++)
+					temp += sim.population.agePyramid[i * 199 + c];
 					pyrChart.data[i] = temp / 99;
 
 			}

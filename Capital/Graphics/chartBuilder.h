@@ -5,12 +5,13 @@ using namespace std;
 class chart
 {
 public:
-	chart()
+	chart(int len)
 	{
-		data.resize(100);
+		data.resize(len);
+		sizing = len;
 	}
 	vector<double> data;
-	double sizing;
+	int sizing;
 	void draw();
 
 };
