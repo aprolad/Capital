@@ -1,6 +1,7 @@
 #pragma once
 #include <random>
 #include <vector>
+#include <deque>
 using namespace std;
 struct GDP
 {
@@ -41,18 +42,23 @@ public:
 		agePyramid[6000 + i] = 10;
 	}
 	double birthRate;
-	double population;
+	int population;
 	double laborPool;
 	double dependencyRate;
 	double totalFertilityRate;
-	std::vector<int> agePyramid;
-
+	double fat;
+	double births;
+	double infantMortality;
+	std::deque<int> agePyramid;
+	
 	void calc()
 	{
 		srand(time(0));
+		fat = 0;
+		births = 0;
 		population = 0;
 		laborPool = 0;
-		agePyramid.insert(agePyramid.begin(), 0);
+		agePyramid.push_front(0);
 		agePyramid.pop_back();
 		for (int i = 0; i < 100000; i++)
 		{
@@ -67,9 +73,24 @@ public:
 			// Расчет рождаемости
 			if (i > 5475 && i < 16425)
 			{
-				int chance = rand() % int(10950 / 8); // Шанс родить в этот день одной женщине
+				int chance = rand() % int(10950 / 8 * 2);// Шанс родить в этот день одной женщине
 				if (chance < agePyramid[i]) // Количество шансов = количество женщин
+				{
 					agePyramid[0]++;
+					births++;
+				}
+			}
+
+			//Расчет смертности
+
+			if (i > 6000 && i <30000)
+			{
+				int chance = rand() % int(6000 - i/10000 * 5999); // Шанс умереть в этот день одному человеку
+				if (chance < agePyramid[i]) // Количество шансов = количество людей
+				{
+					agePyramid[i]--;
+					fat++;
+				}
 			}
 
 		}

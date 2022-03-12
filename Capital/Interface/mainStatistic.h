@@ -11,8 +11,19 @@ int choosenTab;
 class panel
 {
 	public:
-		 void draw()
+		ageChart pyrChart;
+
+		void draw()
 		{
+			double temp;
+			for (int i = 0; i < 100; i++)
+			{
+				temp = 0;
+				for (int c = 0; c < 99; c++)
+					temp += sim.population.agePyramid[i * 200 + 99];
+					pyrChart.data[i] = temp / 99;
+
+			}
 			 using namespace std;
 			 double size = 100;
 			 
@@ -30,8 +41,18 @@ class panel
 			 RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 			 str = "Dependancy rate: ";
-			 str = str + std::to_string(int(sim.population.dependencyRate));
+			 str = str + std::to_string((sim.population.dependencyRate));
 			 RenderText(fontShader, str, 120, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			 str = "Deaths: ";
+			 str = str + std::to_string((sim.population.fat));
+			 RenderText(fontShader, str, 120, 350, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			 str = "Births: ";
+			 str = str + std::to_string((sim.population.births));
+			 RenderText(fontShader, str, 120, 400, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			 pyrChart.draw();
 		};
 };
 
@@ -280,7 +301,11 @@ class mainStat : virtual public scene
 	
 	void draw()
 	{
+
+		for (int i=0;i<10;i++)
 		sim.cycle();
+
+
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->draw();
 		for (int i = 0; i < rootMenus.size(); i++)

@@ -14,3 +14,14 @@ public:
 	void draw();
 
 };
+class ageChart 
+{
+public:
+	ageChart()
+	{
+		data.resize(100);
+	}
+	vector<double> data;
+	double sizing;
+	void draw();
+};
