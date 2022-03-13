@@ -12,25 +12,24 @@ void chart::draw()
 	double range = (*max - *min) + 1;
 
 	glUseProgram(shaderProgram);
-	glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 	glm::mat4 trans;
 	trans = glm::translate(trans, glm::vec3(600, 350, 0.0f));
 	GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 	int dtr = 0;
-	GLfloat vertices[900];
-	for (int i = 899; i > 1; i -= 3)
+	GLfloat *vertices = new GLfloat[sizing*3];
+	for (int i = 0; i < sizing*3; i += 3)
 	{
-		vertices[i - 2] = i;
-		vertices[i - 1] = (data[dtr]- *min)/(*max - *min + 1) * 400;
-		vertices[i ] = 0;
+		vertices[i] = sizing - dtr;
+		vertices[i + 1] = (data[dtr])/(*max + 1) * 400;
+		vertices[i + 2] = 0;
 		dtr++;
 	};
-
+	
 	glBindVertexArray(VAO1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * sizing*3, vertices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
@@ -42,10 +41,25 @@ void chart::draw()
 	glDrawArrays(GL_LINE_STRIP, 0, sizing);
 	glBindVertexArray(0);
 
+	delete[] vertices;
+
+
+	glUseProgram(shaderProgram);
+	trans = glm::mat4(1);
+	trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
+	transformLoc = glGetUniformLocation(shaderProgram, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+	drawLine(600, 300, 1500, 300);
+	drawLine(600, 300, 600, 720);
+
 
 	string str = "";
 	str = str + std::to_string(int(*max));
 	RenderText(fontShader, str, 540, 750, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
+
+	str = std::to_string(int(sizing));
+	RenderText(fontShader, str, 1500, 280, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 }
 
 void ageChart::draw()
@@ -67,10 +81,10 @@ void ageChart::draw()
 	GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 	int dtr = 0;
-	GLfloat vertices[1200];
-	for (int i = 0; i < 1200; i += 3)
+	GLfloat vertices[4800];
+	for (int i = 0; i < 4800; i += 3)
 	{
-		vertices[i] = i;
+		vertices[i] = dtr;
 		vertices[i + 1] = (data[dtr]/(maxHistoryT/100)) * 400;
 		vertices[i + 2] = 0;
 		dtr++;
@@ -88,7 +102,7 @@ void ageChart::draw()
 	glBindVertexArray(0);
 
 	glBindVertexArray(VAO1);
-	glDrawArrays(GL_LINE_STRIP, 0, 400);
+	glDrawArrays(GL_LINE_STRIP, 0, 1600);
 	glBindVertexArray(0);
 
 	string str = "";

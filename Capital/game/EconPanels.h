@@ -9,7 +9,7 @@ class EconPanel
 public:
 	EconPanel()
 	{
-		ch = new chart(300);
+		ch = new chart(900);
 	}
 	chart *ch;
 	void draw()
@@ -24,7 +24,7 @@ public:
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		drawRectangle(-100, -150, 100, 150);
 		string str = "GDP: ";
-		str = str + std::to_string(sim.GDP.total);
+		str = str + std::to_string(int(sim.GDP.total));
 		RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 
 		ch->data = sim.GDP.history;
@@ -35,7 +35,7 @@ class econSubPanel
 {
 
 };
-class agricultureSubPanel
+class agricultureSubPanel : econSubPanel
 {
 public:
 	void draw()
@@ -67,6 +67,43 @@ public:
 		RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
+class miningSubPanel : econSubPanel
+{
+public:
+	void draw()
+	{
+		using namespace std;
+
+		glUseProgram(shaderProgram);
+		glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		drawRectangle(-200, -300, 200, 300);
+
+		trans = glm::translate(glm::mat4(), glm::vec3(280, 210, 0.0f));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
+		drawRectangle(-160, -25, 180, 25);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+		string str = "Mining GDP: ";
+		str = str + std::to_string(sim.GDP.miningGDP);
+		RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+		str = "Agriculture workers: ";
+		str = str + std::to_string(int(sim.agriculture.workers));
+		RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+		str = "Total arable land: ";
+		str = str + std::to_string(int(sim.agriculture.totalArableLand));
+		RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+	}
+};
+
+
+
+
+
 class EconPanelPrimary
 {
 public:

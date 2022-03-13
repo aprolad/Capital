@@ -22,7 +22,7 @@ class ageChart
 public:
 	ageChart()
 	{
-		data.resize(400);
+		data.resize(1600);
 		maxHistory.resize(1000);
 	}
 	vector<double> data;

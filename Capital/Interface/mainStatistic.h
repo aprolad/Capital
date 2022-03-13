@@ -17,11 +17,11 @@ class panel
 		{
 			double temp;
 			double stage;
-			for (int i = 0; i < 400; i++)
+			for (int i = 0; i < 1600; i++)
 			{
 				temp = 0;
-				for (int c = 0; c < 99; c++)
-					temp += sim.population.agePyramid[i*99+c];
+				for (int c = 0; c < 24; c++)
+					temp += sim.population.agePyramid[i*25+c];
 				pyrChart.data[i] = temp;
 			}
 			 using namespace std;
@@ -36,7 +36,12 @@ class panel
 			 glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 			 drawRectangle(-100, -150, 100, 150);
-			 string str = "Population: ";
+
+			 string str = "Food supply: ";
+			 str = str + std::to_string(int(sim.population.foodSupply));
+			 RenderText(fontShader, str, 120, 170, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			 str = "Population: ";
 			 str = str + std::to_string(int(sim.population.population));
 			 RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 

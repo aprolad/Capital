@@ -1,5 +1,6 @@
 #pragma once
 #include <random>
+#include <ctime>
 #include <vector>
 #include <deque>
 using namespace std;
@@ -7,7 +8,7 @@ struct GDP
 {
 	GDP()
 	{
-		history.resize(300);
+		history.resize(900);
 	}
 	double farmingGDP;
 	double miningGDP;
@@ -39,7 +40,7 @@ public:
 			agePyramid[i] = 0;
 		}
 		for (int i=0000; i<10000; i++)
-		agePyramid[i] = 500;
+		agePyramid[i] = 50;
 	}
 	double birthRate;
 	int population;
@@ -49,11 +50,16 @@ public:
 	double fat;
 	double births;
 	double infantMortality;
+
+	double foodSupply;
+
 	std::deque<int> agePyramid;
 	
 	void calc()
 	{
-		srand(time(0));
+		std::mt19937 engine;
+		engine.seed(std::time(nullptr));
+
 		fat = 0;
 		births = 0;
 		population = 0;
@@ -73,7 +79,8 @@ public:
 			// Расчет рождаемости
 			if (i > 5475 && i < 16425)
 			{
-				int chance = rand() % int(10950 / totalFertilityRate * 2);// Шанс родить в этот день одной женщине
+				double probability = 1/(10950/totalFertilityRate * 2);
+				int chance = engine() % int(1 / probability);// Шанс родить в этот день одной женщине
 				if (chance < agePyramid[i]) // Количество шансов = количество женщин
 				{
 					agePyramid[0]++;
@@ -83,18 +90,24 @@ public:
 
 			//Расчет смертности
 
-			if (i > 6000 && i <30000)
+			if (i > 6000 && i < 90000)
 			{
-				int chance = rand() % int(30000-i/17000*29000); // Шанс умереть в этот день одному человеку
+				double chanceToDie = 0.00001 * i/800 + (i/25000 * i/25000 * 0.01) + 0.000000000001 - foodSupply*0.00001;
+				if (chanceToDie > 1)
+					chanceToDie = 1;
+				if (chanceToDie < 0)
+					chanceToDie = 0;
+				int chance = engine() % int(1/chanceToDie); // Шанс умереть в этот день одному человеку
 				if (chance < agePyramid[i]) // Количество шансов = количество людей
 				{
 					agePyramid[i]--;
 					fat++;
 				}
 			}
+
 			if (i < 3000)
 			{
-				int chance = rand() % int(1000+i*10); // Шанс умереть в этот день одному человеку
+				int chance = engine() % int(1000+i*10); // Шанс умереть в этот день одному человеку
 				if (chance < agePyramid[i]) // Количество шансов = количество людей
 				{
 					agePyramid[i]--;
@@ -203,7 +216,6 @@ class simulation
 		GDP GDP;
 		
 		double preference;
-		double foodSupply;
 		void pause()
 		{
 			go = !go;
@@ -219,11 +231,11 @@ class simulation
 			agriculture.compute(&population);
 			mining.compute();
 
-			foodSupply = (agriculture.output - population.population)/ population.population * 100;
+			population.foodSupply = (agriculture.output - population.population)/ population.population * 100;
 
-			if (foodSupply < 20 && preference < 100 && agriculture.workers < agriculture.totalArableLand)
+			if (population.foodSupply < 20 && preference < 100 && agriculture.workers < agriculture.totalArableLand)
 				preference += 0.01;
-			else if (preference > 0 && foodSupply > 0 || agriculture.workers > agriculture.totalArableLand)
+			else if (preference > 0 && population.foodSupply > 0 || agriculture.workers > agriculture.totalArableLand)
 				preference -= 0.01;
 			
 
