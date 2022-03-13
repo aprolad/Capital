@@ -154,9 +154,12 @@
     <ClCompile Include="CAP_window.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game\simulation.cpp" />
+    <ClCompile Include="game\technologyTab.cpp" />
     <ClCompile Include="Graphics\chartBuilder.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Interface\econPanels.cpp" />
+    <ClCompile Include="Interface\geographyTab.cpp" />
     <ClCompile Include="Interface\mainStatistic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="misc\configLoader.cpp" />
@@ -170,12 +173,14 @@
     <ClInclude Include="game\EconPanels.h" />
     <ClInclude Include="game\goodsExchangeTab.h" />
     <ClInclude Include="game\simulation.h" />
+    <ClInclude Include="game\technologyTab.h" />
     <ClInclude Include="Graphics\CAP_graphics.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
     <ClInclude Include="Graphics\chartBuilder.h" />
     <ClInclude Include="Graphics\GUI.h" />
     <ClInclude Include="Graphics\SceneComposer.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Interface\geographyTab.h" />
     <ClInclude Include="Interface\mainStatistic.h" />
     <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="Scene.h" />

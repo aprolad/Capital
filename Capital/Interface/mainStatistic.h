@@ -4,6 +4,8 @@
 #include "game/simulation.h"
 #include "game/EconPanels.h"
 #include "game/goodsExchangeTab.h"
+#include "game/technologyTab.h"
+#include "geographyTab.h"
 simulation sim;
 
 int choosenSubMenu;
@@ -96,6 +98,10 @@ class econPrimaryMenu
 			if (mx > x && mx < x2 && my > y && my < y2)
 			{
 				choosenSubMenu = 1;
+			}
+			if (choosenSubMenu == 1)
+			{
+				p.mouseInvoke(mx, my);
 			}
 		}
 		void draw()
@@ -279,19 +285,20 @@ class textElement
 demographicsMenu demographics(0, 0);
 economicsMenu economics(220, 0);
 goodsTab gt;
-
+technologyTab tt;
+geographyTab geoTab;
 class mainStat : virtual public scene
 {
 	public:
-		static int choosenTab;
 		int resolutionX, resolutionY;
-	mainStat(int resx, int resy)
+	mainStat()
 	{
-		resolutionX = resx;
-		resolutionY = resy;
+
 		rootMenus.push_back(&demographics);
 		rootMenus.push_back(&economics);
 		gt.reset = resetActive;
+		tt.reset = resetActive;
+		geoTab.reset = resetActive;
 	}
 	std::vector<rootMenu*> rootMenus;
 	textElement date;
@@ -302,6 +309,9 @@ class mainStat : virtual public scene
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->mouseCallback(mx, my);
 		gt.mouseInvoke(mx, my);
+		tt.mouseInvoke(mx, my);
+		geoTab.mouseInvoke(mx, my);
+
 	}
 	
 	void draw()
@@ -317,9 +327,9 @@ class mainStat : virtual public scene
 			rootMenus[i]->draw();
 
 		gt.draw();
-
+		tt.draw();
 		date.draw();
-
+		geoTab.draw();
 	}
 	private:
 
@@ -327,7 +337,7 @@ class mainStat : virtual public scene
 
 
 
-mainStat mainScene(1280, 1024);
+mainStat mainScene;
 
 void resetActive()
 {
@@ -336,4 +346,6 @@ void resetActive()
 			mainScene.rootMenus[i]->active = false;
 	}
 	gt.active = false;
+	tt.active = false;
+	geoTab.active = false;
 }

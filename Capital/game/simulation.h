@@ -26,6 +26,17 @@ struct GDP
 };
 
 
+class geography
+{
+public:
+	geography()
+	{
+		sqKilometres = 10000;
+	}
+	double sqKilometres;
+	double totalArableLand = 400000;
+
+};
 
 class demography
 {
@@ -34,7 +45,7 @@ public:
 	{
 		agePyramid.resize(100000);
 		population = 1000;
-		totalFertilityRate = 6;
+		totalFertilityRate = 8;
 		for (int i = 0; i < 100000; i++)
 		{
 			agePyramid[i] = 0;
@@ -42,6 +53,7 @@ public:
 		for (int i=0000; i<10000; i++)
 		agePyramid[i] = 50;
 	}
+	double density;
 	double birthRate;
 	int population;
 	double laborPool;
@@ -92,7 +104,7 @@ public:
 
 			if (i > 6000 && i < 90000)
 			{
-				double chanceToDie = 0.00001 * i/800 + (i/25000 * i/25000 * 0.01) + 0.000000000001 - foodSupply*0.00001;
+				double chanceToDie = 0.00001 * i/800 + (i/30000 * i/30000 * 0.01) + 0.000000000001 - foodSupply*0.000001;
 				if (chanceToDie > 1)
 					chanceToDie = 1;
 				if (chanceToDie < 0)
@@ -107,7 +119,13 @@ public:
 
 			if (i < 3000)
 			{
-				int chance = engine() % int(1000+i*10); // Ўанс умереть в этот день одному человеку
+	
+				double chanceToDie = 0.00001 + 0.000000000001 - foodSupply * 0.0001;
+
+				if (chanceToDie > 1) chanceToDie = 1;
+				if (chanceToDie < 0) chanceToDie = 0;
+
+				int chance = engine() % int(1 / chanceToDie); // Ўанс умереть в этот день одному челове
 				if (chance < agePyramid[i]) //  оличество шансов = количество людей
 				{
 					agePyramid[i]--;
@@ -117,6 +135,8 @@ public:
 
 
 		}
+
+		
 		
 	}
 };
@@ -146,6 +166,7 @@ public:
 class industry
 {
 public:
+	geography* geo;
 	double productivity;
 	double output;
 	double workers;
@@ -160,15 +181,15 @@ class agriculture : public industry
 		consumerGoods wheat;
 		agriculture()
 		{
-			totalArableLand = 400000;
+			productivity = 1.65;
 		}
 		void compute(demography* p)
 		{
 			double usedLand;
-			if (workers < totalArableLand)
+			if (workers < geo->totalArableLand)
 				usedLand = workers;
 			else
-				usedLand = totalArableLand;
+				usedLand = geo->totalArableLand;
 
 			wheat.naturalOutput = usedLand * productivity;
 
@@ -176,7 +197,6 @@ class agriculture : public industry
 
 			wheat.calc(p);
 		}
-		double totalArableLand;
 };
 class forestry : public industry
 {
@@ -197,21 +217,23 @@ class simulation
 	public:
 		simulation()
 		{
+			agriculture.geo = &geo;
 			date = 0;
 			go = false;
 			population.dependencyRate = 0.70;
-			agriculture.productivity = 2;
 			mining.productivity = 5;
 			preference = 100;
 			computeOneDay();
 			
 		}
+		geography geo;
 		industry  mining;
 		agriculture agriculture;
 		forestry forestry;
 		hunting hunting;
 		fishing fishing;
 		demography population;
+		
 		int date;
 		GDP GDP;
 		
@@ -231,16 +253,16 @@ class simulation
 			agriculture.compute(&population);
 			mining.compute();
 
-			population.foodSupply = (agriculture.output - population.population)/ population.population * 100;
+			population.foodSupply = (agriculture.output - population.population * 0.85)/ population.population * 100;
 
-			if (population.foodSupply < 20 && preference < 100 && agriculture.workers < agriculture.totalArableLand)
+			if (population.foodSupply < 20 && preference < 100 && agriculture.workers < geo.totalArableLand)
 				preference += 0.01;
-			else if (preference > 0 && population.foodSupply > 0 || agriculture.workers > agriculture.totalArableLand)
+			else if (preference > 0 && population.foodSupply > 0 || agriculture.workers > geo.totalArableLand)
 				preference -= 0.01;
 			
 
 			
-
+			population.density = population.population / geo.sqKilometres;
 			GDP.farmingGDP = agriculture.output * agriculture.wheat.price;
 			GDP.miningGDP = mining.output * 1;
 			GDP.calcTotalGdp();
