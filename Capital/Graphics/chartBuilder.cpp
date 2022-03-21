@@ -111,8 +111,8 @@ void ageChart::draw()
 	transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-	drawLine(600, 300, 1900, 300);
-	drawLine(600, 300, 600, 720);
+	drawLine(600, 350, 1900, 350);
+	drawLine(600, 350, 600, 780);
 
 	string str = "";
 	str = str + std::to_string(int(*max));

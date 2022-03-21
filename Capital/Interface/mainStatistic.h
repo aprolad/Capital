@@ -18,8 +18,6 @@ void resetActive();
 
 
 
-
-
 class textElement
 {
 	public:

@@ -45,32 +45,37 @@ public:
 	int* choosen;
 	double y;
 	void mouseInvoke(int mx, int my);
+	virtual void draw() {};
+	void drawBase()
+	{
+		glUseProgram(shaderProgram);
+		glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		drawRectangle(-200, -300, 200, 300);
+
+		trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
+		drawRectangle(-160, -25, 180, 25);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+	}
 };
+
 class agricultureSubPanel : public econSubPanel
 {
 public:
 	agricultureSubPanel()
 	{
-		y = 210;
+		y = 200;
 		id = 0;
 	}
 	void draw()
 	{
-		using namespace std;
-		string str;
+
 		if (active)
 		{
-			glUseProgram(shaderProgram);
-			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
-			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			drawRectangle(-200, -300, 200, 300);
-
-			trans = glm::translate(glm::mat4(), glm::vec3(280, 210, 0.0f));
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
-			drawRectangle(-160, -25, 180, 25);
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+			drawBase();
 
 			str = "Agriculture workers: ";
 			str = str + std::to_string(int(sim.agriculture.workers));
@@ -86,6 +91,7 @@ public:
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
+
 class miningSubPanel : public econSubPanel
 {
 public:
@@ -124,8 +130,120 @@ public:
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
+class forestrySubPanel : public econSubPanel
+{
+public:
+	forestrySubPanel()
+	{
+		y = 300;
+		id = 2;
+	}
+	void draw()
+	{
+		if (active)
+		{
+			glUseProgram(shaderProgram);
+			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
+			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			drawRectangle(-200, -300, 200, 300);
 
+			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
+			drawRectangle(-160, -25, 180, 25);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
 
+			str = "Mining workers: ";
+			str = str + std::to_string(int(sim.mining.workers));
+			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			str = "Total arable land: ";
+			str = str + std::to_string(int(sim.geo.totalArableLand));
+			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		}
+
+		str = "Forestry GDP: ";
+		str = str + std::to_string(sim.GDP.miningGDP);
+		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+	}
+};
+class fishingSubPanel : public econSubPanel
+{
+public:
+	fishingSubPanel()
+	{
+		y = 350;
+		id = 3;
+	}
+	void draw()
+	{
+		if (active)
+		{
+			glUseProgram(shaderProgram);
+			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
+			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			drawRectangle(-200, -300, 200, 300);
+
+			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
+			drawRectangle(-160, -25, 180, 25);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+			str = "Mining workers: ";
+			str = str + std::to_string(int(sim.mining.workers));
+			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			str = "Total arable land: ";
+			str = str + std::to_string(int(sim.geo.totalArableLand));
+			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		}
+
+		str = "Fishing GDP: ";
+		str = str + std::to_string(sim.GDP.miningGDP);
+		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+	}
+};
+class huntingSubPanel : public econSubPanel
+{
+public:
+	huntingSubPanel()
+	{
+		y = 400;
+		id = 4;
+	}
+	void draw()
+	{
+		if (active)
+		{
+			glUseProgram(shaderProgram);
+			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
+			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			drawRectangle(-200, -300, 200, 300);
+
+			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
+			drawRectangle(-160, -25, 180, 25);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+			str = "Mining workers: ";
+			str = str + std::to_string(int(sim.mining.workers));
+			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+			str = "Total arable land: ";
+			str = str + std::to_string(int(sim.geo.totalArableLand));
+			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		}
+
+		str = "Hunting GDP: ";
+		str = str + std::to_string(sim.GDP.miningGDP);
+		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+	}
+};
 
 
 
@@ -136,15 +254,28 @@ public:
 	{
 		agSub.choosen = &choosen;
 		mgSub.choosen = &choosen;
+		frSub.choosen = &choosen;
+		fhSub.choosen = &choosen;
+		huSub.choosen = &choosen;
+
+		subPanels.push_back(&agSub);
+		subPanels.push_back(&mgSub);
+		subPanels.push_back(&frSub);
+		subPanels.push_back(&fhSub);
+		subPanels.push_back(&huSub);
 	}
 	int active;
 	int choosen;
+	std::vector<econSubPanel*> subPanels;
 	agricultureSubPanel agSub;
 	miningSubPanel mgSub;
+	forestrySubPanel frSub;
+	fishingSubPanel fhSub;
+	huntingSubPanel huSub;
 	void mouseInvoke(int mx, int my)
 	{
-		agSub.mouseInvoke(mx, my);
-		mgSub.mouseInvoke(mx, my);
+		for (int i = 0; i < subPanels.size(); i++)
+			subPanels[i]->mouseInvoke(mx, my);
 	}
 	void resetActive()
 	{
@@ -167,15 +298,14 @@ public:
 
 		string str1 = "Labor pool: ";
 		str1 = str1 + std::to_string(int(sim.population.laborPool));
-		RenderText(fontShader, str1, 120, 300, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		RenderText(fontShader, str1, 120, 600, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 		
-		agSub.draw();
-
-		mgSub.draw();
-		if (choosen == 1)
-			agSub.active = false;
-		else
-			mgSub.active = false;
+		for (int i = 0; i < subPanels.size(); i++)
+		{
+			subPanels[i]->draw();
+			if (choosen != subPanels[i]->id)
+				subPanels[i]->active = false;
+		}
 	};
 };
 
