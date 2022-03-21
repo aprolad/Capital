@@ -25,6 +25,15 @@
     <Filter Include="Исходные файлы\misc">
       <UniqueIdentifier>{1f6f5556-a2a2-4214-8403-934e5ac2c480}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\interface">
+      <UniqueIdentifier>{14b04fcc-6259-4739-9e69-6cccd27ec5ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\interface">
+      <UniqueIdentifier>{3abd84d1-e112-4e1a-af0e-c1277581ee69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\interface\tabs">
+      <UniqueIdentifier>{7e19a102-c9ec-4c93-afc0-98ec9f6be060}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,17 +69,23 @@
     <ClCompile Include="game\simulation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="game\technologyTab.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\chartBuilder.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Interface\geographyTab.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\interface\tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="societyTab.cpp">
+      <Filter>Исходные файлы\interface\tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="game\technologyTab.cpp">
+      <Filter>Исходные файлы\interface\tabs</Filter>
     </ClCompile>
     <ClCompile Include="Interface\econPanels.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\interface\tabs</Filter>
+    </ClCompile>
+    <ClCompile Include="tab.cpp">
+      <Filter>Исходные файлы\interface\tabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,20 +131,29 @@
     <ClInclude Include="game\simulation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="game\EconPanels.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="game\goodsExchangeTab.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\chartBuilder.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="game\technologyTab.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\tab.h">
+      <Filter>Файлы заголовков\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\societyTab.h">
+      <Filter>Файлы заголовков\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="game\economicsTab.h">
+      <Filter>Файлы заголовков\interface</Filter>
     </ClInclude>
     <ClInclude Include="Interface\geographyTab.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="game\goodsExchangeTab.h">
+      <Filter>Файлы заголовков\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\chartBuilder.h">
+      <Filter>Файлы заголовков\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="demographyTab.h">
+      <Filter>Файлы заголовков\interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,16 @@
 
-
+#include "../Interface/tab.h"
 
 extern simulation sim;
 extern int choosenTab;
 
-class technologyTab
+class technologyTab : virtual public tab
 {
 public:
-	bool active;
-	void (*reset)();
-	void mouseInvoke(int mx, int my);
+	technologyTab()
+	{
+		x = 760;
+		y = 980;
+	}
 	void draw();
 };

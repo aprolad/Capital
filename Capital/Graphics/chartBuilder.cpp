@@ -105,6 +105,15 @@ void ageChart::draw()
 	glDrawArrays(GL_LINE_STRIP, 0, 1600);
 	glBindVertexArray(0);
 
+	glUseProgram(shaderProgram);
+	trans = glm::mat4(1);
+	trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
+	transformLoc = glGetUniformLocation(shaderProgram, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+	drawLine(600, 300, 1900, 300);
+	drawLine(600, 300, 600, 720);
+
 	string str = "";
 	str = str + std::to_string(int(*max));
 	RenderText(fontShader, str, 540, 750, 0.3, glm::vec3(1.0, 0.0f, 0.0f));

@@ -1,12 +1,15 @@
 #pragma once
 
 extern int choosenTab;
+#include "../Interface/tab.h"
 
-class geographyTab
+class geographyTab : virtual public tab
 {
 public:
-	bool active;
-	void (*reset)();
-	void mouseInvoke(int mx, int my);
+	geographyTab()
+	{
+		x = 1760;
+		y = 100;
+	}
 	void draw();
 };
