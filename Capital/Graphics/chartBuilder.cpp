@@ -77,7 +77,7 @@ void ageChart::draw()
 	glUseProgram(shaderProgram);
 	glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 	glm::mat4 trans;
-	trans = glm::translate(trans, glm::vec3(700, 350, 0.0f));
+	trans = glm::translate(trans, glm::vec3(600, 350, 0.0f));
 	GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 	int dtr = 0;

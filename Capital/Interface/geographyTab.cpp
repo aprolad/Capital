@@ -27,6 +27,10 @@ void geographyTab::draw()
 		str = str + std::to_string((sim.population.density));
 		RenderText(fontShader, str, 820, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
+		str = "Area ";
+		str = str + std::to_string(int(sim.geo.sqKilometres));
+		RenderText(fontShader, str, 820, 350, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
 	}
 
 }

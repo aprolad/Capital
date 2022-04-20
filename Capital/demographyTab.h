@@ -17,6 +17,8 @@ public:
 				temp += sim.population.agePyramid[i * 25 + c];
 			pyrChart.data[i] = temp;
 		}
+		
+
 		using namespace std;
 		double size = 100;
 

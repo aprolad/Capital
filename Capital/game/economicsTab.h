@@ -5,33 +5,7 @@
 #include "../Graphics/chartBuilder.h"
 extern simulation sim;
 extern int choosenSubMenu;
-class EconPanel
-{
-public:
-	EconPanel()
-	{
-		ch = new chart(900);
-	}
-	chart *ch;
-	void draw()
-	{
-		using namespace std;
-		double size = 100;
-		glUseProgram(shaderProgram);
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
-		trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
-		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		drawRectangle(-100, -150, 100, 150);
-		string str = "GDP: ";
-		str = str + std::to_string(int(sim.GDP.total));
-		RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
 
-		ch->data = sim.GDP.history;
-		ch->draw();
-	};
-};
 class econSubPanel
 {
 public:
@@ -91,7 +65,6 @@ public:
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
-
 class miningSubPanel : public econSubPanel
 {
 public:
@@ -104,17 +77,7 @@ public:
 	{
 		if (active)
 		{
-			glUseProgram(shaderProgram);
-			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
-			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			drawRectangle(-200, -300, 200, 300);
-
-			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
-			drawRectangle(-160, -25, 180, 25);
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+			drawBase();
 
 			str = "Mining workers: ";
 			str = str + std::to_string(int(sim.mining.workers));
@@ -142,17 +105,7 @@ public:
 	{
 		if (active)
 		{
-			glUseProgram(shaderProgram);
-			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
-			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			drawRectangle(-200, -300, 200, 300);
-
-			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
-			drawRectangle(-160, -25, 180, 25);
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+			drawBase();
 
 			str = "Mining workers: ";
 			str = str + std::to_string(int(sim.mining.workers));
@@ -180,17 +133,7 @@ public:
 	{
 		if (active)
 		{
-			glUseProgram(shaderProgram);
-			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
-			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			drawRectangle(-200, -300, 200, 300);
-
-			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
-			drawRectangle(-160, -25, 180, 25);
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+			drawBase();
 
 			str = "Mining workers: ";
 			str = str + std::to_string(int(sim.mining.workers));
@@ -218,17 +161,7 @@ public:
 	{
 		if (active)
 		{
-			glUseProgram(shaderProgram);
-			glm::mat4 trans = glm::translate(glm::mat4(), glm::vec3(800, 350, 0.0f));
-			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			drawRectangle(-200, -300, 200, 300);
-
-			trans = glm::translate(glm::mat4(), glm::vec3(280, y, 0.0f));
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.6, 1);
-			drawRectangle(-160, -25, 180, 25);
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+			drawBase();
 
 			str = "Mining workers: ";
 			str = str + std::to_string(int(sim.mining.workers));
@@ -240,14 +173,19 @@ public:
 		}
 
 		str = "Hunting GDP: ";
-		str = str + std::to_string(sim.GDP.miningGDP);
+		str = str + std::to_string(sim.hunting.output);
 		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
 
+class econPanel
+{
+public:
+	virtual void mouseInvoke(int mx, int my) {};
+	virtual void draw() {};
+};
 
-
-class EconPanelPrimary
+class EconPanelPrimary : virtual public econPanel
 {
 public:
 	EconPanelPrimary()
@@ -277,16 +215,11 @@ public:
 		for (int i = 0; i < subPanels.size(); i++)
 			subPanels[i]->mouseInvoke(mx, my);
 	}
-	void resetActive()
-	{
 
-	}
 	void draw()
 	{
-		using namespace std;
-		double size = 100;
+		
 		glUseProgram(shaderProgram);
-		glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 		glm::mat4 trans;
 		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
 		trans = glm::scale(trans, glm::vec3(2, 2, 2));
@@ -295,10 +228,9 @@ public:
 		drawRectangle(-100, -150, 100, 150);
 		
 
-
-		string str1 = "Labor pool: ";
-		str1 = str1 + std::to_string(int(sim.population.laborPool));
-		RenderText(fontShader, str1, 120, 600, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		string str = "Labor pool: ";
+		str = str + std::to_string(int(sim.population.laborPool));
+		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		
 		for (int i = 0; i < subPanels.size(); i++)
 		{
@@ -309,100 +241,206 @@ public:
 	};
 };
 
-
-class econPrimaryMenu
+class EconPanelReport : virtual public econPanel
 {
 public:
-	EconPanelPrimary p;
+	EconPanelReport()
+	{
+		ch = new chart(900);
+	}
+	chart* ch;
+	void draw()
+	{
+		using namespace std;
+		double size = 100;
+		glUseProgram(shaderProgram);
+		glm::mat4 trans;
+		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
+		trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		drawRectangle(-100, -150, 100, 150);
+		string str = "GDP: ";
+		str = str + std::to_string(int(sim.GDP.total));
+		RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+
+		ch->data = sim.GDP.history;
+		ch->draw();
+	};
+};
+
+class EconPanelSecondary : virtual public econPanel
+{
+public:
+	EconPanelSecondary()
+	{
+		agSub.choosen = &choosen;
+		mgSub.choosen = &choosen;
+		frSub.choosen = &choosen;
+		fhSub.choosen = &choosen;
+		huSub.choosen = &choosen;
+
+		subPanels.push_back(&agSub);
+		subPanels.push_back(&mgSub);
+		subPanels.push_back(&frSub);
+		subPanels.push_back(&fhSub);
+		subPanels.push_back(&huSub);
+	}
+	int active;
+	int choosen;
+	std::vector<econSubPanel*> subPanels;
+	agricultureSubPanel agSub;
+	miningSubPanel mgSub;
+	forestrySubPanel frSub;
+	fishingSubPanel fhSub;
+	huntingSubPanel huSub;
 	void mouseInvoke(int mx, int my)
 	{
-		int size = 100;
-		int x = 20;
-		int x2 = 220;
-		int y = 750;
-		int y2 = 850;
-
-		if (mx > x && mx < x2 && my > y && my < y2)
-		{
-			choosenSubMenu = 1;
-		}
-		if (choosenSubMenu == 1)
-		{
-			p.mouseInvoke(mx, my);
-		}
+		for (int i = 0; i < subPanels.size(); i++)
+			subPanels[i]->mouseInvoke(mx, my);
 	}
+
 	void draw()
+	{
+
+		glUseProgram(shaderProgram);
+		glm::mat4 trans;
+		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
+		trans = glm::scale(trans, glm::vec3(2, 2, 2));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		drawRectangle(-100, -150, 100, 150);
+
+
+		string str = "Labor pool: ";
+		str = str + std::to_string(int(sim.population.laborPool));
+		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+		for (int i = 0; i < subPanels.size(); i++)
+		{
+			subPanels[i]->draw();
+			if (choosen != subPanels[i]->id)
+				subPanels[i]->active = false;
+		}
+	};
+};
+class econMenu
+{
+public:
+	double x, y;
+	int id;
+	econPanel* p;
+	virtual void draw() {};
+	void drawBase()
 	{
 		glUseProgram(shaderProgram);
 		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(120, 800, 0.0f));
+		trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
 		glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
-		if (choosenSubMenu == 1)
+
+		if (choosenSubMenu == id)
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.2, 1);
 
 		drawRectangle(-100, -50, 100, 50);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+		if (choosenSubMenu == id)
+			p->draw();
+	}
+	void mouseInvoke(int mx, int my)
+	{
+		if (mx > x - 100 && mx < x + 100 && my > y - 50 && my < y + 50)
+		{
+			choosenSubMenu = id;
+		}
+		if (choosenSubMenu == id)
+		{
+			p->mouseInvoke(mx, my);
+		}
+	}
+};
+class econPrimaryMenu : public econMenu
+{
+public:
+	econPrimaryMenu()
+	{
+		x = 120;
+		y = 800;
+		id = 0;
+		p = new EconPanelPrimary();
+	}
+
+	void draw()
+	{
+		drawBase();
 
 		RenderText(fontShader, "Primary sector", 50, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
-		if (choosenSubMenu == 1)
-			p.draw();
 	}
 };
 
 
-class econReportMenu
+class econReportMenu : public econMenu
 {
 public:
-	bool active;
-	EconPanel p;
-	void mouseInvoke(int mx, int my)
+	econReportMenu()
 	{
-		int size = 100;
-		int x = 270;
-		int x2 = 470;
-		int y = 750;
-		int y2 = 850;
-
-		if (mx > x && mx < x2 && my > y && my < y2)
-		{
-			choosenSubMenu = 0;
-		}
+		x = 370;
+		y = 800;
+		id = 1;
+		p = new EconPanelReport();
 	}
+
+	
 	void draw()
 	{
-		glUseProgram(shaderProgram);
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(370, 800, 0.0f));
-		glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
-
-		if (choosenSubMenu == 0)
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.2, 0.2, 0.2, 1);
-
-		drawRectangle(-100, -50, 100, 50);
-		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
-
+		
+		drawBase();
 
 		RenderText(fontShader, "Report", 300, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
-		if (choosenSubMenu == 0)
-			p.draw();
+		
 	}
 };
+
+class econSecondaryMenu : public econMenu
+{
+public:
+	econSecondaryMenu()
+	{
+		x = 510;
+		y = 800;
+		id = 2;
+		p = new EconPanelSecondary();
+	}
+
+	void draw()
+	{
+
+		drawBase();
+		RenderText(fontShader, "Report", 300, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+	}
+};
+
+
+
 
 
 class economicsMenu : virtual public tab
 {
 public:
-	econPrimaryMenu p;
-	econReportMenu ep;
+	std::vector<econMenu*> menus;
 	economicsMenu(int x, int y)
 	{
 		this->x = 320;
 		this->y = 980;
+
+		menus.push_back(new econPrimaryMenu());
+		menus.push_back(new econReportMenu());
 	}
 	void mouseInvoke(int mx, int my)
 	{
-		ep.mouseInvoke(mx, my);
-		p.mouseInvoke(mx, my);
+		for (int i = 0; i < menus.size(); i++)
+			menus[i]->mouseInvoke(mx, my);
 
 		if (mx > x - 100 && mx < x + 100 && my > y - 100 && my < y + 100)
 		{
@@ -421,8 +459,8 @@ public:
 
 		if (active)
 		{
-			p.draw();
-			ep.draw();
+			for (int i = 0; i < menus.size(); i++)
+				menus[i]->draw();
 		}
 
 	}

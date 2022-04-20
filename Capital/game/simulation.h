@@ -43,16 +43,20 @@ class demography
 public:
 	demography()
 	{
+		srand(time(0));
+		
+		engine.seed(std::time(0));
 		agePyramid.resize(100000);
 		population = 1000;
-		totalFertilityRate = 8;
+		totalFertilityRate = 2;
 		for (int i = 0; i < 100000; i++)
 		{
 			agePyramid[i] = 0;
 		}
-		for (int i=0000; i<10000; i++)
+		for (int i=0; i<20000; i++)
 		agePyramid[i] = 50;
 	}
+	std::mt19937 engine;
 	double density;
 	double birthRate;
 	int population;
@@ -65,21 +69,23 @@ public:
 
 	double foodSupply;
 
-	std::deque<int> agePyramid;
+	std::deque<double> agePyramid;
 	
 	void calc()
 	{
-		std::mt19937 engine;
-		engine.seed(std::time(nullptr));
 
+		double fertilePop = 0;
 		fat = 0;
 		births = 0;
+		int prevPop = population;
 		population = 0;
 		laborPool = 0;
 		agePyramid.push_front(0);
 		agePyramid.pop_back();
 		for (int i = 0; i < 100000; i++)
 		{
+			if (agePyramid[i] < 0)
+				agePyramid[i] = 0;
 			population += agePyramid[i];
 
 			//Расчет работоспособного населения
@@ -91,52 +97,26 @@ public:
 			// Расчет рождаемости
 			if (i > 5475 && i < 16425)
 			{
-				double probability = 1/(10950/totalFertilityRate * 2);
-				int chance = engine() % int(1 / probability);// Шанс родить в этот день одной женщине
-				if (chance < agePyramid[i]) // Количество шансов = количество женщин
-				{
-					agePyramid[0]++;
-					births++;
-				}
+				fertilePop += agePyramid[i];
 			}
-
 			//Расчет смертности
 
-			if (i > 6000 && i < 90000)
+			if (i > 1 && i < 90000)
 			{
-				double chanceToDie = 0.00001 * i/800 + (i/30000 * i/30000 * 0.01) + 0.000000000001 - foodSupply*0.000001;
-				if (chanceToDie > 1)
-					chanceToDie = 1;
-				if (chanceToDie < 0)
-					chanceToDie = 0;
-				int chance = engine() % int(1/chanceToDie); // Шанс умереть в этот день одному человеку
-				if (chance < agePyramid[i]) // Количество шансов = количество людей
-				{
-					agePyramid[i]--;
-					fat++;
-				}
+				double chanceToDie = abs(i * 0.000000005 * (1 - foodSupply / 100) + i/(24000) * 0.0005 + i / (10000) * 0.00005);
+
+				
+				agePyramid[i]-= chanceToDie * agePyramid[i] * (0.2+engine()%200/100);
+
 			}
 
-			if (i < 3000)
-			{
-	
-				double chanceToDie = 0.00001 + 0.000000000001 - foodSupply * 0.0001;
 
-				if (chanceToDie > 1) chanceToDie = 1;
-				if (chanceToDie < 0) chanceToDie = 0;
-
-				int chance = engine() % int(1 / chanceToDie); // Шанс умереть в этот день одному челове
-				if (chance < agePyramid[i]) // Количество шансов = количество людей
-				{
-					agePyramid[i]--;
-					fat++;
-				}
-			}
 
 
 		}
-
-		
+		births = fertilePop * totalFertilityRate / 25 / 2 / 365 * double(0.8 + double(rand() % 400) / 1000) * (1 + foodSupply/100);
+		agePyramid[0] = int(births);
+		fat = prevPop + births - population;
 		
 	}
 };
@@ -170,9 +150,11 @@ public:
 	double productivity;
 	double output;
 	double workers;
+	double gdp;
 	void compute()
 	{
 		output = workers * productivity;
+		gdp = output;
 	}
 };
 class agriculture : public industry
