@@ -9,9 +9,9 @@ extern int choosenSubMenu;
 class econSubPanel
 {
 public:
-	econSubPanel()
+	econSubPanel(int* a)
 	{
-	
+		choosen = a;
 	}
 	string str;
 	bool active;
@@ -39,7 +39,7 @@ public:
 class agricultureSubPanel : public econSubPanel
 {
 public:
-	agricultureSubPanel()
+	agricultureSubPanel(int* choosen) : econSubPanel(choosen)
 	{
 		y = 200;
 		id = 0;
@@ -68,7 +68,7 @@ public:
 class miningSubPanel : public econSubPanel
 {
 public:
-	miningSubPanel()
+	miningSubPanel(int* choosen) : econSubPanel(choosen)
 	{
 		y = 250;
 		id = 1;
@@ -96,7 +96,7 @@ public:
 class forestrySubPanel : public econSubPanel
 {
 public:
-	forestrySubPanel()
+	forestrySubPanel(int* choosen) : econSubPanel(choosen)
 	{
 		y = 300;
 		id = 2;
@@ -124,7 +124,7 @@ public:
 class fishingSubPanel : public econSubPanel
 {
 public:
-	fishingSubPanel()
+	fishingSubPanel(int* choosen) : econSubPanel(choosen)
 	{
 		y = 350;
 		id = 3;
@@ -152,7 +152,7 @@ public:
 class huntingSubPanel : public econSubPanel
 {
 public:
-	huntingSubPanel()
+	huntingSubPanel(int* choosen) : econSubPanel(choosen)
 	{
 		y = 400;
 		id = 4;
@@ -181,6 +181,8 @@ public:
 class econPanel
 {
 public:
+	int active;
+	int choosen;
 	virtual void mouseInvoke(int mx, int my) {};
 	virtual void draw() {};
 };
@@ -190,46 +192,29 @@ class EconPanelPrimary : virtual public econPanel
 public:
 	EconPanelPrimary()
 	{
-		agSub.choosen = &choosen;
-		mgSub.choosen = &choosen;
-		frSub.choosen = &choosen;
-		fhSub.choosen = &choosen;
-		huSub.choosen = &choosen;
-
-		subPanels.push_back(&agSub);
-		subPanels.push_back(&mgSub);
-		subPanels.push_back(&frSub);
-		subPanels.push_back(&fhSub);
-		subPanels.push_back(&huSub);
+		subPanels.push_back(new agricultureSubPanel(&choosen));
+		subPanels.push_back(new miningSubPanel(&choosen));
+		subPanels.push_back(new forestrySubPanel(&choosen));
+		subPanels.push_back(new fishingSubPanel(&choosen));
+		subPanels.push_back(new huntingSubPanel(&choosen));
 	}
-	int active;
-	int choosen;
+
 	std::vector<econSubPanel*> subPanels;
-	agricultureSubPanel agSub;
-	miningSubPanel mgSub;
-	forestrySubPanel frSub;
-	fishingSubPanel fhSub;
-	huntingSubPanel huSub;
+	
 	void mouseInvoke(int mx, int my)
 	{
 		for (int i = 0; i < subPanels.size(); i++)
 			subPanels[i]->mouseInvoke(mx, my);
 	}
-
 	void draw()
 	{
-		
 		glUseProgram(shaderProgram);
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
-		trans = glm::scale(trans, glm::vec3(2, 2, 2));
+		glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(300, 350, 0.0f));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		drawRectangle(-100, -150, 100, 150);
-		
+		drawRectangle(-200, -300, 200, 300);
 
-		string str = "Labor pool: ";
-		str = str + std::to_string(int(sim.population.laborPool));
+		string str = "Labor pool: " + std::to_string(int(sim.population.laborPool));
 		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		
 		for (int i = 0; i < subPanels.size(); i++)
@@ -240,6 +225,68 @@ public:
 		}
 	};
 };
+
+class EconPanelSecondary : virtual public econPanel
+{
+public:
+	EconPanelSecondary() {}
+	std::vector<econSubPanel*> subPanels;
+
+	void mouseInvoke(int mx, int my)
+	{
+		for (int i = 0; i < subPanels.size(); i++)
+			subPanels[i]->mouseInvoke(mx, my);
+	}
+	void draw()
+	{
+		glUseProgram(shaderProgram);
+		glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(300, 350, 0.0f));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		drawRectangle(-200, -300, 200, 300);
+
+		string str = "Labor pool: " + std::to_string(int(sim.population.laborPool));
+		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+		for (int i = 0; i < subPanels.size(); i++)
+		{
+			subPanels[i]->draw();
+			if (choosen != subPanels[i]->id)
+				subPanels[i]->active = false;
+		}
+	};
+};
+class EconPanelTetriary : virtual public econPanel
+{
+public:
+	EconPanelTetriary() {}
+	std::vector<econSubPanel*> subPanels;
+
+	void mouseInvoke(int mx, int my)
+	{
+		for (int i = 0; i < subPanels.size(); i++)
+			subPanels[i]->mouseInvoke(mx, my);
+	}
+	void draw()
+	{
+		glUseProgram(shaderProgram);
+		glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(300, 350, 0.0f));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		drawRectangle(-200, -300, 200, 300);
+
+		string str = "Labor pool: " + std::to_string(int(sim.population.laborPool));
+		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
+		for (int i = 0; i < subPanels.size(); i++)
+		{
+			subPanels[i]->draw();
+			if (choosen != subPanels[i]->id)
+				subPanels[i]->active = false;
+		}
+	};
+};
+
 
 class EconPanelReport : virtual public econPanel
 {
@@ -252,85 +299,44 @@ public:
 	void draw()
 	{
 		using namespace std;
-		double size = 100;
 		glUseProgram(shaderProgram);
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
-		trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
+		glm::mat4 trans = glm::translate(glm::mat4(1), glm::vec3(300, 350, 0.0f));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		drawRectangle(-100, -150, 100, 150);
-		string str = "GDP: ";
-		str = str + std::to_string(int(sim.GDP.total));
-		RenderText(fontShader, str, 120, 200, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+		drawRectangle(-200, -300, 200, 300);
+		string str = "GDP " + to_string(int(sim.GDP.total));
+
+		RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		ch->data = sim.GDP.history;
 		ch->draw();
 	};
 };
 
-class EconPanelSecondary : virtual public econPanel
-{
-public:
-	EconPanelSecondary()
-	{
-		agSub.choosen = &choosen;
-		mgSub.choosen = &choosen;
-		frSub.choosen = &choosen;
-		fhSub.choosen = &choosen;
-		huSub.choosen = &choosen;
-
-		subPanels.push_back(&agSub);
-		subPanels.push_back(&mgSub);
-		subPanels.push_back(&frSub);
-		subPanels.push_back(&fhSub);
-		subPanels.push_back(&huSub);
-	}
-	int active;
-	int choosen;
-	std::vector<econSubPanel*> subPanels;
-	agricultureSubPanel agSub;
-	miningSubPanel mgSub;
-	forestrySubPanel frSub;
-	fishingSubPanel fhSub;
-	huntingSubPanel huSub;
-	void mouseInvoke(int mx, int my)
-	{
-		for (int i = 0; i < subPanels.size(); i++)
-			subPanels[i]->mouseInvoke(mx, my);
-	}
-
-	void draw()
-	{
-
-		glUseProgram(shaderProgram);
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(300, 350, 0.0f));
-		trans = glm::scale(trans, glm::vec3(2, 2, 2));
-		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		drawRectangle(-100, -150, 100, 150);
 
 
-		string str = "Labor pool: ";
-		str = str + std::to_string(int(sim.population.laborPool));
-		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
-		for (int i = 0; i < subPanels.size(); i++)
-		{
-			subPanels[i]->draw();
-			if (choosen != subPanels[i]->id)
-				subPanels[i]->active = false;
-		}
-	};
-};
 class econMenu
 {
 public:
+	econMenu(int x, int y, int id, econPanel* panel, string text)
+	{
+		this->x = x + 50;
+		this->y = y;
+		this->id = id;
+		p = panel;
+		this->text = text;
+	}
+	string text;
 	double x, y;
 	int id;
 	econPanel* p;
-	virtual void draw() {};
+	void draw()
+	{
+		drawBase();
+		RenderText(fontShader, text, x - 50, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+	}
 	void drawBase()
 	{
 		glUseProgram(shaderProgram);
@@ -359,69 +365,6 @@ public:
 		}
 	}
 };
-class econPrimaryMenu : public econMenu
-{
-public:
-	econPrimaryMenu()
-	{
-		x = 120;
-		y = 800;
-		id = 0;
-		p = new EconPanelPrimary();
-	}
-
-	void draw()
-	{
-		drawBase();
-
-		RenderText(fontShader, "Primary sector", 50, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
-	}
-};
-
-
-class econReportMenu : public econMenu
-{
-public:
-	econReportMenu()
-	{
-		x = 370;
-		y = 800;
-		id = 1;
-		p = new EconPanelReport();
-	}
-
-	
-	void draw()
-	{
-		
-		drawBase();
-
-		RenderText(fontShader, "Report", 300, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
-		
-	}
-};
-
-class econSecondaryMenu : public econMenu
-{
-public:
-	econSecondaryMenu()
-	{
-		x = 510;
-		y = 800;
-		id = 2;
-		p = new EconPanelSecondary();
-	}
-
-	void draw()
-	{
-
-		drawBase();
-		RenderText(fontShader, "Report", 300, 790, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
-
-	}
-};
-
-
 
 
 
@@ -434,8 +377,11 @@ public:
 		this->x = 320;
 		this->y = 980;
 
-		menus.push_back(new econPrimaryMenu());
-		menus.push_back(new econReportMenu());
+		menus.push_back(new econMenu(50, 800, 0, new EconPanelPrimary(), string("Primary")));
+		menus.push_back(new econMenu(270, 800, 1, new EconPanelSecondary(), string("Secondary")));
+		menus.push_back(new econMenu(490, 800, 2, new EconPanelTetriary(), string("Tetriary")));
+		menus.push_back(new econMenu(710, 800, 3, new EconPanelReport(), string("Report")));
+		
 	}
 	void mouseInvoke(int mx, int my)
 	{
@@ -453,9 +399,7 @@ public:
 	void draw()
 	{
 		drawBase();
-
 		RenderText(fontShader, "Economics", x - 60, y, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
-
 
 		if (active)
 		{

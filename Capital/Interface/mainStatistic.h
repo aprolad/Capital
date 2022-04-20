@@ -29,12 +29,12 @@ class textElement
 			glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 			glm::mat4 trans;
 			trans = glm::translate(trans, glm::vec3(200, 200, 0.0f));
-			trans = glm::scale(trans, glm::vec3(size / 50, size / 50, size / 50));
+			trans = glm::scale(trans, glm::vec3(2, 2, 2));
 			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			string str = "Date: ";
-			str = str + std::to_string(sim.date);
-			RenderText(fontShader, str, 1000, 1000, size / 200, glm::vec3(1.0, 0.0f, 0.0f));
+			str = str + " Year " + to_string((sim.date - sim.date%365)/365) + " day "+  to_string(sim.date%365) ;
+			RenderText(fontShader, str, 1000, 1000, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 };
 
@@ -46,7 +46,7 @@ geographyTab geoTab;
 class mainStat : virtual public scene
 {
 	public:
-		int resolutionX, resolutionY;
+
 	mainStat()
 	{
 
@@ -74,9 +74,6 @@ class mainStat : virtual public scene
 			rootMenus[i]->mouseInvoke(mx, my);
 		for (int i = 0; i < bn.size(); i++)
 			bn[i]->mouseCallback(mx, my);
-		//gt.mouseInvoke(mx, my);
-		//tt.mouseInvoke(mx, my);
-		//geoTab.mouseInvoke(mx, my);
 
 	}
 	
@@ -92,10 +89,7 @@ class mainStat : virtual public scene
 		for (int i = 0; i < rootMenus.size(); i++)
 			rootMenus[i]->draw();
 
-		gt.draw();
-		tt.draw();
 		date.draw();
-		geoTab.draw();
 	}
 	private:
 
@@ -109,7 +103,7 @@ void resetActive()
 {
 	for (int i = 0; i < mainScene.rootMenus.size(); i++)
 	{
-			mainScene.rootMenus[i]->active = false;
+		mainScene.rootMenus[i]->active = false;
 	}
 	gt.active = false;
 	tt.active = false;

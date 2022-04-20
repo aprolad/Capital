@@ -75,9 +75,3 @@ public:
 		poly = base;
 	}
 };
-class map : public graphicObject
-{
-public:
-	void display();
-
-};

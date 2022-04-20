@@ -107,9 +107,6 @@
     <ClInclude Include="Graphics\SceneComposer.h">
       <Filter>Файлы заголовков\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="font.h">
-      <Filter>Файлы заголовков\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="audio.h">
       <Filter>Файлы заголовков\misc</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="demographyTab.h">
       <Filter>Файлы заголовков\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Файлы заголовков\misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
