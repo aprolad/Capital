@@ -51,6 +51,10 @@ public:
 		{
 			drawBase();
 
+			str = "Kg of wheat: ";
+			str = str + std::to_string(int(sim.agriculture.wheat.naturalOutput));
+			RenderText(fontShader, str, 620, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+
 			str = "Agriculture workers: ";
 			str = str + std::to_string(int(sim.agriculture.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
@@ -61,7 +65,7 @@ public:
 		}
 
 		str = "Agriculture GDP: ";
-		str = str + std::to_string(sim.GDP.farmingGDP);
+		str = str + std::to_string(int(sim.agriculture.gdp));
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -83,13 +87,10 @@ public:
 			str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
-			str = "Total arable land: ";
-			str = str + std::to_string(int(sim.geo.totalArableLand));
-			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 
 		str = "Mining GDP: ";
-		str = str + std::to_string(sim.GDP.miningGDP);
+		str = str + std::to_string(int(sim.mining.gdp));
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -107,17 +108,15 @@ public:
 		{
 			drawBase();
 
-			str = "Mining workers: ";
+			str = "Forestry industry workers: ";
 			str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
-			str = "Total arable land: ";
-			str = str + std::to_string(int(sim.geo.totalArableLand));
-			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+			
 		}
 
 		str = "Forestry GDP: ";
-		str = str + std::to_string(sim.GDP.miningGDP);
+		str = str + std::to_string(int(sim.forestry.gdp));
 		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -139,13 +138,10 @@ public:
 			str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
-			str = "Total arable land: ";
-			str = str + std::to_string(int(sim.geo.totalArableLand));
-			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 
 		str = "Fishing GDP: ";
-		str = str + std::to_string(sim.GDP.miningGDP);
+		str = str + std::to_string(int(sim.fishing.gdp));
 		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };

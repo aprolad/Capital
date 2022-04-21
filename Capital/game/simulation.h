@@ -10,14 +10,11 @@ struct GDP
 	{
 		history.resize(900);
 	}
-	double farmingGDP;
-	double miningGDP;
+
 	double total;
 	vector<double> history;
 	double calcTotalGdp()
-	{
-		
-		total = farmingGDP + miningGDP;
+	{	
 
 		history.insert(history.begin(), total);
 		history.pop_back();
@@ -54,7 +51,7 @@ public:
 			agePyramid[i] = 0;
 		}
 		for (int i=0; i<20000; i++)
-		agePyramid[i] = 50;
+		agePyramid[i] = 50 + engine()%10;
 	}
 	std::mt19937 engine;
 	double density;
@@ -77,7 +74,7 @@ public:
 		double fertilePop = 0;
 		fat = 0;
 		births = 0;
-		int prevPop = population;
+		double prevPop = population;
 		population = 0;
 		laborPool = 0;
 		agePyramid.push_front(0);
@@ -103,15 +100,11 @@ public:
 
 			if (i > 1 && i < 90000)
 			{
-				double chanceToDie = abs(i * 0.000000005 * (1 - foodSupply / 100) + i/(24000) * 0.0005 + i / (10000) * 0.00005);
-
+				double chanceToDie = abs(i * 0.000000004 * (1 - foodSupply / 100) + i/(20000) * 0.0001 + i / (12000) * 0.00005) + i / (30000) * 0.001;
 				
 				agePyramid[i]-= chanceToDie * agePyramid[i] * (0.2+engine()%200/100);
 
 			}
-
-
-
 
 		}
 		births = fertilePop * totalFertilityRate / 25 / 2 / 365 * double(0.8 + double(rand() % 400) / 1000) * (1 + foodSupply/100);
@@ -161,8 +154,10 @@ class agriculture : public industry
 {
 	public:
 		consumerGoods wheat;
+		double price;
 		agriculture()
 		{
+			price = 2;
 			productivity = 1.65;
 		}
 		void compute(demography* p)
@@ -177,6 +172,7 @@ class agriculture : public industry
 
 			output = wheat.naturalOutput;
 
+			gdp = output * price;
 			wheat.calc(p);
 		}
 };
@@ -193,6 +189,8 @@ class hunting : public industry
 {
 
 };
+
+
 class simulation
 {
 	bool go;
@@ -204,7 +202,7 @@ class simulation
 			go = false;
 			population.dependencyRate = 0.70;
 			mining.productivity = 5;
-			preference = 100;
+			preference = 80;
 			computeOneDay();
 			
 		}
@@ -236,17 +234,9 @@ class simulation
 			mining.compute();
 
 			population.foodSupply = (agriculture.output - population.population * 0.85)/ population.population * 100;
-
-			if (population.foodSupply < 20 && preference < 100 && agriculture.workers < geo.totalArableLand)
-				preference += 0.01;
-			else if (preference > 0 && population.foodSupply > 0 || agriculture.workers > geo.totalArableLand)
-				preference -= 0.01;
-			
-
 			
 			population.density = population.population / geo.sqKilometres;
-			GDP.farmingGDP = agriculture.output * agriculture.wheat.price;
-			GDP.miningGDP = mining.output * 1;
+			
 			GDP.calcTotalGdp();
 		}
 		void cycle()
