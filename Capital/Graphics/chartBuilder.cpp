@@ -2,6 +2,7 @@
 
 #include "../Header.h"
 #include "chartBuilder.h"
+#include "GUI.h"
 #include <algorithm>
 using namespace std;
 void chart::draw()

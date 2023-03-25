@@ -1,21 +1,16 @@
 #pragma once
 #include "../Scene.h"
 
-#include "game/simulation.h"
-#include "game/economicsTab.h"
-#include "game/goodsExchangeTab.h"
-#include "game/technologyTab.h"
+//#include "../game/simulation.h"
+#include "../game/economicsTab.h"
+#include "../game/goodsExchangeTab.h"
+#include "../game/technologyTab.h"
 #include "geographyTab.h"
 #include "../demographyTab.h"
-simulation sim;
-
-int choosenSubMenu;
-int choosenTab;
 
 
-
-void resetActive();
-
+extern int choosenSubMenu;
+extern int choosenTab;
 
 
 class textElement
@@ -33,22 +28,24 @@ class textElement
 			GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 			string str = "Date: ";
-			str = str + " Year " + to_string((sim.date - sim.date%365)/365) + " day "+  to_string(sim.date%365) ;
+		//	str = str + " Year " + to_string((sim.date - sim.date%365)/365) + " day "+  to_string(sim.date%365) ;
 			RenderText(fontShader, str, 1000, 1000, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 };
 
-demographicsMenu demographics(0, 0);
-economicsMenu economics(220, 0);
-goodsTab gt;
-technologyTab tt;
-geographyTab geoTab;
+
 class mainStat : virtual public scene
 {
 	public:
-
+		static demographicsMenu demographics;
+		static economicsMenu economics;
+		static goodsTab gt;
+		static technologyTab tt;
+		static geographyTab geoTab;
 	mainStat()
 	{
+		demographics= demographicsMenu(0, 0);
+		economics = economicsMenu(220, 0);
 
 		rootMenus.push_back(&demographics);
 		rootMenus.push_back(&economics);
@@ -66,9 +63,9 @@ class mainStat : virtual public scene
 
 
 	}
-	std::vector<tab*> rootMenus;
-	textElement date;
-	void mouseInvoke(double mx, double my)
+	static std::vector<tab*> rootMenus;
+	static textElement date;
+	static void mouseInvoke(double mx, double my)
 	{
 		for (int i = 0; i < rootMenus.size(); i++)
 			rootMenus[i]->mouseInvoke(mx, my);
@@ -77,11 +74,11 @@ class mainStat : virtual public scene
 
 	}
 	
-	void draw()
+	static void draw()
 	{
 
-		for (int i=0;i<15;i++)
-		sim.cycle();
+		//for (int i=0;i<15;i++)
+		//sim.cycle();
 
 
 		for (int i = 0; i < bn.size(); i++)
@@ -92,20 +89,16 @@ class mainStat : virtual public scene
 		date.draw();
 	}
 	private:
-
+		static void resetActive()
+		{
+			for (int i = 0; i < rootMenus.size(); i++)
+			{
+				rootMenus[i]->active = false;
+			}
+			gt.active = false;
+			tt.active = false;
+			geoTab.active = false;
+		}
 };
 
 
-
-mainStat mainScene;
-
-void resetActive()
-{
-	for (int i = 0; i < mainScene.rootMenus.size(); i++)
-	{
-		mainScene.rootMenus[i]->active = false;
-	}
-	gt.active = false;
-	tt.active = false;
-	geoTab.active = false;
-}

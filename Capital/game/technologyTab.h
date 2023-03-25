@@ -1,7 +1,7 @@
 
 #include "../Interface/tab.h"
 
-extern simulation sim;
+
 extern int choosenTab;
 
 class technologyTab : virtual public tab

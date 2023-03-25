@@ -5,11 +5,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Graphics/SceneComposer.h"
 #include "font.h"
-void startButton::mouseCallback(double mx, double my)
-{
-	if (mx > (x - size) && mx < (x + size) && my >(y - size) && my < (y + size))
-		scMain.chooseScene(1);
-};
 
 void quadButton::draw()
 {

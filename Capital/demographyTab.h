@@ -1,6 +1,6 @@
 #pragma once
 #include "./Interface/tab.h"
-
+#include "Graphics/chartBuilder.h"
 class panel
 {
 public:
@@ -14,7 +14,7 @@ public:
 		{
 			temp = 0;
 			for (int c = 0; c < 24; c++)
-				temp += sim.population.agePyramid[i * 25 + c];
+	//			temp += sim.population.agePyramid[i * 25 + c];
 			pyrChart.data[i] = temp;
 		}
 		
@@ -33,23 +33,23 @@ public:
 		drawRectangle(-100, -150, 100, 150);
 
 		string str = "Food supply: ";
-		str = str + std::to_string(int(sim.population.foodSupply));
+	//	str = str + std::to_string(int(sim.population.foodSupply));
 		RenderText(fontShader, str, 120, 170, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		str = "Population: ";
-		str = str + std::to_string(int(sim.population.population));
+	//	str = str + std::to_string(int(sim.population.population));
 		RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		str = "Dependancy rate: ";
-		str = str + std::to_string((sim.population.dependencyRate));
+	//	str = str + std::to_string((sim.population.dependencyRate));
 		RenderText(fontShader, str, 120, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		str = "Deaths: ";
-		str = str + std::to_string((int(sim.population.fat)));
+	//	str = str + std::to_string((int(sim.population.fat)));
 		RenderText(fontShader, str, 120, 350, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		str = "Births: ";
-		str = str + std::to_string(int((sim.population.births)));
+	//	str = str + std::to_string(int((sim.population.births)));
 		RenderText(fontShader, str, 120, 400, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		pyrChart.draw();

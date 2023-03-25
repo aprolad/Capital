@@ -1,9 +1,9 @@
 #pragma once
 #include "../Interface/tab.h"
 #include "../Header.h"
-#include "simulation.h"
+
 #include "../Graphics/chartBuilder.h"
-extern simulation sim;
+
 extern int choosenSubMenu;
 
 class econSubPanel
@@ -52,20 +52,20 @@ public:
 			drawBase();
 
 			str = "Kg of wheat: ";
-			str = str + std::to_string(int(sim.agriculture.wheat.naturalOutput));
+		//	str = str + std::to_string(int(sim.agriculture.wheat.naturalOutput));
 			RenderText(fontShader, str, 620, 300, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 			str = "Agriculture workers: ";
-			str = str + std::to_string(int(sim.agriculture.workers));
+		//	str = str + std::to_string(int(sim.agriculture.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 			str = "Total arable land: ";
-			str = str + std::to_string(int(sim.geo.totalArableLand));
+		//	str = str + std::to_string(int(sim.geo.totalArableLand));
 			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 
 		str = "Agriculture GDP: ";
-		str = str + std::to_string(int(sim.agriculture.gdp));
+	//	str = str + std::to_string(int(sim.agriculture.gdp));
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -84,13 +84,13 @@ public:
 			drawBase();
 
 			str = "Mining workers: ";
-			str = str + std::to_string(int(sim.mining.workers));
+		//	str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		}
 
 		str = "Mining GDP: ";
-		str = str + std::to_string(int(sim.mining.gdp));
+	//	str = str + std::to_string(int(sim.mining.gdp));
 		RenderText(fontShader, str, 120, y-10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -109,14 +109,14 @@ public:
 			drawBase();
 
 			str = "Forestry industry workers: ";
-			str = str + std::to_string(int(sim.mining.workers));
+		//	str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 			
 		}
 
 		str = "Forestry GDP: ";
-		str = str + std::to_string(int(sim.forestry.gdp));
+		//str = str + std::to_string(int(sim.forestry.gdp));
 		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -135,13 +135,13 @@ public:
 			drawBase();
 
 			str = "Mining workers: ";
-			str = str + std::to_string(int(sim.mining.workers));
+		//	str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		}
 
 		str = "Fishing GDP: ";
-		str = str + std::to_string(int(sim.fishing.gdp));
+		//str = str + std::to_string(int(sim.fishing.gdp));
 		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -160,16 +160,16 @@ public:
 			drawBase();
 
 			str = "Mining workers: ";
-			str = str + std::to_string(int(sim.mining.workers));
+			//str = str + std::to_string(int(sim.mining.workers));
 			RenderText(fontShader, str, 620, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 			str = "Total arable land: ";
-			str = str + std::to_string(int(sim.geo.totalArableLand));
+		//	str = str + std::to_string(int(sim.geo.totalArableLand));
 			RenderText(fontShader, str, 620, 250, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 
 		str = "Hunting GDP: ";
-		str = str + std::to_string(sim.hunting.output);
+	//	str = str + std::to_string(sim.hunting.output);
 		RenderText(fontShader, str, 120, y - 10, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
@@ -210,7 +210,7 @@ public:
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		drawRectangle(-200, -300, 200, 300);
 
-		string str = "Labor pool: " + std::to_string(int(sim.population.laborPool));
+		string str = "Labor pool: ";// + std::to_string(int(sim.population.laborPool));
 		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 		
 		for (int i = 0; i < subPanels.size(); i++)
@@ -241,7 +241,7 @@ public:
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		drawRectangle(-200, -300, 200, 300);
 
-		string str = "Labor pool: " + std::to_string(int(sim.population.laborPool));
+		string str = "Labor pool: ";// +std::to_string(int(sim.population.laborPool));
 		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		for (int i = 0; i < subPanels.size(); i++)
@@ -271,7 +271,7 @@ public:
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		drawRectangle(-200, -300, 200, 300);
 
-		string str = "Labor pool: " + std::to_string(int(sim.population.laborPool));
+		string str = "Labor pool: ";// +std::to_string(int(sim.population.laborPool));
 		RenderText(fontShader, str, 120, 600, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
 		for (int i = 0; i < subPanels.size(); i++)
@@ -301,11 +301,11 @@ public:
 
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		drawRectangle(-200, -300, 200, 300);
-		string str = "GDP " + to_string(int(sim.GDP.total));
+		string str = "GDP ";// +to_string(int(sim.GDP.total));
 
 		RenderText(fontShader, str, 120, 200, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 
-		ch->data = sim.GDP.history;
+		//ch->data = sim.GDP.history;
 		ch->draw();
 	};
 };

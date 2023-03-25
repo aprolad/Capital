@@ -123,6 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,9 +151,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
-    <ClCompile Include="buttons.cpp" />
+    <ClCompile Include="Capital.cpp" />
     <ClCompile Include="CAP_graphics.cpp" />
-    <ClCompile Include="CAP_window.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game\simulation.cpp" />
     <ClCompile Include="game\technologyTab.cpp" />
@@ -160,17 +161,15 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Interface\econPanels.cpp" />
     <ClCompile Include="Interface\geographyTab.cpp" />
-    <ClCompile Include="Interface\mainStatistic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="misc\configLoader.cpp" />
     <ClCompile Include="societyTab.cpp" />
     <ClCompile Include="tab.cpp" />
+    <ClCompile Include="Visualization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
-    <ClInclude Include="buttons.h" />
-    <ClInclude Include="Callbacks\Callbacks.h" />
-    <ClInclude Include="CAP_window.h" />
+    <ClInclude Include="Capital.h" />
     <ClInclude Include="demographyTab.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="game\economicsTab.h" />
@@ -189,6 +188,7 @@
     <ClInclude Include="Interface\tab.h" />
     <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Visualization.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\shaders\fragment.sh" />

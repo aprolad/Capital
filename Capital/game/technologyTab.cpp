@@ -4,7 +4,7 @@
 #include "technologyTab.h"
 
 
-extern simulation sim;
+
 extern int choosenTab;
 
 

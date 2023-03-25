@@ -4,6 +4,7 @@
 class button
 {
 public:
+	graphicObject poly;
 	virtual void draw() {};
 	virtual void mouseCallback(double, double) {};
 };
@@ -27,7 +28,7 @@ public:
 	void (*func)(void);
 	double x, y;
 	double size;
-	graphicObject poly;
+
 	std::string text;
 	void draw();
 	void mouseCallback(double mx, double my) 
@@ -62,7 +63,6 @@ public:
 		this->size = size;
 		poly = base;
 	}
-	void mouseCallback(double mx, double my);
 };
 class returnButton : public quadButton
 {

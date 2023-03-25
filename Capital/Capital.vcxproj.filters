@@ -16,9 +16,6 @@
     <Filter Include="Исходные файлы\graphics">
       <UniqueIdentifier>{c50c2d51-9d98-4e6c-bb96-2f060502f496}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\graphics">
-      <UniqueIdentifier>{19321a82-73f3-48a2-95c5-7cc3d65b4f4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы заголовков\misc">
       <UniqueIdentifier>{e44d55c9-be30-41b1-bd76-1cddb9e918e7}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,9 @@
     <Filter Include="Исходные файлы\interface\tabs">
       <UniqueIdentifier>{7e19a102-c9ec-4c93-afc0-98ec9f6be060}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\Graphics">
+      <UniqueIdentifier>{19321a82-73f3-48a2-95c5-7cc3d65b4f4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,20 +48,11 @@
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
       <Filter>Исходные файлы\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="CAP_window.cpp">
-      <Filter>Исходные файлы\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="audio.cpp">
       <Filter>Исходные файлы\misc</Filter>
     </ClCompile>
     <ClCompile Include="misc\configLoader.cpp">
       <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="buttons.cpp">
-      <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\mainStatistic.cpp">
-      <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="font.cpp">
       <Filter>Исходные файлы\misc</Filter>
@@ -87,33 +78,30 @@
     <ClCompile Include="tab.cpp">
       <Filter>Исходные файлы\interface\tabs</Filter>
     </ClCompile>
+    <ClCompile Include="Capital.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Visualization.cpp">
+      <Filter>Исходные файлы\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\CAP_graphics.h">
-      <Filter>Файлы заголовков\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="CAP_window.h">
-      <Filter>Файлы заголовков\graphics</Filter>
+      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\GUI.h">
-      <Filter>Файлы заголовков\graphics</Filter>
+      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Файлы заголовков\graphics</Filter>
+      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\SceneComposer.h">
-      <Filter>Файлы заголовков\graphics</Filter>
+      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="buttons.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Callbacks\Callbacks.h">
       <Filter>Файлы заголовков\misc</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\CAP_shaderAux.h">
@@ -147,13 +135,19 @@
       <Filter>Файлы заголовков\interface</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\chartBuilder.h">
-      <Filter>Файлы заголовков\graphics</Filter>
+      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="demographyTab.h">
       <Filter>Файлы заголовков\interface</Filter>
     </ClInclude>
     <ClInclude Include="font.h">
       <Filter>Файлы заголовков\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Capital.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Visualization.h">
+      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
