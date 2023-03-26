@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Header.h"
-#include "game/simulation.h"
+
 //#include "Interface/mainStatistic.h"
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
@@ -10,7 +10,11 @@
 class Visualization
 {
 public:
+Visualization ()
+{
 
+}
+	static simulation simulation;
 	GLuint shaderProgram;
 	GLuint fontShader;
 	static mainMenuScene m;
@@ -73,8 +77,8 @@ public:
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
 
-		//	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-		//		sim.pause();
+			if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+				simulation.pause();
 
 	}
 	void construct_game()
@@ -82,12 +86,15 @@ public:
 		m.shaderProgram = shaderProgram;
 		m.choosen_scene = &choosenScene;
 		m.fontShader = fontShader;
+		m.simulation = &simulation;
 		m.initialize();
+		
 		scene.push_back(&m);
 
 		mm.shaderProgram = shaderProgram;
 		mm.choosen_scene = &choosenScene;
 		mm.fontShader = fontShader;
+		mm.simulation = &simulation;
 		mm.initialize();
 		scene.push_back(&mm);
 	}
@@ -121,6 +128,7 @@ public:
 			glClear(GL_COLOR_BUFFER_BIT);
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0, 0, 1);
 
+			simulation.cycle();
 			scene[choosenScene]->draw();
 
 		

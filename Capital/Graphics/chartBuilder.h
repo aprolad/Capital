@@ -17,16 +17,3 @@ public:
 	void draw();
 
 };
-class ageChart 
-{
-public:
-	ageChart()
-	{
-		data.resize(1600);
-		maxHistory.resize(1000);
-	}
-	vector<double> data;
-	double sizing;
-	deque <double> maxHistory;
-	void draw();
-};

@@ -5,11 +5,13 @@
 class scene
 {
 	public:
+		simulation* simulation;
 		static int* choosen_scene;
 		GLuint shaderProgram, fontShader;
 		std::vector<Graphic_element*> graphic_elements;
 		virtual void draw()
 		{
+
 			for (int i = 0; i < graphic_elements.size(); i++)
 				graphic_elements[i]->draw();
 		}
@@ -23,7 +25,13 @@ class scene
 		{
 			construct_scene();
 			for (int i = 0; i < graphic_elements.size(); i++)
+			{
+				
+				graphic_elements[i]->simulation = simulation;
 				graphic_elements[i]->init();
+			//	std::cout << graphic_elements[i]->simulation;
+
+			}
 		}
 };
 class mainMenuScene : virtual public scene
@@ -31,11 +39,16 @@ class mainMenuScene : virtual public scene
 public:
 	void construct_scene()
 	{
-		graphic_elements.push_back(new Quad_button(shaderProgram, fontShader, 350, 350, "Exit"));
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 350, 350, "Exit");
+		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { exit(0); };
 
-		graphic_elements.push_back(new Quad_button(shaderProgram, fontShader, 350, 550, "Start"));
+
+
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 350, 550, "Start");
+		graphic_elements.push_back(t);
 		graphic_elements[1]->action = []() -> void { *choosen_scene = 1; };
+
 	}
 	
 };
@@ -44,10 +57,25 @@ public:
 class mainGameScene : virtual public scene
 {
 public:
+
+	std::vector<Top_menu*> root_menus;
 	void construct_scene()
 	{
-		graphic_elements.push_back(new Quad_button(shaderProgram, fontShader, 350, 550, "Return"));
+		
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 350, 550, "Return");
+		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
+
+		
+		root_menus.push_back((new Top_menu())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1240, "Economics"));
+
+		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1240, "Demographics"));
+
+		for (int i = 0; i< root_menus.size(); i++)
+		{
+			graphic_elements.push_back(root_menus[i]);
+		}
+		
 	}
 
 

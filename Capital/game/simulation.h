@@ -56,7 +56,7 @@ public:
 	std::mt19937 engine;
 	double density;
 	double birthRate;
-	int population;
+	double population;
 	double laborPool;
 	double dependencyRate;
 	double totalFertilityRate;
