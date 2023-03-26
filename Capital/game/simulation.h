@@ -43,15 +43,15 @@ public:
 		srand(time(0));
 		
 		engine.seed(std::time(0));
-		agePyramid.resize(100000);
+		agePyramid.resize(120);
 		population = 1000;
-		totalFertilityRate = 2;
-		for (int i = 0; i < 100000; i++)
+		totalFertilityRate = 5;
+		for (int i = 0; i < 120; i++)
 		{
 			agePyramid[i] = 0;
 		}
-		for (int i=0; i<20000; i++)
-		agePyramid[i] = 50 + engine()%10;
+		for (int i=0; i<120; i++)
+		agePyramid[i] = (50 + engine()%10) * 365;
 	}
 	std::mt19937 engine;
 	double density;
@@ -68,7 +68,7 @@ public:
 
 	std::deque<double> agePyramid;
 	
-	void calc()
+	void calc(int date)
 	{
 
 		double fertilePop = 0;
@@ -77,37 +77,42 @@ public:
 		double prevPop = population;
 		population = 0;
 		laborPool = 0;
-		agePyramid.push_front(0);
-		agePyramid.pop_back();
-		for (int i = 0; i < 100000; i++)
+		if (date%365 ==0)
+		for (int i = 0; i < 1; i++)
+		{
+			agePyramid.push_front(0);
+			agePyramid.pop_back();
+		}
+		for (int i = 0; i < 120; i++)
 		{
 			if (agePyramid[i] < 0)
 				agePyramid[i] = 0;
 			population += agePyramid[i];
 
 			//Расчет работоспособного населения
-			if (i > 5110 && i < 23725)
+			if (i > 12 && i < 65)
 				laborPool += agePyramid[i];
 
 			dependencyRate = 1 - laborPool / (population + 1);
 
 			// Расчет рождаемости
-			if (i > 5475 && i < 16425)
+			if (i > 16 && i < 45)
 			{
 				fertilePop += agePyramid[i];
 			}
 			//Расчет смертности
 
-			if (i > 1 && i < 90000)
+			if (i > 1 && i < 120)
 			{
-				double chanceToDie = abs(i * 0.000000004 * (1 - foodSupply / 100) + i/(20000) * 0.0001 + i / (12000) * 0.00005) + i / (30000) * 0.001;
-				
+				double chanceToDie = (0.005 + (double(i)/70) * (0.1))/ 365 * (1 + foodSupply/100);
+				if (i > 90)
+					chanceToDie *= 2 * log(i-90);
 				agePyramid[i]-= chanceToDie * agePyramid[i] * (0.2+engine()%200/100);
 
 			}
 
 		}
-		births = fertilePop * totalFertilityRate / 25 / 2 / 365 * double(0.8 + double(rand() % 400) / 1000) * (1 + foodSupply/100);
+		births = fertilePop * totalFertilityRate / 25 / 2 * double(0.98 + double(rand() % 40) / 1000) * (1 + foodSupply/100);
 		agePyramid[0] = int(births);
 		fat = prevPop + births - population;
 		
@@ -204,6 +209,7 @@ class simulation
 			mining.productivity = 5;
 			preference = 80;
 			computeOneDay();
+
 			
 		}
 		geography geo;
@@ -225,7 +231,7 @@ class simulation
 		void computeOneDay()
 		{
 			date += 1;
-			population.calc();
+			population.calc(date);
 
 			agriculture.workers = int(population.laborPool * (preference / 100));
 			mining.workers = int(population.laborPool * (1 - preference / 100));
@@ -236,7 +242,9 @@ class simulation
 			population.foodSupply = (agriculture.output - population.population * 0.85)/ population.population * 100;
 			
 			population.density = population.population / geo.sqKilometres;
-			
+			GDP.total = 0;
+			GDP.total += mining.gdp;
+			GDP.total += agriculture.gdp;
 			GDP.calcTotalGdp();
 		}
 		void cycle()

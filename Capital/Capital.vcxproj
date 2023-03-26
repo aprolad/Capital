@@ -154,37 +154,24 @@
     <ClCompile Include="Capital.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game\simulation.cpp" />
-    <ClCompile Include="game\technologyTab.cpp" />
-    <ClCompile Include="Graphics\chartBuilder.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
     <ClCompile Include="Graphic_element.cpp" />
-    <ClCompile Include="Interface\econPanels.cpp" />
-    <ClCompile Include="Interface\geographyTab.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="misc\configLoader.cpp" />
-    <ClCompile Include="societyTab.cpp" />
-    <ClCompile Include="tab.cpp" />
+    <ClCompile Include="Utility_graphic_functions.cpp" />
     <ClCompile Include="Visualization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
     <ClInclude Include="Capital.h" />
-    <ClInclude Include="demographyTab.h" />
     <ClInclude Include="font.h" />
-    <ClInclude Include="game\economicsTab.h" />
-    <ClInclude Include="game\goodsExchangeTab.h" />
     <ClInclude Include="game\simulation.h" />
-    <ClInclude Include="game\technologyTab.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
-    <ClInclude Include="Graphics\chartBuilder.h" />
     <ClInclude Include="Graphic_element.h" />
     <ClInclude Include="Header.h" />
-    <ClInclude Include="Interface\geographyTab.h" />
-    <ClInclude Include="Interface\mainStatistic.h" />
-    <ClInclude Include="Interface\societyTab.h" />
-    <ClInclude Include="Interface\tab.h" />
     <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Utility_graphic_functions.h" />
     <ClInclude Include="Visualization.h" />
   </ItemGroup>
   <ItemGroup>

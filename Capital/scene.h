@@ -29,7 +29,6 @@ class scene
 				
 				graphic_elements[i]->simulation = simulation;
 				graphic_elements[i]->init();
-			//	std::cout << graphic_elements[i]->simulation;
 
 			}
 		}
@@ -67,7 +66,7 @@ public:
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
 
 		
-		root_menus.push_back((new Top_menu())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1240, "Economics"));
+		root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1240, "Economics"));
 
 		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1240, "Demographics"));
 
