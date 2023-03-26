@@ -34,16 +34,13 @@
     <Filter Include="Файлы заголовков\Graphics">
       <UniqueIdentifier>{19321a82-73f3-48a2-95c5-7cc3d65b4f4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\trash">
+      <UniqueIdentifier>{3c125771-0c37-45eb-b938-4d7fafd6061d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="CAP_graphics.cpp">
-      <Filter>Исходные файлы\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI.cpp">
-      <Filter>Исходные файлы\graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
       <Filter>Исходные файлы\graphics</Filter>
@@ -56,12 +53,6 @@
     </ClCompile>
     <ClCompile Include="font.cpp">
       <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="game\simulation.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\chartBuilder.cpp">
-      <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Interface\geographyTab.cpp">
       <Filter>Исходные файлы\interface\tabs</Filter>
@@ -84,22 +75,19 @@
     <ClCompile Include="Visualization.cpp">
       <Filter>Исходные файлы\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphic_element.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\chartBuilder.cpp">
+      <Filter>Исходные файлы\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="game\simulation.cpp">
+      <Filter>Исходные файлы\misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
       <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\CAP_graphics.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\GUI.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\SceneComposer.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
       <Filter>Файлы заголовков\misc</Filter>
@@ -109,18 +97,6 @@
     </ClInclude>
     <ClInclude Include="misc\configLoader.h">
       <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\mainStatistic.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="game\simulation.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="game\technologyTab.h">
-      <Filter>Файлы заголовков\interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\tab.h">
-      <Filter>Файлы заголовков\interface</Filter>
     </ClInclude>
     <ClInclude Include="Interface\societyTab.h">
       <Filter>Файлы заголовков\interface</Filter>
@@ -146,8 +122,26 @@
     <ClInclude Include="Capital.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="game\simulation.h">
+      <Filter>Файлы заголовков\trash</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\mainStatistic.h">
+      <Filter>Файлы заголовков\trash</Filter>
+    </ClInclude>
+    <ClInclude Include="game\technologyTab.h">
+      <Filter>Файлы заголовков\trash</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\tab.h">
+      <Filter>Файлы заголовков\trash</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic_element.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="Visualization.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

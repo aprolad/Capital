@@ -1,21 +1,23 @@
 #pragma once
 
 #include "Header.h"
-#include "Graphics/SceneComposer.h"
 #include "game/simulation.h"
 //#include "Interface/mainStatistic.h"
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
-#include "font.h"
 
+#include "Scene.h"
 class Visualization
 {
 public:
-	//static sceneComposer scMain;
-	//	static simulation sim;
-		//mainStat mainScene;
-	static mainMenuScene mainMenu;
-	static inline GLFWwindow* window;
+
+	GLuint shaderProgram;
+	GLuint fontShader;
+	static mainMenuScene m;
+	static mainGameScene mm;
+	static int choosenScene;
+	GLFWwindow* window;
+	static std::vector<scene*> scene;
 	int window_initialization(GLFWwindow*& window)
 	{
 
@@ -63,7 +65,7 @@ public:
 		{
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
-			//scMain.mouseInvoke(xpos, 1440 - ypos);
+			scene[choosenScene]->mouseInvoke(xpos, 1440 - ypos);
 		}
 	}
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -75,26 +77,19 @@ public:
 		//		sim.pause();
 
 	}
-	static void config()
+	void construct_game()
 	{
+		m.shaderProgram = shaderProgram;
+		m.choosen_scene = &choosenScene;
+		m.fontShader = fontShader;
+		m.initialize();
+		scene.push_back(&m);
 
-		//scMain.scene.resize(2);
-		//mainMenu.bn.push_back(new exitButton(500, 300, 100));
-		//startButton* b = new startButton(500, 700, 150);
-		//b->func = []() -> void
-		//{ scMain.chooseScene(1); };
-		//mainMenu.bn.push_back(b);
-		//scMain.scene[0] = &mainMenu;
-
-		////returnbutton* ba = new returnbutton(2560 - 100, 1440 - 100, 100);
-		////ba->func = []() -> void
-		////{ scmain.choosescene(0); };
-
-
-		////mainscene.bn.push_back(ba);
-		////scmain.scene[1] = &mainscene;
-
-		//scMain.shader = &shaderProgram;
+		mm.shaderProgram = shaderProgram;
+		mm.choosen_scene = &choosenScene;
+		mm.fontShader = fontShader;
+		mm.initialize();
+		scene.push_back(&mm);
 	}
 	void OGL_mainLoop()
 	{
@@ -105,10 +100,13 @@ public:
 		vertexShader = createVertexShader("Graphics/shaders/vertexFont.sh");
 		fragmentShader = createFragmentShader("Graphics/shaders/fragmentFont.sh");
 		fontShader = createShaderProgram(vertexShader, fragmentShader);
-		GLuint* shader = &shaderProgram;
-		config();
+
 		fontInit();
-		startButton* b = new startButton(500, 700, 150);
+
+	
+		construct_game();
+
+
 		glUseProgram(shaderProgram);
 		while (!glfwWindowShouldClose(window))
 		{
@@ -121,11 +119,14 @@ public:
 
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			glUniform4f(glGetUniformLocation(*shader, "ourColor"), 0.0, 0, 0, 1);
-			//scene[scenePointer]->draw();
-			b->draw();
-			glUseProgram(fontShader);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0, 0, 1);
 
+			scene[choosenScene]->draw();
+
+		
+
+
+			glUseProgram(fontShader);
 			transformLoc = glGetUniformLocation(fontShader, "projection");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(projection));
 

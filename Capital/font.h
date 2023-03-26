@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <map>
+#include <string>
 struct Character {
 	GLuint     TextureID; // ID текстуры глифа
 	glm::ivec2 Size;      // Размеры глифа

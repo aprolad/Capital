@@ -7,8 +7,8 @@
 #include <map>
 #include "font.h"
 std::map<GLchar, Character> Characters;
-GLuint VAO;
-GLuint VBO;
+GLuint VAOT;
+GLuint VBOT;
 void fontInit()
 {
 	FT_Library ft;
@@ -58,8 +58,8 @@ void fontInit()
 	}
 	FT_Done_Face(face);   
 	FT_Done_FreeType(ft);
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &VAOT);
+	glGenBuffers(1, &VBOT);
 }
 void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
 {
@@ -67,8 +67,8 @@ void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindVertexArray(VAOT);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOT);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
@@ -78,7 +78,7 @@ void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat 
 	glUseProgram(shader);
 	glUniform3f(glGetUniformLocation(shader, "textColor"), color.x, color.y, color.z);
 	glActiveTexture(GL_TEXTURE0);
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAOT);
 
 	// Iterate through all characters
 	std::string::const_iterator c;
@@ -103,7 +103,7 @@ void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat 
 		// Render glyph texture over quad
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
 		// Update content of VBO memory
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBOT);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		// Render quad
