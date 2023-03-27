@@ -49,7 +49,7 @@ Visualization ()
 		glfwGetFramebufferSize(window, &width, &height);
 
 		glViewport(0, 0, width, height);
-
+		//glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1920, GLFW_DONT_CARE);
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetMouseButtonCallback(window, mouse_button_callback);
 	}

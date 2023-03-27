@@ -38,13 +38,13 @@ class mainMenuScene : virtual public scene
 public:
 	void construct_scene()
 	{
-		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 350, 350, "Exit");
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 150, "Exit");
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { exit(0); };
 
 
 
-		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 350, 550, "Start");
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 400, "Start");
 		graphic_elements.push_back(t);
 		graphic_elements[1]->action = []() -> void { *choosen_scene = 1; };
 
@@ -61,14 +61,14 @@ public:
 	void construct_scene()
 	{
 		
-		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 350, 550, "Return");
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 400, "Return");
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
 
 		
-		root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1240, "Economics"));
+		root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1270, "Economics"));
 
-		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1240, "Demographics"));
+		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1270, "Demographics"));
 
 		for (int i = 0; i< root_menus.size(); i++)
 		{
