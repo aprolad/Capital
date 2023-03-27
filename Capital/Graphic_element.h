@@ -19,10 +19,9 @@ public:
 	{
 
 		glUseProgram(shaderProgram);
-		glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 		glm::mat4 trans;
 		trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-		trans = glm::scale(trans, glm::vec3(100 / 50, 100 / 50, 100 / 50));
+		//trans = glm::scale(trans, glm::vec3(1, 1, 1));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		glBindVertexArray(VAO);
@@ -36,30 +35,33 @@ public:
 class Quad_button : virtual public Graphic_element
 {
 public:
-	int size;
+	//int size;
 	std::string text;
-	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, std::string atext)
+	int sx, sy;
+	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
 		shaderProgram = shader;
 		fontShader = font;
 		x = ax;
 		y = ay;
-		size = 100;
+		this->sx = sx;
+		this->sy = sy;
+		//size = 100;
 		text = atext;
 		return this;
 	}
 	void mouseCallback(double mx, double my)
 	{
-		if (mx > (x - size) && mx < (x + size) && my >(y - size) && my < (y + size))
+		if (mx > (x - sx) && mx < (x + sx) && my >(y - sy) && my < (y + sy))
 			action();
 	}
 	void init()
 	{
 		GLfloat vertices[] = {
-		50.0f, -50.0f, 0.0f,
-		50.0f, 50.0f, 0.0f,
-		-50.0f, -50.0f, 0.0f,
-		-50.0f, 50.0f, 0.0f
+		sx, -sy, 0.0f,
+		sx, sy, 0.0f,
+		-sx, -sy, 0.0f,
+		-sx, sy, 0.0f
 		};
 
 		glGenVertexArrays(1, &VAO);
@@ -77,18 +79,9 @@ public:
 	}
 	void draw()
 	{
-		glUseProgram(shaderProgram);
-		glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-		trans = glm::scale(trans, glm::vec3(100 / 50, 100 / 50, 100 / 50));
-		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		glBindVertexArray(0);
+		prepare_shaders();
 
-		RenderText(fontShader, text, x - 100 * 0.85, y, 150 / 150, glm::vec3(1.0, 0.0f, 0.0f));
+		RenderText(fontShader, text, x - 100 * 1, y, 150 / 150, glm::vec3(1.0, 0.0f, 0.0f));
 
 	}
 
@@ -115,11 +108,12 @@ public:
 		RenderText(fontShader, text, x - 100 * 0.85, y, 150 / 150, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 };
+template <typename T>
 class Dynamic_text_element : virtual public Text_element
 {
 public:
-	double* binded_value;
-	Dynamic_text_element* set_properties(double* bind, GLuint shader, GLuint font, int ax, int ay, std::string atext)
+	T binded_value;
+	Dynamic_text_element* set_properties(T bind, GLuint shader, GLuint font, int ax, int ay, std::string atext)
 	{
 		binded_value = bind;
 		shaderProgram = shader;
@@ -154,7 +148,7 @@ public:
 	}
 	void add_dynamic_text_element(std::string atext, int x, int y, double* bind)
 	{
-		Dynamic_text_element* t = (new Dynamic_text_element())->set_properties(bind, shaderProgram, fontShader, x, y, atext);
+		Dynamic_text_element<double*>* t = (new Dynamic_text_element<double*>())->set_properties(bind, shaderProgram, fontShader, x, y, atext);
 		t->init();
 		text_elements.push_back(t);
 
@@ -332,15 +326,16 @@ class Top_menu : public virtual Quad_button
 {
 
 public:
-
+	int size_x, size_y;
 	std::vector<Top_menu*> *top_menus;
-	Top_menu* set_properties(std::vector<Top_menu*> *atop_menus, GLuint shader, GLuint font, int ax, int ay, std::string atext)
+	Top_menu* set_properties(std::vector<Top_menu*> *atop_menus, GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
 		shaderProgram = shader;
 		fontShader = font;
 		x = ax;
 		y = ay;
-		size = 100;
+		size_x = sx;
+		size_y = sy;
 		text = atext;
 		top_menus = atop_menus;
 		return this;
@@ -350,7 +345,7 @@ public:
 	Information_panel* panel;
 	void mouseCallback(double mx, double my)
 	{
-		if (mx > (x - size) && mx < (x + size) && my >(y - size) && my < (y + size))
+		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
 		{
 			bool t = active;
 			for (int i = 0; i<top_menus->size(); i++)
@@ -385,7 +380,7 @@ public:
 		panel->init();
 		//panel->add_text_element("Economics", 750, 1000);
 		panel->add_dynamic_text_element("GDP: ", x, y-400, &simulation->GDP.total);
-		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, text);
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		base->init();
 		chartG = new Chart(900);
 		chartG->init();
@@ -425,7 +420,7 @@ public:
 		panel->add_dynamic_text_element("Population: ", 250, y - 400, &simulation->population.population);
 		panel->add_dynamic_text_element("Labor pool: ", 250, y - 450, &simulation->population.laborPool);
 		panel->add_dynamic_text_element("Food supply: ", 250, y - 500, &simulation->population.foodSupply);
-		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, text);
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		base->init();
 	}
 };
