@@ -5,15 +5,16 @@
 //#include "Interface/mainStatistic.h"
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
-
+#include "Map.h"
 #include "Scene.h"
 class Visualization
 {
 public:
-Visualization ()
-{
+	Map map;
+	Visualization()
+	{
 
-}
+	}
 	static simulation simulation;
 	GLuint shaderProgram;
 	GLuint fontShader;
@@ -113,7 +114,7 @@ Visualization ()
 	
 		construct_game();
 
-
+		map.init();
 		glUseProgram(shaderProgram);
 		while (!glfwWindowShouldClose(window))
 		{
@@ -129,11 +130,12 @@ Visualization ()
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0, 0, 1);
 
 			simulation.cycle();
+			map.shaderProgram = shaderProgram;
+			map.draw();
+
 			scene[choosenScene]->draw();
 
 		
-
-
 			glUseProgram(fontShader);
 			transformLoc = glGetUniformLocation(fontShader, "projection");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(projection));
