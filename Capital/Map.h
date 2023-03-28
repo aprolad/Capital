@@ -16,6 +16,7 @@ public:
     GLuint VAO1, VBO1;
     GLuint shaderProgram;
     std::vector<Vertex> vertices;
+    std::vector<std::vector<Vertex>> map_features;
     int init();
     int draw();
 };

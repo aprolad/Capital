@@ -70,6 +70,7 @@ public:
 		{
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
+			std::cout << xpos << " " << ypos << std::endl;
 			scene[choosenScene]->mouseInvoke(xpos, 1440 - ypos);
 		}
 	}

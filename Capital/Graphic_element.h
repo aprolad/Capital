@@ -21,7 +21,7 @@ public:
 		glUseProgram(shaderProgram);
 		glm::mat4 trans;
 		trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-		//trans = glm::scale(trans, glm::vec3(1, 1, 1));
+
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		glBindVertexArray(VAO);

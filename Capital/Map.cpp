@@ -1,9 +1,11 @@
 #include "Map.h"
+#include"Header.h"
+#include <algorithm>
 Vertex transformCoordinates(double longitude, double latitude)
 {
     Vertex t;
-    t.position.x = (longitude + 180.0) * (1000.0 / 360.0);
-    t.position.y = (1 - log(tan(latitude * M_PI / 180.0) + 1 / cos(latitude * M_PI / 180.0)) / M_PI) * 500.0;
+    t.position.x = (longitude + 180.0) * (1000.0 / 360.0) - 500;
+    t.position.y = (1 - log(tan(latitude * M_PI / 180.0) + 1 / cos(latitude * M_PI / 180.0)) / M_PI) * 500.0 - 500;
     return t;
 }
 int Map::init()
@@ -26,9 +28,6 @@ int Map::init()
     // Set up a projection from geographic coordinates to Mercator coordinates
     OGRSpatialReference oSrcSRS, oDstSRS;
     oSrcSRS.SetWellKnownGeogCS("WGS84");
-  //  oDstSRS.SetMercator(0, 0, 1, 0, 0);
-   // OGRCoordinateTransformation* poCT = OGRCreateCoordinateTransformation(&oSrcSRS, &oDstSRS);
-    // Loop through all the features in the layer
     OGRFeature* poFeature = NULL;
     poLayer->ResetReading();
     while ((poFeature = poLayer->GetNextFeature()) != NULL)
@@ -36,23 +35,19 @@ int Map::init()
         // Get the geometry of the feature
         OGRGeometry* poGeometry = poFeature->GetGeometryRef();
 
-        // Transform the geometry to Mercator coordinates
-      //  poGeometry->transform(poCT);
-
-        // Extract the vertices from the geometry and add them to a list of vertices
-
+        vertices.resize(0);
         if (poGeometry->getGeometryType() == wkbPolygon)
         {
             OGRPolygon* poPolygon = (OGRPolygon*)poGeometry;
+            printf("Processing polygon with %d rings\n", poPolygon->getExteriorRing()->getNumPoints() + 1);
+            Vertex v;
             for (int i = 0; i < poPolygon->getExteriorRing()->getNumPoints(); i++)
             {
-                Vertex v;
+                
                 v = transformCoordinates(poPolygon->getExteriorRing()->getX(i), poPolygon->getExteriorRing()->getY(i));
-               // v.position.x = poPolygon->getExteriorRing()->getX(i);
-               // v.position.y = poPolygon->getExteriorRing()->getY(i);
-               // std::cout << v.position.x<<std::endl;
                 vertices.push_back(v);
             }
+            map_features.push_back(vertices);
         }
     }
     OGRFeature::DestroyFeature(poFeature);
@@ -63,42 +58,37 @@ int Map::draw()
         glUseProgram(shaderProgram);
         glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
         glm::mat4 trans;
-        trans = glm::translate(trans, glm::vec3(600, 350, 0.0f));
+        trans = glm::translate(trans, glm::vec3(1200, 050, 0.0f));
+        trans = glm::scale(trans, glm::vec3(5, 5, 5));
+        trans = glm::rotate(trans, GLfloat(170), glm::vec3(0, 0, 1));
+        trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-       // GLfloat* vertices = new GLfloat[sizing * 3 + 3];   
 
-        glBindVertexArray(VAO1);
-
-        glBindBuffer(GL_ARRAY_BUFFER, VBO1);
-        std::vector<GLfloat> v;
-        v.resize(0);
-        for (auto i : vertices)
+        for (auto feature_iter : map_features)
         {
-            v.push_back(GLfloat(i.position.x));
-            v.push_back(GLfloat(i.position.y));
-            v.push_back(0);
-           // std::cout << vertices.size();
+            glBindVertexArray(VAO1);
+            glBindBuffer(GL_ARRAY_BUFFER, VBO1);
+            std::vector<GLfloat> v;
+            v.clear();
+            for (auto i : feature_iter)
+            {
+                v.push_back(GLfloat(i.position.x));
+                v.push_back(GLfloat(i.position.y));
+                v.push_back(GLfloat(0));
+            }
+            glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * v.size(), v.data(), GL_DYNAMIC_DRAW);
+
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+            glEnableVertexAttribArray(0);
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+            glPointSize(5.0f);
+            glBindVertexArray(VAO1);
+            glDrawArrays(GL_LINE_STRIP, 0, feature_iter.size());
+            glBindVertexArray(0);
         }
-
-        GLfloat* a = &v[0];
-        for (int i =0; i<1000; i++)
-        {
-            
-         //    std::cout << a[i]<<std::endl;
-        }
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size() * 3, a, GL_DYNAMIC_DRAW);
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-        glEnableVertexAttribArray(0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-
-        glBindVertexArray(VAO1);
-        glDrawArrays(GL_POINTS, 0, vertices.size() * 3);
-        glBindVertexArray(0);
-
         trans = glm::mat4(1);
         trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
         transformLoc = glGetUniformLocation(shaderProgram, "transform");
