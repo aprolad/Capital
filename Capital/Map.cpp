@@ -45,12 +45,20 @@ int Map::init()
             {
                 
                 v = transformCoordinates(poPolygon->getExteriorRing()->getX(i), poPolygon->getExteriorRing()->getY(i));
+                center_point.position.x += v.position.x;
+                center_point.position.y += v.position.y;
+                vertex_count++;
                 vertices.push_back(v);
             }
             map_features.push_back(vertices);
         }
     }
+
+    center_point.position.x /= vertex_count;
+    center_point.position.y /= vertex_count;
+    size = 8;
     OGRFeature::DestroyFeature(poFeature);
+
 }
 int Map::draw()
 {
@@ -58,9 +66,14 @@ int Map::draw()
         glUseProgram(shaderProgram);
         glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
         glm::mat4 trans;
-        trans = glm::translate(trans, glm::vec3(1200, 050, 0.0f));
-        trans = glm::scale(trans, glm::vec3(5, 5, 5));
-        trans = glm::rotate(trans, GLfloat(170), glm::vec3(0, 0, 1));
+
+        trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
+        trans = glm::scale(trans, glm::vec3(size, size, size));
+        trans = glm::translate(trans, glm::vec3(-center_point.position.x, center_point.position.y, 0.0f));
+        trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
+        glViewport(1080, 070, 2560, 1400);
+
+        trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
@@ -93,7 +106,7 @@ int Map::draw()
         trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
         transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
+        glViewport(0, 0, 2560, 1440);
         // Clean up
         return 0;
     }

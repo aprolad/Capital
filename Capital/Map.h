@@ -17,6 +17,10 @@ public:
     GLuint shaderProgram;
     std::vector<Vertex> vertices;
     std::vector<std::vector<Vertex>> map_features;
+    Vertex center_point;
+    int vertex_count;
+    double size;
+    double x, y;
     int init();
     int draw();
 };

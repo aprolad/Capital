@@ -5,12 +5,11 @@
 //#include "Interface/mainStatistic.h"
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
-#include "Map.h"
 #include "Scene.h"
 class Visualization
 {
 public:
-	Map map;
+
 	Visualization()
 	{
 
@@ -79,8 +78,10 @@ public:
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
 
-			if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-				simulation.pause();
+		if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+			simulation.pause();
+		//if (key == GLFW_KEY_MINUS && action == GLFW_PRESS)
+			scene[1]->keyboard_callback(window, key, scancode, action, mode);
 
 	}
 	void construct_game()
@@ -98,6 +99,7 @@ public:
 		mm.fontShader = fontShader;
 		mm.simulation = &simulation;
 		mm.initialize();
+		mm.window = window;
 		scene.push_back(&mm);
 	}
 	void OGL_mainLoop()
@@ -115,7 +117,7 @@ public:
 	
 		construct_game();
 
-		map.init();
+
 		glUseProgram(shaderProgram);
 		while (!glfwWindowShouldClose(window))
 		{
@@ -131,8 +133,7 @@ public:
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0, 0, 1);
 
 			simulation.cycle();
-			map.shaderProgram = shaderProgram;
-			map.draw();
+
 
 			scene[choosenScene]->draw();
 
