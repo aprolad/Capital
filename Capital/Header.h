@@ -1,4 +1,5 @@
 #pragma once
+#define GLM_FORCE_DOUBLE_PRECISION
 #include <glew.h>
 #include <glfw3.h>
 #include <glm/glm.hpp>
