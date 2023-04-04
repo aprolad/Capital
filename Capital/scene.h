@@ -100,6 +100,8 @@ public:
 		map.x += 25 / map.size;
 	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
 		map.x -= 25 / map.size;
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+		map.debug += 3;
 	}
 
 	void draw()

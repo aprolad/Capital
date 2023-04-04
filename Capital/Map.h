@@ -15,10 +15,13 @@ struct Line
 {
     glm::vec2 start;
     glm::vec2 end;
+    Line* previous;
+    Line* next;
 };
 class Map
 {
 public:
+    int debug;
     std::vector<Line> lines;
     GLuint VAO1, VBO1;
     GLuint shaderProgram;

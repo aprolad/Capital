@@ -228,7 +228,6 @@ public:
 		double range = (*max - 0) + 1;
 
 		glUseProgram(shaderProgram);
-		glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
 		glm::mat4 trans;
 		trans = glm::translate(trans, glm::vec3(600, 350, 0.0f));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");

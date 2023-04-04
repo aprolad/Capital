@@ -1,4 +1,4 @@
-#include "Map.h"
+﻿#include "Map.h"
 #include"Header.h"
 #include <algorithm>
 #include <glm/glm.hpp>
@@ -6,6 +6,90 @@
 #include "Utility_graphic_functions.h"
 #include <glm/glm.hpp>
 
+
+double find_angle(glm::vec2 vec1, glm::vec2 vec2)
+{
+    float angleRadians = atan2(vec2.y, vec2.x) - atan2(vec1.y, vec1.x);
+
+    // make sure the angle is between 0 and 2π radians
+    if (angleRadians < 0.0f) {
+        angleRadians += 2.0f * glm::pi<float>();
+    }
+    return angleRadians * 180/M_PI;
+}
+struct forbidden_zone
+{
+    std::vector<GLfloat> intersection_shape;
+    std::vector<glm::vec3> points;
+    double s_angle, b_angle;
+    glm::vec2 first_point()
+    {
+        if (intersection_shape.size() > 1)
+            return glm::vec2(intersection_shape[0], intersection_shape[1]);
+        else
+            return glm::vec2(0, 0);
+    }
+    glm::vec2 last_point()
+    {
+        if (intersection_shape.size() > 2)
+        return glm::vec2(intersection_shape[intersection_shape.size()-3], intersection_shape[intersection_shape.size()-2]);
+        else
+            return glm::vec2(0, 0);
+    }
+    void reverse()
+    {
+        points.clear();
+        for (int i = 0; i < intersection_shape.size(); i += 3)
+        {
+            glm::vec3 t(intersection_shape[i], intersection_shape[i+1], intersection_shape[i+2]);
+            points.push_back(t);
+        }
+        std::reverse(points.begin(), points.end());
+        intersection_shape.clear();
+        for (auto i : points)
+        {
+            intersection_shape.push_back(i.x);
+            intersection_shape.push_back(i.y);
+            intersection_shape.push_back(i.z);
+        }
+    }
+};
+float angleBetweenLineAndAxis(glm::vec2 linePoint1, glm::vec2 linePoint2, char axis = 'x') {
+    glm::vec2 lineDir = linePoint2 - linePoint1;
+
+    // Create a unit vector in the direction of the specified axis
+    glm::vec2 unitVector;
+    if (axis == 'x') {
+        unitVector = glm::vec2(1.0f, 0.0f);
+    }
+    else if (axis == 'y') {
+        unitVector = glm::vec2(0.0f, 1.0f);
+    }
+    else {
+        std::cerr << "Invalid axis specified." << std::endl;
+        return 0.0f;
+    }
+
+    float cosTheta = glm::dot(lineDir, unitVector) / (glm::length(lineDir) * glm::length(unitVector));
+    float theta = glm::acos(cosTheta);
+
+    if (lineDir.y < 0) {
+        theta = 2 * glm::pi<float>() - theta;
+    }
+
+    return theta;
+}
+
+bool is_forbidden(double angle, std::vector<forbidden_zone> forbidden_angle)
+{
+    for (auto a : forbidden_angle)
+    {
+        // std::cout << b << std::endl;
+        if (angle > a.s_angle && angle < a.b_angle)
+            return true;
+    }
+    return false;
+}
 // Find intersection point of two line segments in 2D space
 glm::vec2 findIntersection(glm::vec2 p1, glm::vec2 p2, glm::vec2 q1, glm::vec2 q2) {
     glm::vec2 intersection(GLfloat(0), GLfloat(0));
@@ -69,13 +153,17 @@ int Map::init()
             printf("Processing polygon with %d rings\n", poPolygon->getExteriorRing()->getNumPoints() + 1);
             Vertex v;
             Line t;
+
             for (int i = 0; i < poPolygon->getExteriorRing()->getNumPoints(); i++)
             {
                 if (i != 0)
                     t.start = v.position;
                 v = transformCoordinates(poPolygon->getExteriorRing()->getX(i), poPolygon->getExteriorRing()->getY(i));
                 t.end = v.position;
-                lines.push_back(t);
+                if (i != 0)
+                {
+                    lines.push_back(t);
+                }
                 center_point.position.x += v.position.x;
                 center_point.position.y += v.position.y;
                 vertex_count++;
@@ -88,7 +176,9 @@ int Map::init()
    // std::cout << map() << std::endl;
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;
-    size = 1;
+    size = 8;
+   // x = 100;
+    y = -100;
     OGRFeature::DestroyFeature(poFeature);
 
 }
@@ -155,67 +245,163 @@ void Map::draw_zone_of_control()
     trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
     GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
+    std::vector<GLfloat> vert;
+    vert.resize(0);
     GLuint vao, vbo;
     int num_segments = 150;
     float radius = 10;
     long double angle = 2.0f * M_PI / num_segments;
     glPointSize(5.0f);
-    GLfloat* vertices1 = new GLfloat[(num_segments + 2) * 3];
-
+    GLfloat* vertices1 = new GLfloat[(num_segments + 5) * 3];
+    Line t;
+    std::vector<GLfloat> intersection_shape;
+    std::vector<forbidden_zone> intersection_shapes;
+    std::vector<double> forbidden_angle;
+    forbidden_zone f;
+    bool flag = false;
+    double a1=0, a2=0, b=0;
     for (int i = 0; i < (num_segments + 2) * 3; i += 3) {
-        Line t;
+
         glm::vec2 base;
         glm::vec2 intersection;
 
-
-
-        vertices1[i] = radius * cos(angle * (i / 3 - 1))+00-x;
+        double current_angle = angle * (i / 3 - 1);
+       // std::cout << current_angle << " " << b<<std::endl;
+      
+        vertices1[i] = radius * cos(angle * (i / 3 - 1)) + 00 - x;
         vertices1[i + 1] = radius * sin(angle * (i / 3 - 1)) - 000 + y;
         vertices1[i + 2] = 0;
-
-        t.start = glm::vec2(00-x,-000+y );
+        
+        auto prev = t.end;
+        prev.x = t.end.x;
+        prev.y = t.end.y;
+        t.start = glm::vec2(00 - x, -000 + y);
         t.end.x = vertices1[i];
         t.end.y = vertices1[i + 1];
+        if (prev.x == 0)
+            prev = t.end;
+        Line pr;
+        pr.start = prev;
+        pr.end = t.end;
 
-        draw_line(t.start.x, t.start.y, t.end.x, t.end.y);
-        for (auto b : lines)
+       // if (pr.start.x != 0)
+      //  draw_line(pr.start.x, pr.start.y, pr.end.x, pr.end.y);
+        for (int i = 0; i<lines.size(); i++)
         {
-            if (glm::distance(t.end, b.start) < radius || glm::distance(t.end, b.end) < radius)
+         //   if (glm::distance(t.start, b.start) < radius || glm::distance(t.start, b.end) < radius)
             {
-                intersection = findIntersection(b.start, b.end, t.start, t.end);
+                intersection = findIntersection(lines[i].start, lines[i].end, pr.start, pr.end);
                 if (!(intersection.x == 0 && intersection.y == 0))
                 {
-                    //      std::cout << intersection.x << std::endl;
+                    f.intersection_shape.push_back(intersection.x);
+                    f.intersection_shape.push_back(intersection.y);
+                    f.intersection_shape.push_back(0);
+
+                    if (flag == false)
+                        f.s_angle = angleBetweenLineAndAxis(t.start, glm::vec2(intersection.x, intersection.y));
+                    else
+                    {
+                        f.b_angle = angleBetweenLineAndAxis(t.start, glm::vec2(intersection.x, intersection.y));
+                    }
+
+
+                    forbidden_angle.push_back(angleBetweenLineAndAxis(t.start, glm::vec2(intersection.x, intersection.y)));
+
+                    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1, 0, 0, 1);
                     draw_point(intersection.x, intersection.y);
-                          vertices1[i] = intersection.x;
-                            vertices1[i+1] = intersection.y;
+                    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
+                    int c = i;
+                    
+                    while (glm::distance(t.start, lines[c].start) < radius)
+                    {      
+                      //  draw_point(lines[c].start.x, lines[c].start.y);
+                        f.intersection_shape.push_back(lines[c].start.x);
+                        f.intersection_shape.push_back(lines[c].start.y);
+                        f.intersection_shape.push_back(0);
+
+                        a1 = angleBetweenLineAndAxis(t.start, glm::vec2(lines[c].start));
+                        c++;
+                        if (c > lines.size() - 1)
                             break;
+                    }
+                    c = i;
+                    while (glm::distance(t.start, lines[c].start) < radius)
+                    {
+                      //  draw_point(lines[c].start.x, lines[c].start.y);
+                        f.intersection_shape.push_back(lines[c].start.x);
+                        f.intersection_shape.push_back(lines[c].start.y);
+                        f.intersection_shape.push_back(0);
+                        c--;
+                        if (c < 0)
+                            break;
+                    }
+                    if (flag == true)
+                        intersection_shapes.push_back(f);
+
+                    flag = !flag;
+
                 }
             }
         }
- 
-  
+
+
 
     }
 
- 
+    double current_angle = 0;
+    std::vector<GLfloat> shape;
+    int intersect_number = 0;
+    while (current_angle < 2*M_PI)
+    {
 
+        current_angle += 0.01;
+        if (!is_forbidden(current_angle, intersection_shapes))
+        {
+            shape.push_back(radius * cos(current_angle) + 0 - x);
+            shape.push_back(radius * sin(current_angle) - 0 + y);
+            shape.push_back(0);
+        }
+        else
+        {
+            glm::vec2 cur;
+            //std::cout << "ANGLES " <<intersect_number << std::endl;
+            if (shape.size() > 2)
+                cur = glm::vec2(shape[shape.size() - 3], shape[shape.size() - 2]);
+            else
+                cur = glm::vec2(0, 0);
+            if (glm::distance(cur, intersection_shapes[intersect_number].first_point()) > glm::distance(cur, intersection_shapes[intersect_number].last_point()))
+                std::cout << "first" << std::endl;
+            else
+                std::cout << "second" << std::endl;
+            intersection_shapes[intersect_number].reverse();
+            // shape.insert(shape.end(), intersection_shapes[intersect_number].intersection_shape.begin(), intersection_shapes[intersect_number].intersection_shape.end());
+            for (int i = 0; i < intersection_shapes[intersect_number].intersection_shape.size()-3; i+=3)
+            {
 
- 
+                shape.push_back(intersection_shapes[intersect_number].intersection_shape[i]);
+                shape.push_back(intersection_shapes[intersect_number].intersection_shape[i + 1]);
+                shape.push_back(intersection_shapes[intersect_number].intersection_shape[i + 2]);
+            }
+            current_angle = intersection_shapes[intersect_number].b_angle;
 
+            intersect_number++;
+        }
+    }
+  
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, (num_segments + 2) * 3 * sizeof(GLfloat), vertices1, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, shape.size() * sizeof(GLfloat), shape.data(), GL_DYNAMIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, num_segments + 2);
-    //draw_line(t.start.x, t.start.y, t.end.x, t.end.y);
+  //  std::cout << shape.size()<<std::endl;
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 1, 1);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, shape.size()/3);
+  
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
     delete[] vertices1;
