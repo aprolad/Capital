@@ -52,6 +52,7 @@ public:
 	}
 	void mouseCallback(double mx, double my)
 	{
+
 		if (mx > (x - sx) && mx < (x + sx) && my >(y - sy) && my < (y + sy))
 			action();
 	}

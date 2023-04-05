@@ -9,7 +9,6 @@
 class Visualization
 {
 public:
-
 	Visualization()
 	{
 
@@ -49,7 +48,9 @@ public:
 		glfwGetFramebufferSize(window, &width, &height);
 
 		glViewport(0, 0, width, height);
-		//glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1920, GLFW_DONT_CARE);
+		
+		glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
+	
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetMouseButtonCallback(window, mouse_button_callback);
 	}
@@ -68,13 +69,26 @@ public:
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 		{
 			double xpos, ypos;
+			int width, height;
+			glfwGetFramebufferSize(window, &width, &height);
 			glfwGetCursorPos(window, &xpos, &ypos);
-			std::cout << xpos << " " << ypos << std::endl;
-			scene[choosenScene]->mouseInvoke(xpos, 1440 - ypos);
+			scene[choosenScene]->mouseInvoke(xpos, height - ypos);
 		}
 	}
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 	{
+		if (key == GLFW_KEY_F && action == GLFW_PRESS)
+		{
+			fullscreen = !fullscreen;
+			if (fullscreen)
+			{
+				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
+			}
+			else
+			{
+				glfwSetWindowMonitor(window, nullptr, 0, 0, 2560, 1440, GLFW_DONT_CARE);
+			}
+		}
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		
@@ -102,6 +116,8 @@ public:
 		mm.initialize();
 		mm.window = window;
 		scene.push_back(&mm);
+
+
 	}
 	void OGL_mainLoop()
 	{
@@ -128,7 +144,6 @@ public:
 			double elapsed = glfwGetTime();
 			glfwSetTime(0.0);
 
-			// Calculate the actual frame rate
 			double fps = 1.0 / elapsed;
 
 
@@ -171,4 +186,6 @@ public:
 	{
 
 	}
+	private:
+		static bool fullscreen;
 };
