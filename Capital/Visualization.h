@@ -1,7 +1,7 @@
 #pragma once
-
+#include <time.h>
 #include "Header.h"
-
+#include <chrono>
 //#include "Interface/mainStatistic.h"
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
@@ -117,11 +117,21 @@ public:
 
 	
 		construct_game();
-
-
+		glfwSetTime(0.0);
+		double avgFps = 0;
+		double totalTime = 0.0;
+		int frameCount = 0;
 		glUseProgram(shaderProgram);
+	
 		while (!glfwWindowShouldClose(window))
 		{
+			double elapsed = glfwGetTime();
+			glfwSetTime(0.0);
+
+			// Calculate the actual frame rate
+			double fps = 1.0 / elapsed;
+
+
 			glm::mat4 projection = glm::ortho(0.0f, float(2560), 0.0f, float(1440));
 			glUseProgram(shaderProgram);
 			GLuint transformLoc = glGetUniformLocation(shaderProgram, "projection");
@@ -137,13 +147,24 @@ public:
 
 
 			scene[choosenScene]->draw();
-
+			RenderText(fontShader, "FPS: " + std::to_string(avgFps), 20, 50, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 		
 			glUseProgram(fontShader);
 			transformLoc = glGetUniformLocation(fontShader, "projection");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 			glfwSwapBuffers(window);
+			frameCount++;
+			totalTime += elapsed;
+
+			
+			// Calculate the average frame rate every 100 frames
+			if (frameCount % 100 == 0)
+			{
+				avgFps = 100.0 / totalTime;
+				frameCount = 0;
+				totalTime = 0.0;
+			}
 		}
 	}
 	void process()

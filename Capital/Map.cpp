@@ -262,7 +262,6 @@ void Map::draw_zone_of_control()
     double a1=0, a2=0, b=0;
     for (int i = 0; i < (num_segments + 2) * 3; i += 3) {
 
-        glm::vec2 base;
         glm::vec2 intersection;
 
         double current_angle = angle * (i / 3 - 1);
@@ -369,10 +368,10 @@ void Map::draw_zone_of_control()
                 cur = glm::vec2(shape[shape.size() - 3], shape[shape.size() - 2]);
             else
                 cur = glm::vec2(0, 0);
-            if (glm::distance(cur, intersection_shapes[intersect_number].first_point()) > glm::distance(cur, intersection_shapes[intersect_number].last_point()))
-                std::cout << "first" << std::endl;
-            else
-                std::cout << "second" << std::endl;
+         //   if (glm::distance(cur, intersection_shapes[intersect_number].first_point()) > glm::distance(cur, intersection_shapes[intersect_number].last_point()))
+         //       std::cout << "first" << std::endl;
+          //  else
+          //      std::cout << "second" << std::endl;
             intersection_shapes[intersect_number].reverse();
             // shape.insert(shape.end(), intersection_shapes[intersect_number].intersection_shape.begin(), intersection_shapes[intersect_number].intersection_shape.end());
             for (int i = 0; i < intersection_shapes[intersect_number].intersection_shape.size()-3; i+=3)
