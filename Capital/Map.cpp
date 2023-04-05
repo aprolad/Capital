@@ -176,29 +176,42 @@ int Map::init()
    // std::cout << map() << std::endl;
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;
-    size = 8;
+    size = 18;
    // x = 100;
     y = -100;
     OGRFeature::DestroyFeature(poFeature);
 
 }
+void Map::draw_border()
+{
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.133, 0.545, 0.545, 1);
+    draw_line(700, -165, 700, -990);
+    draw_line(-330, -165, -330, -990);
+    draw_line(-330, -165, 700, -165);
+    draw_line(-330, -990, 700, -990);
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+}
 int Map::draw()
 {
     {
         glUseProgram(shaderProgram);
-        glm::vec4 vec(0.0f, 0.0f, 0.0f, 1.0f);
+
+        draw_border();
+
         glm::mat4 trans;
         trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
         trans = glm::scale(trans, glm::vec3(size, size, size));
         //trans = glm::translate(trans, glm::vec3(-center_point.position.x, center_point.position.y, 0.0f));
         trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-        glViewport(1080, 070, 2560, 1400);
+        glViewport(1080, 300, 1000, 800);
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
         
+       // draw_quad(0, -150, 50);
+        glLineWidth(3);
 
         for (auto feature_iter : map_features)
         {
@@ -224,6 +237,8 @@ int Map::draw()
             glDrawArrays(GL_LINE_STRIP, 0, feature_iter.size());
             glBindVertexArray(0);
         }
+
+
         draw_zone_of_control();
         trans = glm::mat4(1);
         trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
@@ -234,19 +249,9 @@ int Map::draw()
         return 0;
     }
 }
-void Map::draw_zone_of_control()
+void Map::calculate_zone_of_control()
 {
-    glm::mat4 trans;
-    trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
-    trans = glm::scale(trans, glm::vec3(size, size, size));
-  //  trans = glm::translate(trans, glm::vec3(center_point.position.x, -center_point.position.y, 0.0f));
-    trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-    trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
-    trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
-    GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-    GLuint vao, vbo;
+    shape.clear();
     int num_segments = 150;
     float radius = 10;
     long double angle = 2.0f * M_PI / num_segments;
@@ -260,7 +265,7 @@ void Map::draw_zone_of_control()
 
         glm::vec2 intersection;
 
-        double current_angle = angle * (i / 3 - 1);   
+        double current_angle = angle * (i / 3 - 1);
         auto prev = t.end;
 
         t.start = glm::vec2(0 - x, 0 + y);
@@ -275,9 +280,9 @@ void Map::draw_zone_of_control()
         pr.end = t.end;
 
 
-        for (int i = 0; i<lines.size(); i++)
+        for (int i = 0; i < lines.size(); i++)
         {
-         //   if (glm::distance(t.start, b.start) < radius || glm::distance(t.start, b.end) < radius)
+            //   if (glm::distance(t.start, b.start) < radius || glm::distance(t.start, b.end) < radius)
             {
                 intersection = findIntersection(&lines[i].start, &lines[i].end, &pr.start, &pr.end);
                 if (!(intersection.x == 0 && intersection.y == 0))
@@ -292,10 +297,10 @@ void Map::draw_zone_of_control()
                     {
                         f.b_angle = angleBetweenLineAndAxis(t.start, glm::vec2(intersection.x, intersection.y));
                     }
-                    int c = i;              
+                    int c = i;
                     while (glm::distance(t.start, lines[c].start) < radius)
-                    {      
-                      //  draw_point(lines[c].start.x, lines[c].start.y);
+                    {
+                        //  draw_point(lines[c].start.x, lines[c].start.y);
                         f.intersection_shape.push_back(lines[c].start.x);
                         f.intersection_shape.push_back(lines[c].start.y);
                         f.intersection_shape.push_back(0);
@@ -307,7 +312,7 @@ void Map::draw_zone_of_control()
                     c = i;
                     while (glm::distance(t.start, lines[c].start) < radius)
                     {
-                      //  draw_point(lines[c].start.x, lines[c].start.y);
+                        //  draw_point(lines[c].start.x, lines[c].start.y);
                         f.intersection_shape.push_back(lines[c].start.x);
                         f.intersection_shape.push_back(lines[c].start.y);
                         f.intersection_shape.push_back(0);
@@ -327,9 +332,9 @@ void Map::draw_zone_of_control()
     }
 
     double current_angle = 0;
-    std::vector<GLfloat> shape;
+ 
     int intersect_number = 0;
-    while (current_angle < 2*M_PI)
+    while (current_angle < 2 * M_PI)
     {
         current_angle += 0.01;
         shape.push_back(radius * cos(current_angle) + 0 - x);
@@ -345,6 +350,24 @@ void Map::draw_zone_of_control()
             shape.push_back(ic.intersection_shape[i + 1]);
             shape.push_back(ic.intersection_shape[i + 2]);
         }
+}
+void Map::draw_zone_of_control()
+{
+    glm::mat4 trans;
+    trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
+    trans = glm::scale(trans, glm::vec3(size, size, size));
+  //  trans = glm::translate(trans, glm::vec3(center_point.position.x, -center_point.position.y, 0.0f));
+    trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
+    trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
+    trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
+    GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+    GLuint vao, vbo;
+    if (previous_x != x || previous_y != y)
+        calculate_zone_of_control();
+    previous_x = x;
+    previous_y = y;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 

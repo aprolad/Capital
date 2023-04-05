@@ -9,7 +9,6 @@
 #include "Header.h"
 struct Vertex {
     glm::vec2 position;
-
 };
 struct Line
 {
@@ -34,5 +33,10 @@ public:
     int init();
     int draw();
     void draw_zone_of_control();
+private:
+    double previous_x, previous_y;
+    std::vector<GLfloat> shape;
+    void calculate_zone_of_control();
+    void draw_border();
 };
 

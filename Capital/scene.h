@@ -42,15 +42,20 @@ class mainMenuScene : virtual public scene
 public:
 	void construct_scene()
 	{
-		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 150, 100, 50, "Exit");
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 150, 100, 50, "Exit");
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { exit(0); };
 
+	
 
 
-		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 400, 100, 50, "Start");
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 370, 100, 50, "Start");
 		graphic_elements.push_back(t);
 		graphic_elements[1]->action = []() -> void { *choosen_scene = 1; };
+
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 260, 100, 50, "Settings");
+		graphic_elements.push_back(t);
+		graphic_elements[2]->action = []() -> void { *choosen_scene = 1; };
 
 	}
 	
@@ -67,7 +72,7 @@ public:
 		map.shaderProgram = shaderProgram;
 		map.init();
 
-		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 400, 100, 50, "Return");
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 400, 100, 50, "Return");
 		t->init();
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
@@ -75,7 +80,11 @@ public:
 		
 		root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1270, 150, 50, "Economics"));
 
-		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 600, 1270, 150, 50, "Demographics"));
+		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 600, 1270, 150, 50, "Socio"));
+
+		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 1000, 1270, 150, 50, "Technology"));
+
+		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 1400, 1270, 150, 50, "Goverment"));
 
 		Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, 2000, 1400, "Date: ");
 		Text_element* year_lable = (new Text_element())->set_properties(shaderProgram, fontShader, 2050, 1350, simulation->date.postfix);
