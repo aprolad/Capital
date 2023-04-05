@@ -32,7 +32,7 @@ struct forbidden_zone
     glm::vec2 last_point()
     {
         if (intersection_shape.size() > 2)
-        return glm::vec2(intersection_shape[intersection_shape.size()-3], intersection_shape[intersection_shape.size()-2]);
+            return glm::vec2(intersection_shape[intersection_shape.size()-3], intersection_shape[intersection_shape.size()-2]);
         else
             return glm::vec2(0, 0);
     }

@@ -194,7 +194,38 @@ class hunting : public industry
 {
 
 };
+class Simulation_date
+{
+	public:
+		Simulation_date(){}
+		Simulation_date(int sy)
+		{
+			starting_year = sy;
+		}
+	int starting_year;
+	int days_from_start;
+	int years_from_start;
+	int days_from_year_start;
+	int calendar_years;
 
+	std::string postfix;
+	void calculate_date()
+	{
+		days_from_start++;
+		years_from_start = days_from_start / 365;
+		days_from_year_start = days_from_start % 365;
+		if (starting_year < 0 && years_from_start < abs(starting_year))
+		{
+			calendar_years = abs(starting_year + years_from_start);
+			postfix = "BC";
+		}
+		else
+		{
+			calendar_years = starting_year + years_from_start;
+			postfix = "AD";
+		}
+	}
+};
 
 class simulation
 {
@@ -203,15 +234,15 @@ class simulation
 		simulation()
 		{
 			agriculture.geo = &geo;
-			date = 0;
+			date = *new Simulation_date(-4000);
 			go = false;
 			population.dependencyRate = 0.70;
 			mining.productivity = 5;
 			preference = 80;
 			computeOneDay();
-
-			
+		
 		}
+		Simulation_date date;
 		geography geo;
 		industry  mining;
 		agriculture agriculture;
@@ -220,7 +251,6 @@ class simulation
 		fishing fishing;
 		demography population;
 		
-		int date;
 		GDP GDP;
 		
 		double preference;
@@ -230,8 +260,8 @@ class simulation
 		}
 		void computeOneDay()
 		{
-			date += 1;
-			population.calc(date);
+			date.calculate_date();
+			population.calc(date.days_from_start);
 
 			agriculture.workers = int(population.laborPool * (preference / 100));
 			mining.workers = int(population.laborPool * (1 - preference / 100));

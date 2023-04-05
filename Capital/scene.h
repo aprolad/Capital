@@ -68,6 +68,7 @@ public:
 		map.init();
 
 		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 2250, 400, 100, 50, "Return");
+		t->init();
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
 
@@ -76,9 +77,11 @@ public:
 
 		root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, 600, 1270, 150, 50, "Demographics"));
 
-		Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date, shaderProgram, fontShader, 2000, 1400, "Date: ");
-		t->init();
+		Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, 2000, 1400, "Date: ");
+		Text_element* year_lable = (new Text_element())->set_properties(shaderProgram, fontShader, 2050, 1350, simulation->date.postfix);
+
 		graphic_elements.push_back(at);
+		graphic_elements.push_back(year_lable);
 
 		for (int i = 0; i< root_menus.size(); i++)
 		{
