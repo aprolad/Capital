@@ -208,8 +208,6 @@ int Map::draw()
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-        
-       // draw_quad(0, -150, 50);
         glLineWidth(3);
 
         for (auto feature_iter : map_features)
@@ -239,10 +237,7 @@ int Map::draw()
 
 
         draw_zone_of_control();
-        trans = glm::mat4(1);
-        trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
-        transformLoc = glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+        
         glViewport(0, 0, 2560, 1440);
         // Clean up
         return 0;

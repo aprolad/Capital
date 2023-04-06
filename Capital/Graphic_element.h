@@ -2,6 +2,7 @@
 #include "Header.h"
 #include "game/simulation.h"
 #include "Utility_graphic_functions.h"
+#include <iomanip>
 class Graphic_element
 {
 protected:
@@ -116,8 +117,10 @@ class Dynamic_text_element : virtual public Text_element
 {
 public:
 	T binded_value;
-	Dynamic_text_element* set_properties(T bind, GLuint shader, GLuint font, int ax, int ay, std::string atext)
+	std::string postfix;
+	Dynamic_text_element* set_properties(T bind, GLuint shader, GLuint font, int ax, int ay, std::string atext, std::string post)
 	{
+		postfix = post;
 		binded_value = bind;
 		shaderProgram = shader;
 		fontShader = font;
@@ -130,8 +133,11 @@ public:
 	void draw()
 	{
 		prepare_shaders();
-		string str = text+to_string(int(*binded_value));
-		RenderText(fontShader, str, x - 100 * 0.85, y, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(0) << *binded_value;
+		std::string s = stream.str();
+		//string str = text+to_string(double());
+		RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 
 };
@@ -148,9 +154,10 @@ public:
 		text_elements.push_back(t);
 
 	}
-	void add_dynamic_text_element(std::string atext, int x, int y, double* bind)
+	template <typename T>
+	void add_dynamic_text_element(std::string atext, std::string postfix, int x, int y, T bind)
 	{
-		Dynamic_text_element<double*>* t = (new Dynamic_text_element<double*>())->set_properties(bind, shaderProgram, fontShader, x, y, atext);
+		Dynamic_text_element<T>* t = (new Dynamic_text_element<T>())->set_properties(bind, shaderProgram, fontShader, x, y, atext, postfix);
 		t->init();
 		text_elements.push_back(t);
 
@@ -311,7 +318,7 @@ public:
 {
 		
 		data = std::vector(simulation->population.agePyramid.begin(), simulation->population.agePyramid.end());
-
+		data[0] = data[1];
 		prp();
 
 		string str = "";
@@ -390,9 +397,13 @@ public:
 	{
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
 
-		panel->add_dynamic_text_element("GDP: ", x, y-400, &simulation->GDP.total);
+		panel->add_dynamic_text_element("GDP: "," Denarius", x, y - 400, &simulation->GDP.total);
 
-		panel->add_dynamic_text_element("Wheat: ", x, y - 450, &simulation->agriculture.kgs);
+		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture.t);
+
+		panel->add_dynamic_text_element("Wheat: ", " Square km", x, y - 550, &simulation->geo.totalArableLand);
+
+		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 650, &simulation->agriculture.outputT);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		chartG = new Chart(900);
 		chartG->init();
@@ -431,10 +442,72 @@ public:
 		chart.init();
 		chart.set_properties(shaderProgram, fontShader, simulation);
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-		panel->add_dynamic_text_element("Population: ", 250, y - 400, &simulation->population.population);
-		panel->add_dynamic_text_element("Labor pool: ", 250, y - 450, &simulation->population.laborPool);
-		panel->add_dynamic_text_element("Food supply: ", 250, y - 500, &simulation->population.foodSupply);
+		panel->add_dynamic_text_element("Population: "," ", 250, y - 400, &simulation->population.population);
+		panel->add_dynamic_text_element("Labor pool: ","", 250, y - 450, &simulation->population.laborPool);
+		panel->add_dynamic_text_element("Food supply: ","", 250, y - 500, &simulation->population.foodSupply);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
+	}
+};
+
+class Technology_menu : virtual public Top_menu
+{
+public:
+
+	Chart* chartG;
+	void init()
+	{
+		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
+
+		
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
+		chartG = new Chart(900);
+		chartG->init();
+		chartG->set_properties(shaderProgram, fontShader, simulation);
+	}
+	void draw()
+	{
+		draw_button();
+
+		if (active)
+		{
+			panel->draw();
+
+			chartG->data = simulation->GDP.history;
+			chartG->draw();
+		}
+
+	}
+};
+
+class Goverment_menu : virtual public Top_menu
+{
+public:
+
+	Chart* chartG;
+	void init()
+	{
+		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
+
+		
+
+		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture.output);
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
+		chartG = new Chart(900);
+		chartG->init();
+		chartG->set_properties(shaderProgram, fontShader, simulation);
+	}
+	void draw()
+	{
+		draw_button();
+
+		if (active)
+		{
+			panel->draw();
+
+			chartG->data = simulation->GDP.history;
+			chartG->draw();
+		}
+
 	}
 };
 
@@ -504,4 +577,10 @@ public:
 		glUseProgram(shaderProgram);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0, 1);
 	}
+};
+
+class Multiple_choice_panel
+{
+public:
+
 };

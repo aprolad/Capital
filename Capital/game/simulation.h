@@ -31,9 +31,10 @@ public:
 	geography()
 	{
 		sqKilometres = 10000;
+		totalArableLand = sqKilometres * 0.01;
 	}
 	double sqKilometres;
-	double totalArableLand = 400000;
+	double totalArableLand;
 
 };
 
@@ -106,7 +107,7 @@ public:
 
 			if (i > 1 && i < 120)
 			{
-				double chanceToDie = (0.005 + (double(i)/70) * (0.1))/ 365 * (1 + foodSupply/100);
+				double chanceToDie = (0.005 + (double(i)/70) * (0.1))/ 365 * (2.8 - foodSupply/20);
 				if (i > 90)
 					chanceToDie *= 2 * log(i-90);
 				agePyramid[i]-= chanceToDie * agePyramid[i] * (0.2+engine()%200/100);
@@ -114,8 +115,8 @@ public:
 			}
 
 		}
-		births = fertilePop * totalFertilityRate / 25 / 2 * double(0.98 + double(rand() % 40) / 1000) * (1 + foodSupply/100);
-		agePyramid[0] = int(births);
+		births = fertilePop * totalFertilityRate / 25/ 365 / 2 * double(0.98 + double(rand() % 40) / 1000) * (0.1 + foodSupply/20);
+		agePyramid[0] += int(births);
 		fat = prevPop + births - population;
 		
 	}
@@ -164,9 +165,11 @@ class agriculture : public industry
 		consumerGoods wheat;
 		double price;
 		double kgs;
+		double t;
+		double outputT;
 		agriculture()
 		{
-			price = 2;
+			price = 0.1;
 			productivity = 1.65;
 		}
 		void compute();
@@ -267,11 +270,11 @@ class simulation
 			agriculture.compute();
 			mining.compute();
 
-			population.foodSupply = (agriculture.output - population.population * 0.85)/ population.population * 100;
+			population.foodSupply = agriculture.kgs/population.population/100;
 			
 			population.density = population.population / geo.sqKilometres;
 			GDP.total = 0;
-			GDP.total += mining.gdp;
+			//GDP.total += mining.gdp;
 			GDP.total += agriculture.gdp;
 			GDP.calcTotalGdp();
 		}
