@@ -3,7 +3,7 @@
 #include "Map.h"
 #include "Graphic_element.h"
 #include "Visualization.h"
-class scene
+class Scene
 {
 	public:
 		GLFWwindow* window;
@@ -13,7 +13,6 @@ class scene
 		std::vector<Graphic_element*> graphic_elements;
 		virtual void draw()
 		{
-
 			for (int i = 0; i < graphic_elements.size(); i++)
 				graphic_elements[i]->draw();
 		}
@@ -37,7 +36,7 @@ class scene
 			}
 		}
 };
-class mainMenuScene : virtual public scene
+class MainMenuScene : virtual public Scene
 {
 public:
 	void construct_scene()
@@ -46,14 +45,16 @@ public:
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { exit(0); };
 
-	
 
-
-		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 370, 100, 50, "Start");
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 480, 100, 50, "Start");
 		graphic_elements.push_back(t);
 		graphic_elements[1]->action = []() -> void { *choosen_scene = 1; };
 
 		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 260, 100, 50, "Settings");
+		graphic_elements.push_back(t);
+		graphic_elements[2]->action = []() -> void { *choosen_scene = 1; };
+
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 370, 100, 50, "Load game");
 		graphic_elements.push_back(t);
 		graphic_elements[2]->action = []() -> void { *choosen_scene = 1; };
 
@@ -62,7 +63,7 @@ public:
 };
 
 
-class mainGameScene : virtual public scene
+class MainGameScene : virtual public Scene
 {
 public:
 	Map map;
@@ -72,8 +73,8 @@ public:
 		map.shaderProgram = shaderProgram;
 		map.init();
 
-		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 400, 100, 50, "Return");
-		t->init();
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 150, 100, 50, "Return");
+		//t->init();
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
 
@@ -91,6 +92,9 @@ public:
 
 		graphic_elements.push_back(at);
 		graphic_elements.push_back(year_lable);
+
+		Panel* speed_choice_panel = (new Panel())->set_properties(shaderProgram, fontShader, 2050, 1250, 75, 35);
+		graphic_elements.push_back(speed_choice_panel);
 
 		for (int i = 0; i< root_menus.size(); i++)
 		{

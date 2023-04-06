@@ -1,10 +1,10 @@
 #include "Visualization.h"
-mainMenuScene Visualization::m = mainMenuScene();
-mainGameScene Visualization::mm = mainGameScene();
+MainMenuScene Visualization::m = MainMenuScene();
+MainGameScene Visualization::mm = MainGameScene();
 int Visualization::choosenScene = 0;
 bool Visualization::fullscreen = true;
 //void (*scene::change_scene) () = 0;
-int* scene::choosen_scene = 0;
-std::vector<scene*> Visualization::scene;
+int* Scene::choosen_scene = 0;
+std::vector<Scene*> Visualization::scene;
 
 simulation Visualization::simulation = ::simulation();

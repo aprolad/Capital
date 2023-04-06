@@ -201,6 +201,7 @@ class Simulation_date
 		Simulation_date(int sy)
 		{
 			starting_year = sy;
+			days_from_start =0;
 		}
 	int starting_year;
 	int days_from_start;
@@ -240,8 +241,9 @@ class simulation
 			mining.productivity = 5;
 			preference = 80;
 			computeOneDay();
-		
+			game_speed = 1;
 		}
+		static int game_speed;
 		Simulation_date date;
 		geography geo;
 		industry  mining;
@@ -280,6 +282,7 @@ class simulation
 		void cycle()
 		{
 			if (go)
-				computeOneDay();
+				for (int i=0; i<game_speed;i++)
+					computeOneDay();
 		}
 };

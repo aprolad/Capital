@@ -8,6 +8,7 @@ protected:
 	GLuint VBO, VAO;
 
 	GLuint shaderProgram, fontShader;
+	double size_x, size_y;
 	int x, y;
 public:
 	simulation* simulation;
@@ -38,6 +39,7 @@ public:
 	//int size;
 	std::string text;
 	int sx, sy;
+	glm::vec3 text_color;
 	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
 		shaderProgram = shader;
@@ -48,13 +50,15 @@ public:
 		this->sy = sy;
 		//size = 100;
 		text = atext;
+		text_color = { 1.0, 0.0f, 0.0f };
+		init();
 		return this;
 	}
 	void mouseCallback(double mx, double my)
 	{
-
-		if (mx > (x - sx) && mx < (x + sx) && my >(y - sy) && my < (y + sy))
-			action();
+		if (action !=nullptr)
+			if (mx > (x - sx) && mx < (x + sx) && my >(y - sy) && my < (y + sy))
+				action();
 	}
 	void init()
 	{
@@ -81,8 +85,8 @@ public:
 	void draw()
 	{
 		prepare_shaders();
-
-		RenderText(fontShader, text, x - 100 * 1, y, 150 / 150, glm::vec3(1.0, 0.0f, 0.0f));
+		double size = 3 / double(text.size()) + 0.4;
+		RenderText(fontShader, text, x - sx * 0.9, y-20, 1, text_color);
 
 	}
 
@@ -123,7 +127,6 @@ public:
 		y = ay;
 		size = 100;
 		text = atext;
-		std::cout <<"!"<< bind << endl;
 		return this;
 	}
 	void draw()
@@ -343,6 +346,15 @@ public:
 	Quad_button* base;
 	bool active;
 	Information_panel* panel;
+	void draw_button()
+	{
+		glUseProgram(shaderProgram);
+		if (active)
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.5, 0.5, 1, 1);
+		base->draw();
+		glUseProgram(shaderProgram);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
+	}
 	void mouseCallback(double mx, double my)
 	{
 		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
@@ -361,11 +373,13 @@ public:
 	}
 	void draw()
 	{
-		base->draw();
+		
 		if (active)
 		{
 			panel->draw();
 		}
+		base->draw();
+		
 	}
 };
 
@@ -388,13 +402,16 @@ public:
 	}
 	void draw()
 	{
-		base->draw();
+		draw_button();
+
 		if (active)
 		{
 			panel->draw();
+
 			chartG->data = simulation->GDP.history;
 			chartG->draw();
 		}
+		
 	}
 };
 class Demographics_menu : virtual public Top_menu
@@ -404,7 +421,7 @@ public:
 	Chart* chartG;
 	void draw()
 	{
-		base->draw();
+		draw_button();
 		if (active)
 		{
 			panel->draw();
@@ -422,5 +439,73 @@ public:
 		panel->add_dynamic_text_element("Food supply: ", 250, y - 500, &simulation->population.foodSupply);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		base->init();
+	}
+};
+
+class Panel : virtual public Graphic_element
+{
+public:
+	void mouseCallback(double mx, double my)
+	{
+		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
+			for (auto a : buttons)
+				a.mouseCallback(mx, my);
+	}
+	Quad_button buttons[3];
+	static int* gs;
+	Panel* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy)
+	{
+		shaderProgram = shader;
+		fontShader = font;
+		x = ax;
+		y = ay;
+		size_x = sx;
+		size_y = sy;
+		init();
+		gs = &simulation->game_speed;
+		buttons[0] = *(new Quad_button())->set_properties(shaderProgram, fontShader, 2005, 1250, 20, 20, "1");
+		buttons[0].text_color = { 1,0,0 };
+		buttons[0].action = []() -> void { *gs = 1; };
+		buttons[1] = *(new Quad_button())->set_properties(shaderProgram, fontShader, 2050, 1250, 20, 20, "2");
+		buttons[1].text_color = { 1,1,0 };
+		buttons[1].action = []() -> void { *gs = 10; };
+		buttons[2] = *(new Quad_button())->set_properties(shaderProgram, fontShader, 2095, 1250, 20, 20, "3");
+		buttons[2].text_color = { 0,1,0 };
+		buttons[2].action = []() -> void { *gs = 100; };
+		return this;
+	}
+	void init()
+	{
+		GLfloat vertices[] = {
+		size_x, -size_y, 0.0f,
+		size_x, size_y, 0.0f,
+		-size_x, -size_y, 0.0f,
+		-size_x, size_y, 0.0f
+		};
+
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
+		glBindVertexArray(VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+	void draw()
+	{
+
+		prepare_shaders();
+		
+		glUseProgram(shaderProgram);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.3, 0.3, 0, 1);
+		for (auto a : buttons)
+			a.draw();
+		glUseProgram(shaderProgram);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0, 1);
 	}
 };

@@ -172,8 +172,7 @@ int Map::init()
             map_features.push_back(vertices);
         }
     }
-    std::cout << lines.size() << std::endl;
-   // std::cout << map() << std::endl;
+
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;
     size = 18;
@@ -184,11 +183,11 @@ int Map::init()
 }
 void Map::draw_border()
 {
-    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.133, 0.545, 0.545, 1);
-    draw_line(700, -165, 700, -990);
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.5, 0.5, 1, 1);
+    draw_line(1040, -165, 1040, -990);
     draw_line(-330, -165, -330, -990);
-    draw_line(-330, -165, 700, -165);
-    draw_line(-330, -990, 700, -990);
+    draw_line(-330, -165, 1040, -165);
+    draw_line(-330, -990, 1040, -990);
     glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
 }
 int Map::draw()
@@ -203,7 +202,7 @@ int Map::draw()
         trans = glm::scale(trans, glm::vec3(size, size, size));
         //trans = glm::translate(trans, glm::vec3(-center_point.position.x, center_point.position.y, 0.0f));
         trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-        glViewport(1080, 300, 1000, 800);
+        glViewport(1080, 290, 85*16, 85*9);
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
@@ -378,7 +377,7 @@ void Map::draw_zone_of_control()
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(vao);
-    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 1, 1);
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1, 0, 0, 1);
     glDrawArrays(GL_POINTS, 0, shape.size()/3);
   
     glDeleteBuffers(1, &vbo);

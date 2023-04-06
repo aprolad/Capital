@@ -1,26 +1,22 @@
 #pragma once
-#include <time.h>
+
 #include "Header.h"
-#include <chrono>
-//#include "Interface/mainStatistic.h"
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
 #include "Scene.h"
 class Visualization
 {
 public:
-	Visualization()
-	{
+	Visualization(){}
 
-	}
 	static simulation simulation;
 	GLuint shaderProgram;
 	GLuint fontShader;
-	static mainMenuScene m;
-	static mainGameScene mm;
+	static MainMenuScene m;
+	static MainGameScene mm;
 	static int choosenScene;
 	GLFWwindow* window;
-	static std::vector<scene*> scene;
+	static std::vector<Scene*> scene;
 	int window_initialization(GLFWwindow*& window)
 	{
 
@@ -48,9 +44,9 @@ public:
 		glfwGetFramebufferSize(window, &width, &height);
 
 		glViewport(0, 0, width, height);
-		
-		glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
-	
+		glfwSetWindowMonitor(window, nullptr, 0, 0, 2560, 1440, GLFW_DONT_CARE);
+		//glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
+		glfwSwapInterval(1);
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetMouseButtonCallback(window, mouse_button_callback);
 	}
