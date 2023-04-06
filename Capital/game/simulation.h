@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <deque>
+#include <iostream>
 using namespace std;
 struct GDP
 {
@@ -22,6 +23,7 @@ struct GDP
 	}
 };
 
+class simulation;
 
 class geography
 {
@@ -158,28 +160,16 @@ public:
 class agriculture : public industry
 {
 	public:
+		simulation* sim;
 		consumerGoods wheat;
 		double price;
+		double kgs;
 		agriculture()
 		{
 			price = 2;
 			productivity = 1.65;
 		}
-		void compute(demography* p)
-		{
-			double usedLand;
-			if (workers < geo->totalArableLand)
-				usedLand = workers;
-			else
-				usedLand = geo->totalArableLand;
-
-			wheat.naturalOutput = usedLand * productivity;
-
-			output = wheat.naturalOutput;
-
-			gdp = output * price;
-			wheat.calc(p);
-		}
+		void compute();
 };
 class forestry : public industry
 {
@@ -208,7 +198,8 @@ class Simulation_date
 	int years_from_start;
 	int days_from_year_start;
 	int calendar_years;
-
+	enum months {Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec};
+	int current_month;
 	std::string postfix;
 	void calculate_date()
 	{
@@ -225,7 +216,10 @@ class Simulation_date
 			calendar_years = starting_year + years_from_start;
 			postfix = "AD";
 		}
+		current_month = days_from_year_start/31;
 	}
+private:
+
 };
 
 class simulation
@@ -240,8 +234,10 @@ class simulation
 			population.dependencyRate = 0.70;
 			mining.productivity = 5;
 			preference = 80;
+			agriculture.sim = this;
 			computeOneDay();
 			game_speed = 1;
+
 		}
 		static int game_speed;
 		Simulation_date date;
@@ -268,7 +264,7 @@ class simulation
 			agriculture.workers = int(population.laborPool * (preference / 100));
 			mining.workers = int(population.laborPool * (1 - preference / 100));
 
-			agriculture.compute(&population);
+			agriculture.compute();
 			mining.compute();
 
 			population.foodSupply = (agriculture.output - population.population * 0.85)/ population.population * 100;

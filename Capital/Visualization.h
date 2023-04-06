@@ -14,6 +14,7 @@ public:
 	GLuint fontShader;
 	static MainMenuScene m;
 	static MainGameScene mm;
+	static SettingsMenuScene a;
 	static int choosenScene;
 	GLFWwindow* window;
 	static std::vector<Scene*> scene;
@@ -53,7 +54,7 @@ public:
 	int audio_initalization()
 	{
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
-			std::cout << "!!!";
+			std::cout << "Audio library error";
 		}
 		Mix_AllocateChannels(1);
 		//sample s("audio/1wav.wav", 32000);
@@ -97,21 +98,23 @@ public:
 	}
 	void construct_game()
 	{
-		m.shaderProgram = shaderProgram;
-		m.choosen_scene = &choosenScene;
-		m.fontShader = fontShader;
+
+
 		m.simulation = &simulation;
-		m.initialize();
-		
+		m.initialize(shaderProgram, fontShader, &choosenScene);
 		scene.push_back(&m);
 
-		mm.shaderProgram = shaderProgram;
-		mm.choosen_scene = &choosenScene;
-		mm.fontShader = fontShader;
+
 		mm.simulation = &simulation;
-		mm.initialize();
+		mm.initialize(shaderProgram, fontShader, &choosenScene);
 		mm.window = window;
 		scene.push_back(&mm);
+
+		
+		a.simulation = &simulation;
+		a.initialize(shaderProgram, fontShader, &choosenScene);
+		scene.push_back(&a);
+
 
 
 	}

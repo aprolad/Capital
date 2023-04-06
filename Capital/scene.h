@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Graphic_element.h"
 #include "Visualization.h"
+
 class Scene
 {
 	public:
@@ -24,8 +25,12 @@ class Scene
 		virtual void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 		{};
 		virtual void construct_scene() {};
-		virtual void initialize()
+		virtual void initialize(GLuint shaderProg, GLuint fontSh, int* chSC)
 		{
+			shaderProgram = shaderProg;
+			fontShader = fontSh;
+			choosen_scene = chSC;
+
 			construct_scene();
 			for (int i = 0; i < graphic_elements.size(); i++)
 			{
@@ -52,16 +57,31 @@ public:
 
 		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 260, 100, 50, "Settings");
 		graphic_elements.push_back(t);
-		graphic_elements[2]->action = []() -> void { *choosen_scene = 1; };
+		graphic_elements[2]->action = []() -> void { *choosen_scene = 2; };
 
 		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 370, 100, 50, "Load game");
 		graphic_elements.push_back(t);
-		graphic_elements[2]->action = []() -> void { *choosen_scene = 1; };
+		graphic_elements[3]->action = []() -> void { *choosen_scene = 1; };
 
 	}
 	
 };
 
+class SettingsMenuScene : virtual public Scene
+{
+public:
+	void construct_scene()
+	{
+		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 150, 100, 50, "Return");
+		graphic_elements.push_back(t);
+		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
+
+		t = (new Quad_button())->set_properties(shaderProgram, fontShader, 550, 150, 100, 50, "VSYNC");
+		graphic_elements.push_back(t);
+		graphic_elements[1]->action = []() -> void { *choosen_scene = 0; };
+	}
+
+};
 
 class MainGameScene : virtual public Scene
 {
@@ -74,7 +94,6 @@ public:
 		map.init();
 
 		Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, 250, 150, 100, 50, "Return");
-		//t->init();
 		graphic_elements.push_back(t);
 		graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
 
@@ -135,7 +154,6 @@ public:
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 			map.x -= 1 / map.size;
 	
-
 		for (int i = 0; i < graphic_elements.size(); i++)
 			graphic_elements[i]->draw();
 		

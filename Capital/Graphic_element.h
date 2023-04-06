@@ -36,7 +36,6 @@ public:
 class Quad_button : virtual public Graphic_element
 {
 public:
-	//int size;
 	std::string text;
 	int sx, sy;
 	glm::vec3 text_color;
@@ -48,7 +47,6 @@ public:
 		y = ay;
 		this->sx = sx;
 		this->sy = sy;
-		//size = 100;
 		text = atext;
 		text_color = { 1.0, 0.0f, 0.0f };
 		init();
@@ -165,6 +163,7 @@ public:
 		y = ay;
 		size_x = 120;
 		size_y = 250;
+		init();
 		return this;
 	}
 	void init()
@@ -329,7 +328,6 @@ class Top_menu : public virtual Quad_button
 {
 
 public:
-	int size_x, size_y;
 	std::vector<Top_menu*> *top_menus;
 	Top_menu* set_properties(std::vector<Top_menu*> *atop_menus, GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
@@ -391,11 +389,11 @@ public:
 	void init()
 	{
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-		panel->init();
-		//panel->add_text_element("Economics", 750, 1000);
+
 		panel->add_dynamic_text_element("GDP: ", x, y-400, &simulation->GDP.total);
+
+		panel->add_dynamic_text_element("Wheat: ", x, y - 450, &simulation->agriculture.kgs);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
-		base->init();
 		chartG = new Chart(900);
 		chartG->init();
 		chartG->set_properties(shaderProgram, fontShader, simulation);
@@ -433,12 +431,10 @@ public:
 		chart.init();
 		chart.set_properties(shaderProgram, fontShader, simulation);
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-		panel->init();
 		panel->add_dynamic_text_element("Population: ", 250, y - 400, &simulation->population.population);
 		panel->add_dynamic_text_element("Labor pool: ", 250, y - 450, &simulation->population.laborPool);
 		panel->add_dynamic_text_element("Food supply: ", 250, y - 500, &simulation->population.foodSupply);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
-		base->init();
 	}
 };
 
