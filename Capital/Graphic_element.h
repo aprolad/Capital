@@ -8,13 +8,35 @@ protected:
 	GLuint VBO, VAO;
 
 	GLuint shaderProgram, fontShader;
-	double size_x, size_y;
+
 	int x, y;
 public:
+	double size_x, size_y;
 	Simulation* simulation;
 	void (*action) ();
 	virtual void mouseCallback(double, double) {};
-	virtual void init() {};
+	virtual void init()
+	{
+		GLfloat vertices[] = {
+		size_x, -size_y, 0.0f,
+		size_x, size_y, 0.0f,
+		-size_x, -size_y, 0.0f,
+		-size_x, size_y, 0.0f
+		};
+
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
+		glBindVertexArray(VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
 	virtual void draw() {};
 	virtual void prepare_shaders() 
 	{
@@ -37,7 +59,6 @@ class Quad_button : virtual public Graphic_element
 {
 public:
 	std::string text;
-	int sx, sy;
 	glm::vec3 text_color;
 	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
@@ -45,8 +66,8 @@ public:
 		fontShader = font;
 		x = ax;
 		y = ay;
-		this->sx = sx;
-		this->sy = sy;
+		this->size_x = sx;
+		this->size_y = sy;
 		text = atext;
 		text_color = { 1.0, 0.0f, 0.0f };
 		init();
@@ -55,36 +76,15 @@ public:
 	void mouseCallback(double mx, double my)
 	{
 		if (action !=nullptr)
-			if (mx > (x - sx) && mx < (x + sx) && my >(y - sy) && my < (y + sy))
+			if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
 				action();
 	}
-	void init()
-	{
-		GLfloat vertices[] = {
-		sx, -sy, 0.0f,
-		sx, sy, 0.0f,
-		-sx, -sy, 0.0f,
-		-sx, sy, 0.0f
-		};
-
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-		glBindVertexArray(VAO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-		glEnableVertexAttribArray(0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
+	
 	void draw()
 	{
 		prepare_shaders();
 		double size = 3 / double(text.size()) + 0.4;
-		RenderText(fontShader, text, x - sx * 0.9, y-20, 1, text_color);
+		RenderText(fontShader, text, x - size_x * 0.9, y-20, 1, text_color);
 
 	}
 
@@ -142,7 +142,6 @@ public:
 class Information_panel : virtual public Graphic_element
 {
 public:
-	int size_x, size_y;
 	std::string text;
 	std::vector<Text_element*> text_elements;
 	void add_text_element(std::string atext, int x, int y)
@@ -171,28 +170,7 @@ public:
 		init();
 		return this;
 	}
-	void init()
-	{
-		GLfloat vertices[] = {
-		size_x, -size_y, 0.0f,
-		size_x, size_y, 0.0f,
-		-size_x, -size_y, 0.0f,
-		-size_x, size_y, 0.0f
-		};
-
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-		glBindVertexArray(VAO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-		glEnableVertexAttribArray(0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
+	
 	void draw()
 	{
 		prepare_shaders();
@@ -397,11 +375,11 @@ public:
 
 		panel->add_dynamic_text_element("GDP: "," Denarius", x, y - 400, &simulation->GDP.total);
 
-		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture.t);
+		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture->t);
 
 		panel->add_dynamic_text_element("Total arable land:  ", " Square km", x, y - 550, &simulation->geo.totalArableLand);
 
-		panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation->agriculture.outputT);
+		panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation->agriculture->outputT);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		chartG = new Chart(900);
 		chartG->init();
@@ -442,7 +420,7 @@ public:
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
 		panel->add_dynamic_text_element("Population: "," ", 250, y - 400, &simulation->population.population);
 		panel->add_dynamic_text_element("Labor pool: ","", 250, y - 450, &simulation->population.laborPool);
-		panel->add_dynamic_text_element("Food supply: ","", 250, y - 500, &simulation->population.foodSupply);
+		panel->add_dynamic_text_element("Food supply: ","%", 250, y - 500, &simulation->population.foodSupply);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 	}
 };
@@ -488,7 +466,7 @@ public:
 
 		
 
-		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture.output);
+		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture->output);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		chartG = new Chart(900);
 		chartG->init();
@@ -512,6 +490,7 @@ public:
 class Panel : virtual public Graphic_element
 {
 public:
+
 	void mouseCallback(double mx, double my)
 	{
 		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
@@ -541,28 +520,7 @@ public:
 		buttons[2].action = []() -> void { *gs = 100; };
 		return this;
 	}
-	void init()
-	{
-		GLfloat vertices[] = {
-		size_x, -size_y, 0.0f,
-		size_x, size_y, 0.0f,
-		-size_x, -size_y, 0.0f,
-		-size_x, size_y, 0.0f
-		};
-
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-		glBindVertexArray(VAO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-		glEnableVertexAttribArray(0);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
+	
 	void draw()
 	{
 

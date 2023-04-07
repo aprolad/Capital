@@ -83,7 +83,6 @@ bool is_forbidden(double angle, std::vector<forbidden_zone> forbidden_angle)
 {
     for (auto a : forbidden_angle)
     {
-        // std::cout << b << std::endl;
         if (angle > a.s_angle && angle < a.b_angle)
             return true;
     }

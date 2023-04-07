@@ -398,11 +398,11 @@ public:
 
 		panel->add_dynamic_text_element("GDP: "," Denarius", x, y - 400, &simulation->GDP.total);
 
-		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture.t);
+		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture->t);
 
 		panel->add_dynamic_text_element("Total arable land:  ", " Square km", x, y - 550, &simulation->geo.totalArableLand);
 
-		panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation->agriculture.outputT);
+		panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation->agriculture->outputT);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		chartG = new Chart(900);
 		chartG->init();
@@ -489,7 +489,7 @@ public:
 
 		
 
-		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture.output);
+		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture->output);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		chartG = new Chart(900);
 		chartG->init();

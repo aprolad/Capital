@@ -7,8 +7,12 @@
 class Visualization
 {
 public:
-	Visualization(){}
-
+	Visualization()
+	{
+		window_resolution.x = 2560;
+		window_resolution.y = 1440;
+	}
+	static glm::vec2 window_resolution;
 	static Simulation simulation;
 	GLuint shaderProgram;
 	GLuint fontShader;
@@ -26,7 +30,7 @@ public:
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-		window = glfwCreateWindow(2560, 1440, "Capital", nullptr, nullptr);
+		window = glfwCreateWindow(window_resolution.x, window_resolution.y, "Capital", nullptr, nullptr);
 		if (window == nullptr)
 		{
 			std::cout << "Failed to create GLFW window" << std::endl;
@@ -45,7 +49,7 @@ public:
 		glfwGetFramebufferSize(window, &width, &height);
 
 		glViewport(0, 0, width, height);
-		glfwSetWindowMonitor(window, nullptr, 0, 0, 2560, 1440, GLFW_DONT_CARE);
+		glfwSetWindowMonitor(window, nullptr, 0, 0, window_resolution.x, window_resolution.y, GLFW_DONT_CARE);
 		//glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
 		glfwSwapInterval(1);
 		glfwSetKeyCallback(window, key_callback);
@@ -79,11 +83,11 @@ public:
 			fullscreen = !fullscreen;
 			if (fullscreen)
 			{
-				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
+				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, window_resolution.x, window_resolution.y, GLFW_DONT_CARE);
 			}
 			else
 			{
-				glfwSetWindowMonitor(window, nullptr, 0, 0, 2560, 1440, GLFW_DONT_CARE);
+				glfwSetWindowMonitor(window, nullptr, 0, 0, window_resolution.x, window_resolution.y, GLFW_DONT_CARE);
 			}
 		}
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -146,7 +150,7 @@ public:
 			double fps = 1.0 / elapsed;
 
 
-			glm::mat4 projection = glm::ortho(0.0f, float(2560), 0.0f, float(1440));
+			glm::mat4 projection = glm::ortho(0.0f, float(window_resolution.x), 0.0f, float(window_resolution.y));
 			glUseProgram(shaderProgram);
 			GLuint transformLoc = glGetUniformLocation(shaderProgram, "projection");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(projection));

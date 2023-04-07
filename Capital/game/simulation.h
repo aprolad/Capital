@@ -4,6 +4,7 @@
 #include <vector>
 #include <deque>
 #include <iostream>
+#include <cmath>
 using namespace std;
 struct GDP
 {
@@ -54,7 +55,7 @@ public:
 			agePyramid[i] = 0;
 		}
 		for (int i=0; i<120; i++)
-		agePyramid[i] = (50 + engine()%10) * 365;
+		agePyramid[i] = (10 + engine()%1 - double(i)/10) * 365;
 	}
 	std::mt19937 engine;
 	double density;
@@ -107,7 +108,7 @@ public:
 
 			if (i > 1 && i < 120)
 			{
-				double chanceToDie = (0.005 + (double(i)/70) * (0.1))/ 365 * (2.8 - foodSupply/20);
+				double chanceToDie = (0.004 + (double(i)/80) * (0.1))/ 365 * (2.8 - foodSupply/100);
 				if (i > 90)
 					chanceToDie *= 2 * log(i-90);
 				agePyramid[i]-= chanceToDie * agePyramid[i] * (0.2+engine()%200/100);
@@ -115,33 +116,32 @@ public:
 			}
 
 		}
-		births = fertilePop * totalFertilityRate / 25/ 365 / 2 * double(0.98 + double(rand() % 40) / 1000) * (0.1 + foodSupply/20);
+		births = fertilePop * totalFertilityRate / 25/ 365 / 2 * double(0.98 + double(rand() % 40) / 1000) * (0.1 + foodSupply/100);
 		agePyramid[0] += int(births);
 		fat = prevPop + births - population;
 		
 	}
 };
-class consumerGoods
+class product
 {
 public:
-	consumerGoods()
+	product(Simulation* s)
 	{
-		price = 2;
+		sim = s;
+		price = 0.1;
 	}
+	Simulation* sim;
 	double aggregateDemand;
-	double naturalOutput;
+	double aggregateSupply;
+	double reserves;
 	double price;
-	void calc(demography* p)
-	{
-		aggregateDemand = p->population - ((price - 2) * (p->population) / 100);
-		//price = price + (aggregateDemand - naturalOutput) * 0.000001;
-
-		
-	}
+	double consumerCoverage;
+	void calc();
 };
-class exchange
+class market
 {
 public:
+	std::vector<product> products;
 
 };
 class industry
@@ -162,13 +162,15 @@ class Agriculture : public industry
 {
 	public:
 		Simulation* sim;
-		consumerGoods wheat;
+		product* wheat;
 		double price;
 		double kgs;
 		double t;
 		double outputT;
-		Agriculture()
+		Agriculture(Simulation* s)
 		{
+			sim = s;
+			wheat = new product(sim);
 			price = 0.1;
 			productivity = 1.65;
 		}
@@ -231,13 +233,12 @@ class Simulation
 	public:
 		Simulation()
 		{
-			agriculture.geo = &geo;
 			date = *new Simulation_date(-4000);
 			go = false;
 			population.dependencyRate = 0.70;
 			mining.productivity = 5;
 			preference = 80;
-			agriculture.sim = this;
+			agriculture = new Agriculture(this);
 			computeOneDay();
 			game_speed = 1;
 
@@ -246,7 +247,7 @@ class Simulation
 		Simulation_date date;
 		Geography geo;
 		industry  mining;
-		Agriculture agriculture;
+		Agriculture* agriculture;
 		forestry forestry;
 		hunting hunting;
 		fishing fishing;
@@ -264,18 +265,18 @@ class Simulation
 			date.calculate_date();
 			population.calc(date.days_from_start);
 
-			agriculture.workers = int(population.laborPool * (preference / 100));
+			agriculture->workers = int(population.laborPool * (preference / 100));
 			mining.workers = int(population.laborPool * (1 - preference / 100));
 
-			agriculture.compute();
+			agriculture->compute();
 			mining.compute();
 
-			population.foodSupply = agriculture.kgs/population.population/10;
+			population.foodSupply = agriculture->wheat->consumerCoverage * 100;
 			
 			population.density = population.population / geo.sqKilometres;
 			GDP.total = 0;
 			//GDP.total += mining.gdp;
-			GDP.total += agriculture.gdp;
+			GDP.total += agriculture->gdp;
 			GDP.calcTotalGdp();
 		}
 		void cycle()
