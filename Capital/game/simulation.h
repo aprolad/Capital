@@ -23,12 +23,12 @@ struct GDP
 	}
 };
 
-class simulation;
+class Simulation;
 
-class geography
+class Geography
 {
 public:
-	geography()
+	Geography()
 	{
 		sqKilometres = 10000;
 		totalArableLand = sqKilometres * 0.01;
@@ -147,7 +147,7 @@ public:
 class industry
 {
 public:
-	geography* geo;
+	Geography* geo;
 	double productivity;
 	double output;
 	double workers;
@@ -158,16 +158,16 @@ public:
 		gdp = output;
 	}
 };
-class agriculture : public industry
+class Agriculture : public industry
 {
 	public:
-		simulation* sim;
+		Simulation* sim;
 		consumerGoods wheat;
 		double price;
 		double kgs;
 		double t;
 		double outputT;
-		agriculture()
+		Agriculture()
 		{
 			price = 0.1;
 			productivity = 1.65;
@@ -225,11 +225,11 @@ private:
 
 };
 
-class simulation
+class Simulation
 {
 	bool go;
 	public:
-		simulation()
+		Simulation()
 		{
 			agriculture.geo = &geo;
 			date = *new Simulation_date(-4000);
@@ -244,9 +244,9 @@ class simulation
 		}
 		static int game_speed;
 		Simulation_date date;
-		geography geo;
+		Geography geo;
 		industry  mining;
-		agriculture agriculture;
+		Agriculture agriculture;
 		forestry forestry;
 		hunting hunting;
 		fishing fishing;
@@ -270,7 +270,7 @@ class simulation
 			agriculture.compute();
 			mining.compute();
 
-			population.foodSupply = agriculture.kgs/population.population/100;
+			population.foodSupply = agriculture.kgs/population.population/10;
 			
 			population.density = population.population / geo.sqKilometres;
 			GDP.total = 0;

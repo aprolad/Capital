@@ -1,6 +1,7 @@
 #pragma once
-#include "Header.h"
-#include "game/simulation.h"
+#include "../Header.h"
+#include "../game/Simulation.h"
+#include "Utility_graphic_functions.h"
 
 class Graphic_element
 {
@@ -132,9 +133,9 @@ public:
 	void draw()
 	{
 		prepare_shaders();
-		std::stringstream stream;
-		stream << std::fixed << std::setprecision(0) << *binded_value;
+		std::stringstream stream; stream << std::fixed << std::setprecision(0) << *binded_value;
 		std::string s = stream.str();
+		//string str = text+to_string(double());
 		RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 
@@ -166,8 +167,8 @@ public:
 		fontShader = font;
 		x = ax;
 		y = ay;
-		size_x = 220;
-		size_y = 350;
+		size_x = 120;
+		size_y = 250;
 		init();
 		return this;
 	}

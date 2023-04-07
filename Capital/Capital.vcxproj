@@ -156,28 +156,27 @@
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="Capital.cpp" />
     <ClCompile Include="font.cpp" />
-    <ClCompile Include="game\simulation.cpp" />
+    <ClCompile Include="game\Simulation.cpp" />
+    <ClCompile Include="Graphics\Graphic_element.cpp" />
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
-    <ClCompile Include="Graphic_element.cpp" />
+    <ClCompile Include="Graphics\Utility_graphic_functions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="misc\configLoader.cpp" />
-    <ClCompile Include="Simulation.cpp" />
-    <ClCompile Include="Utility_graphic_functions.cpp" />
     <ClCompile Include="Visualization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
     <ClInclude Include="Capital.h" />
     <ClInclude Include="font.h" />
-    <ClInclude Include="game\simulation.h" />
+    <ClInclude Include="game\Simulation.h" />
     <ClInclude Include="Graphics\CAP_shaderAux.h" />
+    <ClInclude Include="Graphics\Utility_graphic_functions.h" />
     <ClInclude Include="Graphic_element.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Utility_graphic_functions.h" />
     <ClInclude Include="Visualization.h" />
   </ItemGroup>
   <ItemGroup>

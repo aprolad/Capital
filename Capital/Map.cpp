@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
-#include "Utility_graphic_functions.h"
 #include <glm/glm.hpp>
 
 

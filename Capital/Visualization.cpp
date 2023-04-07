@@ -8,4 +8,4 @@ bool Visualization::fullscreen = true;
 int* Scene::choosen_scene = 0;
 std::vector<Scene*> Visualization::scene;
 
-simulation Visualization::simulation = ::simulation();
+Simulation Visualization::simulation = ::Simulation();

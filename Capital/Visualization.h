@@ -9,7 +9,7 @@ class Visualization
 public:
 	Visualization(){}
 
-	static simulation simulation;
+	static Simulation simulation;
 	GLuint shaderProgram;
 	GLuint fontShader;
 	static MainMenuScene m;

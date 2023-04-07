@@ -36,25 +36,22 @@
     <ClCompile Include="Capital.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic_element.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="game\simulation.cpp">
-      <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
     <ClCompile Include="Visualization.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
       <Filter>Исходные файлы\misc</Filter>
     </ClCompile>
-    <ClCompile Include="Utility_graphic_functions.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Simulation.cpp">
+    <ClCompile Include="Graphics\Graphic_element.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Utility_graphic_functions.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="game\Simulation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,16 +80,16 @@
     <ClInclude Include="Scene.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="game\simulation.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility_graphic_functions.h">
+    <ClInclude Include="game\Simulation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Файлы заголовков\misc</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Utility_graphic_functions.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,7 +8,7 @@ class Scene
 {
 	public:
 		GLFWwindow* window;
-		simulation* simulation;
+		Simulation* simulation;
 		static int* choosen_scene;
 		GLuint shaderProgram, fontShader;
 		std::vector<Graphic_element*> graphic_elements;
