@@ -34,8 +34,6 @@ class Scene
 			construct_scene();
 			for (int i = 0; i < graphic_elements.size(); i++)
 			{
-				
-				graphic_elements[i]->simulation = simulation;
 				graphic_elements[i]->init();
 
 			}

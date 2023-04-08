@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "misc/stb_image.h"
 #include "misc/stb_image_resize.h"
+extern Simulation simulation;
 class Visualization
 {
 public:
@@ -15,7 +16,6 @@ public:
 		window_resolution.y = 1440;
 	}
 	static glm::vec2 window_resolution;
-	static Simulation simulation;
 	GLuint shaderProgram;
 	GLuint fontShader;
 	static MainMenuScene m;

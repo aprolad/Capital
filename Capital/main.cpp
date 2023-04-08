@@ -10,7 +10,7 @@
 #undef main
 
 
-
+Simulation simulation = Simulation();
 int main()
 {
 

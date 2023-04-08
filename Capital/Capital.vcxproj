@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AMGUI\AMGUI.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="Capital.cpp" />
     <ClCompile Include="font.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Visualization.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AMGUI\AMGUI.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="Capital.h" />
     <ClInclude Include="font.h" />

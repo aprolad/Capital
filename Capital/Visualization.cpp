@@ -9,4 +9,4 @@ glm::vec2 Visualization::window_resolution = glm::vec2(0,0);
 int* Scene::choosen_scene = 0;
 std::vector<Scene*> Visualization::scene;
 
-Simulation Visualization::simulation = ::Simulation();
+//Simulation Visualization::simulation = ::Simulation();

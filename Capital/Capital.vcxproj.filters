@@ -54,6 +54,9 @@
     <ClCompile Include="game\Simulation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="AMGUI\AMGUI.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Файлы заголовков\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="AMGUI\AMGUI.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
