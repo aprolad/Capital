@@ -74,8 +74,10 @@ class Quad_button : virtual public Graphic_element
 public:
 	std::string text;
 	glm::vec3 text_color;
-	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
+	double text_size;
+	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext, double text_size = 1)
 	{
+		this->text_size = text_size;
 		shaderProgram = shader;
 		fontShader = font;
 		x = ax;
@@ -98,7 +100,7 @@ public:
 	{
 		prepare_shaders();
 		double size = 3 / double(text.size()) + 0.4;
-		RenderText(fontShader, text, x - size_x * 0.9, y - 20, 1, text_color);
+		RenderText(fontShader, text, x - size_x * 0.9, y - 20, text_size, text_color);
 
 	}
 
@@ -131,8 +133,10 @@ class Dynamic_text_element : virtual public Text_element
 public:
 	T binded_value;
 	std::string postfix;
-	Dynamic_text_element* set_properties(T bind, GLuint shader, GLuint font, int ax, int ay, std::string atext, std::string post)
+	double text_size;
+	Dynamic_text_element* set_properties(T bind, GLuint shader, GLuint font, int ax, int ay, std::string atext, std::string post, double text_size = 0.5)
 	{
+		this->text_size = text_size;
 		postfix = post;
 		binded_value = bind;
 		shaderProgram = shader;
@@ -149,7 +153,7 @@ public:
 		std::stringstream stream;
 		stream << std::fixed << std::setprecision(0) << *binded_value;
 		std::string s = stream.str();
-		RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, 0.5, glm::vec3(1.0, 0.0f, 0.0f));
+		RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
 	}
 
 };
