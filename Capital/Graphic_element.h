@@ -307,12 +307,13 @@ public:
 		}
 }
 };
-class Top_menu : public virtual Quad_button
-{
 
+
+class Multiple_choice_panel : virtual public Quad_button
+{
 public:
-	std::vector<Top_menu*> *top_menus;
-	Top_menu* set_properties(std::vector<Top_menu*> *atop_menus, GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
+	std::vector<Multiple_choice_panel*>* top_menus;
+	Multiple_choice_panel* set_properties(std::vector<Multiple_choice_panel*>* atop_menus, GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
 		shaderProgram = shader;
 		fontShader = font;
@@ -322,6 +323,7 @@ public:
 		size_y = sy;
 		text = atext;
 		top_menus = atop_menus;
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 		return this;
 	}
 	Quad_button* base;
@@ -341,7 +343,7 @@ public:
 		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
 		{
 			bool t = active;
-			for (int i = 0; i<top_menus->size(); i++)
+			for (int i = 0; i < top_menus->size(); i++)
 			{
 				(top_menus->at(i))->active = false;
 			}
@@ -350,60 +352,25 @@ public:
 	}
 	void init()
 	{
-	
+
 	}
 	void draw()
 	{
-		
+
 		if (active)
 		{
 			panel->draw();
 		}
 		base->draw();
-		
+
 	}
 };
 
-class Economics_menu : virtual public Top_menu
-{
-public:
-
-	Chart* chartG;
-	void init()
-	{
-		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-
-		panel->add_dynamic_text_element("GDP: "," Denarius", x, y - 400, &simulation->GDP.total);
-
-		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture->t);
-
-		panel->add_dynamic_text_element("Total arable land:  ", " Square km", x, y - 550, &simulation->geo.totalArableLand);
-
-		panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation->agriculture->outputT);
-		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
-		chartG = new Chart(900);
-		chartG->init();
-		chartG->set_properties(shaderProgram, fontShader, simulation);
-	}
-	void draw()
-	{
-		draw_button();
-
-		if (active)
-		{
-			panel->draw();
-
-			chartG->data = simulation->GDP.history;
-			chartG->draw();
-		}
-		
-	}
-};
-class Demographics_menu : virtual public Top_menu
+class Demographics_menu : virtual public Multiple_choice_panel
 {
 public:
 	ageChart chart;
-	Chart* chartG;
+	Chart* chartG; 
 	void draw()
 	{
 		draw_button();
@@ -425,7 +392,7 @@ public:
 	}
 };
 
-class Technology_menu : virtual public Top_menu
+class Technology_menu : virtual public Multiple_choice_panel
 {
 public:
 
@@ -455,7 +422,7 @@ public:
 	}
 };
 
-class Goverment_menu : virtual public Top_menu
+class Goverment_menu : virtual public Multiple_choice_panel
 {
 public:
 
@@ -463,8 +430,6 @@ public:
 	void init()
 	{
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-
-		
 
 		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture->output);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
@@ -535,8 +500,106 @@ public:
 	}
 };
 
-class Multiple_choice_panel
+
+class Agriculture_panel : virtual public Multiple_choice_panel
+{
+public:
+	void draw()
+	{
+		draw_button();
+
+		if (active)
+		{
+			panel->draw();
+		}
+
+	}
+};
+class Agriculture_sector_panel : virtual public Agriculture_panel
 {
 public:
 
+	void init()
+	{
+		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 150, 150);
+
+		panel->add_dynamic_text_element("GDPM: ", " Denarius", x, y - 400, &simulation->GDP.total);
+
+		panel->add_dynamic_text_element("WheatM: ", " Tonnes", x, y - 450, &simulation->agriculture->t);
+
+		panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x, y - 550, &simulation->geo.totalArableLand);
+
+		panel->add_dynamic_text_element("Wheat outpuMt: ", " Tonnes", x, y - 650, &simulation->agriculture->outputT);
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
+	
+	}
+
+};
+
+class Economics_menu : virtual public Multiple_choice_panel
+{
+public:
+	std::vector<Multiple_choice_panel*> root_menus;
+	Chart* chartG;
+	void init()
+	{
+		
+
+
+		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
+
+		panel->add_dynamic_text_element("GDP: ", " Denarius", x, y - 400, &simulation->GDP.total);
+
+		panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation->agriculture->t);
+
+		panel->add_dynamic_text_element("Total arable land:  ", " Square km", x, y - 550, &simulation->geo.totalArableLand);
+
+		panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation->agriculture->outputT);
+		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
+
+		root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1100, 125, 40, "Agriculture"));
+		root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1100, 125, 40, "Industry"));
+		root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 800, 1100, 125, 40, "Services"));
+		for (auto a : root_menus)
+		{
+			a->simulation = simulation;
+			a->init();
+		}
+
+		chartG = new Chart(900);
+		chartG->init();
+		chartG->set_properties(shaderProgram, fontShader, simulation);
+	}
+	void mouseCallback(double mx, double my)
+	{
+		for (auto a : root_menus)
+		{
+			a->mouseCallback(mx, my);
+		}
+		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
+		{
+			bool t = active;
+			for (int i = 0; i < top_menus->size(); i++)
+			{
+				(top_menus->at(i))->active = false;
+			}
+			active = !t;
+		}
+	}
+	void draw()
+	{
+		draw_button();
+
+		if (active)
+		{
+
+			panel->draw();
+			chartG->data = simulation->GDP.history;
+			chartG->draw();
+
+			for (auto a : root_menus)
+				a->draw();
+		}
+
+	}
 };

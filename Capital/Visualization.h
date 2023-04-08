@@ -4,6 +4,8 @@
 #include "Graphics/CAP_shaderAux.h"
 #include "audio.h"
 #include "Scene.h"
+#include "misc/stb_image.h"
+#include "misc/stb_image_resize.h"
 class Visualization
 {
 public:
@@ -45,15 +47,34 @@ public:
 			return -1;
 		}
 
-		int width, height;
-		glfwGetFramebufferSize(window, &width, &height);
+		int widtht, heightt;
+		glfwGetFramebufferSize(window, &widtht, &heightt);
 
-		glViewport(0, 0, width, height);
+		glViewport(0, 0, widtht, heightt);
 		glfwSetWindowMonitor(window, nullptr, 0, 0, window_resolution.x, window_resolution.y, GLFW_DONT_CARE);
 		//glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
 		glfwSwapInterval(1);
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetMouseButtonCallback(window, mouse_button_callback);
+
+		int icon_size = 256;
+
+		// Load the PNG image using stb_image
+		int width, height, channels;
+		unsigned char* icon_pixels = stbi_load("icon.png", &width, &height, &channels, STBI_rgb_alpha);
+
+		// Create a GLFWimage struct and set its width, height, and pixel data
+		GLFWimage icon;
+		icon.width = width;
+		icon.height = height;
+		icon.pixels = icon_pixels;
+
+		// Set the image as the GLFW window icon
+		glfwSetWindowIcon(window, 1, &icon);
+
+		// Free the allocated memory for the image pixels
+		stbi_image_free(icon_pixels);
+
 	}
 	int audio_initalization()
 	{

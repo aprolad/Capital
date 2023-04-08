@@ -87,7 +87,7 @@ class MainGameScene : virtual public Scene
 {
 public:
 	Map map;
-	std::vector<Top_menu*> root_menus;
+	std::vector<Multiple_choice_panel*> root_menus;
 	void construct_scene()
 	{
 		map.shaderProgram = shaderProgram;

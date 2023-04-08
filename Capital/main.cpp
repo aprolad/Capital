@@ -3,7 +3,10 @@
 #include FT_FREETYPE_H
 #include "Header.h"
 #include "Visualization.h"
-
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#include "misc/stb_image_resize.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "misc/stb_image.h"
 #undef main
 
 

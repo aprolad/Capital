@@ -176,6 +176,7 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="misc\configLoader.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Visualization.h" />
   </ItemGroup>
@@ -184,6 +185,12 @@
     <None Include="Graphics\shaders\fragmentFont.sh" />
     <None Include="Graphics\shaders\vertex.sh" />
     <None Include="Graphics\shaders\vertexFont.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Capital.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
