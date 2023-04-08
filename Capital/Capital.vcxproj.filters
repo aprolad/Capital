@@ -92,7 +92,7 @@
     <ClInclude Include="Graphics\Utility_graphic_functions.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
+    <ClInclude Include="resource.h">
       <Filter>Файлы заголовков\misc</Filter>
     </ClInclude>
   </ItemGroup>

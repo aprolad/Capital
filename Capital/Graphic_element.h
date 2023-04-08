@@ -13,6 +13,7 @@ protected:
 public:
 	double size_x, size_y;
 	Simulation* simulation;
+	//Visualization* v;
 	void (*action) ();
 	virtual void mouseCallback(double, double) {};
 	virtual void init()
@@ -187,6 +188,13 @@ public:
 class abs_chart : virtual public Graphic_element
 {
 public:
+	abs_chart(int len, int siz)
+	{
+		data.resize(len);
+		maxHistory.resize(1000);
+		sizing = siz;
+		length = 1200;
+	}
 	GLuint VAO1, VBO1;
 	vector<double> data;
 	int sizing;
@@ -201,7 +209,7 @@ public:
 		glGenBuffers(1, &VBO1);
 	}
 
-	void prp()
+	void draw()
 	{
 		auto min = std::min_element(std::begin(data), std::end(data));
 		auto max = std::max_element(std::begin(data), std::end(data));
@@ -254,25 +262,20 @@ public:
 		string str = "";
 		str = str + std::to_string(int(*std::max_element(std::begin(data), std::end(data))));
 		RenderText(fontShader, str, 540, 750, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
+
+		draw_scale();
 	}
+
+	virtual void draw_scale(){}
 };
 class Chart : virtual public abs_chart
 {
 public:
-	Chart(int len)
-	{
-		data.resize(len);
-		maxHistory.resize(1000);
-		sizing = len;
-		length = 1200;
+	Chart(int len, int siz) : abs_chart(len, siz){}
 
-	}
-		void draw()
+		void draw_scale()
 	{
-			
-			prp();
 		string str = "";
-
 		str = std::to_string(int(sizing));
 		RenderText(fontShader, str, 1500, 280, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 	}
@@ -281,31 +284,18 @@ public:
 class ageChart  : virtual public abs_chart
 {
 public:
-	
-	ageChart()
+	ageChart(int len, int siz) : abs_chart(len, siz) {}
+
+	void draw_scale()
 	{
-		data.resize(2000);
-		maxHistory.resize(1000);
-		sizing = 120;
-		length = 1200;
-	}
-
-	void draw()
-{
-		
-		data = std::vector(simulation->population.agePyramid.begin(), simulation->population.agePyramid.end());
-		data[0] = data[1];
-		prp();
-
 		string str = "";
-
 		for (int i = 0; i < 11; i++)
 		{
 			str = "";
-			str = str + std::to_string(i*10);
-			RenderText(fontShader, str, 600 + i*120, 330, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
+			str = str + std::to_string(i * 10);
+			RenderText(fontShader, str, 600 + i * 120, 330, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 		}
-}
+	}
 };
 
 
@@ -369,21 +359,23 @@ public:
 class Demographics_menu : virtual public Multiple_choice_panel
 {
 public:
-	ageChart chart;
-	Chart* chartG; 
+	ageChart* chart;
 	void draw()
 	{
+		chart->data = std::vector(simulation->population.agePyramid.begin(), simulation->population.agePyramid.end());
+		chart->data[0] = chart->data[1];
 		draw_button();
 		if (active)
 		{
 			panel->draw();
-			chart.draw();
+			chart->draw();
 		}
 	}
 	void init()
 	{
-		chart.init();
-		chart.set_properties(shaderProgram, fontShader, simulation);
+		chart = new ageChart(2000, 120);
+		chart->init();
+		chart->set_properties(shaderProgram, fontShader, simulation);
 		panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
 		panel->add_dynamic_text_element("Population: "," ", 250, y - 400, &simulation->population.population);
 		panel->add_dynamic_text_element("Labor pool: ","", 250, y - 450, &simulation->population.laborPool);
@@ -403,9 +395,7 @@ public:
 
 		
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
-		chartG = new Chart(900);
-		chartG->init();
-		chartG->set_properties(shaderProgram, fontShader, simulation);
+		
 	}
 	void draw()
 	{
@@ -415,8 +405,7 @@ public:
 		{
 			panel->draw();
 
-			chartG->data = simulation->GDP.history;
-			chartG->draw();
+		
 		}
 
 	}
@@ -433,9 +422,7 @@ public:
 
 		panel->add_dynamic_text_element("Wheat: ", "Kg" , x, y - 650, &simulation->agriculture->output);
 		base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
-		chartG = new Chart(900);
-		chartG->init();
-		chartG->set_properties(shaderProgram, fontShader, simulation);
+	
 	}
 	void draw()
 	{
@@ -445,8 +432,7 @@ public:
 		{
 			panel->draw();
 
-			chartG->data = simulation->GDP.history;
-			chartG->draw();
+	
 		}
 
 	}
@@ -566,7 +552,7 @@ public:
 			a->init();
 		}
 
-		chartG = new Chart(900);
+		chartG = new Chart(900, 900);
 		chartG->init();
 		chartG->set_properties(shaderProgram, fontShader, simulation);
 	}
