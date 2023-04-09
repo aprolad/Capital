@@ -125,12 +125,11 @@ public:
 class product
 {
 public:
-	product(Simulation* s)
+	product()
 	{
-		sim = s;
+
 		price = 0.1;
 	}
-	Simulation* sim;
 	double aggregateDemand;
 	double aggregateSupply;
 	double reserves;
@@ -138,13 +137,13 @@ public:
 	double consumerCoverage;
 	void calc();
 };
-class market
+class Market
 {
 public:
 	std::vector<product> products;
 
 };
-class industry
+class Industry
 {
 public:
 	Geography* geo;
@@ -158,36 +157,28 @@ public:
 		gdp = output;
 	}
 };
-class Agriculture : public industry
+class Agriculture : public Industry
 {
 	public:
-		Simulation* sim;
 		product* wheat;
 		double price;
 		double kgs;
 		double t;
 		double outputT;
-		Agriculture(Simulation* s)
+		double workplace_count;
+		double workforce;
+		Agriculture()
 		{
-			sim = s;
-			wheat = new product(sim);
+			wheat = new product();
 			price = 0.1;
-			productivity = 1.65;
 		}
 		void compute();
 };
-class forestry : public industry
+class Gathering : public Agriculture
 {
 public:
-
-};
-class fishing : public industry
-{
-
-};
-class hunting : public industry
-{
-
+	void compute();
+	product foraged_food;
 };
 class Simulation_date
 {
@@ -226,7 +217,11 @@ class Simulation_date
 private:
 
 };
-
+class Goverment
+{
+public:
+	double workforce;
+};
 class Simulation
 {
 	bool go;
@@ -236,9 +231,9 @@ class Simulation
 			date = *new Simulation_date(-4000);
 			go = false;
 			population.dependencyRate = 0.70;
-			mining.productivity = 5;
+			
 			preference = 80;
-			agriculture = new Agriculture(this);
+			agriculture = new Agriculture();
 			computeOneDay();
 			game_speed = 1;
 
@@ -246,16 +241,32 @@ class Simulation
 		static int game_speed;
 		Simulation_date date;
 		Geography geo;
-		industry  mining;
+		//industry  mining;
 		Agriculture* agriculture;
-		forestry forestry;
-		hunting hunting;
-		fishing fishing;
+		Gathering gathering;
 		demography population;
-		
+		Goverment goverment;
 		GDP GDP;
 		
 		double preference;
+		void calculate_jobs()
+		{
+			double free_workforce = population.laborPool;
+			goverment.workforce = population.population / 30;
+			free_workforce -= goverment.workforce;
+			if (free_workforce > agriculture->workplace_count)
+			{
+				agriculture->workforce = agriculture->workplace_count;
+				free_workforce -= agriculture->workplace_count;
+			}
+			else
+			{
+				agriculture->workforce = free_workforce;
+				free_workforce = 0;
+			}
+
+			gathering.workforce = free_workforce;
+		}
 		void pause()
 		{
 			go = !go;
@@ -265,11 +276,11 @@ class Simulation
 			date.calculate_date();
 			population.calc(date.days_from_start);
 
-			agriculture->workers = int(population.laborPool * (preference / 100));
-			mining.workers = int(population.laborPool * (1 - preference / 100));
+			calculate_jobs();
 
+			gathering.compute();
 			agriculture->compute();
-			mining.compute();
+			//mining.compute();
 
 			population.foodSupply = agriculture->wheat->consumerCoverage * 100;
 			
@@ -277,6 +288,7 @@ class Simulation
 			GDP.total = 0;
 			//GDP.total += mining.gdp;
 			GDP.total += agriculture->gdp;
+			GDP.total += gathering.output * 0.1;
 			GDP.calcTotalGdp();
 		}
 		void cycle()

@@ -72,6 +72,8 @@ void Demographics_menu::init()
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
 	panel->add_dynamic_text_element("Population: ", " ", 250, y - 400, &simulation.population.population);
 	panel->add_dynamic_text_element("Labor pool: ", "", 250, y - 450, &simulation.population.laborPool);
+	panel->add_dynamic_text_element("Gatherers: ", "", 250, y - 550, &simulation.gathering.workforce);
+	panel->add_dynamic_text_element("Goverment: ", "", 250, y - 650, &simulation.goverment.workforce);
 	panel->add_dynamic_text_element("Food supply: ", "%", 250, y - 500, &simulation.population.foodSupply);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 }
