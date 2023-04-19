@@ -2,53 +2,57 @@
 extern Simulation simulation;
 void Agriculture::compute()
 {
+	//income = money - last_day_balance;
+
+	//last_day_balance = money;
+
+
 	workplace_count = simulation.geo.totalArableLand * 300;
 
 	output = workforce * 800 * 250/300;
 
 	outputT = output/1000;
-	if (300 == simulation.date.days_from_year_start)
-		wheat->reserves += output*0.7;
-	double capacity = simulation.population.population * 1000;
-	if (wheat->reserves > capacity)
-		wheat->reserves = capacity;
 
-	wheat->calc();
+
+	for (int i = 0; i < 5; i++)
+		simulation.exc.put_sell_order(output / (5 * 365), simulation.exc.get_current_price() * 0.8 + i * 0.1, &simulation.agriculture->money);
+
+	simulation.population.money += income;
+	money -= income;
+
 
 	t = wheat->reserves / 1000;
-	gdp = output * price;
 	
 }
 
 void Gathering::compute()
 {
-	
+	//income = money - last_day_balance;
+
+	//last_day_balance = money;
+
+	double exhaust = sqrt(workforce / simulation.geo.sqKilometres / 15);
 	if (workforce!=0)
-		output = workforce * 1 * (10/(workforce/double(simulation.geo.sqKilometres)));
+		output = workforce * 1 / exhaust;
 
 	outputT = output / 1000;
 
 	simulation.agriculture->wheat->reserves += output;
 
+
+	for (int i = 0; i < 5; i++)
+		simulation.exc.put_sell_order(output / 5, simulation.exc.get_current_price() * 0.8 + i * 0.1, &simulation.gathering.money);
+
+
+	simulation.population.money += income;
+	money -= income;
+
+
 	t = wheat->reserves / 1000;
-	gdp = output * price;
 
 }
 
-void product::calc()
+void Product::calc()
 {
-	aggregateDemand = simulation.population.population * 0.5;
-	
 
-	if (reserves > aggregateDemand)
-		aggregateSupply = aggregateDemand;
-	else
-		aggregateSupply = reserves;
-
-	aggregateSupply *= 1 + (reserves / simulation.population.population / 1000 - 1);
-
-	reserves -= aggregateSupply;
-	if (aggregateDemand != 0)
-		consumerCoverage = aggregateSupply / aggregateDemand;
-	else consumerCoverage = 1;
 }

@@ -47,9 +47,11 @@ void Economics_menu::init()
 
 	panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation.agriculture->t);
 
-	panel->add_dynamic_text_element("Total arable land:  ", " Square km", x, y - 550, &simulation.geo.totalArableLand);
+	panel->add_dynamic_text_element("Wheat Price: ", " Tonnes", x+600, y - 450, &simulation.exc.current_price);
 
-	panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation.agriculture->outputT);
+	panel->add_dynamic_text_element("Total arable land:  ", " Square km", x, y - 550, &simulation.agriculture->income);
+
+	panel->add_dynamic_text_element("Wheat output: ", " Tonnes", x, y - 650, &simulation.population.money);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 
 	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1100, 125, 40, "Agriculture"));
