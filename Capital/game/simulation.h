@@ -7,13 +7,17 @@
 #include <cmath>
 #include <sstream>
 #include <iomanip>
+#define CAP_UNIT_OF_MEASURE_NO 0 
+#define CAP_UNIT_OF_MESURE_KG 1
+#define CAP_UNIT_OF_MESURE_MONEY 2
+#define CAP_UNIT_OF_MESURE_KM 3
 using namespace std;
 class Display_value
 {
 public:
-	Display_value(double value, int type)
+	Display_value(int type, double value = 0)
 	{
-		this->value = value;
+
 		this->type = type;
 	}
 	double value;
@@ -62,7 +66,7 @@ private:
 };
 struct GDP
 {
-	GDP() : total(Display_value(0,2))
+	GDP() : total(Display_value(CAP_UNIT_OF_MESURE_MONEY))
 	{
 		history.resize(900);
 	}
@@ -324,11 +328,19 @@ public:
 class Industry
 {
 public:
+	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY){}
 	Geography* geo;
 	double productivity;
-	double output;
+	Display_value output;
 	double workers;
 	double gdp;
+	double income;
+	double money;
+	double last_day_balance;
+	double workplace_count;
+	double workforce;
+	Display_value wages;
+	double consumer_coverage;
 	void compute()
 	{
 		output = workers * productivity;
@@ -338,20 +350,9 @@ public:
 class Agriculture : public Industry
 {
 	public:
-		double income;
-		double money;
-		Product* wheat;
-		double price;
-		double kgs;
-		double t;
-		double last_day_balance;
-		double workplace_count;
-		double workforce;
-		Display_value outputT;
-		Agriculture() : outputT(0, 1)
+
+		Agriculture() 
 		{
-			wheat = new Product();
-			price = 0.1;
 		}
 		void compute();
 };
@@ -413,37 +414,35 @@ class Simulation
 			go = false;
 			population.dependencyRate = 0.70;
 			
-			preference = 80;
-			agriculture = new Agriculture();
+			agriculture = Agriculture();
 			computeOneDay();
 			game_speed = 1;
 
-			population.money = 1e15;
+			population.money = 1e14;
 
 		}
 		static int game_speed;
 		Simulation_date date;
 		Geography geo;
-		Agriculture* agriculture;
+		Agriculture agriculture;
 		Gathering gathering;
 		Demography population;
 		Goverment goverment;
 		GDP GDP;
-		Exchange exc;
-		double preference;
+		Exchange foodExc;
 		void calculate_jobs()
 		{
 			double free_workforce = population.laborPool;
 			goverment.workforce = population.population / 30;
 			free_workforce -= goverment.workforce;
-			if (free_workforce > agriculture->workplace_count)
+			if (free_workforce > agriculture.workplace_count)
 			{
-				agriculture->workforce = agriculture->workplace_count;
-				free_workforce -= agriculture->workplace_count;
+				agriculture.workforce = agriculture.workplace_count;
+				free_workforce -= agriculture.workplace_count;
 			}
 			else
 			{
-				agriculture->workforce = free_workforce;
+				agriculture.workforce = free_workforce;
 				free_workforce = 0;
 			}
 
@@ -460,31 +459,28 @@ class Simulation
 			population.calc(date.days_from_start);
 
 			calculate_jobs();
-			exc.process();
+			foodExc.process();
 			gathering.compute();
-			agriculture->compute();
-			//mining.compute();
+			agriculture.compute();
 
 
-			population.foodSupply = agriculture->wheat->consumerCoverage * 100;
+			population.foodSupply = agriculture.consumer_coverage * 100;
 			
 			population.density = population.population / geo.sqKilometres;
 
 			double before = population.money;
-			double beforeA = agriculture->money;
+			double beforeA = agriculture.money;
 			double beforeB = gathering.money;
-			double realistic_demand = population.population * 2 * (std::tanh(-(exc.current_price - 100)/100) * 0.5 + 1);
-			//std::cout << "Current demand: " << realistic_demand << std::endl;
-			//std::cout << "Possible demand: " << (population.population * 2) << std::endl;
-			//std::cout << "Supply: " << exc.total_supply << std::endl;
-			agriculture->wheat->consumerCoverage = realistic_demand / (population.population * 2);
-			double malnutrition = exc.buy_amount(realistic_demand, &population.money.value);
+			double realistic_demand = population.population * 1.3 * (std::tanh(-(foodExc.current_price - 100)/100) * 0.5 + 1);
+
+			agriculture.consumer_coverage = realistic_demand / (population.population * 1.3);
+			double malnutrition = foodExc.buy_amount(realistic_demand, &population.money.value);
 
 
 			double specific_malnutrition = malnutrition/population.population;
-			//std::cout << "FAMINE: " << exc.order_book.size() << std::endl;
+
 			GDP.private_consumption += abs(population.money - before);
-			agriculture->income = agriculture->money - beforeA;
+			agriculture.income = agriculture.money - beforeA;
 			gathering.income = gathering.money - beforeB;
 
 

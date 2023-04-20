@@ -11,17 +11,14 @@ void Agriculture::compute()
 
 	output = workforce * 800 * 250/300;
 
-	outputT = output/1000;
-
 
 	for (int i = 0; i < 5; i++)
-		simulation.exc.put_sell_order(output / (5 * 365), simulation.exc.get_current_price() * 0.8 + i * 0.1, &simulation.agriculture->money);
+		simulation.foodExc.put_sell_order(output / (5 * 365), simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &simulation.agriculture.money);
 
 	simulation.population.money.value += income;
+	wages = income / simulation.population.population;
 	money -= income;
 
-
-	t = wheat->reserves / 1000;
 	
 }
 
@@ -35,20 +32,15 @@ void Gathering::compute()
 	if (workforce!=0)
 		output = workforce * 1 / exhaust;
 
-	outputT = output / 1000;
-
-	simulation.agriculture->wheat->reserves += output;
 
 
 	for (int i = 0; i < 5; i++)
-		simulation.exc.put_sell_order(output / 5, simulation.exc.get_current_price() * 0.8 + i * 0.1, &simulation.gathering.money);
+		simulation.foodExc.put_sell_order(output / 5, simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &simulation.gathering.money);
 
 
 	simulation.population.money = simulation.population.money + income;
 	money -= income;
 
-
-	t = wheat->reserves / 1000;
 
 }
 

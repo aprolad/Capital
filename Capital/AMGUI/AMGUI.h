@@ -168,7 +168,7 @@ public:
 		prepare_shaders();
 		if (ready_text != nullptr)
 		{
-			RenderText(fontShader, *ready_text, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
+			RenderText(fontShader, text + *ready_text, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 		else
 		{

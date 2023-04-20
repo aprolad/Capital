@@ -1,6 +1,6 @@
 #pragma once
 #include "Header.h"
-#include "game/simulation.h"
+#include "Game/simulation.h"
 #include "AMGUI/AMGUI.h"
 
 
@@ -104,7 +104,7 @@ public:
 };
 
 
-class Agriculture_panel : virtual public Multiple_choice_panel
+class Economy_panel : virtual public Multiple_choice_panel
 {
 public:
 	void draw()
@@ -118,11 +118,22 @@ public:
 
 	}
 };
-class Agriculture_sector_panel : virtual public Agriculture_panel
+class Agriculture_sector_panel : virtual public Economy_panel
 {
 public:
 	void init();
 
+};
+
+class Industry_sector_panel : virtual public Economy_panel
+{
+public:
+	void init();
+};
+class Service_sector_panel : virtual public Economy_panel
+{
+public:
+	void init();
 };
 
 class Economics_menu : virtual public Multiple_choice_panel
