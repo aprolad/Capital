@@ -28,7 +28,9 @@ void Agriculture_sector_panel :: init()
 
 	panel->add_dynamic_text_element("GDPM: ", " Denarius", x_slot * 6, y - 400, &simulation.GDP.total);
 
-	panel->add_dynamic_text_element("Wages: ", &simulation.agriculture.wages.result, x_slot * 6, y - 450);
+	panel->add_dynamic_text_element("Farmer wages: ", &simulation.agriculture.wages.result, x_slot * 6, y - 450);
+
+	panel->add_dynamic_text_element("Gatherers wages: ", &simulation.gathering.wages.result, x_slot * 6, y - 500);
 
 	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.geo.totalArableLand);
 
@@ -44,13 +46,19 @@ void Industry_sector_panel::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
 
-	panel->add_dynamic_text_element("GDPM: ", " Denarius", x_slot * 6, y - 400, &simulation.GDP.total);
+	panel->add_dynamic_text_element("Supply: ", " Denarius", x_slot * 6, y - 400, &simulation.potteryExc.total_supply);
 
-	panel->add_dynamic_text_element("WheatM: ", " Tonnes", x_slot * 6, y - 450, &simulation.foodExc.total_supply);
+	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.potteryExc.total_demand);
 
-	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.geo.totalArableLand);
+	panel->add_dynamic_text_element("Backlog:  ", " Square km", x_slot * 6, y - 550, &simulation.potteryExc.quantity_backlog);
 
-	panel->add_dynamic_text_element("Wheat outpuMt: ", &simulation.agriculture.output.result, x_slot * 6, y - 650);
+	panel->add_dynamic_text_element("Wages: ", " Tonnes", x_slot * 6, y - 650, &simulation.pottery.wages.result);
+
+	panel->add_dynamic_text_element("Workers: ", " Tonnes", x_slot * 6, y - 750, &simulation.pottery.workforce);
+
+	panel->add_dynamic_text_element("Income: ", " Tonnes", x_slot * 6, y - 850, &simulation.pottery.income);
+
+	panel->add_dynamic_text_element("Price: ", " Tonnes", x_slot * 6, y - 950, &simulation.potteryExc.current_price);
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
 
@@ -92,7 +100,7 @@ void Economics_menu::init()
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 
 	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1100, 125, 40, "Agriculture"));
-	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1100, 125, 40, "Industry"));
+	root_menus.push_back((new Industry_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1100, 125, 40, "Industry"));
 	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 800, 1100, 125, 40, "Services"));
 	for (auto a : root_menus)
 	{

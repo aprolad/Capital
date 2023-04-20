@@ -7,6 +7,8 @@
 #include <cmath>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
+
 #define CAP_UNIT_OF_MEASURE_NO 0 
 #define CAP_UNIT_OF_MESURE_KG 1
 #define CAP_UNIT_OF_MESURE_MONEY 2
@@ -100,11 +102,29 @@ public:
 class Profession
 {
 public:
-
+	Profession(std::string n, double percent_of_workforce)
+	{
+		name = n;
+		this->percent_of_workforce = percent_of_workforce;
+	}
+	std::string name;
+	double percent_of_workforce;
 };
 class Socium
 {
 public:
+	Socium();
+	Profession* by_name(std::string target)
+	{
+		auto it= std::find_if(worker_types.begin(), worker_types.end(),
+			[=](const Profession& obj) { return obj.name == target; });
+		if (it != worker_types.end())
+			return &(*it);
+		else
+			return nullptr;
+	}
+	
+	std::vector<Profession> worker_types;
 };
 class Demography
 {
@@ -259,17 +279,24 @@ public:
 	{
 		quantity_backlog = 0;
 		for (auto a : order_book)
+		{
 			quantity_backlog += a.quantity;
+		}
+		
 		return quantity_backlog;
 	}
 	void process()
 	{
+		double rarity = 0;
+		if (total_demand < total_supply * 2)
+			rarity = 2;
+
 		if (calculate_excess() > total_demand * 14)
-			current_price /= 1.01;
+			current_price /= 1.001;
 		if (total_demand > total_supply)
 			current_price *= 1.001;
 		else
-			current_price /= 1.001;
+			current_price /= 1 + (0.0001 * (rarity+1));
 		for (auto a : order_book)
 			a.process(current_price);
 
@@ -328,7 +355,7 @@ public:
 class Industry
 {
 public:
-	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY){}
+	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY) { historic_wages.resize(30); }
 	Geography* geo;
 	double productivity;
 	Display_value output;
@@ -340,27 +367,30 @@ public:
 	double workplace_count;
 	double workforce;
 	Display_value wages;
+	double prev_wage;
+
+	std::deque<double> historic_wages;
 	double consumer_coverage;
 	void compute()
 	{
-		output = workers * productivity;
-		gdp = output;
 	}
 };
 class Agriculture : public Industry
 {
 	public:
 
-		Agriculture() 
-		{
-		}
+		Agriculture() {}
 		void compute();
 };
 class Gathering : public Agriculture
 {
 public:
 	void compute();
-	Product foraged_food;
+};
+class Pottery : public Industry
+{
+public:
+	void compute();
 };
 class Simulation_date
 {
@@ -417,10 +447,12 @@ class Simulation
 			agriculture = Agriculture();
 			computeOneDay();
 			game_speed = 1;
-
+			pottery.wages = 10;
 			population.money = 1e14;
+			socium = Socium();
 
 		}
+		Socium socium;
 		static int game_speed;
 		Simulation_date date;
 		Geography geo;
@@ -428,25 +460,30 @@ class Simulation
 		Gathering gathering;
 		Demography population;
 		Goverment goverment;
+		Pottery pottery;
 		GDP GDP;
 		Exchange foodExc;
+		Exchange potteryExc;
+
 		void calculate_jobs()
 		{
-			double free_workforce = population.laborPool;
-			goverment.workforce = population.population / 30;
-			free_workforce -= goverment.workforce;
-			if (free_workforce > agriculture.workplace_count)
+			pottery.workforce = socium.by_name("Potters")->percent_of_workforce * population.laborPool;
+			goverment.workforce = socium.by_name("Leaders")->percent_of_workforce * population.laborPool;
+			agriculture.workforce = socium.by_name("Farmers")->percent_of_workforce * population.laborPool;
+			gathering.workforce = socium.by_name("Gatherers")->percent_of_workforce * population.laborPool;
+			if (gathering.wages < pottery.wages * 1.2)
 			{
-				agriculture.workforce = agriculture.workplace_count;
-				free_workforce -= agriculture.workplace_count;
+				double m = 1;
+				if (pottery.wages < pottery.prev_wage)
+					m = 0.1;
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * m;
+				socium.by_name("Potters")->percent_of_workforce += 0.00001 * m;
 			}
 			else
 			{
-				agriculture.workforce = free_workforce;
-				free_workforce = 0;
+				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
+				socium.by_name("Potters")->percent_of_workforce -= 0.00001;
 			}
-
-			gathering.workforce = free_workforce;
 		}
 		void pause()
 		{
@@ -460,9 +497,10 @@ class Simulation
 
 			calculate_jobs();
 			foodExc.process();
+			potteryExc.process();
 			gathering.compute();
 			agriculture.compute();
-
+			pottery.compute();
 
 			population.foodSupply = agriculture.consumer_coverage * 100;
 			
@@ -471,17 +509,19 @@ class Simulation
 			double before = population.money;
 			double beforeA = agriculture.money;
 			double beforeB = gathering.money;
+			double beforeC = pottery.money;
 			double realistic_demand = population.population * 1.3 * (std::tanh(-(foodExc.current_price - 100)/100) * 0.5 + 1);
-
 			agriculture.consumer_coverage = realistic_demand / (population.population * 1.3);
 			double malnutrition = foodExc.buy_amount(realistic_demand, &population.money.value);
-
-
 			double specific_malnutrition = malnutrition/population.population;
+
+
+			potteryExc.buy_amount(population.population/14, &population.money.value);
 
 			GDP.private_consumption += abs(population.money - before);
 			agriculture.income = agriculture.money - beforeA;
 			gathering.income = gathering.money - beforeB;
+			pottery.income = pottery.money - beforeC;
 
 
 
