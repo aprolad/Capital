@@ -16,6 +16,7 @@
 #include <chrono>
 #include <deque>
 #include <sstream>
+#include <type_traits>
 class Graphic_element
 {
 protected:
@@ -133,6 +134,7 @@ class Dynamic_text_element : virtual public Text_element
 public:
 	T binded_value;
 	std::string postfix;
+	std::string* ready_text;
 	double text_size;
 	Dynamic_text_element* set_properties(T bind, GLuint shader, GLuint font, int ax, int ay, std::string atext, std::string post, double text_size = 0.5)
 	{
@@ -144,19 +146,43 @@ public:
 		x = ax;
 		y = ay;
 		size = 100;
+		ready_text = nullptr;
 		text = atext;
+		return this;
+	}
+
+	Dynamic_text_element* set_properties(std::string* text, GLuint shader, GLuint font, int ax, int ay, std::string atext, double text_size = 0.5)
+	{
+		this->text_size = text_size;
+		ready_text = text;
+		shaderProgram = shader;
+		fontShader = font;
+		x = ax;
+		y = ay;
+		size = 100;
+		this->text = atext;
 		return this;
 	}
 	void draw()
 	{
 		prepare_shaders();
-		std::stringstream stream;
-		stream << std::fixed << std::setprecision(0) << *binded_value;
-		std::string s = stream.str();
-		RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
+		if (ready_text != nullptr)
+		{
+			RenderText(fontShader, *ready_text, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
+		}
+		else
+		{
+			std::stringstream stream;
+			stream << std::fixed << std::setprecision(0) << *binded_value;
+			std::string s = stream.str();
+			RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
+		}
 	}
 
+
 };
+
+
 class Information_panel : virtual public Graphic_element
 {
 public:
@@ -173,6 +199,13 @@ public:
 	void add_dynamic_text_element(std::string atext, std::string postfix, int x, int y, T bind)
 	{
 		Dynamic_text_element<T>* t = (new Dynamic_text_element<T>())->set_properties(bind, shaderProgram, fontShader, x, y, atext, postfix);
+		t->init();
+		text_elements.push_back(t);
+
+	}
+	void add_dynamic_text_element(std::string atext, std::string* text, int x, int y)
+	{
+		Dynamic_text_element<std::string*>* t = (new Dynamic_text_element<std::string*>())->set_properties(text, shaderProgram, fontShader, x, y, atext);
 		t->init();
 		text_elements.push_back(t);
 

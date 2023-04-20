@@ -5,15 +5,85 @@
 #include <deque>
 #include <iostream>
 #include <cmath>
+#include <sstream>
+#include <iomanip>
 using namespace std;
+class Display_value
+{
+public:
+	Display_value(double value, int type)
+	{
+		this->value = value;
+		this->type = type;
+	}
+	double value;
+	std::string result;
+	std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km" };
+	std::vector<std::string> exponent_string{ "","Millions", "Billions", "Trillions" };
+
+	operator double() const
+	{
+		return value;
+	}
+
+	// Unary operators
+	Display_value operator+() const
+	{
+		return *this;
+	}
+
+	Display_value operator-() const
+	{
+		return Display_value(type, -static_cast<const double&>(this->value));
+	}
+	Display_value& operator=(const Display_value& other)
+	{
+		value = other.value;
+		return *this;
+	}
+	Display_value& operator=(const double& other)
+	{
+		int exp = 0;
+		double p = other;
+		if (int(log10(other)) > 6)
+		{
+			exp += 1;
+		}
+		if (int(log10(other)) > 9)
+		{
+			exp += 1;
+		}
+		if (int(log10(other)) > 12)
+		{
+			exp += 1;
+		}
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(3);
+		if (exp == 1)
+			stream <<(p / 1e6);
+		else if (exp == 2)
+			stream << (p / 1e9);
+		else if (exp == 3)
+			stream << (p / 1e12);
+		else
+			stream << p;
+		result = stream.str() + " " + exponent_string[exp] + " " + unit_of_measure[type];
+
+		value = p;
+		return *this;
+	}
+private:
+	int type;
+	std::string postfix;
+};
 struct GDP
 {
-	GDP()
+	GDP() : total(Display_value(0,2))
 	{
 		history.resize(900);
 	}
 
-	double total;
+	Display_value total;
 	double private_consumption;
 	vector<double> history;
 	double calcTotalGdp()
@@ -51,7 +121,7 @@ public:
 class Demography
 {
 public:
-	Demography()
+	Demography() : money(Display_value(0, 2))
 	{
 		srand(time(0));
 		
@@ -67,7 +137,7 @@ public:
 		agePyramid[i] = (10 + engine()%1 - double(i)/10) * 365;
 	}
 	std::mt19937 engine;
-	double money;
+	Display_value money;
 	double density;
 	double birthRate;
 	double population;
@@ -291,10 +361,10 @@ class Agriculture : public Industry
 		double kgs;
 		double t;
 		double last_day_balance;
-		double outputT;
 		double workplace_count;
 		double workforce;
-		Agriculture()
+		Display_value outputT;
+		Agriculture() : outputT(0, 1)
 		{
 			wheat = new Product();
 			price = 0.1;
@@ -424,11 +494,11 @@ class Simulation
 			//std::cout << "Possible demand: " << (population.population * 2) << std::endl;
 			//std::cout << "Supply: " << exc.total_supply << std::endl;
 			agriculture->wheat->consumerCoverage = realistic_demand / (population.population * 2);
-			double malnutrition = exc.buy_amount(realistic_demand, &population.money);
+			double malnutrition = exc.buy_amount(realistic_demand, &population.money.value);
 
 
 			double specific_malnutrition = malnutrition/population.population;
-			std::cout << "FAMINE: " << exc.order_book.size() << std::endl;
+			//std::cout << "FAMINE: " << exc.order_book.size() << std::endl;
 			GDP.private_consumption += abs(population.money - before);
 			agriculture->income = agriculture->money - beforeA;
 			gathering.income = gathering.money - beforeB;

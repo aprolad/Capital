@@ -17,7 +17,7 @@ void Agriculture::compute()
 	for (int i = 0; i < 5; i++)
 		simulation.exc.put_sell_order(output / (5 * 365), simulation.exc.get_current_price() * 0.8 + i * 0.1, &simulation.agriculture->money);
 
-	simulation.population.money += income;
+	simulation.population.money.value += income;
 	money -= income;
 
 
@@ -44,7 +44,7 @@ void Gathering::compute()
 		simulation.exc.put_sell_order(output / 5, simulation.exc.get_current_price() * 0.8 + i * 0.1, &simulation.gathering.money);
 
 
-	simulation.population.money += income;
+	simulation.population.money = simulation.population.money + income;
 	money -= income;
 
 
