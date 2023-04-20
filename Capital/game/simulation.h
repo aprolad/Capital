@@ -19,7 +19,7 @@ public:
 	double value;
 	std::string result;
 	std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km" };
-	std::vector<std::string> exponent_string{ "","Millions", "Billions", "Trillions" };
+	std::vector<std::string> exponent_string{ "","Thousands","Millions", "Billions", "Trillions", "Quadrillions"};
 
 	operator double() const
 	{
@@ -45,31 +45,15 @@ public:
 	{
 		int exp = 0;
 		double p = other;
-		if (int(log10(other)) > 6)
+		while (int(log10(p)) > 2 and p != 0)
 		{
-			exp += 1;
-		}
-		if (int(log10(other)) > 9)
-		{
-			exp += 1;
-		}
-		if (int(log10(other)) > 12)
-		{
-			exp += 1;
+			exp++;
+			p /= 1e3;
 		}
 		std::stringstream stream;
-		stream << std::fixed << std::setprecision(3);
-		if (exp == 1)
-			stream <<(p / 1e6);
-		else if (exp == 2)
-			stream << (p / 1e9);
-		else if (exp == 3)
-			stream << (p / 1e12);
-		else
-			stream << p;
+		stream << std::fixed << std::setprecision(3)<<p;
 		result = stream.str() + " " + exponent_string[exp] + " " + unit_of_measure[type];
-
-		value = p;
+		value = other;
 		return *this;
 	}
 private:
