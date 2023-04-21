@@ -32,9 +32,9 @@ void Agriculture_sector_panel :: init()
 
 	panel->add_dynamic_text_element("Gatherers wages: ", &simulation.gathering.wages.result, x_slot * 6, y - 500);
 
-	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.geo.totalArableLand);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 6, y - 550, &simulation.foodExc.total_supply);
 
-	panel->add_dynamic_text_element("Wheat outpuMt: ", " Tonnes", x_slot * 6, y - 650, &simulation.agriculture.output);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 6, y - 650, &simulation.foodExc.total_demand);
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
 
@@ -50,15 +50,19 @@ void Industry_sector_panel::init()
 
 	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.potteryExc.total_demand);
 
-	panel->add_dynamic_text_element("Backlog:  ", " Square km", x_slot * 6, y - 550, &simulation.potteryExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog:  ", " ", x_slot * 6, y - 550, &simulation.potteryExc.quantity_backlog);
 
-	panel->add_dynamic_text_element("Wages: ", " Tonnes", x_slot * 6, y - 650, &simulation.pottery.wages.result);
+	panel->add_dynamic_text_element("Wages: ", " ", x_slot * 6, y - 650, &simulation.pottery.wages.result);
 
-	panel->add_dynamic_text_element("Workers: ", " Tonnes", x_slot * 6, y - 750, &simulation.pottery.workforce);
+	panel->add_dynamic_text_element("Workers: ", " ", x_slot * 6, y - 750, &simulation.pottery.workforce);
 
-	panel->add_dynamic_text_element("Income: ", " Tonnes", x_slot * 6, y - 850, &simulation.pottery.income);
+	panel->add_dynamic_text_element("MS: ", " ", x_slot * 6, y - 850, &simulation.g);
 
-	panel->add_dynamic_text_element("Price: ", " Tonnes", x_slot * 6, y - 950, &simulation.potteryExc.current_price);
+	panel->add_dynamic_text_element("Income: ", " ", x_slot * 6, y - 900, &simulation.population.income);
+
+	panel->add_dynamic_text_element("Total money: ", &simulation.population.money.result, x_slot * 6, y - 1000);
+
+	panel->add_dynamic_text_element("Price: ", " ", x_slot * 6, y - 950, &simulation.potteryExc.current_price);
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
 

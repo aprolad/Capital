@@ -16,8 +16,11 @@ void Agriculture::compute()
 		simulation.foodExc.put_sell_order(output / (5 * 365), simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &simulation.agriculture.money);
 
 	simulation.population.money.value += income;
+	//simulation.population.income += income;
 	workforce++;
 	wages = income / workforce;
+	if (wages < 0.01)
+		wages = 0.01;
 	money -= income;
 
 	
@@ -40,8 +43,13 @@ void Gathering::compute()
 
 
 	simulation.population.money = simulation.population.money + income;
+
+	//simulation.population.income += income;
+
 	workforce++;
 	wages = income / workforce;
+	if (wages < 0.01)
+		wages = 0.01;
 	money -= income;
 
 }
@@ -63,9 +71,12 @@ void Pottery::compute()
 	}
 	prev_wage = wages;
 	simulation.population.money = simulation.population.money + income;
+	//simulation.population.income += income;
 	if (workforce == 0)
 		workforce += 1;
 	wages = avg / workforce;
+	if (wages < 0.01)
+		wages = 0.01;
 	historic_wages.push_front(income);
 	historic_wages.pop_back();
 	money -= income;
