@@ -17,6 +17,9 @@
 #include <deque>
 #include <sstream>
 #include <type_traits>
+#include <cmath>
+#include"../Game/Simulation.h"
+#define PI 3.14159265358979323846
 class Graphic_element
 {
 protected:
@@ -347,6 +350,125 @@ public:
 		}
 	}
 };
+
+class Pie_chart : virtual public Graphic_element
+{
+public:
+	std::vector<double> elements_of_chart;
+	Pie_chart(GLuint shader, GLuint font)
+	{
+		shaderProgram = shader;
+		fontShader = font;
+		glGenVertexArrays(1, &vbo);
+		glGenBuffers(1, &vao);
+	}
+	void set_properties(GLuint shader, GLuint font)
+	{
+		//shaderProgram = shader;
+		//fontShader = font;
+		//glGenVertexArrays(1, &VAO1);
+		//glGenBuffers(1, &VBO1);
+	}
+	GLuint vao, vbo;
+	std::vector<GLfloat> shape;
+
+	void draw_slice(GLfloat x, GLfloat y, GLfloat radius, double start_angle, double end_angle, std::vector<float> color) {
+		std::vector <GLfloat> shp;
+		int num_segments = 700;
+		double theta = (end_angle - start_angle) / double(num_segments - 1);
+		double tangetial_factor = tanf(theta);
+		double radial_factor = cosf(theta);
+
+		double x1 = radius * cosf(start_angle);
+		double y1 = radius * sinf(start_angle);
+
+		shp.push_back(x); // center of the circle
+		shp.push_back(y); // center of the circle
+		shp.push_back(0); // center of the circle
+
+		for (int i = 0; i <= num_segments; i++) {
+			shp.push_back(x + x1); // center of the circle
+			shp.push_back(y + y1); // center of the circle
+			shp.push_back(0);
+			GLfloat tx = -y1;
+			GLfloat ty = x1;
+			x1 += tx * tangetial_factor;
+			y1 += ty * tangetial_factor;
+			x1 *= radial_factor;
+			y1 *= radial_factor;
+		}
+		
+
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, shp.size() * sizeof(GLfloat), shp.data(), GL_DYNAMIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+		glEnableVertexAttribArray(0);
+
+		glBindVertexArray(vao);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), color[0]/255, color[1]/255, color[2]/255, color[3]/255);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, shp.size() / 3);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
+		glDeleteBuffers(1, &vbo);
+		glDeleteVertexArrays(1, &vao);
+
+	}
+
+	void draw(std::vector<Profession> data)
+	{
+		double current_angle = 0;
+		double radius = 260;
+	
+
+		glUseProgram(shaderProgram);
+
+
+		glm::mat4 trans;
+		trans = glm::translate(trans, glm::vec3(700, 900, 0.0f));
+		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+		double start_angle = 0.0f, end_angle = 0.0f;
+		for (int i = 0; i < data.size(); i++) {
+			end_angle = start_angle + data[i].percent_of_workforce * 2.0f * PI;
+			draw_slice(0, 0, radius, start_angle, end_angle, data[i].color);
+			//std::cout << end_angle << std::endl;
+			start_angle = end_angle;
+		}
+
+		glUseProgram(shaderProgram);
+		trans = glm::mat4(1);
+		trans = glm::translate(trans, glm::vec3(0, 0, 0.0f));
+		transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+		for (int i = 0; i < data.size(); i++)
+		{
+			RenderText(fontShader, data[i].name, 550, 530 + i * 25, 0.6, glm::vec3(0.0, 0.0f, 0.0f));
+			
+			glUseProgram(shaderProgram);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), data[i].color[0] / 255, data[i].color[1] / 255, data[i].color[2] / 255, data[i].color[3] / 255);
+			draw_quad(533, 540 + i* 25, 10);
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"),0, 0, 0,1);
+		}
+
+		
+
+		//draw_line(600, 350, 1900, 350);
+		//draw_line(600, 350, 600, 780);
+		std::string str = "";
+		//str = str + std::to_string(int(*std::max_element(std::begin(data), std::end(data))));
+		RenderText(fontShader, str, 540, 750, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
+
+		//draw_scale();
+	}
+
+	//virtual void draw_scale() {}
+};
+
 
 
 class Multiple_choice_panel : virtual public Quad_button

@@ -94,26 +94,26 @@ void Pottery::compute()
 Socium::Socium()
 {
 	double free_workforce = simulation.population.laborPool;
-
+	std::cout << simulation.population.laborPool << std::endl;
 	if (simulation.population.laborPool == 0)
 		simulation.population.laborPool = 1;
 
-	worker_types.push_back(Profession("Potters", (simulation.population.population / 300) / simulation.population.laborPool));
-	free_workforce -= simulation.pottery.workforce;
-	worker_types.push_back(Profession("Leaders", (simulation.population.population / 30) / simulation.population.laborPool));
-	free_workforce -= simulation.goverment.workforce;
+	worker_types.push_back(Profession("Potters", (simulation.population.population / 300) / simulation.population.laborPool, std::vector<float>{121, 85, 72, 1} ));
+	free_workforce -= simulation.population.population / 300;
+	worker_types.push_back(Profession("Leaders", (simulation.population.population / 30) / simulation.population.laborPool, std::vector<float>{255, 0, 0, 1}));
+	free_workforce -= (simulation.population.population / 30);
 	if (free_workforce > simulation.agriculture.workplace_count)
 	{
-		worker_types.push_back(Profession("Farmers", simulation.agriculture.workplace_count / simulation.population.laborPool));
+		worker_types.push_back(Profession("Farmers", simulation.agriculture.workplace_count / simulation.population.laborPool, std::vector<float>{76, 175, 80, 1}));
 		free_workforce -= simulation.agriculture.workplace_count;
 	}
 	else
 	{
-		worker_types.push_back(Profession("Farmers", simulation.agriculture.workplace_count / simulation.population.laborPool));
+		worker_types.push_back(Profession("Farmers", simulation.agriculture.workplace_count / simulation.population.laborPool, std::vector<float>{76, 175, 80, 1}));
 		free_workforce = 0;
 	}
 
-	worker_types.push_back(Profession("Gatherers", free_workforce / simulation.population.laborPool));
-	//	for (auto a : worker_types)
-		//	std::cout <<a.name<<" " << a.percent_of_workforce << std::endl;
+	worker_types.push_back(Profession("Gatherers", free_workforce / simulation.population.laborPool, std::vector<float>{255, 152, 0, 1}));
+		for (auto a : worker_types)
+			std::cout <<a.name<<" " << a.percent_of_workforce << std::endl;
 }

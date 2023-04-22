@@ -117,9 +117,9 @@ void Economics_menu::init()
 
 void Demographics_menu::init()
 {
-	chart = new ageChart(2000, 120);
-	chart->init();
-	chart->set_properties(shaderProgram, fontShader);
+	Wchart = new Pie_chart(shaderProgram, fontShader);
+	Wchart->init();
+	//Wchart->set_properties(shaderProgram, fontShader);
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
 	panel->add_dynamic_text_element("Population: ", " ", 250, y - 400, &simulation.population.population);
 	panel->add_dynamic_text_element("Labor pool: ", "", 250, y - 450, &simulation.population.laborPool);

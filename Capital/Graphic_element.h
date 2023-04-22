@@ -10,6 +10,7 @@ class Demographics_menu : virtual public Multiple_choice_panel
 {
 public:
 	ageChart* chart;
+	Pie_chart* Wchart;
 	void draw()
 	{
 
@@ -17,7 +18,8 @@ public:
 		if (active)
 		{
 			panel->draw();
-			chart->draw(std::vector(simulation.population.agePyramid.begin()+1, simulation.population.agePyramid.end()));
+			//chart->draw(std::vector(simulation.population.agePyramid.begin()+1, simulation.population.agePyramid.end()));
+			Wchart->draw(simulation.socium.worker_types);
 		}
 	}
 	void init();

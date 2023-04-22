@@ -102,12 +102,15 @@ public:
 class Profession
 {
 public:
-	Profession(std::string n, double percent_of_workforce)
+	Profession(std::string n, double percent_of_workforce, std::vector<float> c)
 	{
+		color = c;
 		name = n;
 		this->percent_of_workforce = percent_of_workforce;
 	}
+
 	std::string name;
+	std::vector<float> color;
 	double percent_of_workforce;
 };
 class Socium
@@ -123,7 +126,13 @@ public:
 		else
 			return nullptr;
 	}
-	
+	operator std::vector<double>() const
+	{
+		std::vector<double> t;
+		for (auto a : worker_types)
+			t.push_back(a.percent_of_workforce);
+		return t;
+	}
 	std::vector<Profession> worker_types;
 };
 class Demography
