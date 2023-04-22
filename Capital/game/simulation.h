@@ -186,7 +186,7 @@ public:
 			if (i > 12 && i < 65)
 				laborPool += agePyramid[i];
 			if (i == 12)
-			laborPool += agePyramid[12] * (double(date) / 365);
+				laborPool += agePyramid[12] * (double(date%365) / 365);
 
 
 			dependencyRate = 1 - laborPool / (population + 1);
@@ -218,14 +218,10 @@ class Product
 {
 public:
 	Product()
-	{
-
-		price = 0.1;
-	}
+	{}
 	double aggregateDemand;
 	double aggregateSupply;
 	double reserves;
-	double price;
 	double consumerCoverage;
 	void calc();
 };
@@ -243,6 +239,15 @@ public:
 	}
 	void execute(double* sender_account, double quantity_bought)
 	{
+		*sender_account -= quantity_bought * price;
+		*recepient_account += quantity_bought * price;
+		quantity -= quantity_bought;
+	}
+	void execute_part(double* sender_account, double budget)
+	{
+		if (price < 0.0001)
+			price = 0.0001;
+		double quantity_bought = budget / price;
 		*sender_account -= quantity_bought * price;
 		*recepient_account += quantity_bought * price;
 		quantity -= quantity_bought;
@@ -341,6 +346,8 @@ public:
 		{
 			if (buy_amount >= order_book[0].quantity)
 			{
+				if (order_book[0].quantity*order_book[0].price > *account)
+					return Purchase_check(want_amount - buy_amount, money_spent);
 				order_book[0].execute(account);
 				buy_amount -= order_book[0].quantity;
 				money_spent += order_book[0].quantity * order_book[0].price;
@@ -368,7 +375,7 @@ public:
 		double buy_money = buy_money_;
 		if (current_price < 0.001)
 			current_price = 0.001;
-		total_demand += buy_money_/current_price;
+		//total_demand += buy_money_/current_price;
 		// Cannot buy if there are no offers
 		if (order_book.empty())
 			return Purchase_check(0, 0);
@@ -377,10 +384,11 @@ public:
 		{
 			if (buy_money >= order_book[0].quantity * order_book[0].price)
 			{
+
 				order_book[0].execute(account);
 				buy_money -= order_book[0].quantity * order_book[0].price;
 				bought += order_book[0].quantity;
-				//total_demand += order_book[0].quantity;
+
 				order_book.erase(order_book.begin());
 				if (order_book.empty())
 				{
@@ -389,7 +397,7 @@ public:
 			}
 			else
 			{
-				order_book[0].execute(account);
+				order_book[0].execute_part(account, buy_money);
 				//total_demand += 
 				bought += order_book[0].quantity;
 				buy_money = 0;
@@ -504,7 +512,7 @@ class Simulation
 			computeOneDay();
 			game_speed = 1;
 			pottery.wages = 10;
-			population.money = 1e10;
+			population.money = 1e8;
 			socium = Socium();
 
 		}
@@ -527,16 +535,16 @@ class Simulation
 			goverment.workforce = socium.by_name("Leaders")->percent_of_workforce * population.laborPool;
 			agriculture.workforce = socium.by_name("Farmers")->percent_of_workforce * population.laborPool;
 			gathering.workforce = socium.by_name("Gatherers")->percent_of_workforce * population.laborPool;
-			if (potteryExc.total_demand > potteryExc.total_supply && potteryExc.calculate_excess() < 1e5)
+			if (pottery.wages > gathering.wages * 1.8)
 			{
 	
-			//	socium.by_name("Gatherers")->percent_of_workforce -= 0.000001;
-			//	socium.by_name("Potters")->percent_of_workforce += 0.000001;
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.000001;
+				socium.by_name("Potters")->percent_of_workforce += 0.000001;
 			}
 			else
 			{
-			//	socium.by_name("Gatherers")->percent_of_workforce += 0.000001;
-			//	socium.by_name("Potters")->percent_of_workforce -= 0.000001;
+				socium.by_name("Gatherers")->percent_of_workforce += 0.000001;
+				socium.by_name("Potters")->percent_of_workforce -= 0.000001;
 			}
 		}
 		void pause()
@@ -566,17 +574,17 @@ class Simulation
 			double beforeB = gathering.money;
 			double beforeC = pottery.money;
 			double realistic_demand = population.population * 1.0 * (std::tanh(-(foodExc.current_price - 100)/100) * 0.5 + 1);
-			agriculture.consumer_coverage = realistic_demand / (population.population * 1.0);
-			//double malnutrition = realistic_demand -  foodExc.buy_amount(realistic_demand, &population.money.value).amount_bought;
-			//double specific_malnutrition = malnutrition/population.population;
 
 
-			auto t = foodExc.buy_money(population.money*0.66, &population.money.value);
+			auto t = foodExc.buy_money(population.money.value*0.95, &population.money.value);
+			foodExc.total_demand = population.population;
 			g = t.money_spent;
 			population.foodSupply = t.amount_bought / population.population * 100;
-			//std::cout << t.amount_bought/population.population << std::endl;
-			potteryExc.buy_money(population.money / 3, &population.money.value);
-
+		
+			if (population.money.value > 0)
+				t = potteryExc.buy_money(population.money.value, &population.money.value);
+			potteryExc.total_demand = population.population / 5;
+			//std::cout << "Spent  " << population.money.value << std::endl;
 			GDP.private_consumption += abs(population.money - before);
 			agriculture.income = agriculture.money - beforeA;
 			gathering.income = gathering.money - beforeB;

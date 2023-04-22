@@ -31,6 +31,10 @@ void Gathering::compute()
 	//income = money - last_day_balance;
 
 	//last_day_balance = money;
+	double avg = 0;
+	for (auto a : historic_wages)
+		avg += a;
+	avg /= 30;
 
 	double exhaust = sqrt(workforce / simulation.geo.sqKilometres / 15);
 	if (workforce!=0)
@@ -50,6 +54,10 @@ void Gathering::compute()
 	wages = income / workforce;
 	if (wages < 0.01)
 		wages = 0.01;
+
+	historic_wages.push_front(income);
+	historic_wages.pop_back();
+
 	money -= income;
 
 }
