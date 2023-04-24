@@ -13,6 +13,7 @@
 #define CAP_UNIT_OF_MESURE_KG 1
 #define CAP_UNIT_OF_MESURE_MONEY 2
 #define CAP_UNIT_OF_MESURE_KM 3
+#define CAp_UNIT_OF_MEASURE_SQ_KM 4
 using namespace std;
 class Display_value
 {
@@ -24,7 +25,7 @@ public:
 	}
 	double value;
 	std::string result;
-	std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km" };
+	std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km", "Square km"};
 	std::vector<std::string> exponent_string{ "","Thousands","Millions", "Billions", "Trillions", "Quadrillions"};
 
 	operator double() const
@@ -90,11 +91,13 @@ class Simulation;
 class Geography
 {
 public:
-	Geography() : square_kilometres(CAP_UNIT_OF_MESURE_KM), totalArableLand(CAP_UNIT_OF_MESURE_KM)
+	Geography() : square_kilometres(CAP_UNIT_OF_MESURE_KM), totalArableLand(CAP_UNIT_OF_MESURE_KM), pastoral_land(CAp_UNIT_OF_MEASURE_SQ_KM)
 	{
 		square_kilometres = 10000;
-		totalArableLand = square_kilometres * 0.01;
+		pastoral_land = 2000;
+		totalArableLand = square_kilometres * 0.05;
 	}
+	Display_value pastoral_land;
 	Display_value square_kilometres;
 	Display_value totalArableLand;
 
@@ -272,8 +275,8 @@ public:
 		quantity *= 0.99;
 		if (ttm == 0)
 		{
-			ttm = 30;
-			price = cp;
+			ttm = 20;
+			price = cp * 1;
 		}
 			ttm -= 1;
 	}
@@ -293,7 +296,7 @@ class Exchange
 public:
 	Exchange()
 	{
-		current_price = 100;
+		current_price = 10;
 	}
 	std::deque<Order> order_book;
 	double current_price;
@@ -316,16 +319,19 @@ public:
 		if (total_demand < 1) total_demand = 1;
 
 
-		if (calculate_excess() > total_demand * 14)
+		if (calculate_excess() > total_demand *155)
 			current_price /= 1.0005;
 
 		if (total_demand > total_supply)
-			current_price *= 1 + (0.0001 * (total_demand/total_supply));
+			current_price *= 1 + (0.003);
 		else
-			current_price /= 1 + (0.0001 * (total_supply/total_demand));
+			current_price /= 1 + (0.003);
 		
 		for (auto a : order_book)
 			a.process(current_price);
+
+		if (current_price < 0.001)
+			current_price = 0.001;
 
 		total_demand = 0;
 		total_supply = 0;
@@ -344,19 +350,27 @@ public:
 	}
 	Purchase_check buy_amount(double buy_amount, double* account)
 	{
+		// Cannot buy if there are no offers or no money
+		if (order_book.empty() || *account < 1)
+			return Purchase_check(0, 0);
 		double money_spent = 0;
 		double want_amount = buy_amount;
 		total_demand += buy_amount;
-		// Cannot buy if there are no offers
-		if (order_book.empty())
-			return Purchase_check(0,0);
+
+		
 
 		for (int i = 0; buy_amount > 0; i++)
 		{
 			if (buy_amount >= order_book[0].quantity)
 			{
-				if (order_book[0].quantity*order_book[0].price > *account)
+				if (order_book[0].quantity * order_book[0].price > *account)
+				{
+					double account_left = *account;
+					order_book[0].execute_part(account, *account);
+					buy_amount -= order_book[0].quantity;
+					money_spent += account_left;
 					return Purchase_check(want_amount - buy_amount, money_spent);
+				}
 				order_book[0].execute(account);
 				buy_amount -= order_book[0].quantity;
 				money_spent += order_book[0].quantity * order_book[0].price;
@@ -381,13 +395,15 @@ public:
 
 	Purchase_check buy_money(double buy_money_, double* account)
 	{
+		if (order_book.empty() || *account < 1)
+			return Purchase_check(0, 0);
+
 		double buy_money = buy_money_;
 		if (current_price < 0.001)
 			current_price = 0.001;
-		//total_demand += buy_money_/current_price;
+		total_demand += buy_money_/current_price;
 		// Cannot buy if there are no offers
-		if (order_book.empty())
-			return Purchase_check(0, 0);
+
 		double bought = 0;
 		for (int i = 0; buy_money > 0; i++)
 		{
@@ -428,8 +444,7 @@ public:
 class Industry
 {
 public:
-	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY) { historic_wages.resize(30); }
-	Geography* geo;
+	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY) { historic_wages.resize(30); money = 100000; }
 	double productivity;
 	Display_value output;
 	double workers;
@@ -441,7 +456,7 @@ public:
 	double workforce;
 	Display_value wages;
 	double prev_wage;
-
+	double expenditure;
 	std::deque<double> historic_wages;
 	double consumer_coverage;
 	void pay_wage();
@@ -458,6 +473,11 @@ class Agriculture : public Industry
 		void compute();
 };
 class Husbandry : public Industry
+{
+public:
+	void compute();
+};
+class Textile : public Industry
 {
 public:
 	void compute();
@@ -528,9 +548,9 @@ class Simulation
 			computeOneDay();
 			game_speed = 1;
 			pottery.wages = 10;
-			population.money = 1e8;
+			population.money = 1e7;
 			socium = Socium();
-
+			cheat = 1e15;
 		}
 		Socium socium;
 		static int game_speed;
@@ -541,27 +561,55 @@ class Simulation
 		Demography population;
 		Goverment goverment;
 		Pottery pottery;
+		Husbandry husbandry;
+		Textile textile;
 		GDP GDP;
-		Exchange foodExc;
-		Exchange potteryExc;
-		double g;
+		Exchange foodExc, woolExc;
+		Exchange potteryExc, clothExc;
+		double g, cheat;
 		void calculate_jobs()
 		{
 			pottery.workforce = socium.by_name("Potters")->percent_of_workforce * population.laborPool;
 			goverment.workforce = socium.by_name("Leaders")->percent_of_workforce * population.laborPool;
 			agriculture.workforce = socium.by_name("Farmers")->percent_of_workforce * population.laborPool;
 			gathering.workforce = socium.by_name("Gatherers")->percent_of_workforce * population.laborPool;
+			textile.workforce = socium.by_name("Weavers")->percent_of_workforce * population.laborPool;
+			husbandry.workforce = socium.by_name("Shepards")->percent_of_workforce * population.laborPool;
 			if (pottery.wages > gathering.wages * 1.8)
 			{
 	
-				socium.by_name("Gatherers")->percent_of_workforce -= 0.000001;
-				socium.by_name("Potters")->percent_of_workforce += 0.000001;
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * (pottery.wages/gathering.wages);
+				socium.by_name("Potters")->percent_of_workforce += 0.00001 * (pottery.wages / gathering.wages);
 			}
 			else
 			{
-				socium.by_name("Gatherers")->percent_of_workforce += 0.000001;
-				socium.by_name("Potters")->percent_of_workforce -= 0.000001;
+				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
+				socium.by_name("Potters")->percent_of_workforce -= 0.00001;
 			}
+
+			if (textile.wages > gathering.wages * 1.8)
+			{
+
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * (pottery.wages / gathering.wages);
+				socium.by_name("Weavers")->percent_of_workforce += 0.00001 * (pottery.wages / gathering.wages);
+			}
+			else if (socium.by_name("Weavers")->percent_of_workforce > 0.00001)
+			{
+				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
+				socium.by_name("Weavers")->percent_of_workforce -= 0.00001;
+			}
+			if (husbandry.wages > gathering.wages * 1.8)
+			{
+
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * (pottery.wages / gathering.wages);
+				socium.by_name("Shepards")->percent_of_workforce += 0.00001 * (pottery.wages / gathering.wages);
+			}
+			else if (socium.by_name("Shepards")->percent_of_workforce > 0.0001 && woolExc.total_demand<woolExc.total_supply)
+			{
+				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
+				socium.by_name("Shepards")->percent_of_workforce -= 0.00001;
+			}
+
 		}
 		void pause()
 		{
@@ -577,10 +625,15 @@ class Simulation
 			calculate_jobs();
 			foodExc.process();
 			potteryExc.process();
+			woolExc.process();
+			clothExc.process();
 			gathering.compute();
 			agriculture.compute();
 			pottery.compute();
 
+			husbandry.compute();
+			double beforeD = husbandry.money;
+			textile.compute();
 			
 			
 			population.density = population.population / geo.square_kilometres;
@@ -589,23 +642,33 @@ class Simulation
 			double beforeA = agriculture.money;
 			double beforeB = gathering.money;
 			double beforeC = pottery.money;
+
+			double beforeE = textile.money;
 			double realistic_demand = population.population * 1.0 * (std::tanh(-(foodExc.current_price - 100)/100) * 0.5 + 1);
 
-
-			auto t = foodExc.buy_money(population.money.value*0.95, &population.money.value);
+			//std::cout << "Pop Money " << population.money.value << std::endl;
+			//std::cout << "Need to buy " << population.population << std::endl;
+			auto t = foodExc.buy_amount(population.population, &population.money.value);
+			//std::cout << "Food bought " << t.amount_bought << std::endl;
+			//std::cout << "Pop Money left " << population.money.value << std::endl;
 			foodExc.total_demand = population.population;
 			g = t.money_spent;
 			population.foodSupply = t.amount_bought / population.population * 100;
 		
 			if (population.money.value > 0)
-				t = potteryExc.buy_money(population.money.value, &population.money.value);
+				t = potteryExc.buy_money(population.money.value*0.5, &population.money.value);
 			potteryExc.total_demand = population.population / 5;
-			//std::cout << "Spent  " << population.money.value << std::endl;
+
+			
+			clothExc.buy_money(population.money.value, &population.money.value);
+
+		//	std::cout << "Remains  " << socium.by_name("Weavers")->percent_of_workforce << std::endl;
 			GDP.private_consumption += abs(population.money - before);
 			agriculture.income = agriculture.money - beforeA;
 			gathering.income = gathering.money - beforeB;
 			pottery.income = pottery.money - beforeC;
-
+			husbandry.income = husbandry.money - beforeD;
+			textile.income = textile.money - beforeE;
 
 
 			GDP.calcTotalGdp();

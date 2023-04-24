@@ -372,9 +372,9 @@ public:
 	GLuint vao, vbo;
 	std::vector<GLfloat> shape;
 
-	void draw_slice(GLfloat x, GLfloat y, GLfloat radius, double start_angle, double end_angle, std::vector<float> color) {
+	void draw_slice(GLfloat x, GLfloat y, double radius, double start_angle, double end_angle, std::vector<float> color) {
 		std::vector <GLfloat> shp;
-		int num_segments = 700;
+		int num_segments = 2000;
 		double theta = (end_angle - start_angle) / double(num_segments - 1);
 		double tangetial_factor = tanf(theta);
 		double radial_factor = cosf(theta);
