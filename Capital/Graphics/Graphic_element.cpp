@@ -19,6 +19,23 @@ void Goverment_menu::init()
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 }
 
+void Geography_menu::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
+
+
+
+	panel->add_dynamic_text_element("Total controlled area: ", &simulation.geo.square_kilometres.result, x_slot * 6, visualization.window_resolution.y - 500);
+
+	panel->add_dynamic_text_element("Arable area: ", &simulation.geo.totalArableLand.result, x_slot * 6, visualization.window_resolution.y - 600);
+
+	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
+}
+
+
 void Agriculture_sector_panel :: init()
 {
 	int x_slot = visualization.window_resolution.x / 50;

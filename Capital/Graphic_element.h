@@ -11,6 +11,7 @@ class Demographics_menu : virtual public Multiple_choice_panel
 public:
 	ageChart* chart;
 	Pie_chart* Wchart;
+
 	void draw()
 	{
 
@@ -44,7 +45,22 @@ public:
 class Goverment_menu : virtual public Multiple_choice_panel
 {
 public:
+	void init();
+	void draw()
+	{
+		draw_button();
 
+		if (active)
+		{
+			panel->draw();
+		}
+
+	}
+};
+
+class Geography_menu : virtual public Multiple_choice_panel
+{
+public:
 	void init();
 	void draw()
 	{
@@ -141,7 +157,6 @@ public:
 class Economics_menu : virtual public Multiple_choice_panel
 {
 public:
-	std::vector<Multiple_choice_panel*> root_menus;
 	Chart* chartG;
 	void init();
 

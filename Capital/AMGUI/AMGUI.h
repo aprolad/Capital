@@ -435,7 +435,6 @@ public:
 		for (int i = 0; i < data.size(); i++) {
 			end_angle = start_angle + data[i].percent_of_workforce * 2.0f * PI;
 			draw_slice(0, 0, radius, start_angle, end_angle, data[i].color);
-			//std::cout << end_angle << std::endl;
 			start_angle = end_angle;
 		}
 
@@ -475,6 +474,7 @@ class Multiple_choice_panel : virtual public Quad_button
 {
 public:
 	std::vector<Multiple_choice_panel*>* top_menus;
+	std::vector<Multiple_choice_panel*> root_menus;
 	Multiple_choice_panel* set_properties(std::vector<Multiple_choice_panel*>* atop_menus, GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext)
 	{
 		shaderProgram = shader;
@@ -502,6 +502,10 @@ public:
 	}
 	void mouseCallback(double mx, double my)
 	{
+		for (auto a : root_menus)
+		{
+			a->mouseCallback(mx, my);
+		}
 		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
 		{
 			bool t = active;
@@ -512,6 +516,7 @@ public:
 			active = !t;
 		}
 	}
+
 	void init()
 	{
 

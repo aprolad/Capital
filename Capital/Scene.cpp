@@ -52,7 +52,11 @@ void MainGameScene::construct_scene()
 
 	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 8, 1270, 150, 50, "Technology"));
 
+	root_menus.push_back((new Geography_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, 150, 150, 50, "Geography"));
+
 	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, 1270, 150, 50, "Goverment"));
+
+
 
 	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, 2000, 1400, "Date: ", simulation->date.postfix);
 

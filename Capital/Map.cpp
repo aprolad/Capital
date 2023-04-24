@@ -192,10 +192,12 @@ int Map::draw()
 {
     {
         glUseProgram(shaderProgram);
-
+        glm::mat4 trans = glm::mat4(1);
+        GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
         draw_border();
 
-        glm::mat4 trans;
+        trans = glm::mat4(1);
         trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
         trans = glm::scale(trans, glm::vec3(size, size, size));
         //trans = glm::translate(trans, glm::vec3(-center_point.position.x, center_point.position.y, 0.0f));
@@ -203,7 +205,7 @@ int Map::draw()
         glViewport(1080, 290, 85*16, 85*9);
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
-        GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+       
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
         glLineWidth(3);

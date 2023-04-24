@@ -90,13 +90,13 @@ class Simulation;
 class Geography
 {
 public:
-	Geography()
+	Geography() : square_kilometres(CAP_UNIT_OF_MESURE_KM), totalArableLand(CAP_UNIT_OF_MESURE_KM)
 	{
-		sqKilometres = 10000;
-		totalArableLand = sqKilometres * 0.01;
+		square_kilometres = 10000;
+		totalArableLand = square_kilometres * 0.01;
 	}
-	double sqKilometres;
-	double totalArableLand;
+	Display_value square_kilometres;
+	Display_value totalArableLand;
 
 };
 class Profession
@@ -444,6 +444,8 @@ public:
 
 	std::deque<double> historic_wages;
 	double consumer_coverage;
+	void pay_wage();
+
 	void compute()
 	{
 	}
@@ -454,6 +456,11 @@ class Agriculture : public Industry
 
 		Agriculture() {}
 		void compute();
+};
+class Husbandry : public Industry
+{
+public:
+	void compute();
 };
 class Gathering : public Agriculture
 {
@@ -576,7 +583,7 @@ class Simulation
 
 			
 			
-			population.density = population.population / geo.sqKilometres;
+			population.density = population.population / geo.square_kilometres;
 
 			double before = population.money;
 			double beforeA = agriculture.money;

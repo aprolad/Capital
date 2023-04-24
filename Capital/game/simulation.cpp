@@ -2,9 +2,6 @@
 extern Simulation simulation;
 void Agriculture::compute()
 {
-	//income = money - last_day_balance;
-
-	//last_day_balance = money;
 
 
 	workplace_count = simulation.geo.totalArableLand * 300;
@@ -15,62 +12,25 @@ void Agriculture::compute()
 	for (int i = 0; i < 5; i++)
 		simulation.foodExc.put_sell_order(output / (5 * 365), simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &simulation.agriculture.money);
 
-	simulation.population.money.value += income;
-	//simulation.population.income += income;
-	workforce++;
-	wages = income / workforce;
-	if (wages < 0.01)
-		wages = 0.01;
-	money -= income;
-
-	
+	pay_wage();
 }
 
 void Gathering::compute()
 {
-	//income = money - last_day_balance;
 
-	//last_day_balance = money;
-	double avg = 0;
-	for (auto a : historic_wages)
-		avg += a;
-	avg /= 30;
-
-	double exhaust = sqrt(workforce / simulation.geo.sqKilometres / 15);
+	double exhaust = sqrt(workforce / simulation.geo.square_kilometres / 15);
 	if (workforce!=0)
 		output = workforce * 1 / exhaust;
-
-
 
 	for (int i = 0; i < 5; i++)
 		simulation.foodExc.put_sell_order(output / 5, simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &simulation.gathering.money);
 
-
-	simulation.population.money = simulation.population.money + income;
-
-	//simulation.population.income += income;
-
-	workforce++;
-	wages = income / workforce;
-	if (wages < 0.01)
-		wages = 0.01;
-
-	historic_wages.push_front(income);
-	historic_wages.pop_back();
-
-	money -= income;
-
+	pay_wage();
 }
 
 void Pottery::compute()
 {
-	//income = money - last_day_balance;
 
-	//last_day_balance = money;
-	double avg = 0;
-	for (auto a : historic_wages)
-		avg += a;
-	avg /= 30;
 	output = workforce * 20;
 
 	for (int i = 0; i < 5; i++)
@@ -78,6 +38,29 @@ void Pottery::compute()
 		simulation.potteryExc.put_sell_order(output / 5, simulation.potteryExc.get_current_price() * 0.8 + i * 0.1, &simulation.pottery.money);
 	}
 	prev_wage = wages;
+	pay_wage();
+}
+
+void Husbandry::compute()
+{
+
+	output = workforce * 20;
+
+	for (int i = 0; i < 5; i++)
+	{
+		simulation.potteryExc.put_sell_order(output / 5, simulation.potteryExc.get_current_price() * 0.8 + i * 0.1, &simulation.pottery.money);
+	}
+	prev_wage = wages;
+	pay_wage();
+}
+
+void Industry::pay_wage()
+{
+	double avg = 0;
+	for (auto a : historic_wages)
+		avg += a;
+	avg /= 30;
+
 	simulation.population.money = simulation.population.money + income;
 	//simulation.population.income += income;
 	if (workforce == 0)
@@ -88,8 +71,8 @@ void Pottery::compute()
 	historic_wages.push_front(income);
 	historic_wages.pop_back();
 	money -= income;
-
 }
+
 
 Socium::Socium()
 {
