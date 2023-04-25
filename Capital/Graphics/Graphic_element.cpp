@@ -43,19 +43,18 @@ void Agriculture_sector_panel :: init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot*6, y_slot * 16);
 
-	panel->add_dynamic_text_element("GDPM: ", " Denarius", x_slot * 6, y - 400, &simulation.GDP.total);
 
-	panel->add_dynamic_text_element("Farmer wages: ", &simulation.agriculture.wages.result, x_slot * 6, y - 450);
-
-	panel->add_dynamic_text_element("Gatherers wages: ", &simulation.gathering.wages.result, x_slot * 6, y - 500);
-
-	panel->add_dynamic_text_element("Backlog:  ", " ", x_slot * 6, y - 750, &simulation.foodExc.quantity_backlog);
-
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 6, y - 550, &simulation.foodExc.total_supply);
-
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 6, y - 650, &simulation.foodExc.total_demand);
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
+
+	root_menus.push_back((new Gathering_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot*5, 700, 125, 40, "Gathering"));
+	root_menus.push_back((new Farming_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Farming"));
+	root_menus.push_back((new Husbandry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 500, 125, 40, "Husbandry"));
+
+	for (auto a : root_menus)
+	{
+		a->init();
+	}
 
 }
 void Industry_sector_panel::init()
@@ -66,34 +65,14 @@ void Industry_sector_panel::init()
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
 
 
-	panel->add_dynamic_text_element("Supply cloth: ", " Denarius", x_slot * 6, y - 300, &simulation.clothExc.total_supply);
+	
 
-	panel->add_dynamic_text_element("Demand cloth: ", " Tonnes", x_slot * 6, y - 350, &simulation.clothExc.total_demand);
-
-	panel->add_dynamic_text_element("Supply: ", " Denarius", x_slot * 6, y - 400, &simulation.woolExc.total_supply);
-
-	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.woolExc.total_demand);
-
-	panel->add_dynamic_text_element("Backlog:  ", " ", x_slot * 6, y - 550, &simulation.woolExc.quantity_backlog);
-
-	panel->add_dynamic_text_element("Cloth Price: ", " ", x_slot * 6, y - 700, &simulation.clothExc.current_price);
-
-	panel->add_dynamic_text_element("Wool demand ", " ", x_slot * 6, y - 650, &simulation.woolExc.total_demand);
-
-	panel->add_dynamic_text_element("Workers: ", " ", x_slot * 6, y - 750, &simulation.pottery.workforce);
-
-	panel->add_dynamic_text_element("Wage textile: ", " ", x_slot * 6, y - 800, &simulation.textile.wages);
-	panel->add_dynamic_text_element("Wage wool: ", " ", x_slot * 6, y - 850, &simulation.husbandry.wages);
-
-
-	panel->add_dynamic_text_element("WOOL workers: ", " ", x_slot * 6, y - 900, &simulation.husbandry.workforce);
-
-
-	panel->add_dynamic_text_element("Textile workers: ", " ", x_slot * 6, y - 950, &simulation.textile.workforce);
-
-	panel->add_dynamic_text_element("Total money: ", &simulation.population.money.result, x_slot * 6, y - 1000);
-
-	panel->add_dynamic_text_element("Price wool: ", " ", x_slot * 6, y - 1050, &simulation.woolExc.current_price);
+	root_menus.push_back((new Pottery_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 700, 125, 40, "Pottery"));
+	root_menus.push_back((new Textile_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Textile"));
+	for (auto a : root_menus)
+	{
+		a->init();
+	}
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
 
@@ -161,4 +140,109 @@ void Demographics_menu::init()
 	panel->add_dynamic_text_element("Goverment: ", "", 250, y - 650, &simulation.goverment.workforce);
 	panel->add_dynamic_text_element("Food supply: ", "%", 250, y - 500, &simulation.population.foodSupply);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
+}
+
+void Gathering_panel::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Gatherers wages: ", &simulation.gathering.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Gathering income: ", &simulation.gathering.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.gathering.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.foodExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.foodExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.foodExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.foodExc.quantity_backlog);
+}
+
+void Farming_panel::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Farming wages: ", &simulation.agriculture.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Farming income: ", &simulation.agriculture.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.agriculture.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.foodExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.foodExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.foodExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.foodExc.quantity_backlog);
+}
+
+void Husbandry_panel::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Wool wages: ", &simulation.husbandry.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Wool income: ", &simulation.husbandry.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.husbandry.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Wool price:  ", " ", x_slot * 13, y_slot * 17, &simulation.woolExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.woolExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.woolExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.woolExc.quantity_backlog);
+}
+
+void Pottery_panel::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Pottery wages: ", &simulation.pottery.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Pottry income: ", &simulation.pottery.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.pottery.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Pottery price:  ", " ", x_slot * 13, y_slot * 17, &simulation.potteryExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.potteryExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.potteryExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.potteryExc.quantity_backlog);
+}
+void Textile_panel::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Cloth wages: ", &simulation.textile.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Cloth income: ", &simulation.textile.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.textile.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.clothExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.clothExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.clothExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.clothExc.quantity_backlog);
 }

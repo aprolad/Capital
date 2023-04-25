@@ -213,14 +213,14 @@ public:
 		text_elements.push_back(t);
 
 	}
-	Information_panel* set_properties(GLuint shader, GLuint font, int ax, int ay)
+	Information_panel* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx = 220, int sy = 350)
 	{
 		shaderProgram = shader;
 		fontShader = font;
 		x = ax;
 		y = ay;
-		size_x = 220;
-		size_y = 350;
+		size_x = sx;
+		size_y = sy;
 		init();
 		return this;
 	}

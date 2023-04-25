@@ -322,16 +322,20 @@ public:
 		if (calculate_excess() > total_demand *155)
 			current_price /= 1.0005;
 
+
 		if (total_demand > total_supply)
-			current_price *= 1 + (0.003);
+			current_price *= 1 + (0.003 * (total_demand - total_supply) / total_demand);
 		else
-			current_price /= 1 + (0.003);
+			current_price /= 1 + (0.003 * (total_supply - total_demand) / total_supply);
 		
+
+
 		for (auto a : order_book)
 			a.process(current_price);
 
-		if (current_price < 0.001)
-			current_price = 0.001;
+
+		if (current_price < 0.0001)
+			current_price = 0.0001;
 
 		total_demand = 0;
 		total_supply = 0;
@@ -436,24 +440,22 @@ public:
 
 	double get_current_price()
 	{
-		//if (!order_book.empty())
-		//	current_price = order_book.front().price;
 		return current_price;
 	}
 };
 class Industry
 {
 public:
-	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY) { historic_wages.resize(30); money = 100000; }
+	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce(0) { historic_wages.resize(30); money = 100000; }
 	double productivity;
 	Display_value output;
 	double workers;
 	double gdp;
-	double income;
-	double money;
+	Display_value income;
+	double money, last_day_money;
 	double last_day_balance;
 	double workplace_count;
-	double workforce;
+	Display_value workforce;
 	Display_value wages;
 	double prev_wage;
 	double expenditure;
@@ -617,7 +619,6 @@ class Simulation
 		}
 		void computeOneDay()
 		{
-			//population.income = 1000000;
 			GDP.private_consumption = 0;
 			date.calculate_date();
 			population.calc(date.days_from_start);
@@ -630,46 +631,30 @@ class Simulation
 			gathering.compute();
 			agriculture.compute();
 			pottery.compute();
-
 			husbandry.compute();
-			double beforeD = husbandry.money;
 			textile.compute();
 			
 			
 			population.density = population.population / geo.square_kilometres;
 
 			double before = population.money;
-			double beforeA = agriculture.money;
-			double beforeB = gathering.money;
-			double beforeC = pottery.money;
 
-			double beforeE = textile.money;
 			double realistic_demand = population.population * 1.0 * (std::tanh(-(foodExc.current_price - 100)/100) * 0.5 + 1);
 
-			//std::cout << "Pop Money " << population.money.value << std::endl;
-			//std::cout << "Need to buy " << population.population << std::endl;
 			auto t = foodExc.buy_amount(population.population, &population.money.value);
-			//std::cout << "Food bought " << t.amount_bought << std::endl;
-			//std::cout << "Pop Money left " << population.money.value << std::endl;
+
 			foodExc.total_demand = population.population;
-			g = t.money_spent;
+
 			population.foodSupply = t.amount_bought / population.population * 100;
 		
 			if (population.money.value > 0)
 				t = potteryExc.buy_money(population.money.value*0.5, &population.money.value);
 			potteryExc.total_demand = population.population / 5;
 
-			
 			clothExc.buy_money(population.money.value, &population.money.value);
 
 		//	std::cout << "Remains  " << socium.by_name("Weavers")->percent_of_workforce << std::endl;
 			GDP.private_consumption += abs(population.money - before);
-			agriculture.income = agriculture.money - beforeA;
-			gathering.income = gathering.money - beforeB;
-			pottery.income = pottery.money - beforeC;
-			husbandry.income = husbandry.money - beforeD;
-			textile.income = textile.money - beforeE;
-
 
 			GDP.calcTotalGdp();
 		}

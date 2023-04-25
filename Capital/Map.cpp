@@ -148,7 +148,7 @@ int Map::init()
         if (poGeometry->getGeometryType() == wkbPolygon)
         {
             OGRPolygon* poPolygon = (OGRPolygon*)poGeometry;
-            printf("Processing polygon with %d rings\n", poPolygon->getExteriorRing()->getNumPoints() + 1);
+            //printf("Processing polygon with %d rings\n", poPolygon->getExteriorRing()->getNumPoints() + 1);
             Vertex v;
             Line t;
 
@@ -170,6 +170,7 @@ int Map::init()
             map_features.push_back(vertices);
         }
     }
+    std::cout << "Loaded map polygons" << std::endl;
 
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;

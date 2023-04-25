@@ -132,6 +132,8 @@ public:
 		if (active)
 		{
 			panel->draw();
+			for (auto a : root_menus)
+				a->draw();
 		}
 
 	}
@@ -140,7 +142,7 @@ class Agriculture_sector_panel : virtual public Economy_panel
 {
 public:
 	void init();
-
+	
 };
 
 class Industry_sector_panel : virtual public Economy_panel
@@ -160,22 +162,6 @@ public:
 	Chart* chartG;
 	void init();
 
-	void mouseCallback(double mx, double my)
-	{
-		for (auto a : root_menus)
-		{
-			a->mouseCallback(mx, my);
-		}
-		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
-		{
-			bool t = active;
-			for (int i = 0; i < top_menus->size(); i++)
-			{
-				(top_menus->at(i))->active = false;
-			}
-			active = !t;
-		}
-	}
 	void draw()
 	{
 		draw_button();
@@ -192,4 +178,31 @@ public:
 		}
 
 	}
+};
+
+class Farming_panel : virtual public Economy_panel
+{
+public:
+	void init();
+};
+class Husbandry_panel : virtual public Economy_panel
+{
+public:
+	void init();
+};
+class Gathering_panel : virtual public Economy_panel
+{
+public:
+	void init();
+};
+
+class Pottery_panel : virtual public Economy_panel
+{
+public:
+	void init();
+};
+class Textile_panel : virtual public Economy_panel
+{
+public:
+	void init();
 };
