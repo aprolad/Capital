@@ -291,6 +291,8 @@ struct Purchase_check
 	double amount_bought;
 	double money_spent;
 };
+
+
 class Exchange
 {
 public:
@@ -310,7 +312,7 @@ public:
 		{
 			quantity_backlog += a.quantity;
 		}
-		
+
 		return quantity_backlog;
 	}
 	void process()
@@ -319,7 +321,7 @@ public:
 		if (total_demand < 1) total_demand = 1;
 
 
-		if (calculate_excess() > total_demand *155)
+		if (calculate_excess() > total_demand * 155)
 			current_price /= 1.0005;
 
 
@@ -327,7 +329,7 @@ public:
 			current_price *= 1 + (0.003 * (total_demand - total_supply) / total_demand);
 		else
 			current_price /= 1 + (0.003 * (total_supply - total_demand) / total_supply);
-		
+
 
 
 		for (auto a : order_book)
@@ -361,7 +363,7 @@ public:
 		double want_amount = buy_amount;
 		total_demand += buy_amount;
 
-		
+
 
 		for (int i = 0; buy_amount > 0; i++)
 		{
@@ -390,7 +392,7 @@ public:
 				money_spent += buy_amount * order_book[0].price;
 				buy_amount = 0;
 			}
-			 //Small negative numbers represent operational debts 
+			//Small negative numbers represent operational debts 
 			if (*account < 0)
 				return Purchase_check(want_amount - buy_amount, money_spent);
 		}
@@ -405,7 +407,7 @@ public:
 		double buy_money = buy_money_;
 		if (current_price < 0.001)
 			current_price = 0.001;
-		total_demand += buy_money_/current_price;
+		total_demand += buy_money_ / current_price;
 		// Cannot buy if there are no offers
 
 		double bought = 0;
@@ -535,6 +537,7 @@ class Goverment
 {
 public:
 	double workforce;
+	double* money;
 };
 class Simulation
 {
@@ -580,36 +583,36 @@ class Simulation
 			if (pottery.wages > gathering.wages * 1.8)
 			{
 	
-				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * (pottery.wages/gathering.wages);
-				socium.by_name("Potters")->percent_of_workforce += 0.00001 * (pottery.wages / gathering.wages);
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.0001 * (pottery.wages/gathering.wages);
+				socium.by_name("Potters")->percent_of_workforce += 0.0001 * (pottery.wages / gathering.wages);
 			}
-			else
+			else if (socium.by_name("Potters")->percent_of_workforce > 0.0002)
 			{
-				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
-				socium.by_name("Potters")->percent_of_workforce -= 0.00001;
+				socium.by_name("Gatherers")->percent_of_workforce += 0.0001;
+				socium.by_name("Potters")->percent_of_workforce -= 0.0001;
 			}
 
 			if (textile.wages > gathering.wages * 1.8)
 			{
 
-				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * (pottery.wages / gathering.wages);
-				socium.by_name("Weavers")->percent_of_workforce += 0.00001 * (pottery.wages / gathering.wages);
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.0001 * (pottery.wages / gathering.wages);
+				socium.by_name("Weavers")->percent_of_workforce += 0.0001 * (pottery.wages / gathering.wages);
 			}
-			else if (socium.by_name("Weavers")->percent_of_workforce > 0.00001)
+			else if (socium.by_name("Weavers")->percent_of_workforce > 0.0002)
 			{
-				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
-				socium.by_name("Weavers")->percent_of_workforce -= 0.00001;
+				socium.by_name("Gatherers")->percent_of_workforce += 0.0001;
+				socium.by_name("Weavers")->percent_of_workforce -= 0.0001;
 			}
 			if (husbandry.wages > gathering.wages * 1.8)
 			{
 
-				socium.by_name("Gatherers")->percent_of_workforce -= 0.00001 * (pottery.wages / gathering.wages);
-				socium.by_name("Shepards")->percent_of_workforce += 0.00001 * (pottery.wages / gathering.wages);
+				socium.by_name("Gatherers")->percent_of_workforce -= 0.0001 * (pottery.wages / gathering.wages);
+				socium.by_name("Shepards")->percent_of_workforce += 0.0001 * (pottery.wages / gathering.wages);
 			}
 			else if (socium.by_name("Shepards")->percent_of_workforce > 0.0001 && woolExc.total_demand<woolExc.total_supply)
 			{
-				socium.by_name("Gatherers")->percent_of_workforce += 0.00001;
-				socium.by_name("Shepards")->percent_of_workforce -= 0.00001;
+				socium.by_name("Gatherers")->percent_of_workforce += 0.0001;
+				socium.by_name("Shepards")->percent_of_workforce -= 0.0001;
 			}
 
 		}
@@ -641,7 +644,7 @@ class Simulation
 
 			double realistic_demand = population.population * 1.0 * (std::tanh(-(foodExc.current_price - 100)/100) * 0.5 + 1);
 
-			auto t = foodExc.buy_amount(population.population, &population.money.value);
+			auto t = foodExc.buy_money(population.money.value * 0.8, &population.money.value);
 
 			foodExc.total_demand = population.population;
 
@@ -649,7 +652,7 @@ class Simulation
 		
 			if (population.money.value > 0)
 				t = potteryExc.buy_money(population.money.value*0.5, &population.money.value);
-			potteryExc.total_demand = population.population / 5;
+		//	potteryExc.total_demand = population.population / 5;
 
 			clothExc.buy_money(population.money.value, &population.money.value);
 

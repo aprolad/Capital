@@ -3,7 +3,7 @@ extern Simulation simulation;
 void Agriculture::compute()
 {
 	expenditure = 0;
-	output = workforce * 800 * double(250)/100;
+	output = workforce * 500 * double(250)/100;
 
 	//if (simulation.foodExc.quantity_backlog < 1e8)
 		for (int i = 0; i < 5; i++)
@@ -19,8 +19,7 @@ void Gathering::compute()
 	if (workforce!=0)
 		output = workforce * 1.4 / exhaust;
 	//if (simulation.foodExc.quantity_backlog < 1e8)
-		for (int i = 0; i < 5; i++)
-			simulation.foodExc.put_sell_order(output / 5, simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &money);
+			simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price(), &money);
 
 
 	pay_wage();
@@ -31,10 +30,9 @@ void Pottery::compute()
 	expenditure = 0;
 	output = workforce * 10;
 
-	for (int i = 0; i < 5; i++)
-	{
-		simulation.potteryExc.put_sell_order(output / 5, simulation.potteryExc.get_current_price() * 0.8 + i * 0.1, &money);
-	}
+
+	simulation.potteryExc.put_sell_order(output, simulation.potteryExc.get_current_price(), &money);
+
 	prev_wage = wages;
 	pay_wage();
 }
@@ -48,12 +46,9 @@ void Husbandry::compute()
 	
 	output = workforce * 0.1;
 
-	for (int i = 0; i < 5; i++)
-	{
-		simulation.woolExc.put_sell_order(wool_output / 5, simulation.woolExc.get_current_price() * 0.8 + i * 0.1, &money);
-		simulation.foodExc.put_sell_order(meat_output / 5, simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &money);
-	}
 
+		simulation.woolExc.put_sell_order(wool_output, simulation.woolExc.get_current_price(), &money);
+		simulation.foodExc.put_sell_order(meat_output, simulation.foodExc.get_current_price(), &money);
 
 
 	pay_wage();
