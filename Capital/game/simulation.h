@@ -292,7 +292,6 @@ struct Purchase_check
 	double money_spent;
 };
 
-
 class Exchange
 {
 public:
@@ -536,8 +535,18 @@ private:
 class Goverment
 {
 public:
+	Goverment() : d_money(CAP_UNIT_OF_MESURE_MONEY), wages(CAP_UNIT_OF_MESURE_MONEY)
+	{}
 	double workforce;
-	double* money;
+	double money;
+	Display_value wages;
+	Display_value d_money;
+	void process()
+	{
+		d_money = money;
+		pay_wages();
+	}
+	void pay_wages();
 };
 class Simulation
 {
@@ -636,7 +645,7 @@ class Simulation
 			pottery.compute();
 			husbandry.compute();
 			textile.compute();
-			
+			goverment.process();
 			
 			population.density = population.population / geo.square_kilometres;
 

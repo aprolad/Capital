@@ -88,8 +88,15 @@ void Industry::pay_wage()
 		salary = 0;
 	if (money > income * 3)
 		salary += money / 10;
-	simulation.population.money = simulation.population.money + salary;
-	historic_wages.push_front(income - expenditure);
+
+	double taxes = salary * 0.01;
+	double netto_salary = salary - taxes;
+
+	simulation.goverment.money += taxes;
+
+
+	simulation.population.money = simulation.population.money + netto_salary;
+	historic_wages.push_front(netto_salary);
 	historic_wages.pop_back();
 	money -= salary;
 
@@ -113,4 +120,12 @@ Socium::Socium()
 	worker_types.push_back(Profession("Weavers", 0.02, std::vector<float>{055, 52, 0, 1}));
 	//	for (auto a : worker_types)
 	//		std::cout <<a.name<<" " << a.percent_of_workforce << std::endl;
+}
+
+void Goverment::pay_wages()
+{
+	double payment = money / 2;
+	wages = payment / workforce;
+	money -= payment;
+	simulation.population.money.value+=payment;
 }

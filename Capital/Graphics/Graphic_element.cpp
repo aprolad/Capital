@@ -14,8 +14,12 @@ void Technology_menu::init()
 
 void Goverment_menu::init()
 {
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-	panel->add_dynamic_text_element("Wheat: ", "Kg", x, y - 650, &simulation.agriculture.output);
+	panel->add_dynamic_text_element("Goverment budget: ", &simulation.goverment.d_money.result, x_slot * 4, y_slot * 21);
+	panel->add_dynamic_text_element("Wages: ", &simulation.goverment.wages.result, x_slot * 4, y_slot * 19);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 }
 
