@@ -532,6 +532,11 @@ class Simulation_date
 private:
 
 };
+class Technology_tree
+{
+public:
+	
+};
 class Goverment
 {
 public:

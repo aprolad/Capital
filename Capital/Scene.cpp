@@ -39,6 +39,7 @@ void SettingsMenuScene::construct_scene()
 void MainGameScene::construct_scene()
 {
 	map.shaderProgram = shaderProgram;
+	map.fontShader = fontShader;
 	map.init();
 
 	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 10, 150, 100, 50, "Return");

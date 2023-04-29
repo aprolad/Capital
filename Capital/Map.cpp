@@ -4,8 +4,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <glm/glm.hpp>
-
-
+#include "gdal_priv.h"
+#include "ogrsf_frmts.h"
+#include "Visualization.h"
+extern Visualization visualization;
 double find_angle(glm::vec2 vec1, glm::vec2 vec2)
 {
     float angleRadians = atan2(vec2.y, vec2.x) - atan2(vec1.y, vec1.x);
@@ -110,6 +112,21 @@ inline glm::vec2 findIntersection(glm::vec2* p1, glm::vec2* p2, glm::vec2* q1, g
     return intersection;
 }
 
+const double kEarthRadius = 6371.0; // Earth's radius in kilometers
+
+double degreesToRadians(double degrees) {
+    return degrees * M_PI / 180.0;
+}
+
+double haversine(double lat1, double lon1, double lat2, double lon2) {
+    double dLat = degreesToRadians(lat2 - lat1);
+    double dLon = degreesToRadians(lon2 - lon1);
+    double a = sin(dLat / 2.0) * sin(dLat / 2.0) + cos(degreesToRadians(lat1))
+        * cos(degreesToRadians(lat2)) * sin(dLon / 2.0) * sin(dLon / 2.0);
+    double c = 2.0 * atan2(sqrt(a), sqrt(1.0 - a));
+    double d = kEarthRadius * c;
+    return d;
+}
 Vertex transformCoordinates(double longitude, double latitude)
 {
     Vertex t;
@@ -119,6 +136,9 @@ Vertex transformCoordinates(double longitude, double latitude)
 }
 int Map::init()
 {
+    x_slot = visualization.window_resolution.x / 50;
+    y_slot = visualization.window_resolution.y / 50;
+
     GDALAllRegister();
     OGRRegisterAll();
     glGenVertexArrays(1, &VAO1);
@@ -126,6 +146,7 @@ int Map::init()
     // Open Shapefile
     GDALDataset* poDS = (GDALDataset*)GDALOpenEx("Graphics/map.shp", GDAL_OF_VECTOR | GDAL_OF_READONLY, NULL, NULL, NULL);
 
+   
     if (poDS == NULL) {
         std::cerr << "Failed to open Shapefile" << std::endl;
         return -1;
@@ -136,6 +157,27 @@ int Map::init()
 
     // Set up a projection from geographic coordinates to Mercator coordinates
     OGRSpatialReference oSrcSRS, oDstSRS;
+
+
+
+
+    const char* projection = poDS->GetProjectionRef();
+
+    // Create a new spatial reference object and set the projection
+    OGRSpatialReference* spatialRef = new OGRSpatialReference();
+    spatialRef->SetFromUserInput(projection);
+
+    // Get the extent of the shapefile
+    OGRLayer* layer = poDS->GetLayer(0);
+    OGREnvelope envelope;
+    layer->GetExtent(&envelope);
+
+    // Calculate the size of each pixel
+    double pixelWidth = (envelope.MaxX - envelope.MinX) / 500;
+    double pixelHeight = (envelope.MaxY - envelope.MinY) / 500;
+
+
+
     oSrcSRS.SetWellKnownGeogCS("WGS84");
     OGRFeature* poFeature = NULL;
     poLayer->ResetReading();
@@ -174,7 +216,7 @@ int Map::init()
 
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;
-    size = 18;
+    size = 1;
    // x = 100;
     y = -100;
     OGRFeature::DestroyFeature(poFeature);
@@ -182,11 +224,12 @@ int Map::init()
 }
 void Map::draw_border()
 {
+    glUseProgram(shaderProgram);
     glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.5, 0.5, 1, 1);
-    draw_line(1040, -165, 1040, -990);
-    draw_line(-330, -165, -330, -990);
-    draw_line(-330, -165, 1040, -165);
-    draw_line(-330, -990, 1040, -990);
+    draw_line(500, 500, 1000, 500);
+    draw_line(1000, 500, 1000, 1000);
+    draw_line(500, 500, 500, 1000);
+    draw_line(500, 1000, 1000, 1000);
     glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
 }
 int Map::draw()
@@ -197,18 +240,23 @@ int Map::draw()
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
         draw_border();
-
+        draw_line(1200, 255, 1250, 255);
+        // Calculate sizing of the map based on lattitude 45 degrees
+        RenderText(fontShader, std::to_string(int(haversine(45, 0, 45, 36) / size)), 1210, 235, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
+        glUseProgram(shaderProgram);
         trans = glm::mat4(1);
         trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
         trans = glm::scale(trans, glm::vec3(size, size, size));
         //trans = glm::translate(trans, glm::vec3(-center_point.position.x, center_point.position.y, 0.0f));
         trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-        glViewport(1080, 290, 85*16, 85*9);
+
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
         trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
        
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+ 
 
+       // glViewport(x_slot*15, y_slot * 10, x_slot*30, y_slot * 30);
         glLineWidth(3);
 
         for (auto feature_iter : map_features)

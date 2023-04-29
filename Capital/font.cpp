@@ -5,6 +5,7 @@
 #include <glfw3.h>
 #include <iostream>
 #include <map>
+#include "Graphics/Utility_graphic_functions.h"
 #include "font.h"
 std::map<GLchar, Character> Characters;
 GLuint VAOT;

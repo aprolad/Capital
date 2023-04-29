@@ -5,9 +5,8 @@ void Agriculture::compute()
 	expenditure = 0;
 	output = workforce * 500 * double(250)/100;
 
-	//if (simulation.foodExc.quantity_backlog < 1e8)
-		for (int i = 0; i < 5; i++)
-			simulation.foodExc.put_sell_order(output / (5 * 365), simulation.foodExc.get_current_price() * 0.8 + i * 0.1, &money);
+
+	simulation.foodExc.put_sell_order(output / (365), simulation.foodExc.get_current_price(), &money);
 
 	pay_wage();
 }
@@ -18,8 +17,8 @@ void Gathering::compute()
 	double exhaust = sqrt(workforce / simulation.geo.square_kilometres / 15);
 	if (workforce!=0)
 		output = workforce * 1.4 / exhaust;
-	//if (simulation.foodExc.quantity_backlog < 1e8)
-			simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price(), &money);
+
+	simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price(), &money);
 
 
 	pay_wage();
@@ -47,24 +46,21 @@ void Husbandry::compute()
 	output = workforce * 0.1;
 
 
-		simulation.woolExc.put_sell_order(wool_output, simulation.woolExc.get_current_price(), &money);
-		simulation.foodExc.put_sell_order(meat_output, simulation.foodExc.get_current_price(), &money);
+	simulation.woolExc.put_sell_order(wool_output, simulation.woolExc.get_current_price(), &money);
+	simulation.foodExc.put_sell_order(meat_output, simulation.foodExc.get_current_price(), &money);
 
 
 	pay_wage();
-
 }
 
 void Textile::compute()
 {
 	output = workforce * 0.1;
 	auto t = simulation.woolExc.buy_amount(output * 0.5, &money);
-	double needed_material = t.amount_bought / (output * 0.5);
+	double material_coverage = t.amount_bought / (output * 0.5);
 	expenditure = t.money_spent;
-	for (int i = 0; i < 5; i++)
-	{
-		simulation.clothExc.put_sell_order(output / 5 * needed_material, simulation.clothExc.get_current_price() * 0.8 + i * 0.1, &money);
-	}
+
+	simulation.clothExc.put_sell_order(output * material_coverage, simulation.clothExc.get_current_price(), &money);
 
 	pay_wage();
 }

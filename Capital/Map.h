@@ -20,10 +20,12 @@ struct Line
 class Map
 {
 public:
+    double x_slot;
+    double y_slot;
     int debug;
     std::vector<Line> lines;
     GLuint VAO1, VBO1;
-    GLuint shaderProgram;
+    GLuint shaderProgram, fontShader;
     std::vector<Vertex> vertices;
     std::vector<std::vector<Vertex>> map_features;
     Vertex center_point;
