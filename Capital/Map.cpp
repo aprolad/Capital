@@ -216,36 +216,37 @@ int Map::init()
 
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;
-    size = 1;
-   // x = 100;
+    size = 21;
+    x = -100;
     y = -100;
     OGRFeature::DestroyFeature(poFeature);
 
 }
-void Map::draw_border()
+void Map::draw_map_sizing()
 {
     glUseProgram(shaderProgram);
-    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.5, 0.5, 1, 1);
-    draw_line(500, 500, 1000, 500);
-    draw_line(1000, 500, 1000, 1000);
-    draw_line(500, 500, 500, 1000);
-    draw_line(500, 1000, 1000, 1000);
-    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+    glm::mat4 trans = glm::mat4(1);
+    GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
+    draw_rectangle(x_slot * 45, 1190, 75, 25);
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1, 0, 0, 1);
+    draw_line(x_slot * 44, 1190, x_slot * 46, 1190);
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
+    // Calculate sizing of the map based on lattitude 45 degrees
+    RenderText(fontShader, std::to_string(int(haversine(45, 0, 45, 36) / size)) + " Km", x_slot * 44, 1175, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 }
 int Map::draw()
 {
     {
+       
+
+
+     
         glUseProgram(shaderProgram);
-        glm::mat4 trans = glm::mat4(1);
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-        draw_border();
-        draw_line(1200, 255, 1250, 255);
-        // Calculate sizing of the map based on lattitude 45 degrees
-        RenderText(fontShader, std::to_string(int(haversine(45, 0, 45, 36) / size)), 1210, 235, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
-        glUseProgram(shaderProgram);
-        trans = glm::mat4(1);
-        trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
+        glm::mat4 trans = glm::mat4(1);
+        trans = glm::translate(trans, glm::vec3(1000, 500, 0.0f));
         trans = glm::scale(trans, glm::vec3(size, size, size));
         //trans = glm::translate(trans, glm::vec3(-center_point.position.x, center_point.position.y, 0.0f));
         trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
@@ -286,9 +287,10 @@ int Map::draw()
 
 
         draw_zone_of_control();
-        
-        glViewport(0, 0, 2560, 1440);
-        // Clean up
+
+        draw_map_sizing();
+
+
         return 0;
     }
 }
@@ -397,7 +399,7 @@ void Map::calculate_zone_of_control()
 void Map::draw_zone_of_control()
 {
     glm::mat4 trans;
-    trans = glm::translate(trans, glm::vec3(500, 500, 0.0f));
+    trans = glm::translate(trans, glm::vec3(1000, 500, 0.0f));
     trans = glm::scale(trans, glm::vec3(size, size, size));
   //  trans = glm::translate(trans, glm::vec3(center_point.position.x, -center_point.position.y, 0.0f));
     trans = glm::translate(trans, glm::vec3(x, y, 0.0f));

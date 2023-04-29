@@ -107,6 +107,7 @@ void RenderText(GLuint& shader, std::string text, GLfloat x, GLfloat y, GLfloat 
 		glBindBuffer(GL_ARRAY_BUFFER, VBOT);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 		// Render quad
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)

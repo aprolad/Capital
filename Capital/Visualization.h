@@ -105,6 +105,7 @@ public:
 			if (fullscreen)
 			{
 				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, window_resolution.x, window_resolution.y, GLFW_DONT_CARE);
+				glfwSwapInterval(1);
 			}
 			else
 			{

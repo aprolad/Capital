@@ -39,6 +39,6 @@ private:
     double previous_x, previous_y;
     std::vector<GLfloat> shape;
     void calculate_zone_of_control();
-    void draw_border();
+    void draw_map_sizing();
 };
 

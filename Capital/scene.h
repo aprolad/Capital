@@ -92,9 +92,6 @@ public:
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 			map.x -= 1 / map.size;
 	
-		for (int i = 0; i < graphic_elements.size(); i++)
-			graphic_elements[i]->draw();
-		
 		bool any_active = false;
 		for (auto i : root_menus)
 		{
@@ -102,6 +99,12 @@ public:
 		}
 		if (!any_active)
 			map.draw();
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+		for (int i = 0; i < graphic_elements.size(); i++)
+			graphic_elements[i]->draw();
+		
+		
 	}
 
 
