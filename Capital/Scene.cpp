@@ -38,13 +38,21 @@ void SettingsMenuScene::construct_scene()
 
 void MainGameScene::construct_scene()
 {
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.x / 50;
+
 	map.shaderProgram = shaderProgram;
 	map.fontShader = fontShader;
 	map.init();
 
-	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 10, 150, 100, 50, "Return");
-	graphic_elements.push_back(t);
-	graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
+
+
+	Quad_button* return_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 2, 100, 50, "Return");
+	return_button->action = []() -> void { *choosen_scene = 0; };
+	graphic_elements.push_back(return_button);
+
+
+
 
 
 	root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 2, 1270, 150, 50, "Economics"));

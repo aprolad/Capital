@@ -95,7 +95,7 @@ public:
 			glfwGetFramebufferSize(window, &width, &height);
 			glfwGetCursorPos(window, &xpos, &ypos);
 			scene[choosenScene]->mouseInvoke(xpos, height - ypos);
-			std::cout << xpos << " " << height - ypos<<std::endl;
+			
 		}
 	}
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -172,8 +172,10 @@ public:
 
 			double fps = 1.0 / elapsed;
 
+			int width, height;
+			glfwGetFramebufferSize(window, &width, &height);
 
-			glm::mat4 projection = glm::ortho(0.0f, float(window_resolution.x), 0.0f, float(window_resolution.y));
+			glm::mat4 projection = glm::ortho(0.0f, float(window_resolution.x), 0.0f, float(height));
 			glUseProgram(shaderProgram);
 			GLuint transformLoc = glGetUniformLocation(shaderProgram, "projection");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(projection));
