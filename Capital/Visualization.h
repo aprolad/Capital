@@ -95,6 +95,7 @@ public:
 			glfwGetFramebufferSize(window, &width, &height);
 			glfwGetCursorPos(window, &xpos, &ypos);
 			scene[choosenScene]->mouseInvoke(xpos, height - ypos);
+			std::cout << xpos << " " << height - ypos<<std::endl;
 		}
 	}
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)

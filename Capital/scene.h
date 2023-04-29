@@ -99,6 +99,7 @@ public:
 		}
 		if (!any_active)
 			map.draw();
+
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
 
 		for (int i = 0; i < graphic_elements.size(); i++)

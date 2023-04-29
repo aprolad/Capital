@@ -61,7 +61,7 @@ public:
 	{
 
 		glUseProgram(shaderProgram);
-		glm::mat4 trans;
+		glm::mat4 trans = glm::mat4(1);
 		trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
 
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
@@ -78,6 +78,7 @@ class Quad_button : virtual public Graphic_element
 public:
 	std::string text;
 	glm::vec3 text_color;
+	glm::vec3 button_color;
 	double text_size;
 	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext, double text_size = 1)
 	{
@@ -90,6 +91,7 @@ public:
 		this->size_y = sy;
 		text = atext;
 		text_color = { 1.0, 0.0f, 0.0f };
+		button_color = { 0.0f, 0.0f, 0.0f };
 		init();
 		return this;
 	}
@@ -102,8 +104,9 @@ public:
 
 	void draw()
 	{
+		glUseProgram(shaderProgram);
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), button_color.x, button_color.y, button_color.z, 1);
 		prepare_shaders();
-		double size = 3 / double(text.size()) + 0.4;
 		RenderText(fontShader, text, x - size_x * 0.9, y - 20, text_size, text_color);
 
 	}
@@ -495,9 +498,10 @@ public:
 	{
 		glUseProgram(shaderProgram);
 		if (active)
-			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.5, 0.5, 1, 1);
+			base->button_color = glm::vec3(0.5, 0.5, 1);
 		base->draw();
 		glUseProgram(shaderProgram);
+		base->button_color = glm::vec3(0, 0.0, 0);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
 	}
 	void mouseCallback(double mx, double my)

@@ -65,7 +65,8 @@ void MainGameScene::construct_scene()
 	graphic_elements.push_back(at);
 
 
-	Panel* speed_choice_panel = (new Panel())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 50 * 18 * 2.5, 1250, 75, 35);
+
+	Panel* speed_choice_panel = (new Panel())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 50 * 45, 1250, 145, 25);
 	graphic_elements.push_back(speed_choice_panel);
 
 	for (int i = 0; i < root_menus.size(); i++)

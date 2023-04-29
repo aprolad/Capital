@@ -95,14 +95,14 @@ public:
 		size_y = sy;
 		init();
 		gs = &simulation.game_speed;
-		buttons[0] = *(new Quad_button())->set_properties(shaderProgram, fontShader, x - 40, 1250, 19, 20, "1");
+		buttons[0] = *(new Quad_button())->set_properties(shaderProgram, fontShader, x - 105, 1250, 40, 25, "x1");
 		buttons[0].text_color = { 1,0,0 };
 		buttons[0].action = []() -> void { *gs = 1; };
-		buttons[1] = *(new Quad_button())->set_properties(shaderProgram, fontShader, x, 1250, 20, 19, "2");
-		buttons[1].text_color = { 1,1,0 };
+		buttons[1] = *(new Quad_button())->set_properties(shaderProgram, fontShader, x - 10, 1250, 55, 25, "x10");
+		buttons[1].text_color = { 1,0,0 };
 		buttons[1].action = []() -> void { *gs = 10; };
-		buttons[2] = *(new Quad_button())->set_properties(shaderProgram, fontShader, x + 40, 1250, 19, 20, "3");
-		buttons[2].text_color = { 0,1,0 };
+		buttons[2] = *(new Quad_button())->set_properties(shaderProgram, fontShader, x + 110, 1250, 60, 25, "x100");
+		buttons[2].text_color = { 1,0,0 };
 		buttons[2].action = []() -> void { *gs = 100; };
 		return this;
 	}
@@ -113,9 +113,31 @@ public:
 		prepare_shaders();
 		
 		glUseProgram(shaderProgram);
-		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.3, 0.3, 0, 1);
-		for (auto a : buttons)
-			a.draw();
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0, 1);
+		for (int i = 0; i < 3; i++)
+		{
+			buttons[i].button_color = glm::vec3(0, 0.0, 0.0);
+			buttons[i].text_color = glm::vec3(1, 0.0, 0);
+			if (*gs == 1)
+			{
+				buttons[0].text_color = glm::vec3(0, 0.0, 0);
+				buttons[0].button_color = glm::vec3(0.5, 0.5, 1);
+			}
+			if (*gs == 10)
+			{
+				buttons[1].text_color = glm::vec3(0, 0.0, 0);
+				buttons[1].button_color = glm::vec3(0.5, 0.5, 1);
+			}
+			if (*gs == 100)
+			{
+				buttons[2].text_color = glm::vec3(0, 0.0, 0);
+				buttons[2].button_color = glm::vec3(0.5, 0.5, 1);
+			}
+
+				glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0, 1);
+			buttons[i].draw();
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1.0, 0.0, 0, 1);
+		}
 		glUseProgram(shaderProgram);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0, 1);
 	}

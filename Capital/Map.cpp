@@ -217,7 +217,7 @@ int Map::init()
     center_point.position.x /= vertex_count;
     center_point.position.y /= vertex_count;
     size = 21;
-    x = -100;
+    x = 0;
     y = -100;
     OGRFeature::DestroyFeature(poFeature);
 
