@@ -1,0 +1,19 @@
+\hypertarget{audio_8h_source}{}\doxysection{audio.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <sdl/SDL\_mixer.h>}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsample}{sample}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{classsample}{sample}}(\textcolor{keyword}{const}\ std::string\&\ path,\ \textcolor{keywordtype}{int}\ volume);}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{void}\ play();}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{void}\ play(\textcolor{keywordtype}{int}\ times);}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_volume(\textcolor{keywordtype}{int}\ volume);}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00013\ \ \ \ \ std::unique\_ptr<Mix\_Chunk,\ void\ (*)(Mix\_Chunk*)>\ chunk;}
+\DoxyCodeLine{00014\ \};}
+
+\end{DoxyCode}

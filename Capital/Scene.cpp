@@ -57,7 +57,7 @@ void MainGameScene::construct_scene()
 
 	root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 2, 1270, 150, 50, "Economics"));
 
-	root_menus.push_back((new Demographics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 5, 1270, 150, 50, "Socio"));
+	root_menus.push_back((new Society_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 5, 1270, 150, 50, "Socio"));
 
 	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 8, 1270, 150, 50, "Technology"));
 

@@ -1,0 +1,18 @@
+\hypertarget{font_8h_source}{}\doxysection{font.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_character}{Character}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ GLuint\ \ \ \ \ TextureID;\ \textcolor{comment}{//\ ID\ текстуры\ глифа}}
+\DoxyCodeLine{00007\ \ \ \ \ glm::ivec2\ Size;\ \ \ \ \ \ \textcolor{comment}{//\ Размеры глифа}}
+\DoxyCodeLine{00008\ \ \ \ \ glm::ivec2\ Bearing;\ \ \ \textcolor{comment}{//\ Смещение\ верхней\ левой точки глифа}}
+\DoxyCodeLine{00009\ \ \ \ \ GLuint\ \ \ \ \ Advance;\ \ \ \textcolor{comment}{//\ Горизонтальное смещение до начала следующего глифа}}
+\DoxyCodeLine{00010\ \};}
+\DoxyCodeLine{00011\ \textcolor{keyword}{extern}\ std::map<GLchar,\ Character>\ Characters;}
+\DoxyCodeLine{00012\ \textcolor{keywordtype}{void}\ fontInit();}
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{void}\ RenderText(GLuint\&\ shader,\ std::string\ text,\ GLfloat\ x,\ GLfloat\ y,\ GLfloat\ scale,\ glm::vec3\ color);}
+
+\end{DoxyCode}

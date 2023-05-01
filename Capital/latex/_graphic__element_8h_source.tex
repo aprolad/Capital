@@ -1,0 +1,250 @@
+\hypertarget{_graphic__element_8h_source}{}\doxysection{Graphic\+\_\+element.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Header.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Game/simulation.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}AMGUI/AMGUI.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{class_simulation}{Simulation}}\ simulation;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_technology__menu}{Technology\_menu}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00017\ \ \ \ \ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ draw\_button();}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_goverment__menu}{Goverment\_menu}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00032\ \ \ \ \ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ draw\_button();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_geography__menu}{Geography\_menu}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}}
+\DoxyCodeLine{00044\ \{}
+\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ draw\_button();}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_panel}{Panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
+\DoxyCodeLine{00060\ \{}
+\DoxyCodeLine{00061\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ buttons)}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a.mouseCallback(mx,\ my);}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{class_quad__button}{Quad\_button}}\ buttons[3];}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}*\ gs;}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{class_panel}{Panel}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy)}
+\DoxyCodeLine{00071\ \ \ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ size\_x\ =\ sx;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ size\_y\ =\ sy;}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ init();}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ gs\ =\ \&simulation.game\_speed;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ buttons[0]\ =\ *(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x\ -\/\ 105,\ 1250,\ 40,\ 25,\ \textcolor{stringliteral}{"{}x1"{}});}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ buttons[0].text\_color\ =\ \{\ 1,0,0\ \};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ buttons[0].action\ =\ []()\ -\/>\ \textcolor{keywordtype}{void}\ \{\ *gs\ =\ 1;\ \};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ buttons[1]\ =\ *(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x\ -\/\ 10,\ 1250,\ 55,\ 25,\ \textcolor{stringliteral}{"{}x10"{}});}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ buttons[1].text\_color\ =\ \{\ 1,0,0\ \};}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ buttons[1].action\ =\ []()\ -\/>\ \textcolor{keywordtype}{void}\ \{\ *gs\ =\ 10;\ \};}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ buttons[2]\ =\ *(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x\ +\ 110,\ 1250,\ 60,\ 25,\ \textcolor{stringliteral}{"{}x100"{}});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ buttons[2].text\_color\ =\ \{\ 1,0,0\ \};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ buttons[2].action\ =\ []()\ -\/>\ \textcolor{keywordtype}{void}\ \{\ *gs\ =\ 100;\ \};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00093\ \ \ \ \ \{}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ prepare\_shaders();}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0.0,\ 0.0,\ 0,\ 1);}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 3;\ i++)}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ buttons[i].button\_color\ =\ glm::vec3(0,\ 0.0,\ 0.0);}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ buttons[i].text\_color\ =\ glm::vec3(1,\ 0.0,\ 0);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*gs\ ==\ 1)}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buttons[0].text\_color\ =\ glm::vec3(0,\ 0.0,\ 0);}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buttons[0].button\_color\ =\ glm::vec3(0.5,\ 0.5,\ 1);}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*gs\ ==\ 10)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buttons[1].text\_color\ =\ glm::vec3(0,\ 0.0,\ 0);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buttons[1].button\_color\ =\ glm::vec3(0.5,\ 0.5,\ 1);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*gs\ ==\ 100)}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buttons[2].text\_color\ =\ glm::vec3(0,\ 0.0,\ 0);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buttons[2].button\_color\ =\ glm::vec3(0.5,\ 0.5,\ 1);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0.0,\ 0.0,\ 0,\ 1);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ buttons[i].draw();}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 1.0,\ 0.0,\ 0,\ 1);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0.0,\ 0.0,\ 0,\ 1);}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_economy__panel}{Economy\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}}
+\DoxyCodeLine{00130\ \{}
+\DoxyCodeLine{00131\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00134\ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ draw\_button();}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ root\_menus)}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>draw();}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \};}
+\DoxyCodeLine{00146\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_agriculture__sector__panel}{Agriculture\_sector\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00147\ \{}
+\DoxyCodeLine{00148\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00150\ \ \ \ \ }
+\DoxyCodeLine{00151\ \};}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_industry__sector__panel}{Industry\_sector\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00154\ \{}
+\DoxyCodeLine{00155\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00157\ \};}
+\DoxyCodeLine{00158\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_service__sector__panel}{Service\_sector\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00159\ \{}
+\DoxyCodeLine{00160\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00162\ \};}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_society__menu}{Society\_menu}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}}
+\DoxyCodeLine{00165\ \{}
+\DoxyCodeLine{00166\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00167\ \ \ \ \ }
+\DoxyCodeLine{00168\ \ \ \ \ \mbox{\hyperlink{class_pie__chart}{Pie\_chart}}*\ Wchart;}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00171\ \ \ \ \ \{}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ draw\_button();}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ has\_true\ =\ std::any\_of(root\_menus.begin(),\ root\_menus.end(),\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}*\ obj)\ \{return\ obj-\/>active;\});}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!has\_true)}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//chart-\/>draw(std::vector(simulation.population.agePyramid.begin()+1,\ simulation.population.agePyramid.end()));}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ Wchart-\/>draw(simulation.socium.worker\_types);}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ root\_menus)}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>draw();}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ \ \ \ \ }
+\DoxyCodeLine{00186\ \};}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_economics__menu}{Economics\_menu}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}}
+\DoxyCodeLine{00189\ \{}
+\DoxyCodeLine{00190\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00191\ \ \ \ \ \mbox{\hyperlink{class_chart}{Chart}}*\ chartG;}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00195\ \ \ \ \ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ draw\_button();}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ has\_true\ =\ std::any\_of(root\_menus.begin(),\ root\_menus.end(),\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}*\ obj)\ \{return\ obj-\/>active;\ \});}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!has\_true)}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ chartG-\/>draw(simulation.GDP.history);}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ root\_menus)}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>draw();}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \};}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_farming__panel}{Farming\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00213\ \{}
+\DoxyCodeLine{00214\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00216\ \};}
+\DoxyCodeLine{00217\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_husbandry__panel}{Husbandry\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00218\ \{}
+\DoxyCodeLine{00219\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00221\ \};}
+\DoxyCodeLine{00222\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_gathering__panel}{Gathering\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00223\ \{}
+\DoxyCodeLine{00224\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00226\ \};}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pottery__panel}{Pottery\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00229\ \{}
+\DoxyCodeLine{00230\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00232\ \};}
+\DoxyCodeLine{00233\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_textile__panel}{Textile\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00234\ \{}
+\DoxyCodeLine{00235\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00237\ \};}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_society__demography__panel}{Society\_demography\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_economy__panel}{Economy\_panel}}}
+\DoxyCodeLine{00240\ \{}
+\DoxyCodeLine{00241\ \ \ \ \ \mbox{\hyperlink{classage_chart}{ageChart}}*\ chart;}
+\DoxyCodeLine{00242\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordtype}{void}\ draw();}
+\DoxyCodeLine{00245\ \};}
+
+\end{DoxyCode}

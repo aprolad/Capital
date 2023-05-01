@@ -1,0 +1,117 @@
+\hypertarget{scene_8h_source}{}\doxysection{scene.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Map.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Graphic\_element.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\#include\ "{}Visualization.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_scene}{Scene}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ GLFWwindow*\ window;}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_simulation}{Simulation}}*\ simulation;}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}*\ choosen\_scene;}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ GLuint\ shaderProgram,\ fontShader;}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ std::vector<Graphic\_element*>\ graphic\_elements;}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ graphic\_elements.size();\ i++)}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ graphic\_elements[i]-\/>draw();}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ mouseInvoke(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ graphic\_elements.size();\ i++)}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ graphic\_elements[i]-\/>mouseCallback(mx,\ my);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ keyboard\_callback(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ scancode,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mode)}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \{\};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ construct\_scene()\ \{\};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ initialize(GLuint\ shaderProg,\ GLuint\ fontSh,\ \textcolor{keywordtype}{int}*\ chSC)}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ shaderProgram\ =\ shaderProg;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ fontShader\ =\ fontSh;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ choosen\_scene\ =\ chSC;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ construct\_scene();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ graphic\_elements.size();\ i++)}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ graphic\_elements[i]-\/>init();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \};}
+\DoxyCodeLine{00042\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_main_menu_scene}{MainMenuScene}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_scene}{Scene}}}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ construct\_scene();}
+\DoxyCodeLine{00046\ \ \ \ \ }
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_settings_menu_scene}{SettingsMenuScene}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_scene}{Scene}}}
+\DoxyCodeLine{00050\ \{}
+\DoxyCodeLine{00051\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ construct\_scene();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_main_game_scene}{MainGameScene}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_scene}{Scene}}}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{class_map}{Map}}\ map;}
+\DoxyCodeLine{00060\ \ \ \ \ std::vector<Multiple\_choice\_panel*>\ root\_menus;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ construct\_scene();}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ keyboard\_callback(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ scancode,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mode)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_MINUS\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ map.size\ *=\ 0.9;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_EQUAL\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ map.size\ *=\ 1.1;}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_UP\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ map.y\ -\/=\ 25\ /\ map.size;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_DOWN\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ map.y\ +=\ 25\ /\ map.size;}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_LEFT\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ map.x\ +=\ 25\ /\ map.size;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_RIGHT\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ map.x\ -\/=\ 25\ /\ map.size;}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_SPACE\ \&\&\ action\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ map.debug\ +=\ 3;}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00081\ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glfwGetKey(window,\ GLFW\_KEY\_MINUS)\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ map.size\ *=\ 0.999;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glfwGetKey(window,\ GLFW\_KEY\_EQUAL)\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ map.size\ *=\ 1.001;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glfwGetKey(window,\ GLFW\_KEY\_UP)\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ map.y\ -\/=\ 1\ /\ map.size;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glfwGetKey(window,\ GLFW\_KEY\_DOWN)\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ map.y\ +=\ 1\ /\ map.size;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glfwGetKey(window,\ GLFW\_KEY\_LEFT)\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ map.x\ +=\ 1\ /\ map.size;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glfwGetKey(window,\ GLFW\_KEY\_RIGHT)\ ==\ GLFW\_PRESS)}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ map.x\ -\/=\ 1\ /\ map.size;}
+\DoxyCodeLine{00094\ \ \ \ \ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ any\_active\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ :\ root\_menus)}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ any\_active\ +=\ i-\/>active;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!any\_active)}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ map.draw();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0.0,\ 0.0,\ 0.0,\ 1);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ graphic\_elements.size();\ i++)}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ graphic\_elements[i]-\/>draw();}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \};}
+
+\end{DoxyCode}

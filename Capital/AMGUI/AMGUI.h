@@ -241,17 +241,27 @@ public:
 
 };
 
-class abs_chart : virtual public Graphic_element
+class Chart : virtual public Graphic_element
 {
 public:
-	abs_chart(int len, int siz)
+	void draw(std::vector<double> _data);
+	void set_properties(GLuint shader, GLuint font);
+	GLuint VAO, VBO;
+	double x, y;
+};
+
+
+class Linear_chart : virtual public Chart
+{
+public:
+	Linear_chart(int len, int siz)
 	{
 		data.resize(len);
 		maxHistory.resize(1000);
 		sizing = siz;
 		length = 1200;
 	}
-	GLuint VAO1, VBO1;
+
 	std::vector<double> data;
 	int sizing;
 	double length;
@@ -260,8 +270,8 @@ public:
 	{
 		shaderProgram = shader;
 		fontShader = font;
-		glGenVertexArrays(1, &VAO1);
-		glGenBuffers(1, &VBO1);
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
 	}
 
 	void draw(std::vector<double> _data)
@@ -292,9 +302,9 @@ public:
 			dtr++;
 		};
 
-		glBindVertexArray(VAO1);
+		glBindVertexArray(VAO);
 
-		glBindBuffer(GL_ARRAY_BUFFER, VBO1);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * sizing * 3, vertices, GL_DYNAMIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
@@ -303,7 +313,7 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		glBindVertexArray(VAO1);
+		glBindVertexArray(VAO);
 		glDrawArrays(GL_LINE_STRIP, 0, sizing);
 		glBindVertexArray(0);
 		delete[] vertices;
@@ -324,10 +334,10 @@ public:
 
 	virtual void draw_scale() {}
 };
-class Chart : virtual public abs_chart
+class GDP_chart : virtual public Linear_chart
 {
 public:
-	Chart(int len, int siz) : abs_chart(len, siz) {}
+	GDP_chart(int len, int siz) : Linear_chart(len, siz) {}
 
 	void draw_scale()
 	{
@@ -337,10 +347,10 @@ public:
 	}
 };
 
-class ageChart : virtual public abs_chart
+class Age_chart : virtual public  Linear_chart
 {
 public:
-	ageChart(int len, int siz) : abs_chart(len, siz) {}
+	Age_chart(int len, int siz) : Linear_chart(len, siz) {}
 
 	void draw_scale()
 	{
@@ -354,16 +364,18 @@ public:
 	}
 };
 
-class Pie_chart : virtual public Graphic_element
+class Pie_chart : virtual public Chart
 {
 public:
 	std::vector<double> elements_of_chart;
-	Pie_chart(GLuint shader, GLuint font)
+	Pie_chart(GLuint shader, GLuint font, double _x, double _y)
 	{
+		x = _x;
+		y = _y;
 		shaderProgram = shader;
 		fontShader = font;
-		glGenVertexArrays(1, &vbo);
-		glGenBuffers(1, &vao);
+		glGenVertexArrays(1, &VBO);
+		glGenBuffers(1, &VAO);
 	}
 	void set_properties(GLuint shader, GLuint font)
 	{
@@ -372,7 +384,6 @@ public:
 		//glGenVertexArrays(1, &VAO1);
 		//glGenBuffers(1, &VBO1);
 	}
-	GLuint vao, vbo;
 	std::vector<GLfloat> shape;
 
 	void draw_slice(GLfloat x, GLfloat y, double radius, double start_angle, double end_angle, std::vector<float> color) {
@@ -402,21 +413,21 @@ public:
 		}
 		
 
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
 
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, shp.size() * sizeof(GLfloat), shp.data(), GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 		glEnableVertexAttribArray(0);
 
-		glBindVertexArray(vao);
+		glBindVertexArray(VAO);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), color[0]/255, color[1]/255, color[2]/255, color[3]/255);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, shp.size() / 3);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
-		glDeleteBuffers(1, &vbo);
-		glDeleteVertexArrays(1, &vao);
+		glDeleteBuffers(1, &VBO);
+		glDeleteVertexArrays(1, &VAO);
 
 	}
 
@@ -427,10 +438,8 @@ public:
 	
 
 		glUseProgram(shaderProgram);
-
-
 		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(700, 900, 0.0f));
+		trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
 		GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
@@ -449,11 +458,11 @@ public:
 
 		for (int i = 0; i < data.size(); i++)
 		{
-			RenderText(fontShader, data[i].name, 550, 530 + i * 25, 0.6, glm::vec3(0.0, 0.0f, 0.0f));
+			RenderText(fontShader, data[i].name, x, i * 25 + y - 450, 0.6, glm::vec3(0.0, 0.0f, 0.0f));
 			
 			glUseProgram(shaderProgram);
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), data[i].color[0] / 255, data[i].color[1] / 255, data[i].color[2] / 255, data[i].color[3] / 255);
-			draw_quad(533, 540 + i* 25, 10);
+			draw_quad(x - 10, i* 25 + y - 440, 10);
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"),0, 0, 0,1);
 		}
 

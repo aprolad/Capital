@@ -82,11 +82,13 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\qwerty\Desktop\opengl\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\qwerty\Desktop\opengl\lib;$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Users\qwerty\Desktop\opengl\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\qwerty\Desktop\opengl\lib;$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <VcpkgConfiguration>Release</VcpkgConfiguration>

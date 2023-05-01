@@ -127,22 +127,27 @@ void Economics_menu::init()
 	{
 		a->init();
 	}
-	chartG = new Chart(900, 900);
-	chartG->init();
-	chartG->set_properties(shaderProgram, fontShader);
+	gdp_chart = new GDP_chart(900, 900);
+	gdp_chart->init();
+	gdp_chart->set_properties(shaderProgram, fontShader);
 }
 
-void Demographics_menu::init()
+void Society_menu::init()
 {
-	Wchart = new Pie_chart(shaderProgram, fontShader);
-	Wchart->init();
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.x / 50;
+
+
 	//Wchart->set_properties(shaderProgram, fontShader);
+	root_menus.push_back((new Society_demography_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 700, 125, 40, "Gathering"));
+	root_menus.push_back((new Society_profession_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Farming"));
+
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
-	panel->add_dynamic_text_element("Population: ", " ", 250, y - 400, &simulation.population.population);
-	panel->add_dynamic_text_element("Labor pool: ", "", 250, y - 450, &simulation.population.laborPool);
-	panel->add_dynamic_text_element("Gatherers: ", "", 250, y - 550, &simulation.gathering.workforce);
-	panel->add_dynamic_text_element("Goverment: ", "", 250, y - 650, &simulation.goverment.workforce);
-	panel->add_dynamic_text_element("Food supply: ", "%", 250, y - 500, &simulation.population.foodSupply);
+	
+	for (auto a : root_menus)
+	{
+		a->init();
+	}
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 }
 
@@ -167,7 +172,6 @@ void Gathering_panel::init()
 
 	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.foodExc.quantity_backlog);
 }
-
 void Farming_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
@@ -188,7 +192,6 @@ void Farming_panel::init()
 
 	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.foodExc.quantity_backlog);
 }
-
 void Husbandry_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
@@ -209,7 +212,6 @@ void Husbandry_panel::init()
 
 	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.woolExc.quantity_backlog);
 }
-
 void Pottery_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
@@ -249,4 +251,76 @@ void Textile_panel::init()
 	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.clothExc.total_demand);
 
 	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.clothExc.quantity_backlog);
+}
+
+void Society_demography_panel::init()
+{
+	chart = new Age_chart(shaderProgram, fontShader);
+	chart->init();
+	chart->set_properties(shaderProgram, fontShader);
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 250);
+
+	panel->add_dynamic_text_element("Cloth wages: ", &simulation.textile.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Cloth income: ", &simulation.textile.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.textile.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.clothExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.clothExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.clothExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.clothExc.quantity_backlog);
+}
+
+void Society_demography_panel::draw()
+{
+		draw_button();
+		if (active)
+		{
+			panel->draw();
+			for (auto a : root_menus)
+				a->draw();
+			chart->draw(std::vector(simulation.population.agePyramid.begin() + 1, simulation.population.agePyramid.end()));
+		}
+}
+
+void Society_profession_panel::init()
+{
+	chart = new Pie_chart(shaderProgram, fontShader, 1500, 900);
+	chart->init();
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Cloth wages: ", &simulation.textile.wages.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Cloth income: ", &simulation.textile.income.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.textile.workforce.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.clothExc.current_price);
+
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.clothExc.total_supply);
+
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.clothExc.total_demand);
+
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.clothExc.quantity_backlog);
+}
+
+void Society_profession_panel::draw()
+{
+	draw_button();
+	if (active)
+	{
+		panel->draw();
+		for (auto a : root_menus)
+			a->draw();
+		//chart->draw(std::vector(simulation.population.agePyramid.begin() + 1, simulation.population.agePyramid.end()));
+		chart->draw(simulation.socium.worker_types);
+	}
 }

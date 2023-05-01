@@ -1,0 +1,49 @@
+\hypertarget{_map_8h_source}{}\doxysection{Map.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GLM\_FORCE\_DOUBLE\_PRECISION}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <gdal.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <gdal\_priv.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <ogr\_geometry.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <glm/gtc/matrix\_transform.hpp>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <ogrsf\_frmts.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Header.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_vertex}{Vertex}}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ glm::vec2\ position;}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_line}{Line}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ glm::vec2\ start;}
+\DoxyCodeLine{00016\ \ \ \ \ glm::vec2\ end;}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{struct_line}{Line}}*\ previous;}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{struct_line}{Line}}*\ next;}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_map}{Map}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{double}\ x\_slot;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{double}\ y\_slot;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ debug;}
+\DoxyCodeLine{00026\ \ \ \ \ std::vector<Line>\ lines;}
+\DoxyCodeLine{00027\ \ \ \ \ GLuint\ VAO1,\ VBO1;}
+\DoxyCodeLine{00028\ \ \ \ \ GLuint\ shaderProgram,\ fontShader;}
+\DoxyCodeLine{00029\ \ \ \ \ std::vector<Vertex>\ vertices;}
+\DoxyCodeLine{00030\ \ \ \ \ std::vector<std::vector<Vertex>>\ map\_features;}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{struct_vertex}{Vertex}}\ center\_point;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{int}\ vertex\_count;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{double}\ size;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{double}\ x,\ y;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ init();}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ draw();}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_zone\_of\_control();}
+\DoxyCodeLine{00038\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{double}\ previous\_x,\ previous\_y;}
+\DoxyCodeLine{00040\ \ \ \ \ std::vector<GLfloat>\ shape;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_zone\_of\_control();}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_map\_sizing();}
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+
+\end{DoxyCode}

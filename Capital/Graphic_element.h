@@ -6,25 +6,7 @@
 
 extern Simulation simulation;
 
-class Demographics_menu : virtual public Multiple_choice_panel
-{
-public:
-	ageChart* chart;
-	Pie_chart* Wchart;
 
-	void draw()
-	{
-
-		draw_button();
-		if (active)
-		{
-			panel->draw();
-			//chart->draw(std::vector(simulation.population.agePyramid.begin()+1, simulation.population.agePyramid.end()));
-			Wchart->draw(simulation.socium.worker_types);
-		}
-	}
-	void init();
-};
 
 class Technology_menu : virtual public Multiple_choice_panel
 {
@@ -147,7 +129,8 @@ public:
 class Economy_panel : virtual public Multiple_choice_panel
 {
 public:
-	void draw()
+
+	virtual void draw()
 	{
 		draw_button();
 
@@ -177,11 +160,32 @@ class Service_sector_panel : virtual public Economy_panel
 public:
 	void init();
 };
+class Society_menu : virtual public Multiple_choice_panel
+{
+public:
+	
+	void init();
+	void draw()
+	{
+
+		draw_button();
+		if (active)
+		{
+
+			panel->draw();
+			//chart->draw(std::vector(simulation.population.agePyramid.begin()+1, simulation.population.agePyramid.end()));
+			
+			for (auto a : root_menus)
+				a->draw();
+		}
+	}
+	
+};
 
 class Economics_menu : virtual public Multiple_choice_panel
 {
 public:
-	Chart* chartG;
+	GDP_chart* gdp_chart;
 	void init();
 
 	void draw()
@@ -193,7 +197,7 @@ public:
 			bool has_true = std::any_of(root_menus.begin(), root_menus.end(), [this](const Multiple_choice_panel* obj) {return obj->active; });
 			if (!has_true)
 				panel->draw();
-			chartG->draw(simulation.GDP.history);
+			gdp_chart->draw(simulation.GDP.history);
 
 			for (auto a : root_menus)
 				a->draw();
@@ -217,7 +221,6 @@ class Gathering_panel : virtual public Economy_panel
 public:
 	void init();
 };
-
 class Pottery_panel : virtual public Economy_panel
 {
 public:
@@ -227,4 +230,20 @@ class Textile_panel : virtual public Economy_panel
 {
 public:
 	void init();
+};
+
+class Society_demography_panel : virtual public Economy_panel
+{
+	Age_chart* chart;
+public:
+	void init();
+	void draw();
+};
+
+class Society_profession_panel : virtual public Economy_panel
+{
+	Pie_chart* chart;
+public:
+	void init();
+	void draw();
 };
