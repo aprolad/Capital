@@ -103,8 +103,10 @@ void Service_sector_panel::init()
 
 void Economics_menu::init()
 {
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
 
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, y_slot*25);
 
 	panel->add_dynamic_text_element("GDP: ", &simulation.GDP.total.result, x, y - 400);
 
@@ -120,9 +122,9 @@ void Economics_menu::init()
 	panel->add_dynamic_text_element("Pottery: ", &simulation.population.money.result, x, y - 950);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 
-	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, 1100, 125, 40, "Agriculture"));
-	root_menus.push_back((new Industry_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 500, 1100, 125, 40, "Industry"));
-	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 800, 1100, 125, 40, "Services"));
+	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, y_slot * 40, 125, 40, "Agriculture"));
+	root_menus.push_back((new Industry_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 500, y_slot * 40, 125, 40, "Industry"));
+	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 800, y_slot * 40, 125, 40, "Services"));
 	for (auto a : root_menus)
 	{
 		a->init();
@@ -139,8 +141,8 @@ void Society_menu::init()
 
 
 	//Wchart->set_properties(shaderProgram, fontShader);
-	root_menus.push_back((new Society_demography_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 700, 125, 40, "Gathering"));
-	root_menus.push_back((new Society_profession_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Farming"));
+	root_menus.push_back((new Society_demography_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 4, 700, 125, 40, "Demorgaphy"));
+	root_menus.push_back((new Society_profession_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 4, 600, 125, 40, "Jobs"));
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
 	
@@ -255,7 +257,7 @@ void Textile_panel::init()
 
 void Society_demography_panel::init()
 {
-	chart = new Age_chart(shaderProgram, fontShader);
+	chart = new Age_chart(1200, 100);
 	chart->init();
 	chart->set_properties(shaderProgram, fontShader);
 	int x_slot = visualization.window_resolution.x / 50;
@@ -282,7 +284,7 @@ void Society_demography_panel::draw()
 		draw_button();
 		if (active)
 		{
-			panel->draw();
+			//panel->draw();
 			for (auto a : root_menus)
 				a->draw();
 			chart->draw(std::vector(simulation.population.agePyramid.begin() + 1, simulation.population.agePyramid.end()));
@@ -317,7 +319,7 @@ void Society_profession_panel::draw()
 	draw_button();
 	if (active)
 	{
-		panel->draw();
+		//panel->draw();
 		for (auto a : root_menus)
 			a->draw();
 		//chart->draw(std::vector(simulation.population.agePyramid.begin() + 1, simulation.population.agePyramid.end()));

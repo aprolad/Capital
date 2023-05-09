@@ -13,7 +13,7 @@
 #define CAP_UNIT_OF_MESURE_KG 1
 #define CAP_UNIT_OF_MESURE_MONEY 2
 #define CAP_UNIT_OF_MESURE_KM 3
-#define CAp_UNIT_OF_MEASURE_SQ_KM 4
+#define CAP_UNIT_OF_MEASURE_SQ_KM 4
 using namespace std;
 class Display_value
 {
@@ -91,7 +91,7 @@ class Simulation;
 class Geography
 {
 public:
-	Geography() : square_kilometres(CAP_UNIT_OF_MESURE_KM), totalArableLand(CAP_UNIT_OF_MESURE_KM), pastoral_land(CAp_UNIT_OF_MEASURE_SQ_KM)
+	Geography() : square_kilometres(CAP_UNIT_OF_MESURE_KM), totalArableLand(CAP_UNIT_OF_MESURE_KM), pastoral_land(CAP_UNIT_OF_MEASURE_SQ_KM)
 	{
 		square_kilometres = 10000;
 		pastoral_land = 2000;
@@ -594,6 +594,9 @@ class Simulation
 			gathering.workforce = socium.by_name("Gatherers")->percent_of_workforce * population.laborPool;
 			textile.workforce = socium.by_name("Weavers")->percent_of_workforce * population.laborPool;
 			husbandry.workforce = socium.by_name("Shepards")->percent_of_workforce * population.laborPool;
+
+			if (gathering.workforce < 1000)
+				return;
 			if (pottery.wages > gathering.wages * 1.8)
 			{
 	

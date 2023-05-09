@@ -7,6 +7,8 @@
 #include "gdal_priv.h"
 #include "ogrsf_frmts.h"
 #include "Visualization.h"
+#include "misc/earcut.hpp"
+#include <array>
 extern Visualization visualization;
 double find_angle(glm::vec2 vec1, glm::vec2 vec2)
 {
@@ -114,6 +116,8 @@ inline glm::vec2 findIntersection(glm::vec2* p1, glm::vec2* p2, glm::vec2* q1, g
 
 const double kEarthRadius = 6371.0; // Earth's radius in kilometers
 
+
+
 double degreesToRadians(double degrees) {
     return degrees * M_PI / 180.0;
 }
@@ -143,6 +147,7 @@ int Map::init()
     OGRRegisterAll();
     glGenVertexArrays(1, &VAO1);
     glGenBuffers(1, &VBO1);
+    glGenBuffers(1, &IBO);
     // Open Shapefile
     GDALDataset* poDS = (GDALDataset*)GDALOpenEx("Graphics/map.shp", GDAL_OF_VECTOR | GDAL_OF_READONLY, NULL, NULL, NULL);
 
@@ -239,9 +244,6 @@ void Map::draw_map_sizing()
 int Map::draw()
 {
     {
-       
-
-
      
         glUseProgram(shaderProgram);
         GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
@@ -290,7 +292,6 @@ int Map::draw()
 
         draw_map_sizing();
 
-
         return 0;
     }
 }
@@ -332,9 +333,9 @@ void Map::calculate_zone_of_control()
                 intersection = findIntersection(&lines[i].start, &lines[i].end, &pr.start, &pr.end);
                 if (!(intersection.x == 0 && intersection.y == 0))
                 {
-                    f.intersection_shape.push_back(intersection.x);
-                    f.intersection_shape.push_back(intersection.y);
-                    f.intersection_shape.push_back(0);
+                 //   f.intersection_shape.push_back(intersection.x);
+                 //   f.intersection_shape.push_back(intersection.y);
+                 //   f.intersection_shape.push_back(0);
 
                     if (flag == false)
                         f.s_angle = angleBetweenLineAndAxis(t.start, glm::vec2(intersection.x, intersection.y));
@@ -378,23 +379,72 @@ void Map::calculate_zone_of_control()
 
     double current_angle = 0;
  
-    int intersect_number = 0;
-    while (current_angle < 2 * M_PI)
-    {
-        current_angle += 0.01;
-        shape.push_back(radius * cos(current_angle) + 0 - x);
-        shape.push_back(radius * sin(current_angle) - 0 + y);
-        shape.push_back(0);
-    }
 
+  
     for (auto ic : intersection_shapes)
         for (int i = 0; i < ic.intersection_shape.size() - 3; i += 3)
         {
 
-            shape.push_back(ic.intersection_shape[i]);
-            shape.push_back(ic.intersection_shape[i + 1]);
-            shape.push_back(ic.intersection_shape[i + 2]);
+          //  shape.push_back(ic.intersection_shape[i]);
+          //  shape.push_back(ic.intersection_shape[i + 1]);
+          //  shape.push_back(ic.intersection_shape[i + 2]);
         }
+
+
+    using Coord = double;
+
+    // The index type. Defaults to uint32_t, but you can also pass uint16_t if you know that your
+    // data won't have more than 65536 vertices.
+    using N = uint32_t;
+
+    // Create array
+    using Point = std::array<Coord, 2>;
+    std::vector<std::vector<Point>> polygons;
+    std::vector<Point> polygon;
+    // Fill polygon structure with actual data. Any winding order works.
+    // The first polyline defines the main polygon.
+   // polygon.push_back({100, 100});
+
+   // std::vector<N> indices = mapbox::earcut<N>(polygon);
+
+    while (current_angle < 2 * M_PI)
+    {
+        current_angle += 0.01;
+        bool forbidden = false;
+        for (auto a : intersection_shapes)
+            if (current_angle > a.s_angle && current_angle < a.b_angle)
+            {
+              //  shape.push_back(-x);
+              //  shape.push_back(y);
+             //   shape.push_back(0);
+                glm::vec2 cur_point = glm::vec2(radius * cos(current_angle) + 0 - x, radius * sin(current_angle) - 0 + y);
+                if (glm::distance(cur_point, a.first_point()) > glm::distance(cur_point, a.last_point()))
+                    a.reverse();
+                for (int i = 0; i< a.intersection_shape.size(); i+=3)
+                {
+                 //  std::cout << i << std::endl;
+                   shape.push_back(a.intersection_shape[i]);
+                    shape.push_back(a.intersection_shape[i+1]);
+                    shape.push_back(a.intersection_shape[i+2]);
+
+                    polygon.push_back({ a.intersection_shape[i] , a.intersection_shape[i + 1] });
+                }
+                current_angle = a.b_angle;
+            }
+        if (!forbidden)
+        {
+            shape.push_back(radius * cos(current_angle) + 0 - x);
+            shape.push_back(radius * sin(current_angle) - 0 + y);
+            shape.push_back(0);
+
+            polygon.push_back({ radius * cos(current_angle) + 0 - x , radius * sin(current_angle) - 0 + y });
+        }
+    }
+
+    polygons.push_back(polygon);
+    indices = mapbox::earcut<N>(polygons);
+   // std::cout << indices.size();
+
 }
 void Map::draw_zone_of_control()
 {
@@ -408,6 +458,8 @@ void Map::draw_zone_of_control()
     GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
+
+
     GLuint vao, vbo;
     if (previous_x != x || previous_y != y)
         calculate_zone_of_control();
@@ -419,13 +471,21 @@ void Map::draw_zone_of_control()
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, shape.size() * sizeof(GLfloat), shape.data(), GL_DYNAMIC_DRAW);
+
+    glGenBuffers(1, &IBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(vao);
     glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1, 0, 0, 1);
-    glDrawArrays(GL_POINTS, 0, shape.size()/3);
-  
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 1, 0, 1);
+    glDrawArrays(GL_POINTS, 0, shape.size() / 3);
+    glDeleteBuffers(1, &IBO);
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
 

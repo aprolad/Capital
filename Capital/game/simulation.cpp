@@ -5,9 +5,10 @@ void Agriculture::compute()
 	expenditure = 0;
 	output = workforce * 500 * double(250)/100;
 
-
-	simulation.foodExc.put_sell_order(output / (365), simulation.foodExc.get_current_price(), &money);
-
+	if (simulation.foodExc.calculate_excess() < simulation.foodExc.total_demand * 250)
+		simulation.foodExc.put_sell_order(output / (365), simulation.foodExc.get_current_price(), &money);
+	else
+		simulation.foodExc.put_sell_order(output / (365), simulation.foodExc.get_current_price()/2, &money);
 	pay_wage();
 }
 
@@ -18,8 +19,10 @@ void Gathering::compute()
 	if (workforce!=0)
 		output = workforce * 1.4 / exhaust;
 
-	simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price(), &money);
-
+	if (simulation.foodExc.calculate_excess() < simulation.foodExc.total_demand * 250)
+		simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price(), &money);
+	else 
+		simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price()/2, &money);
 
 	pay_wage();
 }

@@ -24,7 +24,7 @@ public:
     double y_slot;
     int debug;
     std::vector<Line> lines;
-    GLuint VAO1, VBO1;
+    GLuint VAO1, VBO1, IBO;
     GLuint shaderProgram, fontShader;
     std::vector<Vertex> vertices;
     std::vector<std::vector<Vertex>> map_features;
@@ -32,6 +32,7 @@ public:
     int vertex_count;
     double size;
     double x, y;
+    std::vector<uint32_t> indices;
     int init();
     int draw();
     void draw_zone_of_control();

@@ -39,7 +39,7 @@ void SettingsMenuScene::construct_scene()
 void MainGameScene::construct_scene()
 {
 	int x_slot = visualization.window_resolution.x / 50;
-	int y_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
 
 	map.shaderProgram = shaderProgram;
 	map.fontShader = fontShader;
@@ -55,19 +55,19 @@ void MainGameScene::construct_scene()
 
 
 
-	root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 2, 1270, 150, 50, "Economics"));
+	root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 2, y_slot * 45, 150, 50, "Economics"));
 
-	root_menus.push_back((new Society_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 5, 1270, 150, 50, "Socio"));
+	root_menus.push_back((new Society_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 5, y_slot * 45, 150, 50, "Socio"));
 
-	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 8, 1270, 150, 50, "Technology"));
+	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 8, y_slot * 45, 150, 50, "Technology"));
 
 	root_menus.push_back((new Geography_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, 150, 150, 50, "Geography"));
 
-	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, 1270, 150, 50, "Goverment"));
+	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, y_slot * 45, 150, 50, "Goverment"));
 
 
 
-	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, 2000, 1400, "Date: ", simulation->date.postfix);
+	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, 2000, y_slot * 45, "Date: ", simulation->date.postfix);
 
 
 	graphic_elements.push_back(at);
