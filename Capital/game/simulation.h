@@ -26,7 +26,6 @@ class Simulation
 		State player;
 		static int game_speed;
 		Simulation_date date;
-
 		
 		void pause()
 		{
@@ -36,9 +35,7 @@ class Simulation
 		{
 
 			date.calculate_date();
-			
 			player.simulate(date.days_from_start);
-
 		}
 		void cycle()
 		{

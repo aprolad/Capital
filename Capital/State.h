@@ -16,6 +16,8 @@
 #define CAP_UNIT_OF_MESURE_KM 3
 #define CAP_UNIT_OF_MEASURE_SQ_KM 4
 
+class State;
+
 class Display_value
 {
 public:
@@ -72,8 +74,11 @@ private:
 class Goverment
 {
 public:
-	Goverment() : d_money(CAP_UNIT_OF_MESURE_MONEY), wages(CAP_UNIT_OF_MESURE_MONEY)
-	{}
+	Goverment(State* _state) : d_money(CAP_UNIT_OF_MESURE_MONEY), wages(CAP_UNIT_OF_MESURE_MONEY)
+	{
+		state = _state;
+	}
+	State* state;
 	double workforce;
 	double money;
 	Display_value wages;
@@ -502,7 +507,12 @@ public:
 class Industry
 {
 public:
-	Industry() : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce(0) { historic_wages.resize(30); money = 100000; }
+	Industry(State* _state) : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce(0)
+	{ 
+		state = _state;
+		historic_wages.resize(30);
+		money = 100000;
+	}
 	double productivity;
 	Display_value output;
 	double workers;
@@ -517,17 +527,17 @@ public:
 	double expenditure;
 	std::deque<double> historic_wages;
 	double consumer_coverage;
+	State* state;
 	void pay_wage();
 
 	void compute()
 	{
 	}
 };
-class Agriculture : public Industry
+class Farming : public Industry
 {
 public:
-
-	Agriculture() {}
+	
 	void compute();
 };
 class Husbandry : public Industry
@@ -540,7 +550,7 @@ class Textile : public Industry
 public:
 	void compute();
 };
-class Gathering : public Agriculture
+class Gathering : public Industry
 {
 public:
 	void compute();
@@ -556,21 +566,21 @@ class State
 public:
 	State()
 	{
-		agriculture = Agriculture();
 		pottery.wages = 10;
 		demography.money = 1e7;
 		socium = Socium();
 	}
 	Geography geography;
-	Agriculture agriculture;
-	Gathering gathering;
-	Socium socium;
-	Goverment goverment;
-	Pottery pottery;
-	Husbandry husbandry;
-	Textile textile;
-	GDP GDP;
 	Exchange foodExc, woolExc;
+	Farming agriculture = Farming(this);
+	Gathering gathering = Gathering(this);
+	Socium socium;
+	Goverment goverment = Goverment(this);
+	Pottery pottery = Pottery(this);
+	Husbandry husbandry = Husbandry(this);
+	Textile textile = Textile(this);
+	GDP GDP;
+
 	Exchange potteryExc, clothExc;
 	Demography demography;
 	void calculate_job_changes()
