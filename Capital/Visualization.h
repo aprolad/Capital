@@ -14,7 +14,11 @@ public:
 	{
 		window_resolution.x = 2560;
 		window_resolution.y = 1440;
+		x_slot = window_resolution.x / 50;
+		y_slot = window_resolution.y / 50;
 	}
+	int x_slot;
+	int y_slot;
 	static glm::vec2 window_resolution;
 	GLuint shaderProgram;
 	GLuint fontShader;

@@ -183,7 +183,9 @@
     <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Visualization.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\shaders\fragment.sh" />

@@ -149,7 +149,7 @@ int Map::init()
     glGenBuffers(1, &VBO1);
     glGenBuffers(1, &IBO);
     // Open Shapefile
-    GDALDataset* poDS = (GDALDataset*)GDALOpenEx("Graphics/map.shp", GDAL_OF_VECTOR | GDAL_OF_READONLY, NULL, NULL, NULL);
+    GDALDataset* poDS = (GDALDataset*)GDALOpenEx("Graphics/map1.shp", GDAL_OF_VECTOR | GDAL_OF_READONLY, NULL, NULL, NULL);
 
    
     if (poDS == NULL) {
@@ -380,32 +380,12 @@ void Map::calculate_zone_of_control()
     double current_angle = 0;
  
 
-  
-    for (auto ic : intersection_shapes)
-        for (int i = 0; i < ic.intersection_shape.size() - 3; i += 3)
-        {
-
-          //  shape.push_back(ic.intersection_shape[i]);
-          //  shape.push_back(ic.intersection_shape[i + 1]);
-          //  shape.push_back(ic.intersection_shape[i + 2]);
-        }
-
-
     using Coord = double;
-
-    // The index type. Defaults to uint32_t, but you can also pass uint16_t if you know that your
-    // data won't have more than 65536 vertices.
     using N = uint32_t;
-
-    // Create array
     using Point = std::array<Coord, 2>;
     std::vector<std::vector<Point>> polygons;
     std::vector<Point> polygon;
-    // Fill polygon structure with actual data. Any winding order works.
-    // The first polyline defines the main polygon.
-   // polygon.push_back({100, 100});
 
-   // std::vector<N> indices = mapbox::earcut<N>(polygon);
 
     while (current_angle < 2 * M_PI)
     {
@@ -414,16 +394,13 @@ void Map::calculate_zone_of_control()
         for (auto a : intersection_shapes)
             if (current_angle > a.s_angle && current_angle < a.b_angle)
             {
-              //  shape.push_back(-x);
-              //  shape.push_back(y);
-             //   shape.push_back(0);
+           //     std::cout << "small " << a.s_angle << "big " << a.b_angle<<std::endl;
                 glm::vec2 cur_point = glm::vec2(radius * cos(current_angle) + 0 - x, radius * sin(current_angle) - 0 + y);
                 if (glm::distance(cur_point, a.first_point()) > glm::distance(cur_point, a.last_point()))
                     a.reverse();
                 for (int i = 0; i< a.intersection_shape.size(); i+=3)
                 {
-                 //  std::cout << i << std::endl;
-                   shape.push_back(a.intersection_shape[i]);
+                    shape.push_back(a.intersection_shape[i]);
                     shape.push_back(a.intersection_shape[i+1]);
                     shape.push_back(a.intersection_shape[i+2]);
 
@@ -443,7 +420,6 @@ void Map::calculate_zone_of_control()
 
     polygons.push_back(polygon);
     indices = mapbox::earcut<N>(polygons);
-   // std::cout << indices.size();
 
 }
 void Map::draw_zone_of_control()

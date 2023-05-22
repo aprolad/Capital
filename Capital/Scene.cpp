@@ -55,26 +55,26 @@ void MainGameScene::construct_scene()
 
 
 
-	root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 2, y_slot * 45, 150, 50, "Economics"));
+	root_menus.push_back((new Economics_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 5, y_slot * 45, 150, 50, "Economics"));
 
-	root_menus.push_back((new Society_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 5, y_slot * 45, 150, 50, "Socio"));
+	root_menus.push_back((new Society_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 13, y_slot * 45, 150, 50, "Socio"));
 
-	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 8, y_slot * 45, 150, 50, "Technology"));
+	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 21, y_slot * 45, 150, 50, "Technology"));
 
-	root_menus.push_back((new Geography_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, 150, 150, 50, "Geography"));
+	root_menus.push_back((new Geography_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 35, 150, 150, 50, "Geography"));
 
-	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.window_resolution.x / 20 * 11, y_slot * 45, 150, 50, "Goverment"));
+	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 29, y_slot * 45, 150, 50, "Goverment"));
 
 
 
-	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, 2000, y_slot * 45, "Date: ", simulation->date.postfix);
+	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, x_slot * 45, y_slot * 48, "Date: ", simulation->date.postfix);
 
 
 	graphic_elements.push_back(at);
 
 
 
-	Panel* speed_choice_panel = (new Panel())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 50 * 45, 1250, 145, 25);
+	Panel* speed_choice_panel = (new Panel())->set_properties(shaderProgram, fontShader, x_slot * 45, y_slot * 45, 145, 25);
 	graphic_elements.push_back(speed_choice_panel);
 
 	for (int i = 0; i < root_menus.size(); i++)

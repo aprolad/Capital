@@ -5,10 +5,10 @@ void Agriculture::compute()
 	expenditure = 0;
 	output = workforce * 500 * double(250)/100;
 
-	if (simulation.foodExc.calculate_excess() < simulation.foodExc.total_demand * 250)
-		simulation.foodExc.put_sell_order(output / (365), simulation.foodExc.get_current_price(), &money);
+	if (simulation.player.foodExc.calculate_excess() < simulation.player.foodExc.total_demand * 250)
+		simulation.player.foodExc.put_sell_order(output / (365), simulation.player.foodExc.get_current_price(), &money);
 	else
-		simulation.foodExc.put_sell_order(output / (365), simulation.foodExc.get_current_price()/2, &money);
+		simulation.player.foodExc.put_sell_order(output / (365), simulation.player.foodExc.get_current_price()/2, &money);
 	pay_wage();
 }
 
@@ -16,13 +16,13 @@ void Gathering::compute()
 {
 	expenditure = 0;
 	double exhaust = sqrt(workforce / simulation.geo.square_kilometres / 15);
-	if (workforce!=0)
+	if (workforce != 0)
 		output = workforce * 1.4 / exhaust;
 
-	if (simulation.foodExc.calculate_excess() < simulation.foodExc.total_demand * 250)
-		simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price(), &money);
+	if (simulation.player.foodExc.calculate_excess() < simulation.player.foodExc.total_demand * 250)
+		simulation.player.foodExc.put_sell_order(output, simulation.player.foodExc.get_current_price(), &money);
 	else 
-		simulation.foodExc.put_sell_order(output, simulation.foodExc.get_current_price()/2, &money);
+		simulation.player.foodExc.put_sell_order(output, simulation.player.foodExc.get_current_price()/2, &money);
 
 	pay_wage();
 }
@@ -33,7 +33,7 @@ void Pottery::compute()
 	output = workforce * 10;
 
 
-	simulation.potteryExc.put_sell_order(output, simulation.potteryExc.get_current_price(), &money);
+	simulation.player.potteryExc.put_sell_order(output, simulation.player.potteryExc.get_current_price(), &money);
 
 	prev_wage = wages;
 	pay_wage();
@@ -49,8 +49,8 @@ void Husbandry::compute()
 	output = workforce * 0.1;
 
 
-	simulation.woolExc.put_sell_order(wool_output, simulation.woolExc.get_current_price(), &money);
-	simulation.foodExc.put_sell_order(meat_output, simulation.foodExc.get_current_price(), &money);
+	simulation.player.woolExc.put_sell_order(wool_output, simulation.player.woolExc.get_current_price(), &money);
+	simulation.player.foodExc.put_sell_order(meat_output, simulation.player.foodExc.get_current_price(), &money);
 
 
 	pay_wage();
@@ -59,11 +59,11 @@ void Husbandry::compute()
 void Textile::compute()
 {
 	output = workforce * 0.1;
-	auto t = simulation.woolExc.buy_amount(output * 0.5, &money);
+	auto t = simulation.player.woolExc.buy_amount(output * 0.5, &money);
 	double material_coverage = t.amount_bought / (output * 0.5);
 	expenditure = t.money_spent;
 
-	simulation.clothExc.put_sell_order(output * material_coverage, simulation.clothExc.get_current_price(), &money);
+	simulation.player.clothExc.put_sell_order(output * material_coverage, simulation.player.clothExc.get_current_price(), &money);
 
 	pay_wage();
 }
@@ -91,10 +91,10 @@ void Industry::pay_wage()
 	double taxes = salary * 0.01;
 	double netto_salary = salary - taxes;
 
-	simulation.goverment.money += taxes;
+	simulation.player.goverment.money += taxes;
 
 
-	simulation.population.money = simulation.population.money + netto_salary;
+	simulation.player.demography.money = simulation.player.demography.money + netto_salary;
 	historic_wages.push_front(netto_salary);
 	historic_wages.pop_back();
 	money -= salary;
@@ -126,5 +126,5 @@ void Goverment::pay_wages()
 	double payment = money / 2;
 	wages = payment / workforce;
 	money -= payment;
-	simulation.population.money.value+=payment;
+	simulation.player.demography.money.value+=payment;
 }
