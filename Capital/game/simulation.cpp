@@ -15,7 +15,7 @@ void Agriculture::compute()
 void Gathering::compute()
 {
 	expenditure = 0;
-	double exhaust = sqrt(workforce / simulation.geo.square_kilometres / 15);
+	double exhaust = sqrt(workforce / simulation.player.geography.square_kilometres / 15);
 	if (workforce != 0)
 		output = workforce * 1.4 / exhaust;
 

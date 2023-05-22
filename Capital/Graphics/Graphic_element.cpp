@@ -33,9 +33,9 @@ void Geography_menu::init()
 
 
 
-	panel->add_dynamic_text_element("Total controlled area: ", &simulation.geo.square_kilometres.result, x_slot * 6, visualization.window_resolution.y - 500);
+	panel->add_dynamic_text_element("Total controlled area: ", &simulation.player.geography.square_kilometres.result, x_slot * 6, visualization.window_resolution.y - 500);
 
-	panel->add_dynamic_text_element("Arable area: ", &simulation.geo.totalArableLand.result, x_slot * 6, visualization.window_resolution.y - 600);
+	panel->add_dynamic_text_element("Arable area: ", &simulation.player.geography.totalArableLand.result, x_slot * 6, visualization.window_resolution.y - 600);
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
 }
@@ -94,7 +94,7 @@ void Service_sector_panel::init()
 
 	panel->add_dynamic_text_element("WheatM: ", " Tonnes", x_slot * 6, y - 450, &simulation.player.foodExc.total_supply);
 
-	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.geo.totalArableLand);
+	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.player.geography.totalArableLand);
 
 	panel->add_dynamic_text_element("Wheat outpuMt: ", &simulation.player.agriculture.output.result, x_slot * 6, y - 650);
 

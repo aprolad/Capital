@@ -557,12 +557,11 @@ public:
 	State()
 	{
 		agriculture = Agriculture();
-
 		pottery.wages = 10;
 		demography.money = 1e7;
 		socium = Socium();
-
 	}
+	Geography geography;
 	Agriculture agriculture;
 	Gathering gathering;
 	Socium socium;
@@ -574,7 +573,7 @@ public:
 	Exchange foodExc, woolExc;
 	Exchange potteryExc, clothExc;
 	Demography demography;
-	void calculate_changes()
+	void calculate_job_changes()
 	{
 		if (gathering.workforce < 1000)
 			return;
@@ -627,6 +626,7 @@ public:
 	}
 	void simulate(int date)
 	{
+		GDP.private_consumption = 0;
 
 		demography.calc(date);
 
@@ -643,6 +643,30 @@ public:
 		textile.compute();
 		goverment.process();
 
-		calculate_changes();
+		demography.density = demography.population / geography.square_kilometres;
+
+		double before = demography.money;
+
+		double realistic_demand = demography.population * 1.0 * (std::tanh(-(foodExc.current_price - 100) / 100) * 0.5 + 1);
+
+		auto t = foodExc.buy_money(demography.money.value * 0.8, &demography.money.value);
+
+		foodExc.total_demand = demography.population;
+
+		demography.foodSupply = t.amount_bought / demography.population * 100;
+
+		if (demography.money.value > 0)
+			t = potteryExc.buy_money(demography.money.value * 0.5, &demography.money.value);
+		//	potteryExc.total_demand = population.population / 5;
+
+		clothExc.buy_money(demography.money.value, &demography.money.value);
+
+		//	std::cout << "Remains  " << socium.by_name("Weavers")->percent_of_workforce << std::endl;
+		GDP.private_consumption += abs(demography.money - before);
+
+		GDP.calcTotalGdp();
+
+
+		calculate_job_changes();
 	}
 };
