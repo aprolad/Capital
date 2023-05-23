@@ -288,14 +288,17 @@ int Map::draw()
         }
 
 
-        draw_zone_of_control();
+        state_zones[0].draw_zone_of_control();
 
         draw_map_sizing();
 
         return 0;
     }
 }
-void Map::calculate_zone_of_control()
+
+
+
+void State_zone::calculate_zone_of_control()
 {
     shape.clear();
     int num_segments = 150;
@@ -303,7 +306,6 @@ void Map::calculate_zone_of_control()
     long double angle = 2.0f * M_PI / num_segments;
     glPointSize(5.0f);
     Line t;
-    std::vector<GLfloat> intersection_shape;
     std::vector<forbidden_zone> intersection_shapes;
     forbidden_zone f;
     bool flag = false;
@@ -314,9 +316,9 @@ void Map::calculate_zone_of_control()
         double current_angle = angle * (i / 3 - 1);
         auto prev = t.end;
 
-        t.start = glm::vec2(0 - x, 0 + y);
-        t.end.x = radius * cos(current_angle) + 0 - x;
-        t.end.y = radius * sin(current_angle) - 0 + y;
+        t.start = glm::vec2(0 - map->x, 0 + map->y);
+        t.end.x = radius * cos(current_angle) + 0 - map->x;
+        t.end.y = radius * sin(current_angle) - 0 + map->y;
 
         if (prev.x == 0)
             prev = t.end;
@@ -326,11 +328,11 @@ void Map::calculate_zone_of_control()
         pr.end = t.end;
 
 
-        for (int i = 0; i < lines.size(); i++)
+        for (int i = 0; i < map->lines.size(); i++)
         {
             //   if (glm::distance(t.start, b.start) < radius || glm::distance(t.start, b.end) < radius)
             {
-                intersection = findIntersection(&lines[i].start, &lines[i].end, &pr.start, &pr.end);
+                intersection = findIntersection(&map->lines[i].start, &map->lines[i].end, &pr.start, &pr.end);
                 if (!(intersection.x == 0 && intersection.y == 0))
                 {
                  //   f.intersection_shape.push_back(intersection.x);
@@ -344,23 +346,21 @@ void Map::calculate_zone_of_control()
                         f.b_angle = angleBetweenLineAndAxis(t.start, glm::vec2(intersection.x, intersection.y));
                     }
                     int c = i;
-                    while (glm::distance(t.start, lines[c].start) < radius)
+                    while (glm::distance(t.start, map->lines[c].start) < radius)
                     {
-                        //  draw_point(lines[c].start.x, lines[c].start.y);
-                        f.intersection_shape.push_back(lines[c].start.x);
-                        f.intersection_shape.push_back(lines[c].start.y);
+                        f.intersection_shape.push_back(map->lines[c].start.x);
+                        f.intersection_shape.push_back(map->lines[c].start.y);
                         f.intersection_shape.push_back(0);
 
                         c++;
-                        if (c > lines.size() - 1)
+                        if (c > map->lines.size() - 1)
                             break;
                     }
                     c = i;
-                    while (glm::distance(t.start, lines[c].start) < radius)
+                    while (glm::distance(t.start, map->lines[c].start) < radius)
                     {
-                        //  draw_point(lines[c].start.x, lines[c].start.y);
-                        f.intersection_shape.push_back(lines[c].start.x);
-                        f.intersection_shape.push_back(lines[c].start.y);
+                        f.intersection_shape.push_back(map->lines[c].start.x);
+                        f.intersection_shape.push_back(map->lines[c].start.y);
                         f.intersection_shape.push_back(0);
                         c--;
                         if (c < 0)
@@ -379,7 +379,6 @@ void Map::calculate_zone_of_control()
 
     double current_angle = 0;
  
-
     using Coord = double;
     using N = uint32_t;
     using Point = std::array<Coord, 2>;
@@ -394,53 +393,52 @@ void Map::calculate_zone_of_control()
         for (auto a : intersection_shapes)
             if (current_angle > a.s_angle && current_angle < a.b_angle)
             {
-           //     std::cout << "small " << a.s_angle << "big " << a.b_angle<<std::endl;
-                glm::vec2 cur_point = glm::vec2(radius * cos(current_angle) + 0 - x, radius * sin(current_angle) - 0 + y);
+                glm::vec2 cur_point = glm::vec2(radius * cos(current_angle) + 0 - map->x, radius * sin(current_angle) - 0 + map->y);
                 if (glm::distance(cur_point, a.first_point()) > glm::distance(cur_point, a.last_point()))
                     a.reverse();
                 for (int i = 0; i< a.intersection_shape.size(); i+=3)
                 {
                     shape.push_back(a.intersection_shape[i]);
-                    shape.push_back(a.intersection_shape[i+1]);
-                    shape.push_back(a.intersection_shape[i+2]);
+                    shape.push_back(a.intersection_shape[i + 1]);
+                    shape.push_back(a.intersection_shape[i + 2]);
 
-                    polygon.push_back({ a.intersection_shape[i] , a.intersection_shape[i + 1] });
+                    polygon.push_back({ a.intersection_shape[i] , a.intersection_shape[i + 1]});
                 }
                 current_angle = a.b_angle;
             }
         if (!forbidden)
         {
-            shape.push_back(radius * cos(current_angle) + 0 - x);
-            shape.push_back(radius * sin(current_angle) - 0 + y);
+            shape.push_back(radius * cos(current_angle) + 0 - map->x);
+            shape.push_back(radius * sin(current_angle) - 0 + map->y);
             shape.push_back(0);
 
-            polygon.push_back({ radius * cos(current_angle) + 0 - x , radius * sin(current_angle) - 0 + y });
+            polygon.push_back({ radius * cos(current_angle) + 0 - map->x , radius * sin(current_angle) - 0 + map->y });
         }
     }
 
     polygons.push_back(polygon);
-    indices = mapbox::earcut<N>(polygons);
+    //indices = mapbox::earcut<N>(polygons);
 
 }
-void Map::draw_zone_of_control()
+void State_zone::draw_zone_of_control()
 {
     glm::mat4 trans;
     trans = glm::translate(trans, glm::vec3(1000, 500, 0.0f));
-    trans = glm::scale(trans, glm::vec3(size, size, size));
-  //  trans = glm::translate(trans, glm::vec3(center_point.position.x, -center_point.position.y, 0.0f));
-    trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
+    trans = glm::scale(trans, glm::vec3(*size, *size, *size));
+
+    trans = glm::translate(trans, glm::vec3(map->x, map->y, 0.0f));
     trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 0, 1));
     trans = glm::rotate(trans, GLfloat(180), glm::vec3(0, 1, 0));
-    GLuint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+    GLuint transformLoc = glGetUniformLocation(map->shaderProgram, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 
 
     GLuint vao, vbo;
-    if (previous_x != x || previous_y != y)
+    if (map->previous_x != map->x || map->previous_y != map->y)
         calculate_zone_of_control();
-    previous_x = x;
-    previous_y = y;
+    map->previous_x = map->x;
+    map->previous_y = map->y;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -448,20 +446,22 @@ void Map::draw_zone_of_control()
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, shape.size() * sizeof(GLfloat), shape.data(), GL_DYNAMIC_DRAW);
 
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+    glGenBuffers(1, &map->IBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, map->IBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, map->indices.size() * sizeof(uint32_t), map->indices.data(), GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(vao);
-    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1, 0, 0, 1);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 1, 0, 0, 1);
+   // glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
-    glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 1, 0, 1);
+    glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 0, 1, 0, 1);
+  //  for (auto i : shape)
+  //      std::cout <<"!" << i << std::endl;
     glDrawArrays(GL_POINTS, 0, shape.size() / 3);
-    glDeleteBuffers(1, &IBO);
+    glDeleteBuffers(1, &map->IBO);
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
 
