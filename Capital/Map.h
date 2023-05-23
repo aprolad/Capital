@@ -19,11 +19,13 @@ struct Line
 class Map;
 struct State_zone
 {
-    void init(Map* _map, double* _size)
+    void init(Map* _map, double* _size, glm::vec4 _color)
     {
+        color = _color;
         map = _map;
         size = _size;
     }
+    glm::vec4 color;
     std::vector<GLfloat> shape;
     double centre_x=0, centre_y=0;
     double* size;
@@ -37,8 +39,15 @@ public:
     Map()
     {
         State_zone t;
-        t.init(this, &size);
+        t.init(this, &size, glm::vec4(0, 1, 0, 1));
+        t.centre_x = 5;
+        t.centre_y = -100;
         state_zones.push_back(t);
+        State_zone t1;
+        t1.init(this, &size, glm::vec4(1, 0, 0, 1));
+        t1.centre_x = -18;
+        t1.centre_y = -105;
+        state_zones.push_back(t1);
     }
     std::vector<State_zone> state_zones;
     double x_slot;
