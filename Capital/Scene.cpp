@@ -3,6 +3,7 @@
 #include "Visualization.h"
 
 extern Visualization visualization;
+extern Simulation simulation;
 void MainMenuScene :: construct_scene()
 {
 	int x_slot = visualization.window_resolution.x / 50;
@@ -65,9 +66,14 @@ void MainGameScene::construct_scene()
 
 	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 29, y_slot * 45, 150, 50, "Goverment"));
 
+	en = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 46, y_slot * 16);
+
+	en->add_dynamic_text_element("GDP: ", &simulation.enemy.GDP.total.result, x_slot * 42, y_slot * 23);
+
+	en->add_dynamic_text_element("Population: ", " ", x_slot * 42, y_slot * 24, &simulation.enemy.demography.population);
 
 
-	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation->date.calendar_years, shaderProgram, fontShader, x_slot * 45, y_slot * 48, "Date: ", simulation->date.postfix);
+	Dynamic_text_element<int*>* at = (new Dynamic_text_element<int*>())->set_properties(&simulation.date.calendar_years, shaderProgram, fontShader, x_slot * 45, y_slot * 48, "Date: ", simulation.date.postfix);
 
 
 	graphic_elements.push_back(at);

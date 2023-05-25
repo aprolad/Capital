@@ -9,6 +9,7 @@
 #include "Visualization.h"
 #include "misc/earcut.hpp"
 #include <array>
+#include <math.h>
 extern Visualization visualization;
 double find_angle(glm::vec2 vec1, glm::vec2 vec2)
 {
@@ -296,8 +297,19 @@ int Map::draw()
         return 0;
     }
 }
-
-
+void Map::mouse_callback(int mx, int my)
+{
+    state_zones[1].mouse_callback(mx, my);
+}
+void State_zone::mouse_callback(int mx, int my)
+{
+  //  std::cout <<"pre " << (mx - 1000) / map->size << " ! " << (my - 500) / map->size << std::endl;
+    std::cout << "fact " << (mx - 1000) / map->size - map->x + centre_x  << " ! " << (my - 500) / map->size - map->y + centre_y << std::endl;
+    double t_x = (mx - 1000) / map->size - map->x + centre_x;
+    double t_y = (my - 500) / map->size - map->y + centre_y;
+    if (sqrt(pow(t_x, 2) + pow(t_y, 2)) < 10)
+        visualization.scene[visualization.choosenScene]->enemy = !visualization.scene[visualization.choosenScene]->enemy;
+}
 
 void State_zone::calculate_zone_of_control()
 {

@@ -2,13 +2,15 @@
 #include <vector>
 #include "Map.h"
 #include "Graphic_element.h"
+extern Simulation simulation;
 //#include "Visualization.h"
 //
 class Scene
 {
 	public:
+		bool enemy;
 		GLFWwindow* window;
-		Simulation* simulation;
+		//Simulation* simulation;
 		static int* choosen_scene;
 		GLuint shaderProgram, fontShader;
 		std::vector<Graphic_element*> graphic_elements;
@@ -35,7 +37,6 @@ class Scene
 			for (int i = 0; i < graphic_elements.size(); i++)
 			{
 				graphic_elements[i]->init();
-
 			}
 		}
 };
@@ -58,6 +59,7 @@ class MainGameScene : virtual public Scene
 public:
 	Map map;
 	std::vector<Multiple_choice_panel*> root_menus;
+	Information_panel* en;
 	void construct_scene();
 	void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 	{
@@ -96,8 +98,13 @@ public:
 		{
 			any_active += i->active;
 		}
+
 		if (!any_active)
 			map.draw();
+
+		if (enemy)
+			en->draw();
+
 
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
 
@@ -106,6 +113,11 @@ public:
 		
 		
 	}
-
+	void mouseInvoke(double mx, double my)
+	{
+		map.mouse_callback(mx, my);
+		for (int i = 0; i < graphic_elements.size(); i++)
+			graphic_elements[i]->mouseCallback(mx, my);
+	}
 
 };

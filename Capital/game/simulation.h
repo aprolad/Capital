@@ -24,6 +24,7 @@ class Simulation
 		}
 
 		State player;
+		State enemy;
 		static int game_speed;
 		Simulation_date date;
 		
@@ -36,6 +37,7 @@ class Simulation
 
 			date.calculate_date();
 			player.simulate(date.days_from_start);
+			enemy.simulate(date.days_from_start);
 		}
 		void cycle()
 		{

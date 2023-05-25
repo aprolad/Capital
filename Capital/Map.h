@@ -25,11 +25,13 @@ struct State_zone
         map = _map;
         size = _size;
     }
+
     glm::vec4 color;
     std::vector<GLfloat> shape;
     double centre_x=0, centre_y=0;
     double* size;
     Map* map;
+    void mouse_callback(int x, int y);
     void calculate_zone_of_control();
     void draw_zone_of_control();
 };
@@ -40,13 +42,13 @@ public:
     {
         State_zone t;
         t.init(this, &size, glm::vec4(0, 1, 0, 1));
-        t.centre_x = 5;
+        t.centre_x = 35;
         t.centre_y = -100;
         state_zones.push_back(t);
         State_zone t1;
         t1.init(this, &size, glm::vec4(1, 0, 0, 1));
-        t1.centre_x = -18;
-        t1.centre_y = -105;
+        t1.centre_x = -15;
+        t1.centre_y = -100;
         state_zones.push_back(t1);
     }
     std::vector<State_zone> state_zones;
@@ -64,7 +66,7 @@ public:
     std::vector<uint32_t> indices;
     int init();
     int draw();
-
+    void mouse_callback(int mx, int my);
     double previous_x, previous_y;
 private:
     void draw_map_sizing();

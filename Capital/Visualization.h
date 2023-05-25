@@ -131,18 +131,18 @@ public:
 	{
 
 
-		m.simulation = &simulation;
+		//m.simulation = &simulation;
 		m.initialize(shaderProgram, fontShader, &choosenScene);
 		scene.push_back(&m);
 
 
-		mm.simulation = &simulation;
+		//mm.simulation = &simulation;
 		mm.initialize(shaderProgram, fontShader, &choosenScene);
 		mm.window = window;
 		scene.push_back(&mm);
 
 		
-		a.simulation = &simulation;
+		//a.simulation = &simulation;
 		a.initialize(shaderProgram, fontShader, &choosenScene);
 		scene.push_back(&a);
 
