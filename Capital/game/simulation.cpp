@@ -12,6 +12,13 @@ void Farming::compute()
 	pay_wage();
 }
 
+void Goverment::compute()
+{
+	expenditure = 0;
+
+	pay_wage();
+}
+
 void Gathering::compute()
 {
 	expenditure = 0;
@@ -70,8 +77,12 @@ void Textile::compute()
 void Industry::pay_wage()
 {
 	workforce_d = workforce;
-
-
+	vacancies = workplace_count - workforce;
+	// arbitary vacancies creation
+	if (vacancies < 50)
+		workplace_count += 30;
+	else
+		workplace_count -= 1;
 
 
 	income = money - last_day_money;
@@ -94,7 +105,7 @@ void Industry::pay_wage()
 	double taxes = salary * 0.01;
 	double netto_salary = salary - taxes;
 
-	state->goverment.money += taxes;
+	state->industries[goverment]->money += taxes;
 
 
 	state->demography.money = state->demography.money + netto_salary;
@@ -109,26 +120,20 @@ void Industry::pay_wage()
 Socium::Socium()
 {
 
-	worker_types.push_back(Profession("Potters", 0.03, std::vector<float>{121, 85, 72, 1} ));
-
-	worker_types.push_back(Profession("Leaders", 0.05, std::vector<float>{255, 0, 0, 1}));
 
 	worker_types.push_back(Profession("Farmers", 0.12, std::vector<float>{76, 175, 80, 1}));
 	
 	worker_types.push_back(Profession("Gatherers",0.77, std::vector<float>{255, 152, 0, 1}));
 
+	worker_types.push_back(Profession("Potters", 0.03, std::vector<float>{121, 85, 72, 1} ));
+
 	worker_types.push_back(Profession("Shepards", 0.01, std::vector<float>{155, 52, 0, 1}));
 
 	worker_types.push_back(Profession("Weavers", 0.02, std::vector<float>{055, 52, 0, 1}));
+
+	worker_types.push_back(Profession("Leaders", 0.05, std::vector<float>{255, 0, 0, 1}));
 
 	worker_types.push_back(Profession("Unemployed", 0.00, std::vector<float>{0, 0, 255, 1}));
 	
 }
 
-void Goverment::pay_wages()
-{
-	double payment = money / 2;
-	wages = payment / workforce;
-	money -= payment;
-	state->demography.money.value += payment;
-}
