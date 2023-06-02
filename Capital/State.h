@@ -175,6 +175,7 @@ public:
 	std::string name;
 	std::vector<float> color;
 	double percent_of_workforce;
+	double wage;
 };
 class Socium
 {
@@ -228,7 +229,7 @@ public:
 	double fat;
 	double births;
 	double infantMortality;
-
+	double delta_workers;
 	double foodSupply;
 
 	std::deque<double> agePyramid;
@@ -241,6 +242,7 @@ public:
 		births = 0;
 		double prevPop = population;
 		population = 0;
+		double prev_workers = laborPool;
 		laborPool = 0;
 		if (date % 365 == 0)
 			for (int i = 0; i < 1; i++)
@@ -283,7 +285,8 @@ public:
 		births = fertilePop * totalFertilityRate / 25 / 365 / 2 * double(0.98 + double(rand() % 40) / 1000) * (0.6 + foodSupply / 200);
 		agePyramid[0] += int(births);
 		fat = prevPop + births - population;
-
+		delta_workers = laborPool - prev_workers;
+		//std::cout << delta_workers << std::endl;
 	}
 };
 class Product
@@ -507,7 +510,7 @@ public:
 class Industry
 {
 public:
-	Industry(State* _state) : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce(0)
+	Industry(State* _state) : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
 	{ 
 		state = _state;
 		historic_wages.resize(30);
@@ -521,7 +524,8 @@ public:
 	double money, last_day_money;
 	double last_day_balance;
 	double workplace_count;
-	Display_value workforce;
+	double workforce;
+	Display_value workforce_d;
 	Display_value wages;
 	double prev_wage;
 	double expenditure;
@@ -533,7 +537,18 @@ public:
 	void compute()
 	{
 	}
+
+	static bool compare_by_wage(const Industry* a, const Industry* b) {
+		return a->wages.value < b->wages.value;
+	}
 };
+
+class Unemployed : public Industry
+{
+public:
+
+};
+
 class Farming : public Industry
 {
 public:
@@ -569,6 +584,20 @@ public:
 		pottery.wages = 10;
 		demography.money = 1e7;
 		socium = Socium();
+		demography.calc(0);
+
+		pottery.workforce = socium.by_name("Potters")->percent_of_workforce * demography.laborPool;
+		goverment.workforce = socium.by_name("Leaders")->percent_of_workforce * demography.laborPool;
+		agriculture.workforce = socium.by_name("Farmers")->percent_of_workforce * demography.laborPool;
+		gathering.workforce = socium.by_name("Gatherers")->percent_of_workforce * demography.laborPool;
+		textile.workforce = socium.by_name("Weavers")->percent_of_workforce * demography.laborPool;
+		husbandry.workforce = socium.by_name("Shepards")->percent_of_workforce * demography.laborPool;
+
+		i.push_back(&agriculture);
+		i.push_back(&gathering);
+		i.push_back(&pottery);
+		i.push_back(&husbandry);
+		i.push_back(&textile);
 	}
 	Geography geography;
 	Exchange foodExc, woolExc;
@@ -579,60 +608,50 @@ public:
 	Pottery pottery = Pottery(this);
 	Husbandry husbandry = Husbandry(this);
 	Textile textile = Textile(this);
+	Unemployed unemployed = Unemployed(this);
 	GDP GDP;
-
+	std::vector<Industry*> i;
 	Exchange potteryExc, clothExc;
 	Demography demography;
 	void calculate_job_changes()
 	{
-		if (gathering.workforce < 1000)
-			return;
-		if (pottery.wages > gathering.wages * 1.8)
-		{
 
-			socium.by_name("Gatherers")->percent_of_workforce -= 0.0001 * (pottery.wages / gathering.wages);
-			socium.by_name("Potters")->percent_of_workforce += 0.0001 * (pottery.wages / gathering.wages);
-		}
-		else if (socium.by_name("Potters")->percent_of_workforce > 0.0002)
-		{
-			socium.by_name("Gatherers")->percent_of_workforce += 0.0001;
-			socium.by_name("Potters")->percent_of_workforce -= 0.0001;
-		}
-
-		if (textile.wages > gathering.wages * 1.8)
-		{
-
-			socium.by_name("Gatherers")->percent_of_workforce -= 0.0001 * (pottery.wages / gathering.wages);
-			socium.by_name("Weavers")->percent_of_workforce += 0.0001 * (pottery.wages / gathering.wages);
-		}
-		else if (socium.by_name("Weavers")->percent_of_workforce > 0.0002)
-		{
-			socium.by_name("Gatherers")->percent_of_workforce += 0.0001;
-			socium.by_name("Weavers")->percent_of_workforce -= 0.0001;
-		}
-		if (husbandry.wages > gathering.wages * 1.8)
-		{
-
-			socium.by_name("Gatherers")->percent_of_workforce -= 0.0001 * (pottery.wages / gathering.wages);
-			socium.by_name("Shepards")->percent_of_workforce += 0.0001 * (pottery.wages / gathering.wages);
-		}
-		else if (socium.by_name("Shepards")->percent_of_workforce > 0.0001 && woolExc.total_demand < woolExc.total_supply)
-		{
-			socium.by_name("Gatherers")->percent_of_workforce += 0.0001;
-			socium.by_name("Shepards")->percent_of_workforce -= 0.0001;
-		}
-
+	}
+	void distrubute_worker_loss()
+	{
+		pottery.workforce += socium.by_name("Potters")->percent_of_workforce * demography.delta_workers;
+		goverment.workforce += socium.by_name("Leaders")->percent_of_workforce * demography.delta_workers;
+		agriculture.workforce += socium.by_name("Farmers")->percent_of_workforce * demography.delta_workers;
+		gathering.workforce += socium.by_name("Gatherers")->percent_of_workforce * demography.delta_workers;
+		textile.workforce += socium.by_name("Weavers")->percent_of_workforce * demography.delta_workers;
+		husbandry.workforce += socium.by_name("Shepards")->percent_of_workforce * demography.delta_workers;
 	}
 	void calculate_jobs()
 	{
-		pottery.workforce = socium.by_name("Potters")->percent_of_workforce * demography.laborPool;
-		goverment.workforce = socium.by_name("Leaders")->percent_of_workforce * demography.laborPool;
-		agriculture.workforce = socium.by_name("Farmers")->percent_of_workforce * demography.laborPool;
-		gathering.workforce = socium.by_name("Gatherers")->percent_of_workforce * demography.laborPool;
-		textile.workforce = socium.by_name("Weavers")->percent_of_workforce * demography.laborPool;
-		husbandry.workforce = socium.by_name("Shepards")->percent_of_workforce * demography.laborPool;
+		if (demography.delta_workers < 0)
+			distrubute_worker_loss();
+		else
+			unemployed.workforce += abs(demography.delta_workers);
+		// Staff turnover
+		for (int c = 0; c < i.size(); c++)
+		{
+			double change = i[c]->workforce * 0.001;
+			unemployed.workforce += change;
+			i[c]->workforce -= change;
+		}
+		std::sort(i.begin(), i.end(), Industry::compare_by_wage);
+		i.back()->workforce += unemployed.workforce;
+		unemployed.workforce = 0;
 
-		
+		socium.by_name("Potters")->percent_of_workforce = pottery.workforce / demography.laborPool;
+		socium.by_name("Leaders")->percent_of_workforce = goverment.workforce / demography.laborPool;
+		socium.by_name("Farmers")->percent_of_workforce = agriculture.workforce / demography.laborPool;
+		socium.by_name("Gatherers")->percent_of_workforce = gathering.workforce / demography.laborPool;
+		socium.by_name("Weavers")->percent_of_workforce = textile.workforce / demography.laborPool;
+		socium.by_name("Shepards")->percent_of_workforce = husbandry.workforce / demography.laborPool;
+		socium.by_name("Unemployed")->percent_of_workforce = unemployed.workforce / demography.laborPool;
+
+
 	}
 	void simulate(int date)
 	{
@@ -646,6 +665,7 @@ public:
 		potteryExc.process();
 		woolExc.process();
 		clothExc.process();
+
 		gathering.compute();
 		agriculture.compute();
 		pottery.compute();

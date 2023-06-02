@@ -69,6 +69,11 @@ void Textile::compute()
 
 void Industry::pay_wage()
 {
+	workforce_d = workforce;
+
+
+
+
 	income = money - last_day_money;
 	double avg = 0;
 	for (auto a : historic_wages)
@@ -115,6 +120,8 @@ Socium::Socium()
 	worker_types.push_back(Profession("Shepards", 0.01, std::vector<float>{155, 52, 0, 1}));
 
 	worker_types.push_back(Profession("Weavers", 0.02, std::vector<float>{055, 52, 0, 1}));
+
+	worker_types.push_back(Profession("Unemployed", 0.00, std::vector<float>{0, 0, 255, 1}));
 	
 }
 

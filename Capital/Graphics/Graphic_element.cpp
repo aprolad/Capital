@@ -111,7 +111,9 @@ void Economics_menu::init()
 
 	panel->add_dynamic_text_element("GDP: ", &simulation.player.GDP.total.result, x, y - 400);
 
-	panel->add_dynamic_text_element("Wheat: ", " Tonnes", x, y - 450, &simulation.player.agriculture.output.result);
+	panel->add_dynamic_text_element("Delta workers: ", " D ", x_slot * 6, y - 450, &simulation.player.demography.delta_workers);
+
+	panel->add_dynamic_text_element("Enemployed: ", " D ", x_slot * 6, y - 500, &simulation.player.unemployed.workforce);
 
 	//panel->add_dynamic_text_element("Wheat Price: ", " Tonnes", x, y - 750, &simulation.foodExc.current_price);
 
@@ -120,7 +122,7 @@ void Economics_menu::init()
 	panel->add_dynamic_text_element("Pottery money:  ", " Square km", x, y - 750, &simulation.player.pottery.money);
 	panel->add_dynamic_text_element("Animal money:  ", " Square km", x, y - 650, &simulation.player.husbandry.money);
 	panel->add_dynamic_text_element("Cloth money:  ", " Square km", x, y - 700, &simulation.player.textile.money);
-	panel->add_dynamic_text_element("Pottery: ", &simulation.player.demography.money.result, x, y - 950);
+	panel->add_dynamic_text_element("pop money: ", &simulation.player.demography.money.result, x, y - 950);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 
 	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, y_slot * 40, 125, 40, "Agriculture"));
@@ -165,7 +167,7 @@ void Gathering_panel::init()
 
 	panel->add_dynamic_text_element("Gathering income: ", &simulation.player.gathering.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.gathering.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.gathering.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.foodExc.current_price);
 
@@ -185,7 +187,7 @@ void Farming_panel::init()
 
 	panel->add_dynamic_text_element("Farming income: ", &simulation.player.agriculture.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.agriculture.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.agriculture.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.foodExc.current_price);
 
@@ -205,7 +207,7 @@ void Husbandry_panel::init()
 
 	panel->add_dynamic_text_element("Wool income: ", &simulation.player.husbandry.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.husbandry.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.husbandry.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Wool price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.woolExc.current_price);
 
@@ -225,7 +227,7 @@ void Pottery_panel::init()
 
 	panel->add_dynamic_text_element("Pottry income: ", &simulation.player.pottery.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.pottery.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.pottery.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Pottery price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.potteryExc.current_price);
 
@@ -245,7 +247,7 @@ void Textile_panel::init()
 
 	panel->add_dynamic_text_element("Cloth income: ", &simulation.player.textile.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.textile.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.textile.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.clothExc.current_price);
 
@@ -269,7 +271,7 @@ void Society_demography_panel::init()
 
 	panel->add_dynamic_text_element("Cloth income: ", &simulation.player.textile.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.textile.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.textile.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.clothExc.current_price);
 
@@ -305,7 +307,7 @@ void Society_profession_panel::init()
 
 	panel->add_dynamic_text_element("Cloth income: ", &simulation.player.textile.income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.textile.workforce.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.textile.workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.clothExc.current_price);
 
