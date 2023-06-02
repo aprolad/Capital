@@ -135,6 +135,7 @@ class Industry_sector_panel : virtual public Economy_panel
 public:
 	void init();
 };
+
 class Service_sector_panel : virtual public Economy_panel
 {
 public:

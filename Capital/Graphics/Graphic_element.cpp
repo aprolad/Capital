@@ -93,9 +93,11 @@ void Service_sector_panel::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
 
-	panel->add_dynamic_text_element("GDPM: ", " Denarius", x_slot * 6, y - 400, &simulation.player.GDP.total);
+	panel->add_dynamic_text_element("Wages constr: ", " Denarius", x_slot * 6, y - 400, &simulation.player.industries[construction]->wages);
 
-	panel->add_dynamic_text_element("WheatM: ", " Tonnes", x_slot * 6, y - 450, &simulation.player.foodExc.total_supply);
+	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.player.constr_exc.total_demand);
+
+	panel->add_dynamic_text_element("Supply: ", " Tonnes", x_slot * 6, y - 500, &simulation.player.constr_exc.total_supply);
 
 	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.player.geography.totalArableLand);
 
@@ -130,7 +132,7 @@ void Economics_menu::init()
 
 	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 200, y_slot * 40, 125, 40, "Agriculture"));
 	root_menus.push_back((new Industry_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 500, y_slot * 40, 125, 40, "Industry"));
-	root_menus.push_back((new Agriculture_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 800, y_slot * 40, 125, 40, "Services"));
+	root_menus.push_back((new Service_sector_panel())->set_properties(&root_menus, shaderProgram, fontShader, 800, y_slot * 40, 125, 40, "Services"));
 	for (auto a : root_menus)
 	{
 		a->init();

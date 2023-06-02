@@ -73,6 +73,30 @@ void Textile::compute()
 	pay_wage();
 }
 
+void Forestry::compute()
+{
+	expenditure = 0;
+	output = workforce * 0.1;
+
+
+	state->wood_exc.put_sell_order(output, state->wood_exc.get_current_price(), &money);
+
+	pay_wage();
+}
+
+void Construction::compute()
+{
+	output = workforce * 0.1;
+	auto t = state->wood_exc.buy_amount(output * 0.5, &money);
+	output.value += 0.1;
+	double material_coverage = t.amount_bought / (output * 0.5);
+	expenditure = t.money_spent;
+
+	state->constr_exc.put_sell_order(output * material_coverage, state->constr_exc.get_current_price(), &money);
+
+	pay_wage();
+}
+
 
 void Industry::pay_wage()
 {
@@ -119,21 +143,6 @@ void Industry::pay_wage()
 
 Socium::Socium()
 {
-
-
-	worker_types.push_back(Profession("Farmers", 0.12, std::vector<float>{76, 175, 80, 1}));
-	
-	worker_types.push_back(Profession("Gatherers",0.77, std::vector<float>{255, 152, 0, 1}));
-
-	worker_types.push_back(Profession("Potters", 0.03, std::vector<float>{121, 85, 72, 1} ));
-
-	worker_types.push_back(Profession("Shepards", 0.01, std::vector<float>{155, 52, 0, 1}));
-
-	worker_types.push_back(Profession("Weavers", 0.02, std::vector<float>{055, 52, 0, 1}));
-
-	worker_types.push_back(Profession("Leaders", 0.05, std::vector<float>{255, 0, 0, 1}));
-
-	worker_types.push_back(Profession("Unemployed", 0.00, std::vector<float>{0, 0, 255, 1}));
 	
 }
 

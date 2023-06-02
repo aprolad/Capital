@@ -22,6 +22,8 @@ enum industry_index {
     pottery,
     husbandry,
 	textile,
+	forestry,
+	construction,
 	goverment,
 	unemployed
 };
@@ -566,6 +568,18 @@ public:
 	using Industry::Industry;
 	void compute();
 };
+class Construction : public Industry
+{
+public:
+	using Industry::Industry;
+	void compute();
+};
+class Forestry : public Industry
+{
+public:
+	using Industry::Industry;
+	void compute();
+};
 class Gathering : public Industry
 {
 public:
@@ -584,22 +598,37 @@ class State
 public:
 	State()
 	{
+		socium = Socium();
+
 		industries.push_back(new Farming(this));
+		socium.worker_types.push_back(Profession("Farmers", 0.12, std::vector<float>{76, 175, 80, 1}));
 		industries.push_back(new Gathering(this));
+		socium.worker_types.push_back(Profession("Gatherers",0.75, std::vector<float>{255, 152, 0, 1}));
 		industries.push_back(new Pottery(this));
+		socium.worker_types.push_back(Profession("Potters", 0.03, std::vector<float>{121, 85, 72, 1} ));
 		industries.push_back(new Husbandry(this));
+		socium.worker_types.push_back(Profession("Shepards", 0.01, std::vector<float>{155, 52, 0, 1}));
 		industries.push_back(new Textile(this));
+		socium.worker_types.push_back(Profession("Weavers", 0.02, std::vector<float>{055, 52, 0, 1}));
+
+		industries.push_back(new Forestry(this));
+		socium.worker_types.push_back(Profession("Foresters", 0.01, std::vector<float>{0, 255, 0, 1}));
+		industries.push_back(new Construction(this));
+		socium.worker_types.push_back(Profession("Construction", 0.01, std::vector<float>{0, 0, 0, 1}));
+
 		industries.push_back(new Goverment(this));
+		socium.worker_types.push_back(Profession("Leaders", 0.05, std::vector<float>{255, 0, 0, 1}));
 		industries.push_back(new Unemployed(this));
+		socium.worker_types.push_back(Profession("Unemployed", 0.00, std::vector<float>{0, 0, 255, 1}));
+
+
 
 		industries[pottery]->wages = 10;
 		demography.money = 1e7;
-		socium = Socium();
+
 		demography.calc(0);
 
 
-
-		
 		for (int i = 0; i < industries.size(); i++)
 		{
 			industries[i]->workforce = socium.worker_types[i].percent_of_workforce * demography.laborPool;
@@ -611,13 +640,14 @@ public:
 	Geography geography;
 
 	Exchange foodExc, woolExc;
-
+	Exchange potteryExc, clothExc;
+	Exchange wood_exc, constr_exc;
 	Socium socium;
 
 	GDP GDP;
 
 	std::vector<Industry*> industries;
-	Exchange potteryExc, clothExc;
+
 	Demography demography;
 	void calculate_job_changes()
 	{
@@ -684,6 +714,8 @@ public:
 		potteryExc.process();
 		woolExc.process();
 		clothExc.process();
+		wood_exc.process();
+		constr_exc.process();
 
 		for (int i = 0; i<industries.size(); i++)
 			industries[i]->compute();
@@ -705,6 +737,7 @@ public:
 			t = potteryExc.buy_money(demography.money.value * 0.5, &demography.money.value);
 		//	potteryExc.total_demand = population.population / 5;
 
+		constr_exc.buy_money(demography.money.value/2, &demography.money.value);
 		clothExc.buy_money(demography.money.value, &demography.money.value);
 
 		//	std::cout << "Remains  " << socium.by_name("Weavers")->percent_of_workforce << std::endl;
