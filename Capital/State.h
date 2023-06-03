@@ -321,7 +321,7 @@ public:
 		*recepient_account += quantity_bought * price;
 		quantity -= quantity_bought;
 	}
-	void execute_part(double* sender_account, double budget)
+	double execute_part(double* sender_account, double budget)
 	{
 		if (price < 0.0001)
 			price = 0.0001;
@@ -329,6 +329,7 @@ public:
 		*sender_account -= quantity_bought * price;
 		*recepient_account += quantity_bought * price;
 		quantity -= quantity_bought;
+		return quantity_bought;
 	}
 	double ttm;
 	double quantity, price;
@@ -380,6 +381,7 @@ public:
 
 		return quantity_backlog;
 	}
+	double money_spent;
 	void process()
 	{
 		if (total_supply < 1) total_supply = 1;
@@ -397,6 +399,8 @@ public:
 
 
 
+		//if (order_book.size() > 0)
+		//	consolidate();
 		for (auto a : order_book)
 			a.process(current_price);
 
@@ -411,6 +415,9 @@ public:
 	{
 		total_supply += quantity;
 		auto a = Order(quantity, price, recepient_account);
+		if (order_book.size() > 150)
+			order_book.erase(order_book.end()-1);
+
 		std::sort(order_book.begin(), order_book.end(), Order::compareByPrice);
 
 		auto insertPosition = std::lower_bound(order_book.begin(), order_book.end(), a, Order::compareByPrice);
@@ -422,12 +429,12 @@ public:
 	Purchase_check buy_amount(double buy_amount, double* account)
 	{
 		// Cannot buy if there are no offers or no money
-		if (order_book.empty() || *account < 1)
-			return Purchase_check(0, 0);
-		double money_spent = 0;
+
+		money_spent = 0;
 		double want_amount = buy_amount;
 		total_demand += buy_amount;
-
+		if (order_book.empty() || *account < 1)
+			return Purchase_check(0, 0);
 
 
 		for (int i = 0; buy_amount > 0; i++)
@@ -437,25 +444,39 @@ public:
 				if (order_book[0].quantity * order_book[0].price > *account)
 				{
 					double account_left = *account;
-					order_book[0].execute_part(account, *account);
-					buy_amount -= order_book[0].quantity;
+					
+					buy_amount -= order_book[0].execute_part(account, *account);
 					money_spent += account_left;
 					return Purchase_check(want_amount - buy_amount, money_spent);
 				}
-				order_book[0].execute(account);
-				buy_amount -= order_book[0].quantity;
-				money_spent += order_book[0].quantity * order_book[0].price;
-				order_book.erase(order_book.begin());
-				if (order_book.empty())
+				else
 				{
-					return Purchase_check(want_amount - buy_amount, money_spent);
+					order_book[0].execute(account);
+					buy_amount -= order_book[0].quantity;
+					money_spent += order_book[0].quantity * order_book[0].price;
+					order_book.erase(order_book.begin());
+					if (order_book.empty())
+					{
+						return Purchase_check(want_amount - buy_amount, money_spent);
+					}
 				}
+				
 			}
 			else
 			{
-				order_book[0].execute(account, buy_amount);
-				money_spent += buy_amount * order_book[0].price;
-				buy_amount = 0;
+				if (buy_amount * order_book[0].price < *account)
+				{
+					order_book[0].execute(account, buy_amount);
+					money_spent += buy_amount * order_book[0].price;
+					buy_amount = 0;
+				}
+				else
+				{
+					double account_left = *account;
+					buy_amount -= order_book[0].execute_part(account, *account);
+					money_spent += account_left;
+					return Purchase_check(want_amount - buy_amount, money_spent);
+				}
 			}
 			//Small negative numbers represent operational debts 
 			if (*account < 0)
@@ -493,9 +514,9 @@ public:
 			}
 			else
 			{
-				order_book[0].execute_part(account, buy_money);
+				
 				//total_demand += 
-				bought += order_book[0].quantity;
+				bought += order_book[0].execute_part(account, buy_money);
 				buy_money = 0;
 			}
 			//Small negative numbers represent operational debts 
@@ -685,7 +706,7 @@ public:
 		// Staff turnover
 		for (int c = 0; c < industries.size()-2; c++)
 		{
-			double change = industries[c]->workforce * 0.001;
+			double change = industries[c]->workforce * 0.0001;
 			industries[unemployed]->workforce += change;
 			industries[c]->workforce -= change;
 		}
@@ -725,21 +746,28 @@ public:
 
 		double before = demography.money;
 
-		double realistic_demand = demography.population * 1.0 * (std::tanh(-(exchanges[food_exc]->current_price - 100) / 100) * 0.5 + 1);
+		double realistic_demand = demography.population * 1.0;
 
-		auto t = exchanges[food_exc]->buy_money(demography.money.value * 0.8, &demography.money.value);
+		auto t = exchanges[food_exc]->buy_amount(realistic_demand, &demography.money.value);
 
-		exchanges[food_exc]->total_demand = demography.population;
 
 		demography.foodSupply = t.amount_bought / demography.population * 100;
 
-		if (demography.money.value > 0)
-			t = exchanges[pottery_exc]->buy_money(demography.money.value * 0.5, &demography.money.value);
-		//	potteryExc.total_demand = population.population / 5;
 
+		t = exchanges[pottery_exc]->buy_amount(demography.population*0.1, &demography.money.value);
+	
+	//	std::cout <<"money "<< demography.money.value<< std::endl;
 	//	exchanges[constr_exc]->buy_money(demography.money.value/2, &demography.money.value);
-		exchanges[cloth_exc]->buy_money(demography.money.value, &demography.money.value);
-
+		t = exchanges[cloth_exc]->buy_amount(demography.population*0.01, &demography.money.value);
+	//	std::cout << t.amount_bought << std::endl;
+	//	std::cout <<"spent "<< exchanges[cloth_exc]->money_spent<< std::endl;
+	//	std::cout <<"spent res "<< t.money_spent<< std::endl;
+	//	std::cout <<"size "<< exchanges[cloth_exc]->order_book.size()<< std::endl;
+		//if (demography.money < 1)
+		//	std::cout << "broke" << std::endl;
+		exchanges[food_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
+		exchanges[pottery_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
+		exchanges[cloth_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
 
 		GDP.private_consumption += abs(demography.money - before);
 	}

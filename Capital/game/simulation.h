@@ -37,7 +37,7 @@ class Simulation
 
 			date.calculate_date();
 			player.simulate(date.days_from_start);
-			enemy.simulate(date.days_from_start);
+			//enemy.simulate(date.days_from_start);
 		}
 		void cycle()
 		{
