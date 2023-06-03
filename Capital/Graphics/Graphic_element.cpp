@@ -21,7 +21,7 @@ void Goverment_menu::init()
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 24);
 
 	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries[goverment]->workforce);
-	panel->add_dynamic_text_element("Goverment budget:  ", " ",  x_slot * 4, y_slot * 21, &simulation.player.industries[goverment]->money);
+	panel->add_dynamic_text_element("Goverment budget:  ", " ",  x_slot * 4, y_slot * 21, &simulation.player.industries[goverment]->revenue);
 
 	panel->add_dynamic_text_element("Wages: ", &simulation.player.industries[goverment]->wages.result, x_slot * 4, y_slot * 19);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
@@ -234,7 +234,7 @@ void Pottery_panel::init()
 
 	panel->add_dynamic_text_element("Pottery wages: ", &simulation.player.industries[pottery]->wages.result, x_slot * 13, y_slot * 23);
 
-	panel->add_dynamic_text_element("Pottry income: ", &simulation.player.industries[pottery]->income.result, x_slot * 13, y_slot * 21);
+	panel->add_dynamic_text_element("Pottery gross income:  ", " ", x_slot * 13, y_slot * 25, &simulation.player.industries[pottery]->gross_profit);
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[pottery]->workforce_d.result, x_slot * 13, y_slot * 19);
 

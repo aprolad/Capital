@@ -149,7 +149,7 @@ void Industry::pay_wage()
 		payroll = money;
 	}
 	wages = wages.value;
-	double taxes = payroll * 0.01;
+	double taxes = payroll * 0.03;
 	double netto_salary = payroll - taxes;
 	state->industries[goverment]->money += taxes;
 

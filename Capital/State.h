@@ -769,6 +769,10 @@ public:
 		exchanges[pottery_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
 		exchanges[cloth_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
 
+		exchanges[food_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
+		exchanges[pottery_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
+		exchanges[cloth_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
+
 		GDP.private_consumption += abs(demography.money - before);
 	}
 	void simulate(int date)
