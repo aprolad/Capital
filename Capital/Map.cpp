@@ -303,8 +303,7 @@ void Map::mouse_callback(int mx, int my)
 }
 void State_zone::mouse_callback(int mx, int my)
 {
-  //  std::cout <<"pre " << (mx - 1000) / map->size << " ! " << (my - 500) / map->size << std::endl;
-    std::cout << "fact " << (mx - 1000) / map->size - map->x + centre_x  << " ! " << (my - 500) / map->size - map->y + centre_y << std::endl;
+
     double t_x = (mx - 1000) / map->size - map->x + centre_x;
     double t_y = (my - 500) / map->size - map->y + centre_y;
     if (sqrt(pow(t_x, 2) + pow(t_y, 2)) < 10)
@@ -472,8 +471,7 @@ void State_zone::draw_zone_of_control()
    // glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
     glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), color.x, color.y, color.z, color[3]);
-  //  for (auto i : shape)
-  //      std::cout <<"!" << i << std::endl;
+
     glDrawArrays(GL_POINTS, 0, shape.size() / 3);
     glDeleteBuffers(1, &map->IBO);
     glDeleteBuffers(1, &vbo);

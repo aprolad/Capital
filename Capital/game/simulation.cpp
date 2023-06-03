@@ -4,10 +4,10 @@ void Farming::compute()
 {
 	output = workforce * 500 * double(250)/100;
 
-	if (state->foodExc.calculate_excess() < state->foodExc.total_demand * 250)
-		state->foodExc.put_sell_order(output / (365), state->foodExc.get_current_price(), &money);
+	if (state->exchanges[food_exc]->calculate_excess() < state->exchanges[food_exc]->total_demand * 250)
+		state->exchanges[food_exc]->put_sell_order(output / (365), state->exchanges[food_exc]->get_current_price(), &money);
 	else
-		state->foodExc.put_sell_order(output / (365), state->foodExc.get_current_price()/2, &money);
+		state->exchanges[food_exc]->put_sell_order(output / (365), state->exchanges[food_exc]->get_current_price()/2, &money);
 
 }
 
@@ -22,10 +22,10 @@ void Gathering::compute()
 	if (workforce != 0)
 		output = workforce * 1.4 / exhaust;
 
-	if (state->foodExc.calculate_excess() < state->foodExc.total_demand * 250)
-		state->foodExc.put_sell_order(output, state->foodExc.get_current_price(), &money);
+	if (state->exchanges[food_exc]->calculate_excess() < state->exchanges[food_exc]->total_demand * 250)
+		state->exchanges[food_exc]->put_sell_order(output, state->exchanges[food_exc]->get_current_price(), &money);
 	else 
-		state->foodExc.put_sell_order(output, state->foodExc.get_current_price()/2, &money);
+		state->exchanges[food_exc]->put_sell_order(output, state->exchanges[food_exc]->get_current_price()/2, &money);
 
 
 }
@@ -35,7 +35,7 @@ void Pottery::compute()
 
 	output = workforce * 10;
 
-	state->potteryExc.put_sell_order(output, state->potteryExc.get_current_price(), &money);
+	state->exchanges[pottery_exc]->put_sell_order(output, state->exchanges[pottery_exc]->get_current_price(), &money);
 
 	prev_wage = wages;
 
@@ -51,8 +51,8 @@ void Husbandry::compute()
 	output = workforce * 0.1;
 
 
-	state->woolExc.put_sell_order(wool_output, state->woolExc.get_current_price(), &money);
-	state->foodExc.put_sell_order(meat_output, state->foodExc.get_current_price(), &money);
+	state->exchanges[wool_exc]->put_sell_order(wool_output, state->exchanges[wool_exc]->get_current_price(), &money);
+	state->exchanges[food_exc]->put_sell_order(meat_output, state->exchanges[food_exc]->get_current_price(), &money);
 
 
 }
@@ -61,11 +61,11 @@ void Textile::compute()
 {
 
 	output = workforce * 0.1;
-	auto t = state->woolExc.buy_amount(output * 0.5, &money);
+	auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5, &money);
 	double material_coverage = t.amount_bought / (output * 0.5);
-	expenditure = t.money_spent;
+	expenditure += t.money_spent;
 
-	state->clothExc.put_sell_order(output * material_coverage, state->clothExc.get_current_price(), &money);
+	state->exchanges[cloth_exc]->put_sell_order(output * material_coverage, state->exchanges[cloth_exc]->get_current_price(), &money);
 
 
 }
@@ -74,19 +74,19 @@ void Forestry::compute()
 {
 	output = workforce * 0.1;
 
-	state->wood_exc.put_sell_order(output, state->wood_exc.get_current_price(), &money);
+	state->exchanges[wood_exc]->put_sell_order(output, state->exchanges[wood_exc]->get_current_price(), &money);
 
 }
 
 void Construction::compute()
 {
 	output = workforce * 0.1;
-	auto t = state->wood_exc.buy_amount(output * 0.5, &money);
+	auto t = state->exchanges[wood_exc]->buy_amount(output * 0.5, &money);
 	output.value += 0.1;
 	double material_coverage = t.amount_bought / (output * 0.5);
-	expenditure = t.money_spent;
+	expenditure += t.money_spent;
 
-	state->constr_exc.put_sell_order(output * material_coverage, state->constr_exc.get_current_price(), &money);
+	state->exchanges[constr_exc]->put_sell_order(output * material_coverage, state->exchanges[constr_exc]->get_current_price(), &money);
 
 
 }
@@ -96,6 +96,9 @@ void Industry::process()
 	revenue = money - last_day_money;
 	gross_profit = revenue - expenditure;
 	operating_profit = gross_profit - payroll;
+
+	auto t = state->exchanges[constr_exc]->buy_amount(workplace_count * 0.001, &money);
+	expenditure += t.money_spent;
 	compute();
 
 	pay_wage();
@@ -113,7 +116,7 @@ void Industry::pay_wage()
 	if (vacancies < 50 && investment_account > 1000)
 	{
 		transfer_money(&investment_account, &state->industries[construction]->money, 1000);
-		workplace_count += 30;
+		workplace_count += 100;
 	}
 	else if (vacancies > workplace_count*0.1)
 		workplace_count -= 10;
@@ -125,7 +128,10 @@ void Industry::pay_wage()
 	//		wages = wages * 0.99;
 	if (workforce < 1)
 		workforce = 1;
+
 	double investment = 50;
+	if (vacancies > 50)
+		investment = 0;
 	double profit_after_investment = gross_profit - investment;
 	transfer_money(&investment_account, investment);
 

@@ -27,6 +27,17 @@ enum industry_index {
 	goverment,
 	unemployed
 };
+
+
+enum exchange_index {
+	food_exc,
+	wool_exc,
+	pottery_exc,
+	cloth_exc,
+	wood_exc,
+	constr_exc
+  
+};
 class State;
 
 class Display_value
@@ -278,7 +289,7 @@ public:
 		agePyramid[0] += int(births);
 		fat = prevPop + births - population;
 		delta_workers = laborPool - prev_workers;
-		//std::cout << delta_workers << std::endl;
+
 	}
 };
 class Product
@@ -646,25 +657,19 @@ public:
 			industries[i]->workforce = socium.worker_types[i].percent_of_workforce * demography.laborPool;
 			industries[i]->workplace_count = industries[i]->workforce;
 		}
-		
-
+		for (int i = 0; i < 6 ; i++)
+			exchanges.push_back(new Exchange());
 	}
 	Geography geography;
 
-	Exchange foodExc, woolExc;
-	Exchange potteryExc, clothExc;
-	Exchange wood_exc, constr_exc;
 	Socium socium;
 
 	GDP GDP;
 
 	std::vector<Industry*> industries;
-
+	std::vector<Exchange*> exchanges;
 	Demography demography;
-	void calculate_job_changes()
-	{
 
-	}
 	void distrubute_worker_loss()
 	{
 		for (int c = 0; c < industries.size(); c++)
@@ -714,20 +719,40 @@ public:
 
 
 	}
-	void simulate(int date)
+	void populus_consumption()
 	{
 		GDP.private_consumption = 0;
+
+		double before = demography.money;
+
+		double realistic_demand = demography.population * 1.0 * (std::tanh(-(exchanges[food_exc]->current_price - 100) / 100) * 0.5 + 1);
+
+		auto t = exchanges[food_exc]->buy_money(demography.money.value * 0.8, &demography.money.value);
+
+		exchanges[food_exc]->total_demand = demography.population;
+
+		demography.foodSupply = t.amount_bought / demography.population * 100;
+
+		if (demography.money.value > 0)
+			t = exchanges[pottery_exc]->buy_money(demography.money.value * 0.5, &demography.money.value);
+		//	potteryExc.total_demand = population.population / 5;
+
+	//	exchanges[constr_exc]->buy_money(demography.money.value/2, &demography.money.value);
+		exchanges[cloth_exc]->buy_money(demography.money.value, &demography.money.value);
+
+
+		GDP.private_consumption += abs(demography.money - before);
+	}
+	void simulate(int date)
+	{
+		
 
 		demography.calc(date);
 
 		calculate_jobs();
 
-		foodExc.process();
-		potteryExc.process();
-		woolExc.process();
-		clothExc.process();
-		wood_exc.process();
-		constr_exc.process();
+		for (int i = 0; i < exchanges.size(); i++)
+			exchanges[i]->process();
 
 		for (int i = 0; i<industries.size(); i++)
 			industries[i]->process();
@@ -735,29 +760,10 @@ public:
 
 		demography.density = demography.population / geography.square_kilometres;
 
-		double before = demography.money;
-
-		double realistic_demand = demography.population * 1.0 * (std::tanh(-(foodExc.current_price - 100) / 100) * 0.5 + 1);
-
-		auto t = foodExc.buy_money(demography.money.value * 0.8, &demography.money.value);
-
-		foodExc.total_demand = demography.population;
-
-		demography.foodSupply = t.amount_bought / demography.population * 100;
-
-		if (demography.money.value > 0)
-			t = potteryExc.buy_money(demography.money.value * 0.5, &demography.money.value);
-		//	potteryExc.total_demand = population.population / 5;
-
-		constr_exc.buy_money(demography.money.value/2, &demography.money.value);
-		clothExc.buy_money(demography.money.value, &demography.money.value);
-
-		//	std::cout << "Remains  " << socium.by_name("Weavers")->percent_of_workforce << std::endl;
-		GDP.private_consumption += abs(demography.money - before);
+		populus_consumption();
 
 		GDP.calcTotalGdp();
 
 
-		calculate_job_changes();
 	}
 };

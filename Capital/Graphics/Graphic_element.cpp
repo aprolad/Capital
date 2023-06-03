@@ -95,11 +95,11 @@ void Service_sector_panel::init()
 
 	panel->add_dynamic_text_element("Wages constr: ", " Denarius", x_slot * 6, y - 400, &simulation.player.industries[construction]->wages);
 
-	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.player.constr_exc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.player.exchanges[constr_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Supply: ", " Tonnes", x_slot * 6, y - 500, &simulation.player.constr_exc.total_supply);
+	panel->add_dynamic_text_element("Supply: ", " Tonnes", x_slot * 6, y - 500, &simulation.player.exchanges[constr_exc]->total_supply);
 
-	panel->add_dynamic_text_element("TotalM arable land:  ", " Square km", x_slot * 6, y - 550, &simulation.player.geography.totalArableLand);
+	panel->add_dynamic_text_element("Revenue:  ", " Square km", x_slot * 6, y - 550, &simulation.player.industries[construction]->revenue);
 
 	panel->add_dynamic_text_element("Wheat outpuMt: ", &simulation.player.industries[0]->output.result, x_slot * 6, y - 650);
 
@@ -122,7 +122,7 @@ void Economics_menu::init()
 
 	//panel->add_dynamic_text_element("Wheat Price: ", " Tonnes", x, y - 750, &simulation.foodExc.current_price);
 
-	panel->add_dynamic_text_element("Agri money:  ", " Square km", x, y - 550, &simulation.player.industries[0]->money);
+	panel->add_dynamic_text_element("Agri money:  ", " Square km", x, y - 550, &simulation.player.industries[farming]->money);
 	panel->add_dynamic_text_element("Gath money:  ", " Square km", x, y - 600, &simulation.player.industries[gathering]->money);
 	panel->add_dynamic_text_element("Pottery money:  ", " Square km", x, y - 750, &simulation.player.industries[pottery]->money);
 	panel->add_dynamic_text_element("Animal money:  ", " Square km", x, y - 650, &simulation.player.industries[husbandry]->money);
@@ -174,13 +174,13 @@ void Gathering_panel::init()
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[gathering]->workforce_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.foodExc.current_price);
+	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[food_exc]->current_price);
 
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.foodExc.total_supply);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.exchanges[food_exc]->total_supply);
 
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.foodExc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.exchanges[food_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.foodExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.exchanges[food_exc]->quantity_backlog);
 }
 void Farming_panel::init()
 {
@@ -198,13 +198,13 @@ void Farming_panel::init()
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[farming]->workforce_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.foodExc.current_price);
+	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[food_exc]->current_price);
 
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.foodExc.total_supply);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.exchanges[food_exc]->total_supply);
 
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.foodExc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.exchanges[food_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.foodExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.exchanges[food_exc]->quantity_backlog);
 }
 void Husbandry_panel::init()
 {
@@ -218,13 +218,13 @@ void Husbandry_panel::init()
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[husbandry]->workforce_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Wool price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.woolExc.current_price);
+	panel->add_dynamic_text_element("Wool price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[wool_exc]->current_price);
 
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.woolExc.total_supply);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.exchanges[wool_exc]->total_supply);
 
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.woolExc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.exchanges[wool_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.woolExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.exchanges[wool_exc]->quantity_backlog);
 }
 void Pottery_panel::init()
 {
@@ -238,13 +238,13 @@ void Pottery_panel::init()
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[pottery]->workforce_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Pottery price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.potteryExc.current_price);
+	panel->add_dynamic_text_element("Pottery price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[pottery_exc]->current_price);
 
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.potteryExc.total_supply);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.exchanges[pottery_exc]->total_supply);
 
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.potteryExc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.exchanges[pottery_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.potteryExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.exchanges[pottery_exc]->quantity_backlog);
 }
 void Textile_panel::init()
 {
@@ -258,13 +258,13 @@ void Textile_panel::init()
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[textile]->workforce_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.clothExc.current_price);
+	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[cloth_exc]->current_price);
 
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.clothExc.total_supply);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.exchanges[cloth_exc]->total_supply);
 
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.clothExc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.exchanges[cloth_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.clothExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.exchanges[cloth_exc]->quantity_backlog);
 }
 
 void Society_demography_panel::init()
@@ -276,19 +276,7 @@ void Society_demography_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 250);
 
-	panel->add_dynamic_text_element("Cloth wages: ", &simulation.player.industries[textile]->wages.result, x_slot * 13, y_slot * 23);
 
-	panel->add_dynamic_text_element("Cloth income: ", &simulation.player.industries[textile]->income.result, x_slot * 13, y_slot * 21);
-
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[textile]->workforce_d.result, x_slot * 13, y_slot * 19);
-
-	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.clothExc.current_price);
-
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.clothExc.total_supply);
-
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.clothExc.total_demand);
-
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.clothExc.quantity_backlog);
 }
 
 void Society_demography_panel::draw()
@@ -318,13 +306,13 @@ void Society_profession_panel::init()
 
 	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[textile]->workforce_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.clothExc.current_price);
+	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[cloth_exc]->current_price);
 
-	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.clothExc.total_supply);
+	panel->add_dynamic_text_element("Supply:  ", " ", x_slot * 13, y_slot * 15, &simulation.player.exchanges[cloth_exc]->total_supply);
 
-	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.clothExc.total_demand);
+	panel->add_dynamic_text_element("Demand: ", " ", x_slot * 13, y_slot * 13, &simulation.player.exchanges[cloth_exc]->total_demand);
 
-	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.clothExc.quantity_backlog);
+	panel->add_dynamic_text_element("Backlog: ", " ", x_slot * 13, y_slot * 11, &simulation.player.exchanges[cloth_exc]->quantity_backlog);
 }
 
 void Society_profession_panel::draw()
