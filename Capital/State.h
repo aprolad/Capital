@@ -502,14 +502,15 @@ public:
 class Industry
 {
 public:
-	Industry(State* _state) : output(CAP_UNIT_OF_MESURE_KG), wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
+	Industry(State* _state) :  wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
 	{ 
 		state = _state;
-		historic_wages.resize(30);
+		wages = 10;
 		money = 100000;
+		investment_account = 0;
 	}
 	double productivity;
-	Display_value output;
+	Display_value output{ CAP_UNIT_OF_MESURE_KG };
 	double vacancies;
 	double gdp;
 	Display_value income;
@@ -521,13 +522,24 @@ public:
 	Display_value wages;
 	double prev_wage;
 	double expenditure;
-	std::deque<double> historic_wages;
+	double revenue, gross_profit, operating_profit;
+	double payroll;
+	double investment_account;
 	double consumer_coverage;
 	State* state;
 	void pay_wage();
-
+	void process();
 	virtual void compute() = 0;
-
+	void transfer_money(double* destination, double amount)
+	{
+		money -= amount;
+		(*destination) += amount;
+	}
+	void transfer_money(double* source, double* destination, double amount)
+	{
+		(*source) -= amount;
+		(*destination) += amount;
+	}
 	static bool compare_by_wage_descending(const Industry* a, const Industry* b) {
 		return a->wages.value > b->wages.value;
 	}
@@ -718,7 +730,7 @@ public:
 		constr_exc.process();
 
 		for (int i = 0; i<industries.size(); i++)
-			industries[i]->compute();
+			industries[i]->process();
 
 
 		demography.density = demography.population / geography.square_kilometres;

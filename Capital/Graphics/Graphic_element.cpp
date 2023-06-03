@@ -188,11 +188,15 @@ void Farming_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
 
-	panel->add_dynamic_text_element("Farming wages: ", &simulation.player.industries[0]->wages.result, x_slot * 13, y_slot * 23);
+	panel->add_dynamic_text_element("Investment bank: ", " ", x_slot * 13, y_slot * 27, &simulation.player.industries[farming]->investment_account);
 
-	panel->add_dynamic_text_element("Farming income: ", &simulation.player.industries[0]->income.result, x_slot * 13, y_slot * 21);
+	panel->add_dynamic_text_element("Farming wages: ", &simulation.player.industries[farming]->wages.result, x_slot * 13, y_slot * 25);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[0]->workforce_d.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Operating profit: ", " ", x_slot * 13, y_slot * 23, &simulation.player.industries[farming]->operating_profit);
+
+	panel->add_dynamic_text_element("Revenue:  ", " ", x_slot * 13, y_slot * 21, &simulation.player.industries[farming]->revenue);
+
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[farming]->workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Food price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.foodExc.current_price);
 

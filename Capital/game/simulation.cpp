@@ -2,26 +2,22 @@
 
 void Farming::compute()
 {
-	expenditure = 0;
 	output = workforce * 500 * double(250)/100;
 
 	if (state->foodExc.calculate_excess() < state->foodExc.total_demand * 250)
 		state->foodExc.put_sell_order(output / (365), state->foodExc.get_current_price(), &money);
 	else
 		state->foodExc.put_sell_order(output / (365), state->foodExc.get_current_price()/2, &money);
-	pay_wage();
+
 }
 
 void Goverment::compute()
 {
-	expenditure = 0;
 
-	pay_wage();
 }
 
 void Gathering::compute()
 {
-	expenditure = 0;
 	double exhaust = sqrt(workforce / state->geography.square_kilometres / 15);
 	if (workforce != 0)
 		output = workforce * 1.4 / exhaust;
@@ -31,23 +27,23 @@ void Gathering::compute()
 	else 
 		state->foodExc.put_sell_order(output, state->foodExc.get_current_price()/2, &money);
 
-	pay_wage();
+
 }
 
 void Pottery::compute()
 {
-	expenditure = 0;
+
 	output = workforce * 10;
 
 	state->potteryExc.put_sell_order(output, state->potteryExc.get_current_price(), &money);
 
 	prev_wage = wages;
-	pay_wage();
+
 }
 
 void Husbandry::compute()
 {
-	expenditure = 0;
+	
 	double wool_output = workforce * 0.1;
 
 	double meat_output = workforce;
@@ -58,11 +54,12 @@ void Husbandry::compute()
 	state->woolExc.put_sell_order(wool_output, state->woolExc.get_current_price(), &money);
 	state->foodExc.put_sell_order(meat_output, state->foodExc.get_current_price(), &money);
 
-	pay_wage();
+
 }
 
 void Textile::compute()
 {
+
 	output = workforce * 0.1;
 	auto t = state->woolExc.buy_amount(output * 0.5, &money);
 	double material_coverage = t.amount_bought / (output * 0.5);
@@ -70,18 +67,15 @@ void Textile::compute()
 
 	state->clothExc.put_sell_order(output * material_coverage, state->clothExc.get_current_price(), &money);
 
-	pay_wage();
+
 }
 
 void Forestry::compute()
 {
-	expenditure = 0;
 	output = workforce * 0.1;
-
 
 	state->wood_exc.put_sell_order(output, state->wood_exc.get_current_price(), &money);
 
-	pay_wage();
 }
 
 void Construction::compute()
@@ -94,50 +88,66 @@ void Construction::compute()
 
 	state->constr_exc.put_sell_order(output * material_coverage, state->constr_exc.get_current_price(), &money);
 
-	pay_wage();
+
 }
 
+void Industry::process()
+{
+	revenue = money - last_day_money;
+	gross_profit = revenue - expenditure;
+	operating_profit = gross_profit - payroll;
+	compute();
+
+	pay_wage();
+
+	last_day_money = money;
+
+	expenditure = 0;
+}
 
 void Industry::pay_wage()
 {
 	workforce_d = workforce;
 	vacancies = workplace_count - workforce;
 	// arbitary vacancies creation
-	if (vacancies < 50)
+	if (vacancies < 50 && investment_account > 1000)
+	{
+		transfer_money(&investment_account, &state->industries[construction]->money, 1000);
 		workplace_count += 30;
-	else
-		workplace_count -= 1;
+	}
+	else if (vacancies > workplace_count*0.1)
+		workplace_count -= 10;
 
 
-	income = money - last_day_money;
-	double avg = 0;
-	for (auto a : historic_wages)
-		avg += a;
-	avg /= 30;
-
-	if (workforce == 0)
+	//	if (operating_profit > 0)
+	//		wages = wages * 1.01;
+	//	if (operating_profit < 0)
+	//		wages = wages * 0.99;
+	if (workforce < 1)
 		workforce = 1;
-	wages = avg / workforce;
-	if (wages < 0.01)
-		wages = 0.01;
-	double salary = income - expenditure;
-	if (salary < 0)
-		salary = 0;
-	if (money > income * 3)
-		salary += money / 10;
+	double investment = 50;
+	double profit_after_investment = gross_profit - investment;
+	transfer_money(&investment_account, investment);
 
-	double taxes = salary * 0.01;
-	double netto_salary = salary - taxes;
+	wages = profit_after_investment / workforce;
 
+	payroll = wages * workforce + money/50;
+	if (payroll > money)
+	{	
+		wages * 0.9;
+		payroll = money;
+	}
+
+	double taxes = payroll * 0.01;
+	double netto_salary = payroll - taxes;
 	state->industries[goverment]->money += taxes;
 
 
 	state->demography.money = state->demography.money + netto_salary;
-	historic_wages.push_front(netto_salary);
-	historic_wages.pop_back();
-	money -= salary;
 
-	last_day_money = money;
+	money -= payroll;
+
+
 }
 
 
