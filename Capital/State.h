@@ -410,8 +410,8 @@ public:
 		//	a.process(current_price);
 
 
-		if (current_price < 0.0001)
-			current_price = 0.0001;
+		if (current_price < 0.00001)
+			current_price = 0.00001;
 		sold_quantity = 0;
 		total_demand = 0;
 		total_supply = 0;
@@ -674,7 +674,7 @@ public:
 
 
 		industries[pottery]->wages = 10;
-		demography.money = 1e7;
+		demography.money = 1e9;
 
 		demography.calc(0);
 
@@ -754,6 +754,7 @@ public:
 
 		double realistic_demand = demography.population * 1.0;
 
+	
 		auto t = exchanges[food_exc]->buy_amount(realistic_demand, &demography.money.value);
 
 
@@ -762,7 +763,7 @@ public:
 
 		t = exchanges[pottery_exc]->buy_amount(demography.population*0.1, &demography.money.value);
 	
-	//	std::cout <<"money "<< demography.money.value<< std::endl;
+		
 	//	exchanges[constr_exc]->buy_money(demography.money.value/2, &demography.money.value);
 		t = exchanges[cloth_exc]->buy_amount(demography.population*0.01, &demography.money.value);
 	//	std::cout << t.amount_bought << std::endl;
@@ -782,9 +783,10 @@ public:
 
 		GDP.private_consumption += abs(demography.money - before);
 	}
+	int date1;
 	void simulate(int date)
 	{
-		
+		date1 = date;
 
 		demography.calc(date);
 

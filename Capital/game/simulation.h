@@ -21,6 +21,8 @@ class Simulation
 			go = false;
 			computeOneDay();
 			game_speed = 1;
+
+
 		}
 
 		State player;
@@ -41,6 +43,7 @@ class Simulation
 		}
 		void cycle()
 		{
+
 			if (go)
 				for (int i=0; i<game_speed;i++)
 					computeOneDay();

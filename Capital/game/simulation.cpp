@@ -114,33 +114,31 @@ void Industry::pay_wage()
 {
 	workforce_d = workforce;
 	vacancies = workplace_count - workforce;
-	// arbitary vacancies creation
-	if (vacancies < 50 && investment_account > 100)
-	{
-		transfer_money(&investment_account, &state->industries[construction]->money, 100);
-		workplace_count += 200;
-	}
-	else if (vacancies > workplace_count*0.1)
-		workplace_count -= 10;
-
-
-	//	if (operating_profit > 0)
-	//		wages = wages * 1.01;
-	//	if (operating_profit < 0)
-	//		wages = wages * 0.99;
 	if (workforce < 1)
 		workforce = 1;
+	// arbitary vacancies creation
 
-	double investment = 50;
-	if (vacancies > 50)
-		investment = 0;
+	double inc = workplace_count / 50;
+	if (vacancies < workplace_count/10 && investment_account > inc*state->exchanges[constr_exc]->current_price/10)
+	{
+		
+		workplace_count += inc;
+		transfer_money(&investment_account, &state->industries[construction]->money, inc*state->exchanges[constr_exc]->current_price/10);
+
+	}
+
+
+
+
+	double investment = 0;
+	if (investment_account < revenue/50)
+		investment = revenue/150;
 	double profit_after_investment = gross_profit - investment;
 	transfer_money(&investment_account, investment);
-	if (workforce == 0)
-	{
-		std::cout << "fail zero";
-	}
-	wages.value = profit_after_investment / workforce;
+
+
+
+	wages.value = (profit_after_investment * 0.95) / workforce;
 	(wages.value < 0) ? wages = 0 : wages;
 	payroll = wages * workforce + money/50;
 	if (payroll > money)
