@@ -252,6 +252,8 @@ void Textile_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
 
+	panel->add_dynamic_text_element("Sold amount:  ", " ", x_slot * 13, y_slot * 27, &simulation.player.exchanges[cloth_exc]->sold_quantity);
+
 	panel->add_dynamic_text_element("Cloth wages: ", &simulation.player.industries[textile]->wages.result, x_slot * 13, y_slot * 23);
 
 	panel->add_dynamic_text_element("Cloth gross profit1:  ", " ", x_slot * 13, y_slot * 25, &simulation.player.industries[textile]->gross_profit);

@@ -368,6 +368,7 @@ public:
 	}
 	std::deque<Order> order_book;
 	double current_price;
+	double sold_quantity;
 	double total_demand;
 	double total_supply;
 	double quantity_backlog;
@@ -388,26 +389,30 @@ public:
 		if (total_demand < 1) total_demand = 1;
 
 
+
 		if (calculate_excess() > total_demand * 155)
 			current_price /= 1.0005;
 
-
-		if (total_demand > total_supply)
+		//std::cout <<"sold " << sold_quantity <<"ratio "<<sold_quantity/total_supply<< std::endl;
+		if (total_demand > total_supply && ((sold_quantity / total_supply) > 0.8))
+		{
+		//	std::cout <<"price up "<< std::endl;
 			current_price *= 1 + (0.003 * (total_demand - total_supply) / total_demand);
-		else
+		}
+		else if (total_demand < total_supply)
 			current_price /= 1 + (0.003 * (total_supply - total_demand) / total_supply);
 
 
 
 		//if (order_book.size() > 0)
 		//	consolidate();
-		for (auto a : order_book)
-			a.process(current_price);
+	//	for (auto &a : order_book)
+		//	a.process(current_price);
 
 
 		if (current_price < 0.0001)
 			current_price = 0.0001;
-
+		sold_quantity = 0;
 		total_demand = 0;
 		total_supply = 0;
 	}
@@ -447,6 +452,7 @@ public:
 					
 					buy_amount -= order_book[0].execute_part(account, *account);
 					money_spent += account_left;
+					sold_quantity += want_amount - buy_amount;
 					return Purchase_check(want_amount - buy_amount, money_spent);
 				}
 				else
@@ -457,6 +463,7 @@ public:
 					order_book.erase(order_book.begin());
 					if (order_book.empty())
 					{
+						sold_quantity += want_amount - buy_amount;
 						return Purchase_check(want_amount - buy_amount, money_spent);
 					}
 				}
@@ -475,13 +482,13 @@ public:
 					double account_left = *account;
 					buy_amount -= order_book[0].execute_part(account, *account);
 					money_spent += account_left;
+					sold_quantity += want_amount - buy_amount;
 					return Purchase_check(want_amount - buy_amount, money_spent);
 				}
 			}
-			//Small negative numbers represent operational debts 
-			if (*account < 0)
-				return Purchase_check(want_amount - buy_amount, money_spent);
+			
 		}
+		sold_quantity += want_amount - buy_amount;
 		return Purchase_check(want_amount - buy_amount, money_spent);
 	}
 
@@ -509,21 +516,20 @@ public:
 				order_book.erase(order_book.begin());
 				if (order_book.empty())
 				{
+					sold_quantity += bought;
 					return Purchase_check(bought, buy_money_ - buy_money);
 				}
 			}
 			else
 			{
-				
-				//total_demand += 
 				bought += order_book[0].execute_part(account, buy_money);
 				buy_money = 0;
-			}
-			//Small negative numbers represent operational debts 
-			if (*account < 0)
+				sold_quantity += bought;
 				return Purchase_check(bought, buy_money_ - buy_money);
+			}
+	
 		}
-		return Purchase_check(bought, buy_money_ - buy_money);
+
 	}
 
 	double get_current_price()
@@ -759,6 +765,7 @@ public:
 	//	std::cout <<"money "<< demography.money.value<< std::endl;
 	//	exchanges[constr_exc]->buy_money(demography.money.value/2, &demography.money.value);
 		t = exchanges[cloth_exc]->buy_amount(demography.population*0.01, &demography.money.value);
+	//	std::cout << t.amount_bought << std::endl;
 	//	std::cout << t.amount_bought << std::endl;
 	//	std::cout <<"spent "<< exchanges[cloth_exc]->money_spent<< std::endl;
 	//	std::cout <<"spent res "<< t.money_spent<< std::endl;
