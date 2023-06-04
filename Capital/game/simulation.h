@@ -21,8 +21,6 @@ class Simulation
 			go = false;
 			computeOneDay();
 			game_speed = 1;
-
-
 		}
 
 		State player;

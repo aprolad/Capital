@@ -107,7 +107,28 @@ void Industry::process()
 
 	last_day_money = money;
 
+	revenue_d = revenue;
+	gross_profit_d = gross_profit;
+	profit_after_investment_d = profit_after_investment;
+	operating_profit_d = operating_profit;
+	investment_account_d = investment_account;
+}
 
+void Industry::invest()
+{
+	double inc = workplace_count / 50;
+	if (vacancies < workplace_count/10 && investment_account > inc*state->exchanges[constr_exc]->current_price/10)
+	{
+		workplace_count += inc;
+		transfer_money(&investment_account, &state->industries[construction]->money, inc*state->exchanges[constr_exc]->current_price/10);
+	}
+
+
+	double investment = 0;
+	if (investment_account < revenue/50)
+		investment = revenue/150;
+	profit_after_investment = gross_profit - investment;
+	transfer_money(&investment_account, investment);
 }
 
 void Industry::pay_wage()
@@ -118,24 +139,8 @@ void Industry::pay_wage()
 		workforce = 1;
 	// arbitary vacancies creation
 
-	double inc = workplace_count / 50;
-	if (vacancies < workplace_count/10 && investment_account > inc*state->exchanges[constr_exc]->current_price/10)
-	{
-		
-		workplace_count += inc;
-		transfer_money(&investment_account, &state->industries[construction]->money, inc*state->exchanges[constr_exc]->current_price/10);
 
-	}
-
-
-
-
-	double investment = 0;
-	if (investment_account < revenue/50)
-		investment = revenue/150;
-	double profit_after_investment = gross_profit - investment;
-	transfer_money(&investment_account, investment);
-
+	invest();
 
 
 	wages.value = (profit_after_investment * 0.95) / workforce;

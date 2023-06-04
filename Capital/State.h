@@ -371,7 +371,10 @@ public:
 	double sold_quantity;
 	double total_demand;
 	double total_supply;
+	Display_value sold_quantity_d{ 0 }, total_demand_d{ 0 }, total_supply_d{ 0 }, quantity_backlog_d{ 0 };
+	Display_value current_price_d{2};
 	double quantity_backlog;
+	double money_spent;
 	double calculate_excess()
 	{
 		quantity_backlog = 0;
@@ -382,13 +385,17 @@ public:
 
 		return quantity_backlog;
 	}
-	double money_spent;
+
 	void process()
 	{
 		if (total_supply < 1) total_supply = 1;
 		if (total_demand < 1) total_demand = 1;
 
-
+		sold_quantity_d = sold_quantity;
+		total_demand_d = total_demand;
+		total_supply_d = total_supply;
+		quantity_backlog_d = quantity_backlog;
+		current_price_d = current_price;
 
 		if (calculate_excess() > total_demand * 155)
 			current_price /= 1.0005;
@@ -560,12 +567,15 @@ public:
 	Display_value wages;
 	double prev_wage;
 	double expenditure;
-	double revenue, gross_profit, operating_profit;
+	double revenue, gross_profit, profit_after_investment, operating_profit;
+	Display_value revenue_d{ 2 }, gross_profit_d{ 2 }, profit_after_investment_d{ 2 }, operating_profit_d{2};
+	Display_value investment_account_d{ 2 };
 	double payroll;
 	double investment_account;
 	double consumer_coverage;
 	State* state;
 	void pay_wage();
+	void invest();
 	void process();
 	virtual void compute() = 0;
 	void transfer_money(double* destination, double amount)
@@ -755,28 +765,20 @@ public:
 		double realistic_demand = demography.population * 1.0;
 
 	
+		// Necessary buy
 		auto t = exchanges[food_exc]->buy_amount(realistic_demand, &demography.money.value);
 
+		demography.foodSupply = (t.amount_bought / demography.population)/(demography.population/(geography.square_kilometres*100)) * 100;
 
-		demography.foodSupply = t.amount_bought / demography.population * 100;
+		exchanges[pottery_exc]->buy_amount(demography.population*0.1, &demography.money.value);
+		exchanges[cloth_exc]->buy_amount(demography.population*0.01, &demography.money.value);
 
-
-		t = exchanges[pottery_exc]->buy_amount(demography.population*0.1, &demography.money.value);
-	
-		
-	//	exchanges[constr_exc]->buy_money(demography.money.value/2, &demography.money.value);
-		t = exchanges[cloth_exc]->buy_amount(demography.population*0.01, &demography.money.value);
-	//	std::cout << t.amount_bought << std::endl;
-	//	std::cout << t.amount_bought << std::endl;
-	//	std::cout <<"spent "<< exchanges[cloth_exc]->money_spent<< std::endl;
-	//	std::cout <<"spent res "<< t.money_spent<< std::endl;
-	//	std::cout <<"size "<< exchanges[cloth_exc]->order_book.size()<< std::endl;
-		//if (demography.money < 1)
-		//	std::cout << "broke" << std::endl;
+		// Populus leasure buy
 		exchanges[food_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
 		exchanges[pottery_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
 		exchanges[cloth_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
 
+		// Goverment buy
 		exchanges[food_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
 		exchanges[pottery_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
 		exchanges[cloth_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
