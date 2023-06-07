@@ -62,8 +62,8 @@ void Textile::compute()
 	output = workforce * 0.1;
 	auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5, &money);
 	double material_coverage = t.amount_bought / (output * 0.5);
-	if (material_coverage < 1)
-		material_coverage = 1;
+	if (material_coverage < 0.1)
+		material_coverage = 0.1;
 	expenditure += t.money_spent;
 
 	//std::cout << revenue << std::endl;
@@ -82,10 +82,12 @@ void Forestry::compute()
 
 void Construction::compute()
 {
-	output = workforce * 0.1;
+	output = workforce * 1;
 	auto t = state->exchanges[wood_exc]->buy_amount(output * 0.5, &money);
 	output.value += 0.1;
 	double material_coverage = t.amount_bought / (output * 0.5);
+	if (material_coverage < 0.1)
+		material_coverage = 0.1;
 	expenditure += t.money_spent;
 
 	state->exchanges[constr_exc]->put_sell_order(output * material_coverage, state->exchanges[constr_exc]->get_current_price(), &money);
@@ -138,8 +140,8 @@ void Industry::pay_wage()
 	if (workforce < 1)
 		workforce = 1;
 	// arbitary vacancies creation
-
-
+	if (vacancies < 1000)
+		workplace_count += 10;
 	invest();
 
 

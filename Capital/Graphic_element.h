@@ -207,6 +207,11 @@ class Pottery_panel : virtual public Economy_panel
 public:
 	void init();
 };
+class Forestry_panel : virtual public Economy_panel
+{
+public:
+	void init();
+};
 class Textile_panel : virtual public Economy_panel
 {
 public:

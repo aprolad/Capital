@@ -58,7 +58,7 @@ void Agriculture_sector_panel :: init()
 	root_menus.push_back((new Gathering_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot*5, 700, 125, 40, "Gathering"));
 	root_menus.push_back((new Farming_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Farming"));
 	root_menus.push_back((new Husbandry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 500, 125, 40, "Husbandry"));
-
+	root_menus.push_back((new Forestry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 400, 125, 40, "Forestry"));
 	for (auto a : root_menus)
 	{
 		a->init();
@@ -74,9 +74,9 @@ void Industry_sector_panel::init()
 
 
 	
-
 	root_menus.push_back((new Pottery_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 700, 125, 40, "Pottery"));
 	root_menus.push_back((new Textile_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Textile"));
+
 	for (auto a : root_menus)
 	{
 		a->init();
@@ -90,20 +90,31 @@ void Service_sector_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
+	Industry* industry = simulation.player.industries[construction];
+	Exchange* ex1 = simulation.player.exchanges[constr_exc];
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
 
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
+	panel->add_dynamic_text_element("Gatherers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
-	panel->add_dynamic_text_element("Wages constr: ", " Denarius", x_slot * 6, y - 400, &simulation.player.industries[construction]->wages);
+	panel->add_dynamic_text_element("Workforce: ", &industry->workforce_d.result, x_slot * 13, y_slot * 25);
 
-	panel->add_dynamic_text_element("Demand: ", " Tonnes", x_slot * 6, y - 450, &simulation.player.exchanges[constr_exc]->total_demand);
+	panel->add_dynamic_text_element("Revenue:  ", &industry->revenue_d.result, x_slot * 13, y_slot * 23);
 
-	panel->add_dynamic_text_element("Supply: ", " Tonnes", x_slot * 6, y - 500, &simulation.player.exchanges[constr_exc]->total_supply);
+	panel->add_dynamic_text_element("Gross profit:  ", &industry->gross_profit_d.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Revenue:  ", " Square km", x_slot * 6, y - 550, &simulation.player.industries[construction]->revenue);
+	panel->add_dynamic_text_element("Operational profit:  ", &industry->operating_profit_d.result, x_slot * 13, y_slot * 19);
 
-	panel->add_dynamic_text_element("Wheat outpuMt: ", &simulation.player.industries[0]->output.result, x_slot * 6, y - 650);
+	panel->add_dynamic_text_element("Investment bank:  ", &industry->investment_account_d.result, x_slot * 13, y_slot * 17);
 
-	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
+	panel->add_dynamic_text_element("Food price:  ", &ex1->current_price_d.result, x_slot * 13, y_slot * 15);
+
+	panel->add_dynamic_text_element("Quantity sold:  ", &ex1->sold_quantity_d.result, x_slot * 13, y_slot * 13);
+
+	panel->add_dynamic_text_element("Supply:  ", &ex1->total_supply_d.result, x_slot * 13, y_slot * 11);
+
+	panel->add_dynamic_text_element("Demand:  ", &ex1->total_demand_d.result, x_slot * 13, y_slot * 9);
+	
+	panel->add_dynamic_text_element("Backlog:  ", &ex1->quantity_backlog_d.result, x_slot * 13, y_slot * 7);
 
 }
 
@@ -222,6 +233,39 @@ void Farming_panel::init()
 	panel->add_dynamic_text_element("Backlog:  ", &ex1->quantity_backlog_d.result, x_slot * 13, y_slot * 7);
 
 }
+
+void Forestry_panel::init()
+{
+	int x_slot = visualization.window_resolution.x / 50;
+	int y_slot = visualization.window_resolution.y / 50;
+	Industry* industry = simulation.player.industries[forestry];
+	Exchange* ex1 = simulation.player.exchanges[wood_exc];
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+
+	panel->add_dynamic_text_element("Farming wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
+
+	panel->add_dynamic_text_element("Workforce: ", &industry->workforce_d.result, x_slot * 13, y_slot * 25);
+
+	panel->add_dynamic_text_element("Revenue:  ", &industry->revenue_d.result, x_slot * 13, y_slot * 23);
+
+	panel->add_dynamic_text_element("Gross profit:  ", &industry->gross_profit_d.result, x_slot * 13, y_slot * 21);
+
+	panel->add_dynamic_text_element("Operational profit:  ", &industry->operating_profit_d.result, x_slot * 13, y_slot * 19);
+
+	panel->add_dynamic_text_element("Investment bank:  ", &industry->investment_account_d.result, x_slot * 13, y_slot * 17);
+
+	panel->add_dynamic_text_element("Food price:  ", &ex1->current_price_d.result, x_slot * 13, y_slot * 15);
+
+	panel->add_dynamic_text_element("Quantity sold:  ", &ex1->sold_quantity_d.result, x_slot * 13, y_slot * 13);
+
+	panel->add_dynamic_text_element("Supply:  ", &ex1->total_supply_d.result, x_slot * 13, y_slot * 11);
+
+	panel->add_dynamic_text_element("Demand:  ", &ex1->total_demand_d.result, x_slot * 13, y_slot * 9);
+	
+	panel->add_dynamic_text_element("Backlog:  ", &ex1->quantity_backlog_d.result, x_slot * 13, y_slot * 7);
+
+}
+
 void Husbandry_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;

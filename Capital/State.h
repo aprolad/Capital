@@ -219,9 +219,11 @@ public:
 		}
 		for (int i = 0; i < 120; i++)
 			agePyramid[i] = (10 + engine() % 1 - double(i) / 10) * 365;
+		consumption_level = 1;
 	}
 	std::mt19937 engine;
 	Display_value money;
+	double consumption_level;
 	double income;
 	double density;
 	double birthRate;
@@ -366,6 +368,7 @@ public:
 	{
 		current_price = 10;
 	}
+
 	std::deque<Order> order_book;
 	double current_price;
 	double sold_quantity;
@@ -766,18 +769,21 @@ public:
 
 	
 		// Necessary buy
-		auto t = exchanges[food_exc]->buy_amount(realistic_demand, &demography.money.value);
+		auto t = exchanges[food_exc]->buy_amount(realistic_demand * demography.consumption_level, &demography.money.value);
 
 		demography.foodSupply = (t.amount_bought / demography.population)/(demography.population/(geography.square_kilometres*100)) * 100;
 
-		exchanges[pottery_exc]->buy_amount(demography.population*0.1, &demography.money.value);
-		exchanges[cloth_exc]->buy_amount(demography.population*0.01, &demography.money.value);
-
+		exchanges[pottery_exc]->buy_amount(demography.population*0.1 * demography.consumption_level, &demography.money.value);
+		exchanges[cloth_exc]->buy_amount(demography.population*0.01 * demography.consumption_level, &demography.money.value);
+		exchanges[wood_exc]->buy_amount(demography.population*0.01 * demography.consumption_level, &demography.money.value);
 		// Populus leasure buy
-		exchanges[food_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
-		exchanges[pottery_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
-		exchanges[cloth_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
-
+		//exchanges[food_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
+	//	exchanges[pottery_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
+		//exchanges[cloth_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
+		if (demography.money > 5e8)
+			demography.consumption_level += 0.01;
+		else if (demography.consumption_level > 0)
+			demography.consumption_level -= 0.01;
 		// Goverment buy
 		exchanges[food_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
 		exchanges[pottery_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
