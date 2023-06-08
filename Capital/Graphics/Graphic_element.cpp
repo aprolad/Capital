@@ -8,7 +8,9 @@ int*  Panel::gs = 0;
 
 void Technology_menu::init()
 {
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, 650);
+	int x_slot = visualization.x_slot;
+	int y_slot = visualization.y_slot;
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 24);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 
 }
@@ -49,7 +51,7 @@ void Agriculture_sector_panel :: init()
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
 
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot*6, y_slot * 16);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot*6, y_slot * 21);
 
 
 
@@ -70,7 +72,7 @@ void Industry_sector_panel::init()
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
 
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot*6, y_slot * 21);
 
 
 	
@@ -92,7 +94,7 @@ void Service_sector_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[construction];
 	Exchange* ex1 = simulation.player.exchanges[constr_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Gatherers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -123,7 +125,7 @@ void Economics_menu::init()
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
 
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, y_slot*25);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, y_slot*21);
 
 	panel->add_dynamic_text_element("GDP: ", &simulation.player.GDP.total.result, x, y - 400);
 
@@ -160,8 +162,8 @@ void Society_menu::init()
 
 
 	//Wchart->set_properties(shaderProgram, fontShader);
-	root_menus.push_back((new Society_demography_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 4, y_slot * 25, 125, 40, "Demorgaphy"));
-	root_menus.push_back((new Society_profession_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 4, y_slot * 20, 125, 40, "Jobs"));
+	root_menus.push_back((new Society_demography_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, y_slot * 25, 125, 40, "Demorgaphy"));
+	root_menus.push_back((new Society_profession_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, y_slot * 20, 125, 40, "Jobs"));
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, y_slot * 24);
 	
@@ -178,7 +180,7 @@ void Gathering_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[gathering];
 	Exchange* ex1 = simulation.player.exchanges[food_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Gatherers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -208,7 +210,7 @@ void Farming_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[farming];
 	Exchange* ex1 = simulation.player.exchanges[food_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Farming wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -240,7 +242,7 @@ void Forestry_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[forestry];
 	Exchange* ex1 = simulation.player.exchanges[wood_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Farming wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -272,7 +274,7 @@ void Husbandry_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[husbandry];
 	Exchange* ex1 = simulation.player.exchanges[wool_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Shepards wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -302,7 +304,7 @@ void Pottery_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[pottery];
 	Exchange* ex1 = simulation.player.exchanges[pottery_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Potters wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -332,7 +334,7 @@ void Textile_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries[textile];
 	Exchange* ex1 = simulation.player.exchanges[cloth_exc];
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Weavers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -388,7 +390,7 @@ void Society_profession_panel::init()
 	chart = new Pie_chart(shaderProgram, fontShader, x_slot * 35, y_slot * 15);
 	chart->init();
 
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 16, y_slot * 16, 400);
+	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
 	panel->add_dynamic_text_element("Cloth wages: ", &simulation.player.industries[textile]->wages.result, x_slot * 13, y_slot * 23);
 

@@ -7,7 +7,7 @@ extern Simulation simulation;
 void MainMenuScene :: construct_scene()
 {
 	int x_slot = visualization.window_resolution.x / 50;
-	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot*5, 150, x_slot * 3, 50, "Exit");
+	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot*5, 155, x_slot * 3, 50, "Exit");
 	graphic_elements.push_back(t);
 	graphic_elements[0]->action = []() -> void { exit(0); };
 
@@ -28,7 +28,7 @@ void MainMenuScene :: construct_scene()
 
 void SettingsMenuScene::construct_scene()
 {
-	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 10, 150, 100, 50, "Return");
+	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, visualization.window_resolution.x / 10, 155, 100, 50, "Return");
 	graphic_elements.push_back(t);
 	graphic_elements[0]->action = []() -> void { *choosen_scene = 0; };
 

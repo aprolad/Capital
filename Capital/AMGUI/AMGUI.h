@@ -458,11 +458,11 @@ public:
 
 		for (int i = 0; i < data.size(); i++)
 		{
-			RenderText(fontShader, data[i].name, x, i * 25 + y - 450, 0.6, glm::vec3(0.0, 0.0f, 0.0f));
+			RenderText(fontShader, data[i].name, x, i * 25 + y - 500, 0.6, glm::vec3(0.0, 0.0f, 0.0f));
 			
 			glUseProgram(shaderProgram);
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), data[i].color[0] / 255, data[i].color[1] / 255, data[i].color[2] / 255, data[i].color[3] / 255);
-			draw_quad(x - 10, i* 25 + y - 440, 10);
+			draw_quad(x - 10, i* 25 + y - 490, 10);
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"),0, 0, 0,1);
 		}
 
