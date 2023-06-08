@@ -289,7 +289,7 @@ int Map::draw()
         }
 
 
-        state_zones[0].draw_zone_of_control();
+       // state_zones[0].draw_zone_of_control();
         state_zones[1].draw_zone_of_control();
         draw_map_sizing();
         previous_x = x;
@@ -312,8 +312,8 @@ void State_zone::mouse_callback(int mx, int my)
 
 void State_zone::calculate_zone_of_control()
 {
-    int x = centre_x;
-    int y = centre_y;
+    int x = centre_x + map->x;
+    int y = centre_y + map->y + 100;
     shape.clear();
     int num_segments = 150;
     float radius = 10;

@@ -12,8 +12,8 @@ class Visualization
 public:
 	Visualization()
 	{
-		window_resolution.x = 2560;
-		window_resolution.y = 1440;
+		window_resolution.x = 1920;
+		window_resolution.y = 1080;
 		x_slot = window_resolution.x / 50;
 		y_slot = window_resolution.y / 50;
 	}
