@@ -12,8 +12,21 @@ struct Vertex {
 };
 struct Line
 {
+    Line()
+    {
+
+    }
+    Line(const glm::vec2& a, const glm::vec2& b)
+    {
+        start = a;
+        end = b;
+    }
     glm::vec2 start;
     glm::vec2 end;
+    glm::vec2 dir_vector()
+    {
+        return end - start;
+    }
 
 };
 class Map;
@@ -25,7 +38,7 @@ struct State_zone
         map = _map;
         size = _size;
     }
-
+	std::vector<uint32_t> indices;
     glm::vec4 color;
     std::vector<GLfloat> shape;
     double centre_x=0, centre_y=0;
@@ -63,7 +76,7 @@ public:
     int vertex_count;
     double size;
     double x, y;
-    std::vector<uint32_t> indices;
+
     int init();
     int draw();
     void mouse_callback(int mx, int my);
