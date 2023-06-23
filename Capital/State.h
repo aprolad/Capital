@@ -9,7 +9,8 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
-
+#include "World.h"
+#include "../Capital/Game/Simulation.h"
 #define CAP_UNIT_OF_MEASURE_NO 0 
 #define CAP_UNIT_OF_MESURE_KG 1
 #define CAP_UNIT_OF_MESURE_MONEY 2
@@ -661,6 +662,18 @@ class State
 public:
 	State()
 	{
+
+		for (int y = 0; y<100; y++)
+			for (int x = 0; x<100;x++)
+			{
+			//	if (pow(x-25,2) + pow(y-25,2) < 100)
+				//	world.map[y][x].color = glm::vec4(1, 0.5, 0.0, 1);
+			}
+
+
+
+
+
 		socium = Socium();
 
 		industries.push_back(new Farming(this));
@@ -701,9 +714,8 @@ public:
 			exchanges.push_back(new Exchange());
 	}
 	Geography geography;
-
 	Socium socium;
-
+	std::vector<tile*> controlled_tiles;
 	GDP GDP;
 
 	std::vector<Industry*> industries;
