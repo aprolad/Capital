@@ -24,6 +24,9 @@ class Scene
 			for (int i = 0; i < graphic_elements.size(); i++)
 				graphic_elements[i]->mouseCallback(mx, my);
 		}
+		virtual void mouseScrollInvoke(double mx, double my)
+		{
+		}
 		virtual void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 		{};
 		virtual void construct_scene() {};
@@ -85,13 +88,13 @@ public:
 		if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
 			map.size *= 1.001;
 		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-			map.y -= 1 / map.size;
+			map.y -= 4 / map.size;
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-			map.y += 1 / map.size;
+			map.y += 4 / map.size;
 		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-			map.x += 1 / map.size;
+			map.x += 4 / map.size;
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-			map.x -= 1 / map.size;
+			map.x -= 4 / map.size;
 	
 		bool any_active = false;
 		for (auto i : root_menus)
@@ -119,5 +122,13 @@ public:
 		for (int i = 0; i < graphic_elements.size(); i++)
 			graphic_elements[i]->mouseCallback(mx, my);
 	}
-
+	void mouseScrollInvoke(double mx, double my)
+	{
+		std::cout << my << std::endl;
+		    if (my > 0) {
+				map.size*= 1 + 0.1 * abs(my);  // Scroll up
+			} else if (my < 0) {
+				map.size/= 1 + 0.1 * abs(my);  // Scroll down
+			}
+	}
 };

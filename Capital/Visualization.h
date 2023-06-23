@@ -12,10 +12,16 @@ class Visualization
 public:
 	Visualization()
 	{
+
+		std::cout << "Vis constr" << std::endl;
+		glewExperimental = GL_TRUE; 
+		glfwInit();
 		window_resolution.x = 1920;
 		window_resolution.y = 1080;
 		x_slot = window_resolution.x / 50;
 		y_slot = window_resolution.y / 50;
+		window_initialization(this->window);
+		simulation.world.init();
 	}
 	int x_slot;
 	int y_slot;
@@ -31,7 +37,6 @@ public:
 	int window_initialization(GLFWwindow*& window)
 	{
 
-		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -50,6 +55,10 @@ public:
 			std::cout << "Failed to initialize GLEW" << std::endl;
 			return -1;
 		}
+		else
+		{
+			std::cout << "GLEW OK" << std::endl;
+		}
 
 		int widtht, heightt;
 		glfwGetFramebufferSize(window, &widtht, &heightt);
@@ -60,7 +69,7 @@ public:
 		glfwSwapInterval(1);
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetMouseButtonCallback(window, mouse_button_callback);
-
+		glfwSetScrollCallback(window, scrollCallback);
 		int icon_size = 256;
 
 		// Load the PNG image using stb_image
@@ -102,6 +111,10 @@ public:
 			
 		}
 	}
+	static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
+	scene[choosenScene]->mouseScrollInvoke(xOffset, yOffset);
+
+}
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 	{
 		if (key == GLFW_KEY_F && action == GLFW_PRESS)
@@ -163,6 +176,8 @@ public:
 
 	
 		construct_game();
+
+
 		glfwSetTime(0.0);
 		double avgFps = 0;
 		double totalTime = 0.0;

@@ -167,7 +167,9 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="misc\configLoader.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Visualization.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AMGUI\AMGUI.h" />

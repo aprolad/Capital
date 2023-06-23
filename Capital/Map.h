@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <ogrsf_frmts.h>
+#include "World.h"
 #include "Header.h"
 struct Vertex {
     glm::vec2 position;
@@ -45,7 +46,6 @@ struct State_zone
     double* size;
     Map* map;
     void mouse_callback(int x, int y);
-    void calculate_zone_of_control();
     void draw_zone_of_control();
 };
 class Map
@@ -76,7 +76,8 @@ public:
     int vertex_count;
     double size;
     double x, y;
-
+    int centre_translate_x;
+    int centre_translate_y;
     int init();
     int draw();
     void mouse_callback(int mx, int my);
