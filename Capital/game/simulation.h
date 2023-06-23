@@ -15,14 +15,17 @@ class Simulation
 {
 	bool go;
 	public:
-		Simulation()
+		Simulation() : player(this, 0), enemy(this, 1)
 		{
+
+			std::cout << "Sim constr" << std::endl;
 			date = *new Simulation_date(-4000);
 			go = false;
 			computeOneDay();
 			game_speed = 1;
+			
 		}
-
+		World world;
 		State player;
 		State enemy;
 		static int game_speed;

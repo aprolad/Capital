@@ -9,15 +9,16 @@
 #include "misc/stb_image.h"
 #undef main
 
-
-Simulation simulation = Simulation();
 Visualization visualization = Visualization();
+Simulation simulation = Simulation();
+
 int main()
 {
 
-	
+
 	//loadConfig(2560, 1440);
-	visualization.window_initialization(visualization.window);
+	//visualization.window_initialization(visualization.window);
+
 	visualization.audio_initalization();
 
 

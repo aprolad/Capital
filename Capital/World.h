@@ -8,15 +8,16 @@ struct tile
 {
 	tile()
 	{
-
+		owner = 0;
 	}
 	float x, y;
 	float size;
 	glm::vec4 color;
-	GLuint VAO, VBO;
+	GLuint VAOb, VBO ;
 	short owner;
 	void init(double _x, double _y, double _size)
 	{
+		VAOb = 0;
 		x = _x;
 		y = _y;
 		size = _size;
@@ -28,9 +29,9 @@ struct tile
 		};
 
 
-		glGenVertexArrays(1, &VAO);
+		glGenVertexArrays(1, &VAOb);
 		glGenBuffers(1, &VBO);
-		glBindVertexArray(VAO);
+		glBindVertexArray(VAOb);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -42,7 +43,7 @@ struct tile
 	}
 	void draw()
 	{
-		glBindVertexArray(VAO);
+		glBindVertexArray(VAOb);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		glBindVertexArray(0);
 	}
@@ -55,8 +56,8 @@ struct tile
 	}
 	~tile()
 	{
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
+//	glDeleteBuffers(1, &VBO);
+//	glDeleteVertexArrays(1, &VAO);
 	}
 };
 class World
@@ -64,16 +65,18 @@ class World
 public:
 	World()
 	{
-	
+
 	}
 	void init()
 	{
+		std::cout << "World created";
 		map.resize(100);
 		for (int y = 0; y<100; y++)
 		{
 			map[y].resize(100);
 			for (int x = 0; x<100; x++)
 			{
+				map[y][x] = tile();
 				map[y][x].init(x * 50, y * 50, 25);
 				map[y][x].color = glm::vec4(0, 0, 1, 1);
 

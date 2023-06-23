@@ -11,7 +11,7 @@
 #include <array>
 #include <math.h>
 extern Visualization visualization;
-extern World world;
+extern Simulation simulation;
 
 Vertex transformCoordinates(double longitude, double latitude)
 {
@@ -29,7 +29,7 @@ int Map::init()
     centre_translate_x = visualization.window_resolution.x/2;
 	centre_translate_y = visualization.window_resolution.y/2;
     size = 1;
-    world.init();
+	
     return 0;
 }
 void Map::draw_map_sizing()
@@ -60,19 +60,19 @@ int Map::draw()
        
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-        for (int i = 0; i < world.map.size(); i++)
+        for (int i = 0; i < simulation.world.map.size(); i++)
         {
-            for (int c = 0; c < world.map.size(); c++)
+            for (int c = 0; c < simulation.world.map.size(); c++)
             {
-                glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), world.map[i][c].color.x, world.map[i][c].color.y, world.map[i][c].color.z, 1);
-                world.map[i][c].draw();
+                glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), simulation.world.map[i][c].color.x, simulation.world.map[i][c].color.y, simulation.world.map[i][c].color.z, 1);
+                simulation.world.map[i][c].draw();
 
             }
         }
-        if (world.choosen_tile != nullptr)
+        if (simulation.world.choosen_tile != nullptr)
         {
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0,0, 1);
-            world.choosen_tile->choosen_draw();
+            simulation.world.choosen_tile->choosen_draw();
         }
         draw_map_sizing();
         previous_x = x;
@@ -88,9 +88,13 @@ void Map::mouse_callback(int mx, int my)
 	int y_tile = int(t_y) / 50;
     if (x_tile >= 0 && x_tile < 100 && y_tile >= 0 && y_tile < 100)
     {
-        world.choosen_tile = &world.map[y_tile][x_tile];
+        simulation.world.choosen_tile = &simulation.world.map[y_tile][x_tile];
+        if (simulation.world.map[y_tile][x_tile].owner == 2)
+            visualization.scene[1]->enemy = true;
+        else
+            visualization.scene[1]->enemy = false;
     }
-    std::cout << t_x << " " << t_y << std::endl;
+  //  std::cout << t_x << " " << t_y << std::endl;
 
 }
 void State_zone::mouse_callback(int mx, int my)
