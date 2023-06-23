@@ -10,7 +10,7 @@
 std::map<GLchar, Character> Characters;
 GLuint VAOT;
 GLuint VBOT;
-void fontInit()
+void font_init()
 {
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))

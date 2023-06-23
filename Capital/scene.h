@@ -8,6 +8,7 @@ extern Simulation simulation;
 class Scene
 {
 	public:
+	
 		bool enemy;
 		GLFWwindow* window;
 		//Simulation* simulation;
@@ -46,6 +47,18 @@ class Scene
 class MainMenuScene : virtual public Scene
 {
 public:
+	MainMenuScene(GLuint shaderProg, GLuint fontSh, int* chSC)
+	{
+		shaderProgram = shaderProg;
+		fontShader = fontSh;
+		choosen_scene = chSC;
+
+		construct_scene();
+		for (int i = 0; i < graphic_elements.size(); i++)
+		{
+			graphic_elements[i]->init();
+		}
+	}
 	void construct_scene();
 	
 };
@@ -53,6 +66,18 @@ public:
 class SettingsMenuScene : virtual public Scene
 {
 public:
+	SettingsMenuScene(GLuint shaderProg, GLuint fontSh, int* chSC)
+	{
+		shaderProgram = shaderProg;
+		fontShader = fontSh;
+		choosen_scene = chSC;
+
+		construct_scene();
+		for (int i = 0; i < graphic_elements.size(); i++)
+		{
+			graphic_elements[i]->init();
+		}
+	}
 	void construct_scene();
 
 };
@@ -60,6 +85,19 @@ public:
 class MainGameScene : virtual public Scene
 {
 public:
+	MainGameScene(GLuint shaderProg, GLuint fontSh, int* chSC, GLFWwindow* _window)
+	{
+		window = _window;
+		shaderProgram = shaderProg;
+		fontShader = fontSh;
+		choosen_scene = chSC;
+
+		construct_scene();
+		for (int i = 0; i < graphic_elements.size(); i++)
+		{
+			graphic_elements[i]->init();
+		}
+	}
 	Map map;
 	std::vector<Multiple_choice_panel*> root_menus;
 	Information_panel* en;
