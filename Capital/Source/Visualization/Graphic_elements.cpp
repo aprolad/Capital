@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Visualization.h"
-//#include "Graphic_element.h"
+#include "Visualization.h"
+#include "Graphic_elements.h"
 extern Visualization visualization;
 
 int*  Panel::gs = 0;

@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "../Header.h"
 #include <glew.h>
 #include <glfw3.h>
@@ -18,7 +19,7 @@
 #include <sstream>
 #include <type_traits>
 #include <cmath>
-#include"../Game/Simulation.h"
+#include"../Simulation/Simulation.h"
 #define PI 3.14159265358979323846
 class Graphic_element
 {

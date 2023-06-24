@@ -93,6 +93,9 @@
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <VcpkgConfiguration>Release</VcpkgConfiguration>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -155,51 +158,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AMGUI\AMGUI.cpp" />
-    <ClCompile Include="audio.cpp" />
-    <ClCompile Include="Capital.cpp" />
-    <ClCompile Include="font.cpp" />
-    <ClCompile Include="game\Simulation.cpp" />
-    <ClCompile Include="Graphics\Graphic_element.cpp" />
-    <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp" />
-    <ClCompile Include="Graphics\Utility_graphic_functions.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="misc\configLoader.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="Visualization.cpp" />
-    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Source\Simulation\Simulation.cpp" />
+    <ClCompile Include="Source\Simulation\State.cpp" />
+    <ClCompile Include="Source\Utility\Config_loader.cpp" />
+    <ClCompile Include="Source\Visualization\AMGUI.cpp" />
+    <ClCompile Include="Source\Visualization\Audio.cpp" />
+    <ClCompile Include="Source\Visualization\Font.cpp" />
+    <ClCompile Include="Source\Visualization\Graphic_elements.cpp" />
+    <ClCompile Include="Source\Visualization\Map.cpp" />
+    <ClCompile Include="Source\Visualization\Scene.cpp" />
+    <ClCompile Include="Source\Visualization\Shader_loader.cpp" />
+    <ClCompile Include="Source\Visualization\Utility_graphic_fucntions.cpp" />
+    <ClCompile Include="Source\Visualization\Visualization.cpp" />
+    <ClCompile Include="Source\Visualization\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AMGUI\AMGUI.h" />
-    <ClInclude Include="audio.h" />
-    <ClInclude Include="Capital.h" />
-    <ClInclude Include="font.h" />
-    <ClInclude Include="game\Simulation.h" />
-    <ClInclude Include="Graphics\CAP_shaderAux.h" />
-    <ClInclude Include="Graphics\Utility_graphic_functions.h" />
-    <ClInclude Include="Graphic_element.h" />
-    <ClInclude Include="Header.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="misc\configLoader.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="Visualization.h" />
-    <ClInclude Include="World.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Graphics\shaders\fragment.sh" />
-    <None Include="Graphics\shaders\fragmentFont.sh" />
-    <None Include="Graphics\shaders\vertex.sh" />
-    <None Include="Graphics\shaders\vertexFont.sh" />
+    <ClInclude Include="Source\Header.h" />
+    <ClInclude Include="Source\Simulation\Simulation.h" />
+    <ClInclude Include="Source\Simulation\State.h" />
+    <ClInclude Include="Source\Utility\Config_loader.h" />
+    <ClInclude Include="Source\Visualization\AMGUI.h" />
+    <ClInclude Include="Source\Visualization\Audio.h" />
+    <ClInclude Include="Source\Visualization\Font.h" />
+    <ClInclude Include="Source\Visualization\Graphic_elements.h" />
+    <ClInclude Include="Source\Visualization\Map.h" />
+    <ClInclude Include="Source\Visualization\Scene.h" />
+    <ClInclude Include="Source\Visualization\Shader_loader.h" />
+    <ClInclude Include="Source\Visualization\Utility_graphic_functions.h" />
+    <ClInclude Include="Source\Visualization\Visualization.h" />
+    <ClInclude Include="Source\Visualization\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Capital.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\fragment.sh" />
+    <None Include="Resources\Shaders\fragmentFont.sh" />
+    <None Include="Resources\Shaders\vertex.sh" />
+    <None Include="Resources\Shaders\vertexFont.sh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

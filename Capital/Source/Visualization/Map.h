@@ -1,13 +1,12 @@
 #pragma once
+
 #define GLM_FORCE_DOUBLE_PRECISION
-#include <gdal.h>
-#include <gdal_priv.h>
-#include <ogr_geometry.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <ogrsf_frmts.h>
+
 #include "World.h"
-#include "Header.h"
+#include "../Header.h"
 struct Vertex {
     glm::vec2 position;
 };

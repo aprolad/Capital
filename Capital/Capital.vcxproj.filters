@@ -5,137 +5,114 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Файлы ресурсов">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Файлы заголовков\misc">
-      <UniqueIdentifier>{e44d55c9-be30-41b1-bd76-1cddb9e918e7}</UniqueIdentifier>
+    <Filter Include="Исходные файлы\Simulation">
+      <UniqueIdentifier>{96e6382e-8195-44eb-a797-460d5ca997cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\misc">
-      <UniqueIdentifier>{1f6f5556-a2a2-4214-8403-934e5ac2c480}</UniqueIdentifier>
+    <Filter Include="Исходные файлы\Visualization">
+      <UniqueIdentifier>{ba9ad6ab-6d60-4906-ad3b-ba66e3c9740f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Graphics">
-      <UniqueIdentifier>{53eb7a26-5f40-4400-822f-156615665499}</UniqueIdentifier>
+    <Filter Include="Исходные файлы\Utility">
+      <UniqueIdentifier>{38723e68-a1e7-4a01-a138-33e4cd15c1e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\Graphics">
-      <UniqueIdentifier>{1471f5a4-5d69-41d8-8084-0d98edf90063}</UniqueIdentifier>
+    <Filter Include="Исходные файлы\Root files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Simulation\State.cpp">
+      <Filter>Исходные файлы\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Simulation\Simulation.cpp">
+      <Filter>Исходные файлы\Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Audio.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Font.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Shader_loader.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Utility_graphic_fucntions.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utility\Config_loader.cpp">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\AMGUI.cpp">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Graphic_elements.cpp">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Map.cpp">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Scene.cpp">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\Visualization.cpp">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Visualization\World.cpp">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="audio.cpp">
-      <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="misc\configLoader.cpp">
-      <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="font.cpp">
-      <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Capital.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Visualization.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\shaders\CAP_shaderAux.cpp">
-      <Filter>Исходные файлы\misc</Filter>
-    </ClCompile>
-    <ClCompile Include="game\Simulation.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="AMGUI\AMGUI.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Utility_graphic_functions.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Graphic_element.cpp">
-      <Filter>Исходные файлы\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Root files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="audio.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\CAP_shaderAux.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="misc\configLoader.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="font.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Capital.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Visualization.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="game\Simulation.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Файлы заголовков\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="AMGUI\AMGUI.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic_element.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Utility_graphic_functions.h">
-      <Filter>Файлы заголовков\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Graphics\shaders\vertex.sh">
       <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Graphics\shaders\fragment.sh">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Graphics\shaders\vertexFont.sh">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Graphics\shaders\fragmentFont.sh">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
+    </ClInclude>
+    <ClInclude Include="Source\Simulation\State.h">
+      <Filter>Исходные файлы\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Simulation\Simulation.h">
+      <Filter>Исходные файлы\Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Font.h">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Audio.h">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Shader_loader.h">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Utility_graphic_functions.h">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utility\Config_loader.h">
+      <Filter>Исходные файлы\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Graphic_elements.h">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Map.h">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Scene.h">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\Visualization.h">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\World.h">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Visualization\AMGUI.h">
+      <Filter>Исходные файлы\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header.h">
+      <Filter>Исходные файлы\Root files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Capital.rc">
@@ -146,5 +123,19 @@
     <Image Include="icon.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\fragment.sh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Resources\Shaders\fragmentFont.sh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Resources\Shaders\vertex.sh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Resources\Shaders\vertexFont.sh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

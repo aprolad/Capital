@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Header.h"
-#include "Graphics/CAP_shaderAux.h"
-#include "audio.h"
+#include "Shader_loader.h"
+#include "../Header.h"
+#include "Audio.h"
 #include "Scene.h"
-#include "misc/stb_image.h"
-#include "misc/stb_image_resize.h"
+#include "../Utility/stb_image.h"
+#include "../Utility/stb_image_resize.h"
+
 extern Simulation simulation;
 class Visualization
 {
@@ -94,7 +95,7 @@ public:
 			std::cout << "Audio library error";
 		}
 		Mix_AllocateChannels(1);
-		//sample s("audio/1wav.wav", 32000);
+		//sample s("Resoruces/Audio/1wav.wav", 32000);
 		//s.play();
 		return 0;
 	}
@@ -151,12 +152,12 @@ public:
 	}
 	void create_shaders()
 	{
-		GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
-		GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
+		GLuint vertexShader = createVertexShader("Resources/Shaders/vertex.sh");
+		GLuint fragmentShader = createFragmentShader("Resources/Shaders/fragment.sh");
 		shaderProgram = createShaderProgram(vertexShader, fragmentShader);
 
-		vertexShader = createVertexShader("Graphics/shaders/vertexFont.sh");
-		fragmentShader = createFragmentShader("Graphics/shaders/fragmentFont.sh");
+		vertexShader = createVertexShader("Resources/shaders/vertexFont.sh");
+		fragmentShader = createFragmentShader("Resources/shaders/fragmentFont.sh");
 		fontShader = createShaderProgram(vertexShader, fragmentShader);
 	}
 	void start()

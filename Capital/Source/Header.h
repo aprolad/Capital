@@ -14,5 +14,5 @@
 #include <vector>
 #include <time.h>
 #include <chrono>
-#include "font.h"
-#include "Graphics/Utility_graphic_functions.h"
+#include "Visualization/Font.h"
+#include "Visualization/Utility_graphic_functions.h"

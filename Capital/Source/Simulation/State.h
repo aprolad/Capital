@@ -9,7 +9,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
-#include "World.h"
+#include "../Visualization/World.h"
 
 #define CAP_UNIT_OF_MEASURE_NO 0 
 #define CAP_UNIT_OF_MESURE_KG 1

@@ -1,5 +1,5 @@
 #include "State.h"
-#include "./Game/Simulation.h"
+#include "Simulation.h"
 
 State::State(Simulation* sim, double start_pos)
 	{

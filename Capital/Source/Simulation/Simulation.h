@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../State.h"
-
-
+#include "State.h"
 
 
 class Technology_tree

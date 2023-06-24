@@ -1,13 +1,10 @@
-﻿#include "Map.h"
-#include"Header.h"
+#include "Map.h"
+#include "../Header.h"
 #include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <glm/glm.hpp>
-#include "gdal_priv.h"
-#include "ogrsf_frmts.h"
 #include "Visualization.h"
-#include "misc/earcut.hpp"
 #include <array>
 #include <math.h>
 extern Visualization visualization;
