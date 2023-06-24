@@ -1,26 +1,7 @@
 #pragma once
 #pragma once
 #include "../Header.h"
-#include <glew.h>
-#include <glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <map>
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <time.h>
-#include <chrono>
-#include <deque>
-#include <sstream>
-#include <type_traits>
-#include <cmath>
 #include"../Simulation/Simulation.h"
-#define PI 3.14159265358979323846
 class Graphic_element
 {
 protected:
@@ -31,10 +12,21 @@ protected:
 	int x, y;
 public:
 	double size_x, size_y;
-
-
+	bool hovered_on;
+	bool active;
 	void (*action) ();
 	virtual void mouseCallback(double, double) {};
+	virtual void mouse_move_callback(double mx, double my)
+	{
+			if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
+			{
+				hovered_on = true;
+			}
+			else
+			{
+				hovered_on = false;
+			}
+	}
 	virtual void init()
 	{
 		GLfloat vertices[] = {
@@ -81,6 +73,7 @@ public:
 	glm::vec3 text_color;
 	glm::vec3 button_color;
 	double text_size;
+
 	Quad_button* set_properties(GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std::string atext, double text_size = 1)
 	{
 		this->text_size = text_size;
@@ -102,11 +95,26 @@ public:
 			if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
 				action();
 	}
-
+	void mouse_move_callback(double mx, double my)
+	{
+			if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
+			{
+				hovered_on = true;
+			}
+			else
+			{
+				hovered_on = false;
+			}
+	}
 	void draw()
 	{
 		glUseProgram(shaderProgram);
-		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), button_color.x, button_color.y, button_color.z, 1);
+		if (active)
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"),0.5, 0.5, 1, 1);
+		else if (hovered_on == true)
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"),0.5, 0.5, 0.5, 1);
+		else
+			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), button_color.x, button_color.y, button_color.z, 1);
 		prepare_shaders();
 		RenderText(fontShader, text, x - size_x * 0.9, y - 20, text_size, text_color);
 
@@ -446,7 +454,7 @@ public:
 
 		double start_angle = 0.0f, end_angle = 0.0f;
 		for (int i = 0; i < data.size(); i++) {
-			end_angle = start_angle + data[i].percent_of_workforce * 2.0f * PI;
+			end_angle = start_angle + data[i].percent_of_workforce * 2.0f * glm::pi<float>();
 			draw_slice(0, 0, radius, start_angle, end_angle, data[i].color);
 			start_angle = end_angle;
 		}
@@ -502,16 +510,17 @@ public:
 		return this;
 	}
 	Quad_button* base;
-	bool active;
+
 	Information_panel* panel;
 	void draw_button()
 	{
 		glUseProgram(shaderProgram);
 		if (active)
-			base->button_color = glm::vec3(0.5, 0.5, 1);
+			base->active = true;
+		else
+			base->active = false;
 		base->draw();
 		glUseProgram(shaderProgram);
-		base->button_color = glm::vec3(0, 0.0, 0);
 		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0, 0, 1);
 	}
 	void mouseCallback(double mx, double my)
@@ -530,7 +539,18 @@ public:
 			active = !t;
 		}
 	}
-
+	void mouse_move_callback(double mx, double my)
+	{
+		for (auto& a : root_menus)
+		{
+			a->mouse_move_callback(mx, my);
+		}
+		base->mouse_move_callback(mx, my);
+		if (mx > (x - size_x) && mx < (x + size_x) && my >(y - size_y) && my < (y + size_y))
+		{
+			
+		}
+	}
 	void init()
 	{
 

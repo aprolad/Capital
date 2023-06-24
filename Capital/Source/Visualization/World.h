@@ -69,7 +69,7 @@ public:
 	}
 	void init()
 	{
-		std::cout << "World created";
+		std::cout << "World creation started"<<std::endl;
 		map.resize(100);
 		for (int y = 0; y<100; y++)
 		{
@@ -90,6 +90,7 @@ public:
 					map[y][x].color = glm::vec4(0, 0.5, 0.0, 1);
 
 			}
+		std::cout << "World created"<<std::endl;
 	}
 	std::vector<std::vector<tile>> map;
 	tile* choosen_tile;

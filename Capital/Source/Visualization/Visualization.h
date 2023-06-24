@@ -14,7 +14,7 @@ public:
 	Visualization()
 	{
 
-		std::cout << "Visualization constr" << std::endl;
+		std::cout << "Visualization construction started" << std::endl;
 		glewExperimental = GL_TRUE; 
 		glfwInit();
 		window_resolution.x = 1920;
@@ -67,8 +67,10 @@ public:
 		glfwSetWindowMonitor(window, nullptr, 0, 0, window_resolution.x, window_resolution.y, GLFW_DONT_CARE);
 		//glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, 2560, 1440, GLFW_DONT_CARE);
 		glfwSwapInterval(1);
+
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		glfwSetCursorPosCallback(window, mouse_move_callback);
 		glfwSetScrollCallback(window, scrollCallback);
 		int icon_size = 256;
 
@@ -88,6 +90,7 @@ public:
 		// Free the allocated memory for the image pixels
 		stbi_image_free(icon_pixels);
 
+		std::cout << "Visualization constructed" << std::endl;
 	}
 	int audio_initalization()
 	{
@@ -110,6 +113,13 @@ public:
 			scene[choosenScene]->mouseInvoke(xpos, height - ypos);
 			
 		}
+	}
+
+	static void mouse_move_callback(GLFWwindow* window, double xpos, double ypos)
+	{
+			int width, height;
+			glfwGetFramebufferSize(window, &width, &height);
+			scene[choosenScene]->mouse_move_invoke(xpos, height - ypos);
 	}
 	static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
 	scene[choosenScene]->mouseScrollInvoke(xOffset, yOffset);

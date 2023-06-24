@@ -15,13 +15,14 @@ class Simulation
 	public:
 		Simulation() : player(this, 0), enemy(this, 1)
 		{
+			std::cout << "Simulation construction started" << std::endl;
 
-			std::cout << "Sim constr" << std::endl;
 			date = *new Simulation_date(-4000);
 			go = false;
 			computeOneDay();
 			game_speed = 1;
-			
+
+			std::cout << "Simulation constructed" << std::endl;
 		}
 		World world;
 		State player;

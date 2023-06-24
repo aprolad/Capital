@@ -28,6 +28,11 @@ class Scene
 		virtual void mouseScrollInvoke(double mx, double my)
 		{
 		}
+		virtual void mouse_move_invoke(double mx, double my)
+		{
+			for (int i = 0; i < graphic_elements.size(); i++)
+				graphic_elements[i]->mouse_move_callback(mx, my);
+		}
 		virtual void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 		{};
 		virtual void construct_scene() {};
