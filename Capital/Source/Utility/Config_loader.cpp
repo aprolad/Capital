@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "configLoader.h"
+#include "Config_loader.h"
 void loadConfig(int &x, int &y)
 {
 	std::ifstream input("config.txt");

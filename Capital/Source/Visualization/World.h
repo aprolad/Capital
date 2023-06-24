@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
-#include "Header.h"
+#include "../Header.h"
 struct tile
 {
 	tile()

@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Header.h"
-#include "Graphics/CAP_shaderAux.h"
-#include "audio.h"
+#include "Shader_loader.h"
+#include "../Header.h"
+#include "Audio.h"
 #include "Scene.h"
-#include "misc/stb_image.h"
-#include "misc/stb_image_resize.h"
+#include "../Utility/stb_image.h"
+#include "../Utility/stb_image_resize.h"
+
 extern Simulation simulation;
 class Visualization
 {
@@ -13,7 +14,7 @@ public:
 	Visualization()
 	{
 
-		std::cout << "Vis constr" << std::endl;
+		std::cout << "Visualization constr" << std::endl;
 		glewExperimental = GL_TRUE; 
 		glfwInit();
 		window_resolution.x = 1920;
@@ -21,6 +22,7 @@ public:
 		x_slot = window_resolution.x / 50;
 		y_slot = window_resolution.y / 50;
 		window_initialization(this->window);
+		audio_initalization();
 		simulation.world.init();
 	}
 	int x_slot;
@@ -28,9 +30,7 @@ public:
 	static glm::vec2 window_resolution;
 	GLuint shaderProgram;
 	GLuint fontShader;
-	static MainMenuScene m;
-	static MainGameScene mm;
-	static SettingsMenuScene a;
+
 	static int choosenScene;
 	GLFWwindow* window;
 	static std::vector<Scene*> scene;
@@ -95,7 +95,7 @@ public:
 			std::cout << "Audio library error";
 		}
 		Mix_AllocateChannels(1);
-		//sample s("audio/1wav.wav", 32000);
+		//sample s("Resoruces/Audio/1wav.wav", 32000);
 		//s.play();
 		return 0;
 	}
@@ -143,36 +143,28 @@ public:
 	void construct_game()
 	{
 
+		scene.push_back(new MainMenuScene(shaderProgram, fontShader, &choosenScene));
 
-		//m.simulation = &simulation;
-		m.initialize(shaderProgram, fontShader, &choosenScene);
-		scene.push_back(&m);
-
-
-		//mm.simulation = &simulation;
-		mm.initialize(shaderProgram, fontShader, &choosenScene);
-		mm.window = window;
-		scene.push_back(&mm);
-
+		scene.push_back(new MainGameScene(shaderProgram, fontShader, &choosenScene, window));
 		
-		//a.simulation = &simulation;
-		a.initialize(shaderProgram, fontShader, &choosenScene);
-		scene.push_back(&a);
-
-
+		scene.push_back(new SettingsMenuScene(shaderProgram, fontShader, &choosenScene));
 
 	}
-	void OGL_mainLoop()
+	void create_shaders()
 	{
-		GLuint vertexShader = createVertexShader("Graphics/shaders/vertex.sh");
-		GLuint fragmentShader = createFragmentShader("Graphics/shaders/fragment.sh");
+		GLuint vertexShader = createVertexShader("Resources/Shaders/vertex.sh");
+		GLuint fragmentShader = createFragmentShader("Resources/Shaders/fragment.sh");
 		shaderProgram = createShaderProgram(vertexShader, fragmentShader);
 
-		vertexShader = createVertexShader("Graphics/shaders/vertexFont.sh");
-		fragmentShader = createFragmentShader("Graphics/shaders/fragmentFont.sh");
+		vertexShader = createVertexShader("Resources/shaders/vertexFont.sh");
+		fragmentShader = createFragmentShader("Resources/shaders/fragmentFont.sh");
 		fontShader = createShaderProgram(vertexShader, fragmentShader);
+	}
+	void start()
+	{
+		create_shaders();
 
-		fontInit();
+		font_init();
 
 	
 		construct_game();

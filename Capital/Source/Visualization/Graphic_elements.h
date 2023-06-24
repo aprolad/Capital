@@ -1,7 +1,8 @@
 #pragma once
-#include "Header.h"
-#include "Game/simulation.h"
-#include "AMGUI/AMGUI.h"
+#pragma once
+#include "../Header.h"
+#include "../Simulation/Simulation.h"
+#include "AMGUI.h"
 
 
 extern Simulation simulation;

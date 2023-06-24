@@ -1,5 +1,5 @@
-#include "../game/Simulation.h"
-
+#include "Simulation.h"
+int Simulation::game_speed = 1;
 void Farming::compute()
 {
 	output = workforce * 500 * double(250)/100;
