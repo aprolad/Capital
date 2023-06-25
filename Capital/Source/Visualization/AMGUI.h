@@ -147,6 +147,21 @@ template <typename T>
 class Dynamic_text_element : virtual public Text_element
 {
 public:
+	std::string num_to_string(double input)
+	{
+		std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km", "Square km" };
+		std::vector<std::string> exponent_string{ "","Thousands","Millions", "Billions", "Trillions", "Quadrillions" };
+		int exp = 0;
+		double p = input;
+		while (int(log10(p)) > 2 and p != 0)
+		{
+			exp++;
+			p /= 1e3;
+		}
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(3) << p;
+		return stream.str() + " " + exponent_string[exp] + " " + unit_of_measure[0];
+	}
 	T binded_value;
 	std::string postfix;
 	std::string* ready_text;
@@ -188,7 +203,7 @@ public:
 		else
 		{
 			std::stringstream stream;
-			stream << std::fixed << std::setprecision(0) << *binded_value;
+			stream << std::fixed << std::setprecision(3) << *binded_value;
 			std::string s = stream.str();
 			RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
 		}

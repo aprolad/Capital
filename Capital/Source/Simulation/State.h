@@ -375,6 +375,7 @@ public:
 	double sold_quantity;
 	double total_demand;
 	double total_supply;
+	double supply_to_demand_ratio;
 	Display_value sold_quantity_d{ 0 }, total_demand_d{ 0 }, total_supply_d{ 0 }, quantity_backlog_d{ 0 };
 	Display_value current_price_d{2};
 	double quantity_backlog;
@@ -392,8 +393,8 @@ public:
 
 	void process()
 	{
-		if (total_supply < 1) total_supply = 1;
-		if (total_demand < 1) total_demand = 1;
+		if (total_supply < 0.01) total_supply = 0.01;
+		if (total_demand < 0.01) total_demand = 0.01;
 
 		sold_quantity_d = sold_quantity;
 		total_demand_d = total_demand;
@@ -404,25 +405,20 @@ public:
 		if (calculate_excess() > total_demand * 155)
 			current_price /= 1.0005;
 
-		//std::cout <<"sold " << sold_quantity <<"ratio "<<sold_quantity/total_supply<< std::endl;
-		if (total_demand > total_supply && ((sold_quantity / total_supply) > 0.8))
+		if (total_demand > total_supply && ((sold_quantity / total_supply) > 0.9))
 		{
-		//	std::cout <<"price up "<< std::endl;
+
 			current_price *= 1 + (0.003 * (total_demand - total_supply) / total_demand);
 		}
-		else if (total_demand < total_supply)
+		else if (total_demand < total_supply*1.1)
 			current_price /= 1 + (0.003 * (total_supply - total_demand) / total_supply);
 
 
-
-		//if (order_book.size() > 0)
-		//	consolidate();
-	//	for (auto &a : order_book)
-		//	a.process(current_price);
+		supply_to_demand_ratio = total_supply / total_demand;
 
 
-		if (current_price < 0.00001)
-			current_price = 0.00001;
+		if (current_price < 0.001)
+			current_price = 0.001;
 		sold_quantity = 0;
 		total_demand = 0;
 		total_supply = 0;
@@ -509,7 +505,7 @@ public:
 			return Purchase_check(0, 0);
 
 		double buy_money = buy_money_;
-		if (current_price < 0.001)
+		if (current_price < 0.002)
 			current_price = 0.001;
 		total_demand += buy_money_ / current_price;
 		// Cannot buy if there are no offers
@@ -548,25 +544,33 @@ public:
 		return current_price;
 	}
 };
+struct Workplace
+{
+	double vacancies;
+	double quantity;
+	double wage;
+};
 class Industry
 {
 public:
-	Industry(State* _state) :  wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
+	Industry(State* _state) :   wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
 	{ 
+		workforce.push_back(Workplace());
 		state = _state;
-		wages = 10;
+		workforce[0].wage = 10;
 		money = 100000;
 		investment_account = 0;
 	}
 	double productivity;
 	Display_value output{ CAP_UNIT_OF_MESURE_KG };
-	double vacancies;
+//	double vacancies;
 	double gdp;
 	Display_value income;
 	double money, last_day_money;
 	double last_day_balance;
 	double workplace_count;
-	double workforce;
+	std::vector<Workplace> workforce;
+//	double workforce;
 	Display_value workforce_d;
 	Display_value wages;
 	double prev_wage;
@@ -592,9 +596,9 @@ public:
 		(*source) -= amount;
 		(*destination) += amount;
 	}
-	static bool compare_by_wage_descending(const Industry* a, const Industry* b) {
-		return a->wages.value > b->wages.value;
-	}
+	//static bool compare_by_wage_descending(const Industry* a, const Industry* b) {
+	//	return a->wages.value > b->wages.value;
+	//}
 };
 
 class Unemployed : public Industry
@@ -603,10 +607,12 @@ public:
 	using Industry::Industry;
 	void compute()
 	{
-	
+		workforce[0].vacancies = 1e9;
 	}
 };
-
+	static bool compare_by_wage_descending(const Workplace* a, const Workplace* b) {
+		return a->wage > b->wage;
+	}
 class Goverment : public Industry
 {
 public:
@@ -666,57 +672,96 @@ public:
 	Socium socium;
 	std::vector<tile*> controlled_tiles;
 	GDP GDP;
-
+	double total_wages;
+	double money_delta;
 	std::vector<Industry*> industries;
 	std::vector<Exchange*> exchanges;
 	Demography demography;
 
-	void distrubute_worker_loss()
+	void distrubute_worker_loss(std::vector<Workplace*> &jobs)
 	{
-		for (int c = 0; c < industries.size(); c++)
-			industries[c]->workforce += socium.worker_types[c].percent_of_workforce * demography.delta_workers;
+
+		for (auto& j : jobs)
+		{  
+			j->quantity += demography.delta_workers * (j->quantity / demography.laborPool);
+		}
+
 	}
 	void calculate_jobs()
 	{
+		std::vector<Workplace*> jobs;
+		for (int i =0; i< industries.size();i++)
+			for (auto& j : industries[i]->workforce)
+				jobs.push_back(&j);
+
+
+
+
+		double average_wage = 0;
+		for (int c = 0; c < industries.size() - 1; c++)
+		{
+			average_wage += industries[c]->workforce[0].wage;
+		}
+		average_wage /= industries.size() - 1;
+
+
 		// Worker delta distribution
 		if (demography.delta_workers < 0)
-			distrubute_worker_loss();
+			distrubute_worker_loss(jobs);
 		else
-			industries[unemployed]->workforce += abs(demography.delta_workers);
+			industries[unemployed]->workforce[0].quantity += abs(demography.delta_workers);
 		// Staff turnover
-		for (int c = 0; c < industries.size()-2; c++)
+		for (auto& j : jobs)
 		{
-			double change = industries[c]->workforce * 0.0001;
-			industries[unemployed]->workforce += change;
-			industries[c]->workforce -= change;
+			double change = j->quantity * 0.0001;
+			if (j->wage < average_wage)
+				change *= 15;
+			industries[unemployed]->workforce[0].quantity += change;
+			j->quantity -= change;
 		}
 
-		// Separate industries with changing employment in separate vecrot to avoid breaking enum order 
-		std::vector<Industry*> i_sort;
-		i_sort.assign(industries.begin(), industries.end() - 2);
-		std::sort(i_sort.begin(), i_sort.end(), Industry::compare_by_wage_descending);
+		// Separate industries with changing employment in separate vector to avoid breaking enum order 
 
+		std::sort(jobs.begin(), jobs.end(), compare_by_wage_descending);
+
+		double total_workers = 0;
+		for (auto& j : jobs)
+		{  			
+			total_workers += j->quantity;
+			
+		}
+	
 		// Hiring workers
-		for (int c = 0; c < i_sort.size(); c++)
+		for (auto& a : jobs)
 		{
-			if (i_sort[c]->vacancies > 0)
-				if (i_sort[c]->vacancies > industries[unemployed]->workforce)
-				{
-					i_sort[c]->vacancies -= industries[unemployed]->workforce;
-					i_sort[c]->workforce += industries[unemployed]->workforce;
-					industries[unemployed]->workforce = 0;
+
+			if (a->vacancies > 0 && industries[unemployed]->workforce[0].quantity > 0 && a->wage > 0)
+
+				if (a->vacancies > industries[unemployed]->workforce[0].quantity && industries[unemployed]->workforce[0].quantity>1)
+				{	
+					double t = industries[unemployed]->workforce[0].quantity;
+					a->vacancies -= t;
+					a->quantity  += t;
+					industries[unemployed]->workforce[0].quantity -= t;
 					break;
 				}
-				else
+				else if (industries[unemployed]->workforce[0].quantity > a->vacancies)
 				{
-					industries[unemployed]->workforce -= i_sort[c]->vacancies;
-					i_sort[c]->workforce += i_sort[c]->vacancies;
-					i_sort[c]->vacancies = 0;
+					industries[unemployed]->workforce[0].quantity -= a->vacancies;
+					a->quantity += a->vacancies;
+					a->vacancies = 0;
 				}
 		}
+
+		double correct = demography.laborPool / total_workers;
+		for (auto& j : jobs)
+		{  
+			j->quantity *= correct;
+		}
+
 		// Calc percentages
 		for (int c = 0; c < industries.size(); c++)
-			socium.worker_types[c].percent_of_workforce = industries[c]->workforce / demography.laborPool;
+			socium.worker_types[c].percent_of_workforce = industries[c]->workforce[0].quantity / demography.laborPool;
 
 
 	}
@@ -726,25 +771,30 @@ public:
 
 		double before = demography.money;
 
-		double realistic_demand = demography.population * 1.0;
+		double realistic_demand = demography.population * 0.7;
 
-	
 		// Necessary buy
-		auto t = exchanges[food_exc]->buy_amount(realistic_demand * demography.consumption_level, &demography.money.value);
+		auto t = exchanges[food_exc]->buy_amount(realistic_demand, &demography.money.value);
 
 		demography.foodSupply = (t.amount_bought / demography.population)/(demography.population/(geography.square_kilometres*100)) * 100;
 
 		exchanges[pottery_exc]->buy_amount(demography.population*0.1 * demography.consumption_level, &demography.money.value);
 		exchanges[cloth_exc]->buy_amount(demography.population*0.01 * demography.consumption_level, &demography.money.value);
 		exchanges[wood_exc]->buy_amount(demography.population*0.01 * demography.consumption_level, &demography.money.value);
-		// Populus leasure buy
-		//exchanges[food_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
-	//	exchanges[pottery_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
-		//exchanges[cloth_exc]->buy_money(demography.money.value*0.1, &demography.money.value);
-		if (demography.money > 5e8)
-			demography.consumption_level += 0.01;
-		else if (demography.consumption_level > 0)
-			demography.consumption_level -= 0.01;
+
+
+		double total_ratio = 0;
+		for (auto& a : exchanges)
+			total_ratio += a->supply_to_demand_ratio;
+		total_ratio /= exchanges.size();
+
+
+		if ((money_delta) > 0 && total_ratio > 0.8 && demography.money>5e8)
+			demography.consumption_level *= 1.0001;
+		else if (demography.consumption_level > 0 && (money_delta) < 0)
+			demography.consumption_level /= 1.0001;
+		if (demography.money>8e8)
+			demography.consumption_level *= 1.0001;
 		// Goverment buy
 		exchanges[food_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
 		exchanges[pottery_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
@@ -758,16 +808,17 @@ public:
 		date1 = date;
 
 		demography.calc(date);
-
+		double b = demography.money;
 		calculate_jobs();
-
+		
 		for (int i = 0; i < exchanges.size(); i++)
 			exchanges[i]->process();
 
 		for (int i = 0; i<industries.size(); i++)
 			industries[i]->process();
 
-
+		total_wages = demography.money - b;
+		money_delta = total_wages - GDP.private_consumption;
 		demography.density = demography.population / geography.square_kilometres;
 
 		populus_consumption();

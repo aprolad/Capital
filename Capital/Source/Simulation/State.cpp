@@ -56,7 +56,6 @@ State::State(Simulation* sim, double start_pos)
 
 
 
-		industries[pottery]->wages = 10;
 		demography.money = 1e9;
 
 		demography.calc(0);
@@ -64,8 +63,8 @@ State::State(Simulation* sim, double start_pos)
 
 		for (int i = 0; i < industries.size(); i++)
 		{
-			industries[i]->workforce = socium.worker_types[i].percent_of_workforce * demography.laborPool;
-			industries[i]->workplace_count = industries[i]->workforce;
+			industries[i]->workforce[0].quantity = socium.worker_types[i].percent_of_workforce * demography.laborPool;
+			industries[i]->workplace_count = industries[i]->workforce[0].quantity;
 		}
 		for (int i = 0; i < 6 ; i++)
 			exchanges.push_back(new Exchange());

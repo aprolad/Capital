@@ -22,7 +22,7 @@ void Goverment_menu::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 24);
 
-	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries[goverment]->workforce);
+	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries[goverment]->workforce[0].quantity);
 	panel->add_dynamic_text_element("Goverment budget:  ", " ",  x_slot * 4, y_slot * 21, &simulation.player.industries[goverment]->revenue);
 
 	panel->add_dynamic_text_element("Wages: ", &simulation.player.industries[goverment]->wages.result, x_slot * 4, y_slot * 19);
@@ -127,11 +127,17 @@ void Economics_menu::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, 250, y_slot*21);
 
+	panel->add_dynamic_text_element("MD: ", "", x, y - 250, &simulation.player.money_delta);
+
+	panel->add_dynamic_text_element("Total wages: ", "", x, y - 300, &simulation.player.total_wages);
+
+	panel->add_dynamic_text_element("Consumption level: ", "", x, y - 350, &simulation.player.demography.consumption_level);
+
 	panel->add_dynamic_text_element("GDP: ", &simulation.player.GDP.total.result, x, y - 400);
 
 	panel->add_dynamic_text_element("Delta workers: ", " D ", x_slot * 6, y - 450, &simulation.player.demography.delta_workers);
 
-	panel->add_dynamic_text_element("Enemployed: ", " D ", x_slot * 6, y - 500, &simulation.player.industries[unemployed]->workforce);
+	panel->add_dynamic_text_element("Enemployed: ", " D ", x_slot * 6, y - 500, &simulation.player.industries[unemployed]->workforce[0].quantity);
 
 	//panel->add_dynamic_text_element("Wheat Price: ", " Tonnes", x, y - 750, &simulation.foodExc.current_price);
 
