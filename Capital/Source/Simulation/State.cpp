@@ -64,7 +64,7 @@ State::State(Simulation* sim, double start_pos)
 		for (int i = 0; i < industries.size(); i++)
 		{
 			industries[i]->workforce[0].quantity = socium.worker_types[i].percent_of_workforce * demography.laborPool;
-			industries[i]->workplace_count = industries[i]->workforce[0].quantity;
+			industries[i]->number_of_facilities = industries[i]->workforce[0].quantity/4;
 		}
 		for (int i = 0; i < 6 ; i++)
 			exchanges.push_back(new Exchange());

@@ -550,6 +550,16 @@ struct Workplace
 	double quantity;
 	double wage;
 };
+struct Facility
+{
+	Facility(double c = 1)
+	{
+		positions.push_back(5);
+		if (c = 2)
+			positions.push_back(1);
+	}
+	std::vector<double> positions;
+};
 class Industry
 {
 public:
@@ -557,10 +567,13 @@ public:
 	{ 
 		workforce.push_back(Workplace());
 		state = _state;
-		workforce[0].wage = 10;
+		for (int i = 0; i< workforce.size(); i++)
+			workforce[i].wage = 10;
 		money = 100000;
 		investment_account = 0;
 	}
+	Facility typical_facility;
+	double number_of_facilities;
 	double productivity;
 	Display_value output{ CAP_UNIT_OF_MESURE_KG };
 //	double vacancies;
@@ -568,8 +581,9 @@ public:
 	Display_value income;
 	double money, last_day_money;
 	double last_day_balance;
-	double workplace_count;
+	//double workplace_count;
 	std::vector<Workplace> workforce;
+	double total_worker_count;
 //	double workforce;
 	Display_value workforce_d;
 	Display_value wages;
@@ -596,9 +610,7 @@ public:
 		(*source) -= amount;
 		(*destination) += amount;
 	}
-	//static bool compare_by_wage_descending(const Industry* a, const Industry* b) {
-	//	return a->wages.value > b->wages.value;
-	//}
+
 };
 
 class Unemployed : public Industry
@@ -607,7 +619,6 @@ public:
 	using Industry::Industry;
 	void compute()
 	{
-		workforce[0].vacancies = 1e9;
 	}
 };
 	static bool compare_by_wage_descending(const Workplace* a, const Workplace* b) {
@@ -698,11 +709,11 @@ public:
 
 
 		double average_wage = 0;
-		for (int c = 0; c < industries.size() - 1; c++)
+		for (int c = 0; c < jobs.size() - 1; c++)
 		{
-			average_wage += industries[c]->workforce[0].wage;
+			average_wage += jobs[c]->wage;
 		}
-		average_wage /= industries.size() - 1;
+		average_wage /= jobs.size() - 1;
 
 
 		// Worker delta distribution
@@ -761,8 +772,10 @@ public:
 
 		// Calc percentages
 		for (int c = 0; c < industries.size(); c++)
-			socium.worker_types[c].percent_of_workforce = industries[c]->workforce[0].quantity / demography.laborPool;
+		{
 
+			socium.worker_types[c].percent_of_workforce = industries[c]->total_worker_count / demography.laborPool;
+		}
 
 	}
 	void populus_consumption()

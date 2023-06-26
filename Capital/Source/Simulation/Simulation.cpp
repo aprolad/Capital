@@ -99,6 +99,9 @@ void Construction::compute()
 
 void Industry::process()
 {
+	total_worker_count = 0;
+	for (auto& a : workforce)
+		total_worker_count += a.quantity;
 	revenue = money - last_day_money;
 	gross_profit = revenue - expenditure;
 	operating_profit = gross_profit - payroll;
@@ -120,10 +123,10 @@ void Industry::process()
 
 void Industry::invest()
 {
-	double inc = workforce[0].quantity / 50;
-	if (workforce[0].vacancies < workplace_count/10 && investment_account > inc*state->exchanges[constr_exc]->current_price/10)
+	double inc = total_worker_count / 250;
+	if (workforce[0].vacancies < number_of_facilities/5 && investment_account > inc*state->exchanges[constr_exc]->current_price/10)
 	{
-		workplace_count += inc;
+		number_of_facilities += inc;
 		transfer_money(&investment_account, &state->industries[construction]->money, inc*state->exchanges[constr_exc]->current_price/10);
 	}
 
@@ -138,13 +141,15 @@ void Industry::invest()
 void Industry::pay_wage()
 {
 
-	workforce_d = workforce[0].quantity;
-	workforce[0].vacancies = workplace_count - workforce[0].quantity;
+	workforce_d = total_worker_count;
+	for (int i = 0; i < workforce.size(); i++)
+		workforce[i].vacancies = number_of_facilities*typical_facility.positions[i] - workforce[i].quantity;
+
 	if (workforce[0].quantity < 1)
 		workforce[0].quantity = 1;
 	// arbitary vacancies creation
 	if (workforce[0].vacancies < 1000)
-		workplace_count += 10;
+		number_of_facilities += 1;
 	invest();
 
 
