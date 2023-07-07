@@ -552,12 +552,6 @@ struct Workplace
 };
 struct Facility
 {
-	Facility(double c = 1)
-	{
-		positions.push_back(5);
-		if (c = 2)
-			positions.push_back(1);
-	}
 	std::vector<double> positions;
 };
 class Industry
@@ -566,6 +560,9 @@ public:
 	Industry(State* _state) :   wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
 	{ 
 		workforce.push_back(Workplace());
+		typical_facility.positions.push_back(10);
+		workforce.push_back(Workplace());
+		typical_facility.positions.push_back(1);
 		state = _state;
 		for (int i = 0; i< workforce.size(); i++)
 			workforce[i].wage = 10;
@@ -688,7 +685,7 @@ public:
 	std::vector<Industry*> industries;
 	std::vector<Exchange*> exchanges;
 	Demography demography;
-
+	bool mobilized;
 	void distrubute_worker_loss(std::vector<Workplace*> &jobs)
 	{
 
@@ -698,6 +695,10 @@ public:
 		}
 
 	}
+	void mobilize()
+	{
+		mobilized = !mobilized;
+	}
 	void calculate_jobs()
 	{
 		std::vector<Workplace*> jobs;
@@ -706,7 +707,7 @@ public:
 				jobs.push_back(&j);
 
 
-
+		
 
 		double average_wage = 0;
 		for (int c = 0; c < jobs.size() - 1; c++)

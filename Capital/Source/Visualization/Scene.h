@@ -2,8 +2,10 @@
 #include <vector>
 #include "Map.h"
 #include "Graphic_elements.h"
-extern Simulation simulation;
 //#include "Visualization.h"
+extern Simulation simulation;
+//extern Visualization visualization;
+//
 //
 class Scene
 {
@@ -124,41 +126,8 @@ public:
 
 	}
 
-	void draw()
-	{
-		if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
-			map.size *= 0.999;
-		if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
-			map.size *= 1.001;
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-			map.y -= 4 / map.size;
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-			map.y += 4 / map.size;
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-			map.x += 4 / map.size;
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-			map.x -= 4 / map.size;
-	
-		bool any_active = false;
-		for (auto i : root_menus)
-		{
-			any_active += i->active;
-		}
+	void draw();
 
-		if (!any_active)
-			map.draw();
-
-		if (enemy)
-			en->draw();
-
-
-		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
-
-		for (int i = 0; i < graphic_elements.size(); i++)
-			graphic_elements[i]->draw();
-		
-		
-	}
 	void mouseInvoke(double mx, double my)
 	{
 		map.mouse_callback(mx, my);
@@ -167,7 +136,6 @@ public:
 	}
 	void mouseScrollInvoke(double mx, double my)
 	{
-		std::cout << my << std::endl;
 		    if (my > 0) {
 				map.size*= 1 + 0.1 * abs(my);  // Scroll up
 			} else if (my < 0) {

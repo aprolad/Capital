@@ -42,7 +42,7 @@ void Geography_menu::init()
 
 	panel->add_dynamic_text_element("Arable area: ", &simulation.player.geography.totalArableLand.result, x_slot * 6, visualization.window_resolution.y - 600);
 
-	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
+	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y - 2 * size_y, size_x, size_y, text, 0.7);
 }
 
 

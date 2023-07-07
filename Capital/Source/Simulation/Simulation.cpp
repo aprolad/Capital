@@ -2,7 +2,7 @@
 int Simulation::game_speed = 1;
 void Farming::compute()
 {
-	output = workforce[0].quantity * 250 * double(250)/100;
+	output = total_worker_count * 250 * double(250)/100;
 
 
 		state->exchanges[food_exc]->put_sell_order(output / (365)/2, state->exchanges[food_exc]->get_current_price()*0.9, &money);
@@ -17,10 +17,10 @@ void Goverment::compute()
 
 void Gathering::compute()
 {
-	double exhaust = sqrt(workforce[0].quantity / state->geography.square_kilometres / 15);
-//	std::cout << workforce[0].quantity << std::endl;
-	if (workforce[0].quantity != 0)
-		output = workforce[0].quantity * 0.7 / exhaust;
+	double exhaust = sqrt(total_worker_count / state->geography.square_kilometres / 15);
+//	std::cout << total_worker_count << std::endl;
+	if (total_worker_count != 0)
+		output = total_worker_count * 0.7 / exhaust;
 
 
 		state->exchanges[food_exc]->put_sell_order(output/2, state->exchanges[food_exc]->get_current_price()*0.9, &money);
@@ -33,22 +33,21 @@ void Gathering::compute()
 void Pottery::compute()
 {
 
-	output = workforce[0].quantity * 10;
+	output = total_worker_count * 10;
 
 	state->exchanges[pottery_exc]->put_sell_order(output, state->exchanges[pottery_exc]->get_current_price(), &money);
 
-	prev_wage = workforce[0].wage;
 
 }
 
 void Husbandry::compute()
 {
 	
-	double wool_output = workforce[0].quantity * 0.1;
+	double wool_output = total_worker_count * 0.1;
 
-	double meat_output = workforce[0].quantity*0.3;
+	double meat_output = total_worker_count*0.3;
 	
-	output = workforce[0].quantity * 0.1;
+	output = total_worker_count * 0.1;
 
 
 	state->exchanges[wool_exc]->put_sell_order(wool_output, state->exchanges[wool_exc]->get_current_price(), &money);
@@ -60,7 +59,7 @@ void Husbandry::compute()
 void Textile::compute()
 {
 
-	output = workforce[0].quantity * 0.1;
+	output = total_worker_count * 0.1;
 	auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5, &money);
 	double material_coverage = t.amount_bought / (output * 0.5);
 	if (material_coverage < 0.1)
@@ -76,7 +75,7 @@ void Textile::compute()
 
 void Forestry::compute()
 {
-	output = workforce[0].quantity * 0.5;
+	output = total_worker_count * 0.5;
 
 	state->exchanges[wood_exc]->put_sell_order(output, state->exchanges[wood_exc]->get_current_price(), &money);
 
@@ -84,7 +83,7 @@ void Forestry::compute()
 
 void Construction::compute()
 {
-	output = workforce[0].quantity * 0.2;
+	output = total_worker_count * 0.2;
 	auto t = state->exchanges[wood_exc]->buy_amount(output * 0.5, &money);
 	output.value += 0.1;
 	double material_coverage = t.amount_bought / (output * 0.5);
@@ -106,7 +105,7 @@ void Industry::process()
 	gross_profit = revenue - expenditure;
 	operating_profit = gross_profit - payroll;
 	expenditure = 0;
-	auto t = state->exchanges[constr_exc]->buy_amount(workforce[0].quantity * 0.001, &money);
+	auto t = state->exchanges[constr_exc]->buy_amount(total_worker_count * 0.001, &money);
 	expenditure += t.money_spent;
 	compute();
 
@@ -145,23 +144,37 @@ void Industry::pay_wage()
 	for (int i = 0; i < workforce.size(); i++)
 		workforce[i].vacancies = number_of_facilities*typical_facility.positions[i] - workforce[i].quantity;
 
-	if (workforce[0].quantity < 1)
-		workforce[0].quantity = 1;
-	// arbitary vacancies creation
-	if (workforce[0].vacancies < 1000)
-		number_of_facilities += 1;
+	for (int i = 0; i < workforce.size(); i++)
+	{
+		if (workforce[i].quantity < 1)
+			workforce[i].quantity = 1;
+		// arbitary vacancies creation
+		if (workforce[i].vacancies < 1000)
+			number_of_facilities += 1;
+	}
+
 	invest();
 
-
-	workforce[0].wage = (profit_after_investment * 0.95) / workforce[0].quantity;
-	(workforce[0].wage < 0) ? workforce[0].wage = 0 : workforce[0].wage;
-	payroll = workforce[0].wage * workforce[0].quantity + money/50;
-	if (payroll > money)
-	{	
-		workforce[0].wage * 0.9;
-		payroll = money;
+	payroll = 0;
+	double share = 0;
+	for (int i = 0; i < workforce.size(); i++)
+	{
+		share += workforce[i].quantity * (1 + i * 3);
 	}
-	workforce[0].wage = workforce[0].wage;
+	share = (profit_after_investment * 0.95) / share;
+	for (int i = 0; i < workforce.size(); i++)
+	{
+		workforce[i].wage = share * (1 + i*3);
+		(workforce[i].wage < 0) ? workforce[i].wage = 0 : workforce[i].wage;
+		payroll += workforce[i].wage * workforce[i].quantity + money / 50;
+	//	std::cout << workforce[i].quantity<<" vaca "<< workforce[i].vacancies<<" wage "<<workforce[i].wage<< workforce.size() << std::endl;
+	}
+	//std::cout << std::endl;
+	if (payroll > money)
+		{
+			payroll = money;
+		}
+
 	double taxes = payroll * 0.03;
 	double netto_salary = payroll - taxes;
 	state->industries[goverment]->money += taxes;

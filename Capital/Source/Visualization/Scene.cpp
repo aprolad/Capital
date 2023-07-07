@@ -51,7 +51,10 @@ void MainGameScene::construct_scene()
 	Quad_button* return_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 2, 100, 50, "Return");
 	return_button->action = []() -> void { *choosen_scene = 0; };
 	graphic_elements.push_back(return_button);
-
+	
+	Quad_button* mobilize_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 45, y_slot * 2, 100, 50, "Mobilize");
+	mobilize_button->action = []() -> void { simulation.player.mobilize(); };
+	graphic_elements.push_back(mobilize_button);
 
 
 
@@ -65,6 +68,8 @@ void MainGameScene::construct_scene()
 	root_menus.push_back((new Geography_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 35, 150, 150, 50, "Geography"));
 
 	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 29, y_slot * 45, 150, 50, "Goverment"));
+
+	
 
 	en = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 46, y_slot * 16);
 
@@ -89,3 +94,43 @@ void MainGameScene::construct_scene()
 	}
 
 }
+
+void MainGameScene::draw()
+	{
+		if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
+			map.size *= 0.999;
+		if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
+			map.size *= 1.001;
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+			map.y -= 4 / map.size;
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+			map.y += 4 / map.size;
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+			map.x += 4 / map.size;
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+			map.x -= 4 / map.size;
+	
+		bool any_active = false;
+		for (auto i : root_menus)
+		{
+			any_active += i->active;
+		}
+
+		if (!any_active)
+			map.draw();
+
+		if (enemy)
+			en->draw();
+
+
+
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0.0, 0.0, 0.0, 1);
+
+		for (int i = 0; i < graphic_elements.size(); i++)
+			graphic_elements[i]->draw();
+
+		glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 1.0, 0.0, 0.0, 1);
+		reset_matrix(shaderProgram);
+		if (simulation.player.mobilized)
+			draw_border(2, 2, visualization.window_resolution.x-2, visualization.window_resolution.y-2, 5);
+	}

@@ -121,3 +121,19 @@ void draw_rectangle(double x, double y, double size_x, double size_y)
 	glDeleteBuffers(1, &VBO);
 	glDeleteVertexArrays(1, &VAO);
 }
+
+void draw_border(double x1, double y1, double x2, double y2, double width = 1)
+{
+	glLineWidth(width);
+	draw_line(x1, y1, x2, y1);
+	draw_line(x1, y2, x2, y2);
+	draw_line(x1, y1, x1, y2);
+	draw_line(x2, y1, x2, y2);
+	glLineWidth(1);
+}
+void reset_matrix(GLuint shader_program)
+{
+		glm::mat4 trans = glm::mat4(1);
+		GLuint transformLoc = glGetUniformLocation(shader_program, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+}
