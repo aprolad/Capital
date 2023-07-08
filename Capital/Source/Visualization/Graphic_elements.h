@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "../Header.h"
 #include "../Simulation/Simulation.h"
 #include "AMGUI.h"
@@ -41,21 +40,7 @@ public:
 	}
 };
 
-class Geography_menu : virtual public Multiple_choice_panel
-{
-public:
-	void init();
-	void draw()
-	{
-		draw_button();
 
-		if (active)
-		{
-			panel->draw();
-		}
-
-	}
-};
 
 class Panel : virtual public Graphic_element
 {

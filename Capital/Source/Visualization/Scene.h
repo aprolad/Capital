@@ -142,4 +142,6 @@ public:
 				map.size/= 1 + 0.1 * abs(my);  // Scroll down
 			}
 	}
+	private:
+		void cont_input_check();
 };

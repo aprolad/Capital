@@ -7,20 +7,20 @@ extern Simulation simulation;
 void MainMenuScene :: construct_scene()
 {
 	int x_slot = visualization.window_resolution.x / 50;
-	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot*5, 155, x_slot * 3, 50, "Exit");
+	Quad_button* t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot*5, 155, x_slot * 4, 50, "Exit");
 	graphic_elements.push_back(t);
 	graphic_elements[0]->action = []() -> void { exit(0); };
 
 
-	t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, 480, x_slot * 3, 50, "Start");
+	t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, 480, x_slot * 4, 50, "Start");
 	graphic_elements.push_back(t);
 	graphic_elements[1]->action = []() -> void { *choosen_scene = 1; };
 
-	t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, 260, x_slot * 3, 50, "Settings");
+	t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, 260, x_slot * 4, 50, "Settings");
 	graphic_elements.push_back(t);
 	graphic_elements[2]->action = []() -> void { *choosen_scene = 2; };
 
-	t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, 370, x_slot * 3, 50, "Load game");
+	t = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, 370, x_slot * 4, 50, "Load game");
 	graphic_elements.push_back(t);
 	graphic_elements[3]->action = []() -> void { *choosen_scene = 1; };
 
@@ -48,11 +48,11 @@ void MainGameScene::construct_scene()
 
 
 
-	Quad_button* return_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 2, 100, 50, "Return");
+	Quad_button* return_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 2, x_slot * 3, 50, "Return");
 	return_button->action = []() -> void { *choosen_scene = 0; };
 	graphic_elements.push_back(return_button);
 	
-	Quad_button* mobilize_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 45, y_slot * 2, 100, 50, "Mobilize");
+	Quad_button* mobilize_button = (new Quad_button())->set_properties(shaderProgram, fontShader, x_slot * 45, y_slot * 2, x_slot * 3, 50, "Mobilize", 0.9);
 	mobilize_button->action = []() -> void { simulation.player.mobilize(); };
 	graphic_elements.push_back(mobilize_button);
 
@@ -65,9 +65,10 @@ void MainGameScene::construct_scene()
 
 	root_menus.push_back((new Technology_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 21, y_slot * 45, 150, 50, "Technology"));
 
-	root_menus.push_back((new Geography_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 35, 150, 150, 50, "Geography"));
-
 	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 29, y_slot * 45, 150, 50, "Goverment"));
+
+	root_menus.push_back((new Goverment_menu())->set_properties(&root_menus, shaderProgram, fontShader, visualization.x_slot * 29, y_slot * 145, 5150, 50, "Goverment"));
+
 
 	
 
@@ -94,10 +95,9 @@ void MainGameScene::construct_scene()
 	}
 
 }
-
-void MainGameScene::draw()
-	{
-		if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
+void MainGameScene::cont_input_check()
+{
+	if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS)
 			map.size *= 0.999;
 		if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS)
 			map.size *= 1.001;
@@ -109,7 +109,25 @@ void MainGameScene::draw()
 			map.x += 4 / map.size;
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 			map.x -= 4 / map.size;
-	
+
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+
+		if (xpos > visualization.window_resolution.x-10)
+			map.x -= 10 / map.size;
+		if (ypos > visualization.window_resolution.y-10)
+			map.y += 10 / map.size;
+		if (xpos < 10)
+			map.x += 10 / map.size;
+		if (ypos < 10)
+			map.y -= 10 / map.size;
+
+}
+void MainGameScene::draw()
+	{
+		
+		cont_input_check();
+
 		bool any_active = false;
 		for (auto i : root_menus)
 		{

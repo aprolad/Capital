@@ -29,21 +29,6 @@ void Goverment_menu::init()
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 }
 
-void Geography_menu::init()
-{
-	int x_slot = visualization.window_resolution.x / 50;
-	int y_slot = visualization.window_resolution.y / 50;
-
-	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 6, y_slot * 16);
-
-
-
-	panel->add_dynamic_text_element("Total controlled area: ", &simulation.player.geography.square_kilometres.result, x_slot * 6, visualization.window_resolution.y - 500);
-
-	panel->add_dynamic_text_element("Arable area: ", &simulation.player.geography.totalArableLand.result, x_slot * 6, visualization.window_resolution.y - 600);
-
-	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y - 2 * size_y, size_x, size_y, text, 0.7);
-}
 
 
 void Agriculture_sector_panel :: init()
@@ -57,10 +42,10 @@ void Agriculture_sector_panel :: init()
 
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text, 0.7);
 
-	root_menus.push_back((new Gathering_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot*5, 700, 125, 40, "Gathering"));
-	root_menus.push_back((new Farming_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Farming"));
-	root_menus.push_back((new Husbandry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 500, 125, 40, "Husbandry"));
-	root_menus.push_back((new Forestry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 400, 125, 40, "Forestry"));
+	root_menus.push_back((new Gathering_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot*5, 700, 150, 40, "Gathering"));
+	root_menus.push_back((new Farming_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 150, 40, "Farming"));
+	root_menus.push_back((new Husbandry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 500, 150, 40, "Husbandry"));
+	root_menus.push_back((new Forestry_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 400, 150, 40, "Forestry"));
 	for (auto a : root_menus)
 	{
 		a->init();
@@ -76,8 +61,8 @@ void Industry_sector_panel::init()
 
 
 	
-	root_menus.push_back((new Pottery_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 700, 125, 40, "Pottery"));
-	root_menus.push_back((new Textile_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 125, 40, "Textile"));
+	root_menus.push_back((new Pottery_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 700, 150, 40, "Pottery"));
+	root_menus.push_back((new Textile_panel())->set_properties(&root_menus, shaderProgram, fontShader, x_slot * 5, 600, 150, 40, "Textile"));
 
 	for (auto a : root_menus)
 	{

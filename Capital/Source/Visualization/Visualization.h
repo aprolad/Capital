@@ -211,7 +211,7 @@ public:
 
 
 			scene[choosenScene]->draw();
-			RenderText(fontShader, "FPS: " + std::to_string(avgFps), 20, 50, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
+			RenderText(fontShader, "FPS: " + std::to_string(avgFps), 20, window_resolution.y - 30, 0.3, glm::vec3(1.0, 0.0f, 0.0f));
 		
 			glUseProgram(fontShader);
 			transformLoc = glGetUniformLocation(fontShader, "projection");
