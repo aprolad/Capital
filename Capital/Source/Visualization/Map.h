@@ -4,9 +4,10 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#include "../Simulation/Simulation.h"
 #include "World.h"
 #include "../Header.h"
+extern Simulation simulation;
 struct Vertex {
     glm::vec2 position;
 };
@@ -30,40 +31,57 @@ struct Line
 
 };
 class Map;
-struct State_zone
+
+struct Army_visualization
 {
-    void init(Map* _map, double* _size, glm::vec4 _color)
+    Army_visualization(Army* r, Map* m)
     {
-        color = _color;
-        map = _map;
-        size = _size;
+        map = m;
+        reference = r;
+        choosen = false;
     }
-	std::vector<uint32_t> indices;
-    glm::vec4 color;
-    std::vector<GLfloat> shape;
-    double centre_x=0, centre_y=0;
-    double* size;
+    bool choosen;
+    glm::vec2 position;
+    Army* reference;
     Map* map;
-    void mouse_callback(int x, int y);
-    void draw_zone_of_control();
+    void draw();
+    void callback(double x, double y);
+};
+class Army_visualizator
+{
+    public:
+    Army_visualizator(Map* m)
+    {
+        map = m;
+    }
+    Map* map;
+    std::vector<Army_visualization> armies;
+    void construct_armies()
+    {
+        Army_visualization t(&simulation.player.army, map);
+        armies.push_back(t);
+    }
+    void callback(double x, double y)
+    {
+        for (auto& i : armies)
+            i.callback(x, y);
+    }
+    void draw()
+    {
+        for (auto& i : armies)
+            i.draw();
+    }
 };
 class Map
 {
 public:
     Map()
     {
-        State_zone t;
-        t.init(this, &size, glm::vec4(0, 1, 0, 1));
-        t.centre_x = 35;
-        t.centre_y = -100;
-        state_zones.push_back(t);
-        State_zone t1;
-        t1.init(this, &size, glm::vec4(1, 0, 0, 1));
-        t1.centre_x = -15;
-        t1.centre_y = -100;
-        state_zones.push_back(t1);
+
+
+
     }
-    std::vector<State_zone> state_zones;
+    Army_visualizator army_visualizator{this};
     double x_slot;
     double y_slot;
     std::vector<Line> lines;

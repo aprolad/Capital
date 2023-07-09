@@ -19,6 +19,8 @@ Vertex transformCoordinates(double longitude, double latitude)
 }
 int Map::init()
 {
+    army_visualizator.construct_armies();
+
     x_slot = visualization.window_resolution.x / 50;
     y_slot = visualization.window_resolution.y / 50;
     x = -2500;
@@ -52,10 +54,9 @@ int Map::draw()
         trans = glm::translate(trans, glm::vec3(centre_translate_x, centre_translate_y, 0.0f));
         trans = glm::scale(trans, glm::vec3(size, size, size));
         trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-
-
-       
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+
 
         for (int i = 0; i < simulation.world.map.size(); i++)
         {
@@ -71,6 +72,10 @@ int Map::draw()
 			glUniform4f(glGetUniformLocation(shaderProgram, "ourColor"), 0, 0,0, 1);
             simulation.world.choosen_tile->choosen_draw();
         }
+        
+
+        army_visualizator.draw();
+
         draw_map_sizing();
         previous_x = x;
         previous_y = y;
@@ -81,6 +86,11 @@ void Map::mouse_callback(int mx, int my)
 {
 	double t_x = (mx - centre_translate_x) / size - x + 25;
     double t_y = (my - centre_translate_y) / size - y + 25;
+
+
+    army_visualizator.callback(t_x - 10, t_y - 10);
+
+
     int x_tile = int(t_x) / 50;
 	int y_tile = int(t_y) / 50;
     if (x_tile >= 0 && x_tile < 100 && y_tile >= 0 && y_tile < 100)
@@ -91,13 +101,28 @@ void Map::mouse_callback(int mx, int my)
         else
             visualization.scene[1]->enemy = false;
     }
-  //  std::cout << t_x << " " << t_y << std::endl;
 
 }
-void State_zone::mouse_callback(int mx, int my)
+
+void Army_visualization::draw()
 {
-
-
+	glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 1, 0,0, 1);
+    draw_quad(reference->x, reference->y, 15);
+    if (choosen)
+    {
+		glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 1, 1, 1, 1);
+		draw_border(reference->x-15, reference->y-15, reference->x+15, reference->y+15 , 1);
+    }
 }
 
-
+void Army_visualization::callback(double x, double y)
+{
+  //  std::cout << x << " " << y << std::endl;
+    if (is_click_in_square(x, y, reference->x, reference->y, 15))
+    {
+        choosen = true;
+        reference->move_to();
+    }
+    else
+        choosen = false;
+}

@@ -670,7 +670,15 @@ public:
 	using Industry::Industry;
 	void compute();
 };
-
+class Army
+{
+public:
+	double x, y;
+	void move_to()
+	{
+		std::cout << "duh" << std::endl;
+	}
+};
 class State
 {
 public:
@@ -680,6 +688,7 @@ public:
 	Socium socium;
 	std::vector<tile*> controlled_tiles;
 	GDP GDP;
+	Army army;
 	double total_wages;
 	double money_delta;
 	std::vector<Industry*> industries;

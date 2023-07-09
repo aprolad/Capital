@@ -7,16 +7,20 @@ State::State(Simulation* sim, double start_pos)
 		simulation = sim;
 
 		if (start_pos == 0)
-			for (int y = 0; y<100; y++)
-				for (int x = 0; x<100;x++)
+		{
+			army.x = 2000;
+			army.y = 2000;
+			for (int y = 0; y < 100; y++)
+				for (int x = 0; x < 100; x++)
 				{
-					
+
 					if (pow(x - 30, 2) + pow(y - 40, 2) < 49)
 					{
 						simulation->world.map[y][x].owner = 1;
 						simulation->world.map[y][x].color = glm::vec4(1, 0.5, 0.0, 1);
 					}
 				}
+		}
 		else
 			for (int y = 0; y<100; y++)
 				for (int x = 0; x<100;x++)

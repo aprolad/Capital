@@ -137,3 +137,13 @@ void reset_matrix(GLuint shader_program)
 		GLuint transformLoc = glGetUniformLocation(shader_program, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 }
+
+bool is_click_in_square(double click_x, double click_y, double square_x, double square_y, double side_length)
+{
+    glm::vec2 click_point(click_x, click_y);
+    glm::vec2 square_top_left(square_x, square_y);
+    glm::vec2 square_bottom_right = square_top_left + glm::vec2(side_length*2, side_length*2);
+
+    return glm::all(glm::greaterThanEqual(click_point, square_top_left)) &&
+           glm::all(glm::lessThanEqual(click_point, square_bottom_right));
+}

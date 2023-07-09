@@ -13,11 +13,11 @@ struct tile
 	float x, y;
 	float size;
 	glm::vec4 color;
-	GLuint VAOb, VBO ;
+	GLuint VAO, VBO ;
 	short owner;
 	void init(double _x, double _y, double _size)
 	{
-		VAOb = 0;
+		VAO = 0;
 		x = _x;
 		y = _y;
 		size = _size;
@@ -29,9 +29,9 @@ struct tile
 		};
 
 
-		glGenVertexArrays(1, &VAOb);
+		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
-		glBindVertexArray(VAOb);
+		glBindVertexArray(VAO);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -43,7 +43,7 @@ struct tile
 	}
 	void draw()
 	{
-		glBindVertexArray(VAOb);
+		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		glBindVertexArray(0);
 	}
@@ -56,8 +56,8 @@ struct tile
 	}
 	~tile()
 	{
-//	glDeleteBuffers(1, &VBO);
-//	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
 	}
 };
 class World
