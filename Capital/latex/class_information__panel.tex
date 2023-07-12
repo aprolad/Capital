@@ -22,19 +22,6 @@ void {\bfseries add\+\_\+dynamic\+\_\+text\+\_\+element} (std\+::string atext, s
 \mbox{\hyperlink{class_information__panel}{Information\+\_\+panel}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay, int sx=220, int sy=350)
 \item 
 void \mbox{\hyperlink{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b}{draw}} ()
-\item 
-\mbox{\Hypertarget{class_information__panel_af0b8ef3d355935156cae055772bd4956}\label{class_information__panel_af0b8ef3d355935156cae055772bd4956}} 
-void {\bfseries add\+\_\+text\+\_\+element} (std\+::string atext, int x, int y)
-\item 
-\mbox{\Hypertarget{class_information__panel_ab9adccd7c358a7aea17a1485f84fc05c}\label{class_information__panel_ab9adccd7c358a7aea17a1485f84fc05c}} 
-{\footnotesize template$<$typename T $>$ }\\void {\bfseries add\+\_\+dynamic\+\_\+text\+\_\+element} (std\+::string atext, std\+::string postfix, int x, int y, T bind)
-\item 
-\mbox{\Hypertarget{class_information__panel_afc226bdce3ea85e4ca10a57caa81b4b4}\label{class_information__panel_afc226bdce3ea85e4ca10a57caa81b4b4}} 
-\mbox{\hyperlink{class_information__panel}{Information\+\_\+panel}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay)
-\item 
-void \mbox{\hyperlink{class_information__panel_aa5fc42d37a0762b49fcbf1f39a6ee505}{init}} ()
-\item 
-void \mbox{\hyperlink{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b}{draw}} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
 \begin{DoxyCompactItemize}
@@ -42,20 +29,8 @@ void \mbox{\hyperlink{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b
 \mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
 virtual void {\bfseries mouse\+Callback} (double, double)
 \item 
-\mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
-virtual void {\bfseries init} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}\label{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}} 
-virtual void {\bfseries draw} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_ade720e789a8f135982482b18a3219d15}\label{class_graphic__element_ade720e789a8f135982482b18a3219d15}} 
-virtual void {\bfseries prepare\+\_\+shaders} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}\label{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}} 
-virtual void {\bfseries set\+\_\+properties} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
-virtual void {\bfseries mouse\+Callback} (double, double)
+\mbox{\Hypertarget{class_graphic__element_af7074792b1dae4633148d26152ccad6d}\label{class_graphic__element_af7074792b1dae4633148d26152ccad6d}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+callback} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
 virtual void {\bfseries init} ()
@@ -75,14 +50,8 @@ virtual void {\bfseries set\+\_\+properties} ()
 \mbox{\Hypertarget{class_information__panel_ae88eefdba93d5f8a88df4ca0b99169f7}\label{class_information__panel_ae88eefdba93d5f8a88df4ca0b99169f7}} 
 std\+::string {\bfseries text}
 \item 
-\mbox{\Hypertarget{class_information__panel_a2e13f19738a072faaf3a569047c3c37b}\label{class_information__panel_a2e13f19738a072faaf3a569047c3c37b}} 
+\mbox{\Hypertarget{class_information__panel_af9982e3585f0fae8de380fedce04860b}\label{class_information__panel_af9982e3585f0fae8de380fedce04860b}} 
 std\+::vector$<$ \mbox{\hyperlink{class_text__element}{Text\+\_\+element}} $\ast$ $>$ {\bfseries text\+\_\+elements}
-\item 
-\mbox{\Hypertarget{class_information__panel_a994b680ce849710491fc7121f358d275}\label{class_information__panel_a994b680ce849710491fc7121f358d275}} 
-int {\bfseries size\+\_\+x}
-\item 
-\mbox{\Hypertarget{class_information__panel_a061c20faba510bddb67a126d4cd626c8}\label{class_information__panel_a061c20faba510bddb67a126d4cd626c8}} 
-int {\bfseries size\+\_\+y}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
 \begin{DoxyCompactItemize}
@@ -93,11 +62,14 @@ double {\bfseries size\+\_\+x}
 \mbox{\Hypertarget{class_graphic__element_ad03731a155fbad859da28054523d572c}\label{class_graphic__element_ad03731a155fbad859da28054523d572c}} 
 double {\bfseries size\+\_\+y}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}\label{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}} 
-void($\ast$ {\bfseries action} )()
+\mbox{\Hypertarget{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}\label{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}} 
+bool {\bfseries hovered\+\_\+on}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}\label{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
+\mbox{\Hypertarget{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}\label{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}} 
+bool {\bfseries active}
+\item 
+\mbox{\Hypertarget{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}\label{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}} 
+void($\ast$ {\bfseries action} )()
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 \doxysubsubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
@@ -127,36 +99,15 @@ int {\bfseries y}
 \mbox{\Hypertarget{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b}\label{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b}} 
 \index{Information\_panel@{Information\_panel}!draw@{draw}}
 \index{draw@{draw}!Information\_panel@{Information\_panel}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
 {\footnotesize\ttfamily void Information\+\_\+panel\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
 Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
 
-\mbox{\Hypertarget{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b}\label{class_information__panel_ab824942458a52ce3a7bfb2c8e51a1b2b}} 
-\index{Information\_panel@{Information\_panel}!draw@{draw}}
-\index{draw@{draw}!Information\_panel@{Information\_panel}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Information\+\_\+panel\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
-
-Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
-
-\mbox{\Hypertarget{class_information__panel_aa5fc42d37a0762b49fcbf1f39a6ee505}\label{class_information__panel_aa5fc42d37a0762b49fcbf1f39a6ee505}} 
-\index{Information\_panel@{Information\_panel}!init@{init}}
-\index{init@{init}!Information\_panel@{Information\_panel}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
-{\footnotesize\ttfamily void Information\+\_\+panel\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
-
-
-
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-AMGUI/AMGUI.\+h\item 
-Graphics/Graphic\+\_\+element.\+h\end{DoxyCompactItemize}
+Source/\+Visualization/AMGUI.\+h\end{DoxyCompactItemize}

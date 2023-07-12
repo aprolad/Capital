@@ -104,15 +104,13 @@ public:
 	}
 	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	{
-		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-		{
+
 			double xpos, ypos;
 			int width, height;
 			glfwGetFramebufferSize(window, &width, &height);
 			glfwGetCursorPos(window, &xpos, &ypos);
-			scene[choosenScene]->mouseInvoke(xpos, height - ypos);
-			
-		}
+			scene[choosenScene]->mouseInvoke(xpos, height - ypos, button, action);
+
 	}
 
 	static void mouse_move_callback(GLFWwindow* window, double xpos, double ypos)

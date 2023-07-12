@@ -22,7 +22,7 @@ class Scene
 			for (int i = 0; i < graphic_elements.size(); i++)
 				graphic_elements[i]->draw();
 		}
-		virtual void mouseInvoke(double mx, double my)
+		virtual void mouseInvoke(double mx, double my, int button, int action)
 		{
 			for (int i = 0; i < graphic_elements.size(); i++)
 				graphic_elements[i]->mouseCallback(mx, my);
@@ -128,11 +128,12 @@ public:
 
 	void draw();
 
-	void mouseInvoke(double mx, double my)
+	void mouseInvoke(double mx, double my, int button, int action)
 	{
-		map.mouse_callback(mx, my);
-		for (int i = 0; i < graphic_elements.size(); i++)
-			graphic_elements[i]->mouseCallback(mx, my);
+		map.mouse_callback(mx, my, button, action);
+		if (action == GLFW_PRESS)
+			for (int i = 0; i < graphic_elements.size(); i++)
+				graphic_elements[i]->mouseCallback(mx, my);
 	}
 	void mouseScrollInvoke(double mx, double my)
 	{

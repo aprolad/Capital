@@ -3,7 +3,7 @@
 Inheritance diagram for Multiple\+\_\+choice\+\_\+panel\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=6.854990cm]{class_multiple__choice__panel}
+\includegraphics[height=9.491526cm]{class_multiple__choice__panel}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
@@ -17,6 +17,8 @@ void {\bfseries draw\+\_\+button} ()
 \item 
 void \mbox{\hyperlink{class_multiple__choice__panel_a474adbf8bf4d66cf78fab31ec0066159}{mouse\+Callback}} (double mx, double my)
 \item 
+void \mbox{\hyperlink{class_multiple__choice__panel_a0061a93e9c46ca03148021a0a7441ca5}{mouse\+\_\+move\+\_\+callback}} (double mx, double my)
+\item 
 void \mbox{\hyperlink{class_multiple__choice__panel_ad95977cbf08804635ce801b2e2c95698}{init}} ()
 \item 
 void \mbox{\hyperlink{class_multiple__choice__panel_ae8882f23e945757e3fcfdbbd5ee45e71}{draw}} ()
@@ -29,14 +31,7 @@ void \mbox{\hyperlink{class_multiple__choice__panel_ae8882f23e945757e3fcfdbbd5ee
 \item 
 void \mbox{\hyperlink{class_quad__button_a759767f0f9015d132b7766dd4f0e04b6}{mouse\+Callback}} (double mx, double my)
 \item 
-void \mbox{\hyperlink{class_quad__button_aa2ad765420413e348bfe18d34d509c38}{draw}} ()
-\item 
-\mbox{\Hypertarget{class_quad__button_a45835df8956dda7b90bf402917d0cebb}\label{class_quad__button_a45835df8956dda7b90bf402917d0cebb}} 
-\mbox{\hyperlink{class_quad__button}{Quad\+\_\+button}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay, int sx, int sy, std\+::string atext)
-\item 
-void \mbox{\hyperlink{class_quad__button_a759767f0f9015d132b7766dd4f0e04b6}{mouse\+Callback}} (double mx, double my)
-\item 
-void \mbox{\hyperlink{class_quad__button_ae214a7920ac5fa3498f1ef4f5b4341a5}{init}} ()
+void \mbox{\hyperlink{class_quad__button_a71757e65aaaa5aafc431e18677203b15}{mouse\+\_\+move\+\_\+callback}} (double mx, double my)
 \item 
 void \mbox{\hyperlink{class_quad__button_aa2ad765420413e348bfe18d34d509c38}{draw}} ()
 \end{DoxyCompactItemize}
@@ -46,20 +41,8 @@ void \mbox{\hyperlink{class_quad__button_aa2ad765420413e348bfe18d34d509c38}{draw
 \mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
 virtual void {\bfseries mouse\+Callback} (double, double)
 \item 
-\mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
-virtual void {\bfseries init} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}\label{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}} 
-virtual void {\bfseries draw} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_ade720e789a8f135982482b18a3219d15}\label{class_graphic__element_ade720e789a8f135982482b18a3219d15}} 
-virtual void {\bfseries prepare\+\_\+shaders} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}\label{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}} 
-virtual void {\bfseries set\+\_\+properties} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
-virtual void {\bfseries mouse\+Callback} (double, double)
+\mbox{\Hypertarget{class_graphic__element_af7074792b1dae4633148d26152ccad6d}\label{class_graphic__element_af7074792b1dae4633148d26152ccad6d}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+callback} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
 virtual void {\bfseries init} ()
@@ -85,9 +68,6 @@ std\+::vector$<$ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\+\_\+c
 \mbox{\Hypertarget{class_multiple__choice__panel_a280996f5461aee065125e0faad9e7076}\label{class_multiple__choice__panel_a280996f5461aee065125e0faad9e7076}} 
 \mbox{\hyperlink{class_quad__button}{Quad\+\_\+button}} $\ast$ {\bfseries base}
 \item 
-\mbox{\Hypertarget{class_multiple__choice__panel_ae714ad3102334271f0369ccfe074827e}\label{class_multiple__choice__panel_ae714ad3102334271f0369ccfe074827e}} 
-bool {\bfseries active}
-\item 
 \mbox{\Hypertarget{class_multiple__choice__panel_a26ef94a077322e539231ce7226af383c}\label{class_multiple__choice__panel_a26ef94a077322e539231ce7226af383c}} 
 \mbox{\hyperlink{class_information__panel}{Information\+\_\+panel}} $\ast$ {\bfseries panel}
 \end{DoxyCompactItemize}
@@ -105,12 +85,6 @@ glm\+::vec3 {\bfseries button\+\_\+color}
 \item 
 \mbox{\Hypertarget{class_quad__button_a862c73e27d581fc719b57f7615e79684}\label{class_quad__button_a862c73e27d581fc719b57f7615e79684}} 
 double {\bfseries text\+\_\+size}
-\item 
-\mbox{\Hypertarget{class_quad__button_a531111cafa421ff9840eadd01f17b5ac}\label{class_quad__button_a531111cafa421ff9840eadd01f17b5ac}} 
-int {\bfseries sx}
-\item 
-\mbox{\Hypertarget{class_quad__button_a69ccfb63d3f8ca3bb55ec05f9e8893e6}\label{class_quad__button_a69ccfb63d3f8ca3bb55ec05f9e8893e6}} 
-int {\bfseries sy}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
 \begin{DoxyCompactItemize}
@@ -121,11 +95,14 @@ double {\bfseries size\+\_\+x}
 \mbox{\Hypertarget{class_graphic__element_ad03731a155fbad859da28054523d572c}\label{class_graphic__element_ad03731a155fbad859da28054523d572c}} 
 double {\bfseries size\+\_\+y}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}\label{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}} 
-void($\ast$ {\bfseries action} )()
+\mbox{\Hypertarget{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}\label{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}} 
+bool {\bfseries hovered\+\_\+on}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}\label{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
+\mbox{\Hypertarget{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}\label{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}} 
+bool {\bfseries active}
+\item 
+\mbox{\Hypertarget{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}\label{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}} 
+void($\ast$ {\bfseries action} )()
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 \doxysubsubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
@@ -172,6 +149,16 @@ Reimplemented from \mbox{\hyperlink{class_quad__button}{Quad\+\_\+button}}.
 
 Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
 
+\mbox{\Hypertarget{class_multiple__choice__panel_a0061a93e9c46ca03148021a0a7441ca5}\label{class_multiple__choice__panel_a0061a93e9c46ca03148021a0a7441ca5}} 
+\index{Multiple\_choice\_panel@{Multiple\_choice\_panel}!mouse\_move\_callback@{mouse\_move\_callback}}
+\index{mouse\_move\_callback@{mouse\_move\_callback}!Multiple\_choice\_panel@{Multiple\_choice\_panel}}
+\doxysubsubsection{\texorpdfstring{mouse\_move\_callback()}{mouse\_move\_callback()}}
+{\footnotesize\ttfamily void Multiple\+\_\+choice\+\_\+panel\+::mouse\+\_\+move\+\_\+callback (\begin{DoxyParamCaption}\item[{double}]{mx,  }\item[{double}]{my }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_quad__button}{Quad\+\_\+button}}.
+
 \mbox{\Hypertarget{class_multiple__choice__panel_a474adbf8bf4d66cf78fab31ec0066159}\label{class_multiple__choice__panel_a474adbf8bf4d66cf78fab31ec0066159}} 
 \index{Multiple\_choice\_panel@{Multiple\_choice\_panel}!mouseCallback@{mouseCallback}}
 \index{mouseCallback@{mouseCallback}!Multiple\_choice\_panel@{Multiple\_choice\_panel}}
@@ -186,4 +173,4 @@ Reimplemented from \mbox{\hyperlink{class_quad__button}{Quad\+\_\+button}}.
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-AMGUI/AMGUI.\+h\end{DoxyCompactItemize}
+Source/\+Visualization/AMGUI.\+h\end{DoxyCompactItemize}

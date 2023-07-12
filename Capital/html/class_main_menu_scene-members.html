@@ -25,9 +25,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Capital<span id="projectnumber">&#160;0.01</span>
+   <div id="projectname">Capital<span id="projectnumber">&#160;0.04</span>
    </div>
-   <div id="projectbrief">Moonshot project of realistic civilization game</div>
+   <div id="projectbrief">Economic/Civilization simulation, aspiring to be a game</div>
   </td>
  </tr>
  </tbody>
@@ -99,14 +99,17 @@ $(document).ready(function(){initNavTree('class_main_menu_scene.html',''); initR
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>choosen_scene</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>construct_scene</b>() (defined in <a class="el" href="class_main_menu_scene.html">MainMenuScene</a>)</td><td class="entry"><a class="el" href="class_main_menu_scene.html">MainMenuScene</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>draw</b>() (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>fontShader</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>graphic_elements</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>initialize</b>(GLuint shaderProg, GLuint fontSh, int *chSC) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>keyboard_callback</b>(GLFWwindow *window, int key, int scancode, int action, int mode) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mouseInvoke</b>(double mx, double my) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>enemy</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>fontShader</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>graphic_elements</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>initialize</b>(GLuint shaderProg, GLuint fontSh, int *chSC) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>keyboard_callback</b>(GLFWwindow *window, int key, int scancode, int action, int mode) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>MainMenuScene</b>(GLuint shaderProg, GLuint fontSh, int *chSC) (defined in <a class="el" href="class_main_menu_scene.html">MainMenuScene</a>)</td><td class="entry"><a class="el" href="class_main_menu_scene.html">MainMenuScene</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mouse_move_invoke</b>(double mx, double my) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>mouseInvoke</b>(double mx, double my, int button, int action) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>mouseScrollInvoke</b>(double mx, double my) (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>shaderProgram</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>simulation</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>window</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>window</b> (defined in <a class="el" href="class_scene.html">Scene</a>)</td><td class="entry"><a class="el" href="class_scene.html">Scene</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

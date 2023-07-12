@@ -25,9 +25,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Capital<span id="projectnumber">&#160;0.01</span>
+   <div id="projectname">Capital<span id="projectnumber">&#160;0.04</span>
    </div>
-   <div id="projectbrief">Moonshot project of realistic civilization game</div>
+   <div id="projectbrief">Economic/Civilization simulation, aspiring to be a game</div>
   </td>
  </tr>
  </tbody>
@@ -111,9 +111,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>audio_initalization</b
 <tr class="memitem:ab7a186daa0ed1476716f5797909391cc"><td class="memItemLeft" align="right" valign="top"><a id="ab7a186daa0ed1476716f5797909391cc" name="ab7a186daa0ed1476716f5797909391cc"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>construct_game</b> ()</td></tr>
 <tr class="separator:ab7a186daa0ed1476716f5797909391cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ce509eb3d2daf8c0b123802e3e2aabd"><td class="memItemLeft" align="right" valign="top"><a id="a9ce509eb3d2daf8c0b123802e3e2aabd" name="a9ce509eb3d2daf8c0b123802e3e2aabd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OGL_mainLoop</b> ()</td></tr>
-<tr class="separator:a9ce509eb3d2daf8c0b123802e3e2aabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacfa52339f92c135005d03ff28002c86"><td class="memItemLeft" align="right" valign="top"><a id="aacfa52339f92c135005d03ff28002c86" name="aacfa52339f92c135005d03ff28002c86"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>create_shaders</b> ()</td></tr>
+<tr class="separator:aacfa52339f92c135005d03ff28002c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a4c1f3b1ec056b32e4718767f3f6910"><td class="memItemLeft" align="right" valign="top"><a id="a0a4c1f3b1ec056b32e4718767f3f6910" name="a0a4c1f3b1ec056b32e4718767f3f6910"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> ()</td></tr>
+<tr class="separator:a0a4c1f3b1ec056b32e4718767f3f6910"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab79e72c3233a27d37b1bb6cd96c3d24"><td class="memItemLeft" align="right" valign="top"><a id="aab79e72c3233a27d37b1bb6cd96c3d24" name="aab79e72c3233a27d37b1bb6cd96c3d24"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>process</b> ()</td></tr>
 <tr class="separator:aab79e72c3233a27d37b1bb6cd96c3d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,12 +126,24 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8e4b7c296b75660f555f6fb03822d4f2"><td class="memItemLeft" align="right" valign="top"><a id="a8e4b7c296b75660f555f6fb03822d4f2" name="a8e4b7c296b75660f555f6fb03822d4f2"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>mouse_button_callback</b> (GLFWwindow *window, int button, int action, int mods)</td></tr>
 <tr class="separator:a8e4b7c296b75660f555f6fb03822d4f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7307e39459f641ce3786ac97a3eb6693"><td class="memItemLeft" align="right" valign="top"><a id="a7307e39459f641ce3786ac97a3eb6693" name="a7307e39459f641ce3786ac97a3eb6693"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>mouse_move_callback</b> (GLFWwindow *window, double xpos, double ypos)</td></tr>
+<tr class="separator:a7307e39459f641ce3786ac97a3eb6693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca8835d07e7ef12f1a5c0afce8bc1c12"><td class="memItemLeft" align="right" valign="top"><a id="aca8835d07e7ef12f1a5c0afce8bc1c12" name="aca8835d07e7ef12f1a5c0afce8bc1c12"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>scrollCallback</b> (GLFWwindow *window, double xOffset, double yOffset)</td></tr>
+<tr class="separator:aca8835d07e7ef12f1a5c0afce8bc1c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad00a5fe9f9eda14a9b632e8d2589fc86"><td class="memItemLeft" align="right" valign="top"><a id="ad00a5fe9f9eda14a9b632e8d2589fc86" name="ad00a5fe9f9eda14a9b632e8d2589fc86"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>key_callback</b> (GLFWwindow *window, int key, int scancode, int action, int mode)</td></tr>
 <tr class="separator:ad00a5fe9f9eda14a9b632e8d2589fc86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a6e920cbc6017666d7cc3e4f0080648ba"><td class="memItemLeft" align="right" valign="top"><a id="a6e920cbc6017666d7cc3e4f0080648ba" name="a6e920cbc6017666d7cc3e4f0080648ba"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>x_slot</b></td></tr>
+<tr class="separator:a6e920cbc6017666d7cc3e4f0080648ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25785128f978cd3e30615924c5806193"><td class="memItemLeft" align="right" valign="top"><a id="a25785128f978cd3e30615924c5806193" name="a25785128f978cd3e30615924c5806193"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>y_slot</b></td></tr>
+<tr class="separator:a25785128f978cd3e30615924c5806193"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd2bb7b0e765349d68503989348227c1"><td class="memItemLeft" align="right" valign="top"><a id="afd2bb7b0e765349d68503989348227c1" name="afd2bb7b0e765349d68503989348227c1"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>shaderProgram</b></td></tr>
 <tr class="separator:afd2bb7b0e765349d68503989348227c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,15 +159,6 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a238f534d282d3351d340148b967e4241"><td class="memItemLeft" align="right" valign="top"><a id="a238f534d282d3351d340148b967e4241" name="a238f534d282d3351d340148b967e4241"></a>
 static glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><b>window_resolution</b> = glm::vec2(0,0)</td></tr>
 <tr class="separator:a238f534d282d3351d340148b967e4241"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac380ba18201172c5d967163f610c191f"><td class="memItemLeft" align="right" valign="top"><a id="ac380ba18201172c5d967163f610c191f" name="ac380ba18201172c5d967163f610c191f"></a>
-static <a class="el" href="class_main_menu_scene.html">MainMenuScene</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m</b> = <a class="el" href="class_main_menu_scene.html">MainMenuScene</a>()</td></tr>
-<tr class="separator:ac380ba18201172c5d967163f610c191f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2f9dc37de0ee1603b13c3050b9b0f7a"><td class="memItemLeft" align="right" valign="top"><a id="af2f9dc37de0ee1603b13c3050b9b0f7a" name="af2f9dc37de0ee1603b13c3050b9b0f7a"></a>
-static <a class="el" href="class_main_game_scene.html">MainGameScene</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mm</b> = <a class="el" href="class_main_game_scene.html">MainGameScene</a>()</td></tr>
-<tr class="separator:af2f9dc37de0ee1603b13c3050b9b0f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6110b63eb459393d8e48ac4285335a31"><td class="memItemLeft" align="right" valign="top"><a id="a6110b63eb459393d8e48ac4285335a31" name="a6110b63eb459393d8e48ac4285335a31"></a>
-static <a class="el" href="class_settings_menu_scene.html">SettingsMenuScene</a>&#160;</td><td class="memItemRight" valign="bottom"><b>a</b></td></tr>
-<tr class="separator:a6110b63eb459393d8e48ac4285335a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ffa3533608dffb4e85dababcbf8273"><td class="memItemLeft" align="right" valign="top"><a id="aa5ffa3533608dffb4e85dababcbf8273" name="aa5ffa3533608dffb4e85dababcbf8273"></a>
 static int&#160;</td><td class="memItemRight" valign="bottom"><b>choosenScene</b> = 0</td></tr>
 <tr class="separator:aa5ffa3533608dffb4e85dababcbf8273"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,8 +167,8 @@ static std::vector&lt; <a class="el" href="class_scene.html">Scene</a> * &gt;&#1
 <tr class="separator:a2a668996ce655a003cbff707990b6bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_visualization_8h_source.html">Visualization.h</a></li>
-<li>Visualization.cpp</li>
+<li>Source/Visualization/<a class="el" href="_visualization_8h_source.html">Visualization.h</a></li>
+<li>Source/Visualization/Visualization.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

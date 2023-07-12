@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 244.821091
+%%BoundingBox: 0 0 500 338.983063
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,13 +19,13 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 2.042308 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 1.475000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
-/rows 13 def
-/cols 6 def
+/rows 15 def
+/cols 5 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
 
@@ -178,18 +178,19 @@ boxfont setfont
 (Graphic_element) cw
 (Economics_menu) cw
 (Economy_panel) cw
-(Geography_menu) cw
 (Goverment_menu) cw
 (Society_menu) cw
 (Technology_menu) cw
 (Agriculture_sector_panel) cw
 (Farming_panel) cw
+(Forestry_panel) cw
 (Gathering_panel) cw
 (Husbandry_panel) cw
 (Industry_sector_panel) cw
 (Pottery_panel) cw
 (Service_sector_panel) cw
 (Society_demography_panel) cw
+(Society_profession_panel) cw
 (Textile_panel) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
@@ -202,57 +203,60 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (Multiple_choice_panel) 2.500000 10.000000 box
+ (Multiple_choice_panel) 2.000000 12.000000 box
 dashed
- (Quad_button) 2.500000 11.000000 box
+ (Quad_button) 2.000000 13.000000 box
 solid
 dashed
- (Graphic_element) 2.500000 12.000000 box
+ (Graphic_element) 2.000000 14.000000 box
 solid
- (Economics_menu) 0.000000 9.000000 box
- (Economy_panel) 1.000000 9.000000 box
- (Geography_menu) 2.000000 9.000000 box
- (Goverment_menu) 3.000000 9.000000 box
- (Society_menu) 4.000000 9.000000 box
- (Technology_menu) 5.000000 9.000000 box
- (Agriculture_sector_panel) 2.000000 8.000000 box
- (Farming_panel) 2.000000 7.000000 box
- (Gathering_panel) 2.000000 6.000000 box
- (Husbandry_panel) 2.000000 5.000000 box
- (Industry_sector_panel) 2.000000 4.000000 box
- (Pottery_panel) 2.000000 3.000000 box
- (Service_sector_panel) 2.000000 2.000000 box
- (Society_demography_panel) 2.000000 1.000000 box
+ (Economics_menu) 0.000000 11.000000 box
+ (Economy_panel) 1.000000 11.000000 box
+ (Goverment_menu) 2.000000 11.000000 box
+ (Society_menu) 3.000000 11.000000 box
+ (Technology_menu) 4.000000 11.000000 box
+ (Agriculture_sector_panel) 2.000000 10.000000 box
+ (Farming_panel) 2.000000 9.000000 box
+ (Forestry_panel) 2.000000 8.000000 box
+ (Gathering_panel) 2.000000 7.000000 box
+ (Husbandry_panel) 2.000000 6.000000 box
+ (Industry_sector_panel) 2.000000 5.000000 box
+ (Pottery_panel) 2.000000 4.000000 box
+ (Service_sector_panel) 2.000000 3.000000 box
+ (Society_demography_panel) 2.000000 2.000000 box
+ (Society_profession_panel) 2.000000 1.000000 box
  (Textile_panel) 2.000000 0.000000 box
 
 % ----- relations -----
 
 solid
-0 2.500000 10.000000 out
+0 2.000000 12.000000 out
 solid
-1 2.500000 11.000000 in
+1 2.000000 13.000000 in
 solid
-0 2.500000 11.000000 out
+0 2.000000 13.000000 out
 solid
-1 2.500000 12.000000 in
+1 2.000000 14.000000 in
 solid
-1 2.500000 9.250000 out
+1 2.000000 11.250000 out
 solid
-0.000000 5.000000 10.000000 conn
+0.000000 4.000000 12.000000 conn
 solid
-0 0.000000 9.750000 in
+0 0.000000 11.750000 in
 solid
-0 1.000000 9.750000 in
+0 1.000000 11.750000 in
 solid
-1 1.000000 8.250000 out
+1 1.000000 10.250000 out
 solid
-0 2.000000 9.750000 in
+0 2.000000 11.750000 in
 solid
-0 3.000000 9.750000 in
+0 3.000000 11.750000 in
 solid
-0 4.000000 9.750000 in
+0 4.000000 11.750000 in
 solid
-0 5.000000 9.750000 in
+0 1.000000 10.500000 hedge
+solid
+0 1.000000 9.500000 hedge
 solid
 0 1.000000 8.500000 hedge
 solid
@@ -272,4 +276,4 @@ solid
 solid
 0 1.000000 0.500000 hedge
 solid
-1.000000 9.000000 0.500000 vedge
+1.000000 11.000000 0.500000 vedge

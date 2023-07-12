@@ -25,9 +25,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Capital<span id="projectnumber">&#160;0.01</span>
+   <div id="projectname">Capital<span id="projectnumber">&#160;0.04</span>
    </div>
-   <div id="projectbrief">Moonshot project of realistic civilization game</div>
+   <div id="projectbrief">Economic/Civilization simulation, aspiring to be a game</div>
   </td>
  </tr>
  </tbody>
@@ -115,9 +115,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3a38ea467564c446e3ca19df0b92ba37"><td class="memItemLeft" align="right" valign="top"><a id="a3a38ea467564c446e3ca19df0b92ba37" name="a3a38ea467564c446e3ca19df0b92ba37"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>draw</b> ()</td></tr>
 <tr class="separator:a3a38ea467564c446e3ca19df0b92ba37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1200d3c3dc88dad91a4f303fb3d52a98"><td class="memItemLeft" align="right" valign="top"><a id="a1200d3c3dc88dad91a4f303fb3d52a98" name="a1200d3c3dc88dad91a4f303fb3d52a98"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseInvoke</b> (double mx, double my)</td></tr>
-<tr class="separator:a1200d3c3dc88dad91a4f303fb3d52a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f3c6b336c38600d2cec6c1a54a4ee37"><td class="memItemLeft" align="right" valign="top"><a id="a4f3c6b336c38600d2cec6c1a54a4ee37" name="a4f3c6b336c38600d2cec6c1a54a4ee37"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseInvoke</b> (double mx, double my, int button, int action)</td></tr>
+<tr class="separator:a4f3c6b336c38600d2cec6c1a54a4ee37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5044f8b320d8a0b53dbf724022d13c17"><td class="memItemLeft" align="right" valign="top"><a id="a5044f8b320d8a0b53dbf724022d13c17" name="a5044f8b320d8a0b53dbf724022d13c17"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouseScrollInvoke</b> (double mx, double my)</td></tr>
+<tr class="separator:a5044f8b320d8a0b53dbf724022d13c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6441ed3db06a4222d1d0f3148ece4f68"><td class="memItemLeft" align="right" valign="top"><a id="a6441ed3db06a4222d1d0f3148ece4f68" name="a6441ed3db06a4222d1d0f3148ece4f68"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mouse_move_invoke</b> (double mx, double my)</td></tr>
+<tr class="separator:a6441ed3db06a4222d1d0f3148ece4f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bcf9e51340c9c75298dea1852c40aa4"><td class="memItemLeft" align="right" valign="top"><a id="a1bcf9e51340c9c75298dea1852c40aa4" name="a1bcf9e51340c9c75298dea1852c40aa4"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>keyboard_callback</b> (GLFWwindow *window, int key, int scancode, int action, int mode)</td></tr>
 <tr class="separator:a1bcf9e51340c9c75298dea1852c40aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,12 +136,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a60634e2327a627312ca3b72d966b8588"><td class="memItemLeft" align="right" valign="top"><a id="a60634e2327a627312ca3b72d966b8588" name="a60634e2327a627312ca3b72d966b8588"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>enemy</b></td></tr>
+<tr class="separator:a60634e2327a627312ca3b72d966b8588"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a209d92ce2c4301a1b57e9f7d22408530"><td class="memItemLeft" align="right" valign="top"><a id="a209d92ce2c4301a1b57e9f7d22408530" name="a209d92ce2c4301a1b57e9f7d22408530"></a>
 GLFWwindow *&#160;</td><td class="memItemRight" valign="bottom"><b>window</b></td></tr>
 <tr class="separator:a209d92ce2c4301a1b57e9f7d22408530"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a978fed2c90f706a6faa65a1fd411a85d"><td class="memItemLeft" align="right" valign="top"><a id="a978fed2c90f706a6faa65a1fd411a85d" name="a978fed2c90f706a6faa65a1fd411a85d"></a>
-<a class="el" href="class_simulation.html">Simulation</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>simulation</b></td></tr>
-<tr class="separator:a978fed2c90f706a6faa65a1fd411a85d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06bdf7e596a5b1ff8959a269afe99858"><td class="memItemLeft" align="right" valign="top"><a id="a06bdf7e596a5b1ff8959a269afe99858" name="a06bdf7e596a5b1ff8959a269afe99858"></a>
 GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>shaderProgram</b></td></tr>
 <tr class="separator:a06bdf7e596a5b1ff8959a269afe99858"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,8 +159,8 @@ static int *&#160;</td><td class="memItemRight" valign="bottom"><b>choosen_scene
 <tr class="separator:a346a707ed05b4854312e41ebdc68747c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="scene_8h_source.html">scene.h</a></li>
-<li>Visualization.cpp</li>
+<li>Source/Visualization/<a class="el" href="_scene_8h_source.html">Scene.h</a></li>
+<li>Source/Visualization/Visualization.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

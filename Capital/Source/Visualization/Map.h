@@ -45,7 +45,7 @@ struct Army_visualization
     Army* reference;
     Map* map;
     void draw();
-    void callback(double x, double y);
+    void callback(double x, double y, int button, int action);
 };
 class Army_visualizator
 {
@@ -61,10 +61,10 @@ class Army_visualizator
         Army_visualization t(&simulation.player.army, map);
         armies.push_back(t);
     }
-    void callback(double x, double y)
+    void callback(double x, double y, int button, int action)
     {
         for (auto& i : armies)
-            i.callback(x, y);
+            i.callback(x, y, button, action);
     }
     void draw()
     {
@@ -77,8 +77,6 @@ class Map
 public:
     Map()
     {
-
-
 
     }
     Army_visualizator army_visualizator{this};
@@ -97,7 +95,7 @@ public:
     int centre_translate_y;
     int init();
     int draw();
-    void mouse_callback(int mx, int my);
+    void mouse_callback(int mx, int my, int button, int action);
     double previous_x, previous_y;
 private:
     void draw_map_sizing();

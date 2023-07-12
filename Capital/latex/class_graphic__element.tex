@@ -3,7 +3,7 @@
 Inheritance diagram for Graphic\+\_\+element\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=3.181818cm]{class_graphic__element}
+\includegraphics[height=6.779661cm]{class_graphic__element}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
@@ -12,20 +12,8 @@ Inheritance diagram for Graphic\+\_\+element\+:\begin{figure}[H]
 \mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
 virtual void {\bfseries mouse\+Callback} (double, double)
 \item 
-\mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
-virtual void {\bfseries init} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}\label{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}} 
-virtual void {\bfseries draw} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_ade720e789a8f135982482b18a3219d15}\label{class_graphic__element_ade720e789a8f135982482b18a3219d15}} 
-virtual void {\bfseries prepare\+\_\+shaders} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}\label{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}} 
-virtual void {\bfseries set\+\_\+properties} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
-virtual void {\bfseries mouse\+Callback} (double, double)
+\mbox{\Hypertarget{class_graphic__element_af7074792b1dae4633148d26152ccad6d}\label{class_graphic__element_af7074792b1dae4633148d26152ccad6d}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+callback} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
 virtual void {\bfseries init} ()
@@ -48,11 +36,14 @@ double {\bfseries size\+\_\+x}
 \mbox{\Hypertarget{class_graphic__element_ad03731a155fbad859da28054523d572c}\label{class_graphic__element_ad03731a155fbad859da28054523d572c}} 
 double {\bfseries size\+\_\+y}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}\label{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}} 
-void($\ast$ {\bfseries action} )()
+\mbox{\Hypertarget{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}\label{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}} 
+bool {\bfseries hovered\+\_\+on}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}\label{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
+\mbox{\Hypertarget{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}\label{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}} 
+bool {\bfseries active}
+\item 
+\mbox{\Hypertarget{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}\label{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}} 
+void($\ast$ {\bfseries action} )()
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
@@ -77,7 +68,6 @@ int {\bfseries y}
 \end{DoxyCompactItemize}
 
 
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-AMGUI/AMGUI.\+h\item 
-Graphics/Graphic\+\_\+element.\+h\end{DoxyCompactItemize}
+Source/\+Visualization/AMGUI.\+h\end{DoxyCompactItemize}

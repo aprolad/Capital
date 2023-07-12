@@ -1,0 +1,103 @@
+\hypertarget{_world_8h_source}{}\doxysection{World.\+h}
+\label{_world_8h_source}\index{Source/Visualization/World.h@{Source/Visualization/World.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../Header.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structtile}{tile}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{structtile}{tile}}()}
+\DoxyCodeLine{00010\ \ \ \ \ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ owner\ =\ 0;}
+\DoxyCodeLine{00012\ \ \ \ \ \}}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y;}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{float}\ size;}
+\DoxyCodeLine{00015\ \ \ \ \ glm::vec4\ color;}
+\DoxyCodeLine{00016\ \ \ \ \ GLuint\ VAO,\ VBO\ ;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{short}\ owner;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ init(\textcolor{keywordtype}{double}\ \_x,\ \textcolor{keywordtype}{double}\ \_y,\ \textcolor{keywordtype}{double}\ \_size)}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ VAO\ =\ 0;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ x\ =\ \_x;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ y\ =\ \_y;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ size\ =\ \_size;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ GLfloat\ vertices[]\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ x\ -\/\ size,\ y\ -\/\ size,\ 0.0f,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ x\ -\/\ size,\ y\ +\ size,\ 0.0f,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ x\ +\ size,\ y\ +\ size,\ 0.0f,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ x\ +\ size,\ y\ -\/\ size,\ 0.0f,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VAO);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VBO);}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ VBO);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ \textcolor{keyword}{sizeof}(vertices),\ vertices,\ GL\_STATIC\_DRAW);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ (GLvoid*)0);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_TRIANGLE\_FAN,\ 0,\ 4);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ choosen\_draw()}
+\DoxyCodeLine{00051\ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ draw\_line(x\ +\ size,\ y\ -\/\ size,\ x\ +\ size,\ y\ +\ size);}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ draw\_line(x\ -\/\ size,\ y\ -\/\ size,\ x\ -\/\ size,\ y\ +\ size);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ draw\_line(x\ -\/\ size,\ y\ +\ size,\ x\ +\ size,\ y\ +\ size);}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ draw\_line(x\ -\/\ size,\ y\ -\/\ size,\ x\ +\ size,\ y\ -\/\ size);}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{structtile}{\string~tile}}()}
+\DoxyCodeLine{00058\ \ \ \ \ \{}
+\DoxyCodeLine{00059\ \ \ \ \ glDeleteBuffers(1,\ \&VBO);}
+\DoxyCodeLine{00060\ \ \ \ \ glDeleteVertexArrays(1,\ \&VAO);}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_world}{World}}}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{class_world}{World}}()}
+\DoxyCodeLine{00067\ \ \ \ \ \{}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ init()}
+\DoxyCodeLine{00071\ \ \ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}World\ creation\ started"{}}<<std::endl;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ map.resize(100);}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y<100;\ y++)}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ map[y].resize(100);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x<100;\ x++)}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map[y][x]\ =\ \mbox{\hyperlink{structtile}{tile}}();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map[y][x].init(x\ *\ 50,\ y\ *\ 50,\ 25);}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map[y][x].color\ =\ glm::vec4(0,\ 0,\ 1,\ 1);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ angle\ =\ 0;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y<100;\ y++)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x<100;x++)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pow(x-\/50,2)\ +\ pow(y-\/50,2)\ <\ 1200)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map[y][x].color\ =\ glm::vec4(0,\ 0.5,\ 0.0,\ 1);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}World\ created"{}}<<std::endl;}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \ \ std::vector<std::vector<tile>>\ map;}
+\DoxyCodeLine{00096\ \ \ \ \ \mbox{\hyperlink{structtile}{tile}}*\ choosen\_tile;}
+\DoxyCodeLine{00097\ \};}
+
+\end{DoxyCode}

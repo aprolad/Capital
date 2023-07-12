@@ -9,6 +9,9 @@ Inheritance diagram for Dynamic\+\_\+text\+\_\+element\texorpdfstring{$<$}{<} T 
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{class_dynamic__text__element_ae4a7c6495aeecbe6f7904f951e33b0bf}\label{class_dynamic__text__element_ae4a7c6495aeecbe6f7904f951e33b0bf}} 
+std\+::string {\bfseries num\+\_\+to\+\_\+string} (double input)
+\item 
 \mbox{\Hypertarget{class_dynamic__text__element_a790517cb95e4b3d1d12e3112cee48e31}\label{class_dynamic__text__element_a790517cb95e4b3d1d12e3112cee48e31}} 
 \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\+\_\+text\+\_\+element}} $\ast$ {\bfseries set\+\_\+properties} (T bind, GLuint shader, GLuint font, int ax, int ay, std\+::string atext, std\+::string post, double text\+\_\+size=0.\+5)
 \item 
@@ -16,19 +19,9 @@ Inheritance diagram for Dynamic\+\_\+text\+\_\+element\texorpdfstring{$<$}{<} T 
 \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\+\_\+text\+\_\+element}} $\ast$ {\bfseries set\+\_\+properties} (std\+::string $\ast$text, GLuint shader, GLuint font, int ax, int ay, std\+::string atext, double text\+\_\+size=0.\+5)
 \item 
 void \mbox{\hyperlink{class_dynamic__text__element_acb8e0394a0c566ab3951d3f50bd7c406}{draw}} ()
-\item 
-\mbox{\Hypertarget{class_dynamic__text__element_a0dd050d552abe1d69db76c35e679dd49}\label{class_dynamic__text__element_a0dd050d552abe1d69db76c35e679dd49}} 
-\mbox{\hyperlink{class_dynamic__text__element}{Dynamic\+\_\+text\+\_\+element}} $\ast$ {\bfseries set\+\_\+properties} (T bind, GLuint shader, GLuint font, int ax, int ay, std\+::string atext, std\+::string post)
-\item 
-void \mbox{\hyperlink{class_dynamic__text__element_acb8e0394a0c566ab3951d3f50bd7c406}{draw}} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_text__element}{Text\+\_\+element}}}
 \begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{class_text__element_aeaa7e53b10f966b28927c313032b7235}\label{class_text__element_aeaa7e53b10f966b28927c313032b7235}} 
-\mbox{\hyperlink{class_text__element}{Text\+\_\+element}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay, std\+::string atext)
-\item 
-void \mbox{\hyperlink{class_text__element_aa739e38d1fb686c40706f16c92a99a57}{draw}} ()
 \item 
 \mbox{\Hypertarget{class_text__element_aeaa7e53b10f966b28927c313032b7235}\label{class_text__element_aeaa7e53b10f966b28927c313032b7235}} 
 \mbox{\hyperlink{class_text__element}{Text\+\_\+element}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay, std\+::string atext)
@@ -41,20 +34,8 @@ void \mbox{\hyperlink{class_text__element_aa739e38d1fb686c40706f16c92a99a57}{dra
 \mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
 virtual void {\bfseries mouse\+Callback} (double, double)
 \item 
-\mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
-virtual void {\bfseries init} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}\label{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}} 
-virtual void {\bfseries draw} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_ade720e789a8f135982482b18a3219d15}\label{class_graphic__element_ade720e789a8f135982482b18a3219d15}} 
-virtual void {\bfseries prepare\+\_\+shaders} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}\label{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}} 
-virtual void {\bfseries set\+\_\+properties} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
-virtual void {\bfseries mouse\+Callback} (double, double)
+\mbox{\Hypertarget{class_graphic__element_af7074792b1dae4633148d26152ccad6d}\label{class_graphic__element_af7074792b1dae4633148d26152ccad6d}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+callback} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
 virtual void {\bfseries init} ()
@@ -101,11 +82,14 @@ double {\bfseries size\+\_\+x}
 \mbox{\Hypertarget{class_graphic__element_ad03731a155fbad859da28054523d572c}\label{class_graphic__element_ad03731a155fbad859da28054523d572c}} 
 double {\bfseries size\+\_\+y}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}\label{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}} 
-void($\ast$ {\bfseries action} )()
+\mbox{\Hypertarget{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}\label{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}} 
+bool {\bfseries hovered\+\_\+on}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}\label{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
+\mbox{\Hypertarget{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}\label{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}} 
+bool {\bfseries active}
+\item 
+\mbox{\Hypertarget{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}\label{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}} 
+void($\ast$ {\bfseries action} )()
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 \doxysubsubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
@@ -135,18 +119,7 @@ int {\bfseries y}
 \mbox{\Hypertarget{class_dynamic__text__element_acb8e0394a0c566ab3951d3f50bd7c406}\label{class_dynamic__text__element_acb8e0394a0c566ab3951d3f50bd7c406}} 
 \index{Dynamic\_text\_element$<$ T $>$@{Dynamic\_text\_element$<$ T $>$}!draw@{draw}}
 \index{draw@{draw}!Dynamic\_text\_element$<$ T $>$@{Dynamic\_text\_element$<$ T $>$}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-void \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\+\_\+text\+\_\+element}}$<$ T $>$\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{class_text__element}{Text\+\_\+element}}.
-
-\mbox{\Hypertarget{class_dynamic__text__element_acb8e0394a0c566ab3951d3f50bd7c406}\label{class_dynamic__text__element_acb8e0394a0c566ab3951d3f50bd7c406}} 
-\index{Dynamic\_text\_element$<$ T $>$@{Dynamic\_text\_element$<$ T $>$}!draw@{draw}}
-\index{draw@{draw}!Dynamic\_text\_element$<$ T $>$@{Dynamic\_text\_element$<$ T $>$}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 void \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\+\_\+text\+\_\+element}}$<$ T $>$\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
@@ -156,7 +129,6 @@ Reimplemented from \mbox{\hyperlink{class_text__element}{Text\+\_\+element}}.
 
 
 
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-AMGUI/AMGUI.\+h\item 
-Graphics/Graphic\+\_\+element.\+h\end{DoxyCompactItemize}
+Source/\+Visualization/AMGUI.\+h\end{DoxyCompactItemize}

@@ -673,10 +673,23 @@ public:
 class Army
 {
 public:
+	double size{15};
 	double x, y;
-	void move_to()
+	double speed{ 1 };
+	double tx, ty;
+	void set_move_target(double _tx, double _ty)
 	{
-		std::cout << "duh" << std::endl;
+		tx = _tx; 
+		ty = _ty;
+	}
+	void move()
+	{
+		glm::vec2 dir_vec(tx - x, ty - y);
+		if (glm::length(dir_vec) < 1)
+			return;
+		dir_vec = glm::normalize(dir_vec);
+		x += dir_vec.x;
+		y += dir_vec.y;
 	}
 };
 class State
@@ -825,10 +838,10 @@ public:
 
 		GDP.private_consumption += abs(demography.money - before);
 	}
-	int date1;
+
 	void simulate(int date)
 	{
-		date1 = date;
+		army.move();
 
 		demography.calc(date);
 		double b = demography.money;

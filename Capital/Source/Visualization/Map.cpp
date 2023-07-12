@@ -82,18 +82,18 @@ int Map::draw()
         return 0;
 }
 
-void Map::mouse_callback(int mx, int my)
+void Map::mouse_callback(int mx, int my, int button, int action)
 {
 	double t_x = (mx - centre_translate_x) / size - x + 25;
     double t_y = (my - centre_translate_y) / size - y + 25;
 
 
-    army_visualizator.callback(t_x - 10, t_y - 10);
+    army_visualizator.callback(t_x - 10, t_y - 10, button, action);
 
 
     int x_tile = int(t_x) / 50;
 	int y_tile = int(t_y) / 50;
-    if (x_tile >= 0 && x_tile < 100 && y_tile >= 0 && y_tile < 100)
+    if (x_tile >= 0 && x_tile < 100 && y_tile >= 0 && y_tile < 100 && button == GLFW_MOUSE_BUTTON_LEFT)
     {
         simulation.world.choosen_tile = &simulation.world.map[y_tile][x_tile];
         if (simulation.world.map[y_tile][x_tile].owner == 2)
@@ -106,23 +106,32 @@ void Map::mouse_callback(int mx, int my)
 
 void Army_visualization::draw()
 {
-	glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 1, 0,0, 1);
+	glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 1, 0, 0, 1);
     draw_quad(reference->x, reference->y, 15);
+	glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 0, 0, 0, 1);
+	draw_line(reference->x-reference->size, reference->y-reference->size, reference->x+reference->size, reference->y+reference->size);
+	draw_line(reference->x+reference->size, reference->y-reference->size, reference->x-reference->size, reference->y+reference->size);
     if (choosen)
     {
 		glUniform4f(glGetUniformLocation(map->shaderProgram, "ourColor"), 1, 1, 1, 1);
-		draw_border(reference->x-15, reference->y-15, reference->x+15, reference->y+15 , 1);
+		draw_border(reference->x-15, reference->y-15, reference->x+15, reference->y+15, 1);
     }
 }
 
-void Army_visualization::callback(double x, double y)
+void Army_visualization::callback(double x, double y, int button, int action)
 {
-  //  std::cout << x << " " << y << std::endl;
-    if (is_click_in_square(x, y, reference->x, reference->y, 15))
+    if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
-        choosen = true;
-        reference->move_to();
+        if (is_click_in_square(x, y, reference->x, reference->y, 15))
+        {
+            choosen = true;
+        }
+        else
+            choosen = false;
     }
-    else
-        choosen = false;
+    else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+    {
+		if (choosen)
+		    reference->set_move_target(x-15, y-15);
+    }
 }

@@ -1,544 +1,589 @@
 \hypertarget{_a_m_g_u_i_8h_source}{}\doxysection{AMGUI.\+h}
-\label{_a_m_g_u_i_8h_source}\index{AMGUI/AMGUI.h@{AMGUI/AMGUI.h}}
+\label{_a_m_g_u_i_8h_source}\index{Source/Visualization/AMGUI.h@{Source/Visualization/AMGUI.h}}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}../Header.h"{}}}
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <glew.h>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <glfw3.h>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <glm/gtc/matrix\_transform.hpp>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <glm/gtc/type\_ptr.hpp>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <map>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <iomanip>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <fstream>}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <sstream>}}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <time.h>}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <chrono>}}
-\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <deque>}}
-\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <sstream>}}
-\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
-\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <cmath>}}
-\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include"{}../Game/Simulation.h"{}}}
-\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ PI\ 3.14159265358979323846}}
-\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
-\DoxyCodeLine{00024\ \{}
-\DoxyCodeLine{00025\ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{00026\ \ \ \ \ GLuint\ VBO,\ VAO;}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \ \ GLuint\ shaderProgram,\ fontShader;}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ x,\ y;}
-\DoxyCodeLine{00031\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{double}\ size\_x,\ size\_y;}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \ \ \ \ void\ (*action)\ ();}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double},\ \textcolor{keywordtype}{double})\ \{\};}
-\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ init()}
-\DoxyCodeLine{00038\ \ \ \ \ \{}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ GLfloat\ vertices[]\ =\ \{}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ size\_x,\ -\/size\_y,\ 0.0f,}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ size\_x,\ size\_y,\ 0.0f,}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ -\/size\_x,\ -\/size\_y,\ 0.0f,}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ -\/size\_x,\ size\_y,\ 0.0f}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}../Header.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include"{}../Simulation/Simulation.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00008\ \ \ \ \ GLuint\ VBO,\ VAO;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ GLuint\ shaderProgram,\ fontShader;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{int}\ x,\ y;}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{double}\ size\_x,\ size\_y;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ hovered\_on;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{bool}\ active;}
+\DoxyCodeLine{00017\ \ \ \ \ void\ (*action)\ ();}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double},\ \textcolor{keywordtype}{double})\ \{\};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ mouse\_move\_callback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00020\ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hovered\_on\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hovered\_on\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ init()}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ GLfloat\ vertices[]\ =\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ size\_x,\ -\/size\_y,\ 0.0f,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ size\_x,\ size\_y,\ 0.0f,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ -\/size\_x,\ -\/size\_y,\ 0.0f,}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ -\/size\_x,\ size\_y,\ 0.0f}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VAO);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VBO);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ VBO);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ \textcolor{keyword}{sizeof}(vertices),\ vertices,\ GL\_STATIC\_DRAW);}
 \DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VAO);}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VBO);}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ VBO);}
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ \textcolor{keyword}{sizeof}(vertices),\ vertices,\ GL\_STATIC\_DRAW);}
-\DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ (GLvoid*)0);}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ (GLvoid*)0);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw()\ \{\};}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ prepare\_shaders()}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
 \DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0);}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
-\DoxyCodeLine{00058\ \ \ \ \ \}}
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw()\ \{\};}
-\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ prepare\_shaders()}
-\DoxyCodeLine{00061\ \ \ \ \ \{}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ glm::mat4\ trans\ =\ glm::mat4(1);}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(x,\ y,\ 0.0f));}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ GLuint\ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_TRIANGLE\_STRIP,\ 0,\ 4);}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ \};}
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_properties()\ \{\};}
-\DoxyCodeLine{00075\ \};}
-\DoxyCodeLine{00076\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quad__button}{Quad\_button}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
-\DoxyCodeLine{00077\ \{}
-\DoxyCodeLine{00078\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00079\ \ \ \ \ std::string\ text;}
-\DoxyCodeLine{00080\ \ \ \ \ glm::vec3\ text\_color;}
-\DoxyCodeLine{00081\ \ \ \ \ glm::vec3\ button\_color;}
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{double}\ text\_size;}
-\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{class_quad__button}{Quad\_button}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,\ std::string\ atext,\ \textcolor{keywordtype}{double}\ text\_size\ =\ 1)}
-\DoxyCodeLine{00084\ \ \ \ \ \{}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ this-\/>text\_size\ =\ text\_size;}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ x\ =\ ax;}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ y\ =\ ay;}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ this-\/>size\_x\ =\ sx;}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ this-\/>size\_y\ =\ sy;}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ text\ =\ atext;}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ text\_color\ =\ \{\ 1.0,\ 0.0f,\ 0.0f\ \};}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ button\_color\ =\ \{\ 0.0f,\ 0.0f,\ 0.0f\ \};}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ init();}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ glm::mat4\ trans\ =\ glm::mat4(1);}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(x,\ y,\ 0.0f));}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ GLuint\ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_TRIANGLE\_STRIP,\ 0,\ 4);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \};}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ set\_properties()\ \{\};}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quad__button}{Quad\_button}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
+\DoxyCodeLine{00070\ \{}
+\DoxyCodeLine{00071\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00072\ \ \ \ \ std::string\ text;}
+\DoxyCodeLine{00073\ \ \ \ \ glm::vec3\ text\_color;}
+\DoxyCodeLine{00074\ \ \ \ \ glm::vec3\ button\_color;}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{double}\ text\_size;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{class_quad__button}{Quad\_button}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,\ std::string\ atext,\ \textcolor{keywordtype}{double}\ text\_size\ =\ 1)}
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ this-\/>text\_size\ =\ text\_size;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ this-\/>size\_x\ =\ sx;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ this-\/>size\_y\ =\ sy;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ text\ =\ atext;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ text\_color\ =\ \{\ 1.0,\ 0.0f,\ 0.0f\ \};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ button\_color\ =\ \{\ 0.0f,\ 0.0f,\ 0.0f\ \};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ init();}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00093\ \ \ \ \ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (action\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action();}
 \DoxyCodeLine{00097\ \ \ \ \ \}}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ mouse\_move\_callback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
 \DoxyCodeLine{00099\ \ \ \ \ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (action\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action();}
-\DoxyCodeLine{00103\ \ \ \ \ \}}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
-\DoxyCodeLine{00106\ \ \ \ \ \{}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ button\_color.x,\ button\_color.y,\ button\_color.z,\ 1);}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ prepare\_shaders();}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text,\ x\ -\/\ size\_x\ *\ 0.9,\ y\ -\/\ 20,\ text\_size,\ text\_color);}
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ \ \ \ \ \}}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \};}
-\DoxyCodeLine{00115\ }
-\DoxyCodeLine{00116\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_text__element}{Text\_element}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
-\DoxyCodeLine{00117\ \{}
-\DoxyCodeLine{00118\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{int}\ size;}
-\DoxyCodeLine{00120\ \ \ \ \ std::string\ text;}
-\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{class_text__element}{Text\_element}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ std::string\ atext)}
-\DoxyCodeLine{00122\ \ \ \ \ \{}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ x\ =\ ax;}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ y\ =\ ay;}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ size\ =\ 100;}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ text\ =\ atext;}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
-\DoxyCodeLine{00130\ \ \ \ \ \}}
-\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
-\DoxyCodeLine{00132\ \ \ \ \ \{}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ prepare\_shaders();}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text,\ x\ -\/\ 100\ *\ 0.85,\ y,\ 150\ /\ 150,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00135\ \ \ \ \ \}}
-\DoxyCodeLine{00136\ \};}
-\DoxyCodeLine{00137\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{00138\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_text__element}{Text\_element}}}
-\DoxyCodeLine{00139\ \{}
-\DoxyCodeLine{00140\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00141\ \ \ \ \ T\ binded\_value;}
-\DoxyCodeLine{00142\ \ \ \ \ std::string\ postfix;}
-\DoxyCodeLine{00143\ \ \ \ \ std::string*\ ready\_text;}
-\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{double}\ text\_size;}
-\DoxyCodeLine{00145\ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element}}*\ set\_properties(T\ bind,\ GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ std::string\ atext,\ std::string\ post,\ \textcolor{keywordtype}{double}\ text\_size\ =\ 0.5)}
-\DoxyCodeLine{00146\ \ \ \ \ \{}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ this-\/>text\_size\ =\ text\_size;}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ postfix\ =\ post;}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ binded\_value\ =\ bind;}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ x\ =\ ax;}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ y\ =\ ay;}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ size\ =\ 100;}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ ready\_text\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ text\ =\ atext;}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
-\DoxyCodeLine{00158\ \ \ \ \ \}}
-\DoxyCodeLine{00159\ }
-\DoxyCodeLine{00160\ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element}}*\ set\_properties(std::string*\ text,\ GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ std::string\ atext,\ \textcolor{keywordtype}{double}\ text\_size\ =\ 0.5)}
-\DoxyCodeLine{00161\ \ \ \ \ \{}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ this-\/>text\_size\ =\ text\_size;}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ ready\_text\ =\ text;}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ x\ =\ ax;}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ y\ =\ ay;}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ size\ =\ 100;}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ this-\/>text\ =\ atext;}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
-\DoxyCodeLine{00171\ \ \ \ \ \}}
-\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
-\DoxyCodeLine{00173\ \ \ \ \ \{}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ prepare\_shaders();}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ready\_text\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text\ +\ *ready\_text,\ x\ -\/\ 100\ *\ 0.85,\ y,\ text\_size,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ std::stringstream\ stream;}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ std::fixed\ <<\ std::setprecision(0)\ <<\ *binded\_value;}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ s\ =\ stream.str();}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text\ +\ s\ +\ postfix,\ x\ -\/\ 100\ *\ 0.85,\ y,\ text\_size,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00186\ \ \ \ \ \}}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ }
-\DoxyCodeLine{00189\ \};}
-\DoxyCodeLine{00190\ }
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_information__panel}{Information\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
-\DoxyCodeLine{00193\ \{}
-\DoxyCodeLine{00194\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00195\ \ \ \ \ std::string\ text;}
-\DoxyCodeLine{00196\ \ \ \ \ std::vector<Text\_element*>\ text\_elements;}
-\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_text\_element(std::string\ atext,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)}
-\DoxyCodeLine{00198\ \ \ \ \ \{}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_text__element}{Text\_element}}*\ t\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_text__element}{Text\_element}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x,\ y,\ atext);}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ t-\/>init();}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ text\_elements.push\_back(t);}
-\DoxyCodeLine{00202\ }
-\DoxyCodeLine{00203\ \ \ \ \ \}}
-\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_dynamic\_text\_element(std::string\ atext,\ std::string\ postfix,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ T\ bind)}
-\DoxyCodeLine{00206\ \ \ \ \ \{}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<T>}}*\ t\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<T>}}())-\/>set\_properties(bind,\ shaderProgram,\ fontShader,\ x,\ y,\ atext,\ postfix);}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ t-\/>init();}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ text\_elements.push\_back(t);}
-\DoxyCodeLine{00210\ }
-\DoxyCodeLine{00211\ \ \ \ \ \}}
-\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_dynamic\_text\_element(std::string\ atext,\ std::string*\ text,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)}
-\DoxyCodeLine{00213\ \ \ \ \ \{}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<std::string*>}}*\ t\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<std::string*>}}())-\/>set\_properties(text,\ shaderProgram,\ fontShader,\ x,\ y,\ atext);}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ t-\/>init();}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ text\_elements.push\_back(t);}
-\DoxyCodeLine{00217\ }
-\DoxyCodeLine{00218\ \ \ \ \ \}}
-\DoxyCodeLine{00219\ \ \ \ \ \mbox{\hyperlink{class_information__panel}{Information\_panel}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx\ =\ 220,\ \textcolor{keywordtype}{int}\ sy\ =\ 350)}
-\DoxyCodeLine{00220\ \ \ \ \ \{}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ x\ =\ ax;}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ y\ =\ ay;}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ size\_x\ =\ sx;}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ size\_y\ =\ sy;}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ init();}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
-\DoxyCodeLine{00229\ \ \ \ \ \}}
-\DoxyCodeLine{00230\ }
-\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
-\DoxyCodeLine{00232\ \ \ \ \ \{}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ prepare\_shaders();}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hovered\_on\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hovered\_on\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00110\ \ \ \ \ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),0.5,\ 0.5,\ 1,\ 1);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (hovered\_on\ ==\ \textcolor{keyword}{true})}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),0.5,\ 0.5,\ 0.5,\ 1);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ button\_color.x,\ button\_color.y,\ button\_color.z,\ 1);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ prepare\_shaders();}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text,\ x\ -\/\ size\_x\ *\ 0.9,\ y\ -\/\ 20,\ text\_size,\ text\_color);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_text__element}{Text\_element}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
+\DoxyCodeLine{00126\ \{}
+\DoxyCodeLine{00127\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{int}\ size;}
+\DoxyCodeLine{00129\ \ \ \ \ std::string\ text;}
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{class_text__element}{Text\_element}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ std::string\ atext)}
+\DoxyCodeLine{00131\ \ \ \ \ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ size\ =\ 100;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ text\ =\ atext;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00141\ \ \ \ \ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ prepare\_shaders();}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text,\ x\ -\/\ 100\ *\ 0.85,\ y,\ 150\ /\ 150,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \};}
+\DoxyCodeLine{00146\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00147\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_text__element}{Text\_element}}}
+\DoxyCodeLine{00148\ \{}
+\DoxyCodeLine{00149\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00150\ \ \ \ \ std::string\ num\_to\_string(\textcolor{keywordtype}{double}\ input)}
+\DoxyCodeLine{00151\ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ std::vector<std::string>\ unit\_of\_measure\{\ \textcolor{stringliteral}{"{}"{}},\textcolor{stringliteral}{"{}Kg"{}},\ \textcolor{stringliteral}{"{}Denarius"{}},\ \textcolor{stringliteral}{"{}Km"{}},\ \textcolor{stringliteral}{"{}Square\ km"{}}\ \};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ std::vector<std::string>\ exponent\_string\{\ \textcolor{stringliteral}{"{}"{}},\textcolor{stringliteral}{"{}Thousands"{}},\textcolor{stringliteral}{"{}Millions"{}},\ \textcolor{stringliteral}{"{}Billions"{}},\ \textcolor{stringliteral}{"{}Trillions"{}},\ \textcolor{stringliteral}{"{}Quadrillions"{}}\ \};}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ exp\ =\ 0;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ p\ =\ input;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keywordtype}{int}(log10(p))\ >\ 2\ and\ p\ !=\ 0)}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ exp++;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ p\ /=\ 1e3;}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ stream\ <<\ std::fixed\ <<\ std::setprecision(3)\ <<\ p;}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stream.str()\ +\ \textcolor{stringliteral}{"{}\ "{}}\ +\ exponent\_string[exp]\ +\ \textcolor{stringliteral}{"{}\ "{}}\ +\ unit\_of\_measure[0];}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ \ \ \ \ T\ binded\_value;}
+\DoxyCodeLine{00166\ \ \ \ \ std::string\ postfix;}
+\DoxyCodeLine{00167\ \ \ \ \ std::string*\ ready\_text;}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{double}\ text\_size;}
+\DoxyCodeLine{00169\ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element}}*\ set\_properties(T\ bind,\ GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ std::string\ atext,\ std::string\ post,\ \textcolor{keywordtype}{double}\ text\_size\ =\ 0.5)}
+\DoxyCodeLine{00170\ \ \ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ this-\/>text\_size\ =\ text\_size;}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ postfix\ =\ post;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ binded\_value\ =\ bind;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ size\ =\ 100;}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ ready\_text\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ text\ =\ atext;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element}}*\ set\_properties(std::string*\ text,\ GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ std::string\ atext,\ \textcolor{keywordtype}{double}\ text\_size\ =\ 0.5)}
+\DoxyCodeLine{00185\ \ \ \ \ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ this-\/>text\_size\ =\ text\_size;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ ready\_text\ =\ text;}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ size\ =\ 100;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ this-\/>text\ =\ atext;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00195\ \ \ \ \ \}}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00197\ \ \ \ \ \{}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ prepare\_shaders();}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ready\_text\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text\ +\ *ready\_text,\ x\ -\/\ 100\ *\ 0.85,\ y,\ text\_size,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ std::fixed\ <<\ std::setprecision(3)\ <<\ *binded\_value;}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ s\ =\ stream.str();}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ text\ +\ s\ +\ postfix,\ x\ -\/\ 100\ *\ 0.85,\ y,\ text\_size,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \};}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_information__panel}{Information\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
+\DoxyCodeLine{00217\ \{}
+\DoxyCodeLine{00218\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00219\ \ \ \ \ std::string\ text;}
+\DoxyCodeLine{00220\ \ \ \ \ std::vector<Text\_element*>\ text\_elements;}
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_text\_element(std::string\ atext,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)}
+\DoxyCodeLine{00222\ \ \ \ \ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_text__element}{Text\_element}}*\ t\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_text__element}{Text\_element}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x,\ y,\ atext);}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ t-\/>init();}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ text\_elements.push\_back(t);}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_dynamic\_text\_element(std::string\ atext,\ std::string\ postfix,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ T\ bind)}
+\DoxyCodeLine{00230\ \ \ \ \ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<T>}}*\ t\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<T>}}())-\/>set\_properties(bind,\ shaderProgram,\ fontShader,\ x,\ y,\ atext,\ postfix);}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ t-\/>init();}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ text\_elements.push\_back(t);}
 \DoxyCodeLine{00234\ }
-\DoxyCodeLine{00235\ }
-\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ :\ text\_elements)}
-\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ i-\/>draw();}
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ \ \ \ \ \}}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_dynamic\_text\_element(std::string\ atext,\ std::string*\ text,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)}
+\DoxyCodeLine{00237\ \ \ \ \ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<std::string*>}}*\ t\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_dynamic__text__element}{Dynamic\_text\_element<std::string*>}}())-\/>set\_properties(text,\ shaderProgram,\ fontShader,\ x,\ y,\ atext);}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ t-\/>init();}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ text\_elements.push\_back(t);}
 \DoxyCodeLine{00241\ }
-\DoxyCodeLine{00242\ \};}
-\DoxyCodeLine{00243\ }
-\DoxyCodeLine{00244\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classabs__chart}{abs\_chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
-\DoxyCodeLine{00245\ \{}
-\DoxyCodeLine{00246\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00247\ \ \ \ \ \mbox{\hyperlink{classabs__chart}{abs\_chart}}(\textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ siz)}
-\DoxyCodeLine{00248\ \ \ \ \ \{}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ data.resize(len);}
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ maxHistory.resize(1000);}
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ sizing\ =\ siz;}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ length\ =\ 1200;}
+\DoxyCodeLine{00242\ \ \ \ \ \}}
+\DoxyCodeLine{00243\ \ \ \ \ \mbox{\hyperlink{class_information__panel}{Information\_panel}}*\ set\_properties(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx\ =\ 220,\ \textcolor{keywordtype}{int}\ sy\ =\ 350)}
+\DoxyCodeLine{00244\ \ \ \ \ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ size\_x\ =\ sx;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ size\_y\ =\ sy;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ init();}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
 \DoxyCodeLine{00253\ \ \ \ \ \}}
-\DoxyCodeLine{00254\ \ \ \ \ GLuint\ VAO1,\ VBO1;}
-\DoxyCodeLine{00255\ \ \ \ \ std::vector<double>\ data;}
-\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordtype}{int}\ sizing;}
-\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordtype}{double}\ length;}
-\DoxyCodeLine{00258\ \ \ \ \ std::deque\ <double>\ maxHistory;}
-\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_properties(GLuint\ shader,\ GLuint\ font)}
-\DoxyCodeLine{00260\ \ \ \ \ \{}
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VAO1);}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VBO1);}
-\DoxyCodeLine{00265\ \ \ \ \ \}}
-\DoxyCodeLine{00266\ }
-\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(std::vector<double>\ \_data)}
-\DoxyCodeLine{00268\ \ \ \ \ \{}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ data\ =\ \_data;}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ min\ =\ std::min\_element(std::begin(data),\ std::end(data));}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ max\ =\ std::max\_element(std::begin(data),\ std::end(data));}
-\DoxyCodeLine{00272\ }
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ maxHistory.push\_front(*max);}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ maxHistory.pop\_back();}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ maxHistoryT\ =\ 0;}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 100;\ i++)}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ maxHistoryT\ +=\ maxHistory[i];}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ range\ =\ (*max\ -\/\ 0)\ +\ 1;}
-\DoxyCodeLine{00279\ }
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ glm::mat4\ trans;}
-\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(600,\ 350,\ 0.0f));}
-\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ GLuint\ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ dtr\ =\ 0;}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ GLfloat*\ vertices\ =\ \textcolor{keyword}{new}\ GLfloat[sizing\ *\ 3\ +\ 3];}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ sizing\ *\ 3;\ i\ +=\ 3)}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ vertices[i]\ =\ dtr\ *\ (length\ /\ sizing);}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ vertices[i\ +\ 1]\ =\ (data[dtr]\ /\ (maxHistoryT\ /\ 100))\ *\ 400;}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ vertices[i\ +\ 2]\ =\ 0;}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ dtr++;}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00294\ }
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO1);}
-\DoxyCodeLine{00296\ }
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ VBO1);}
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ \textcolor{keyword}{sizeof}(GLfloat)\ *\ sizing\ *\ 3,\ vertices,\ GL\_DYNAMIC\_DRAW);}
-\DoxyCodeLine{00299\ }
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ (GLvoid*)0);}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
-\DoxyCodeLine{00302\ }
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0);}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
-\DoxyCodeLine{00305\ }
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO1);}
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_LINE\_STRIP,\ 0,\ sizing);}
-\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
-\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]\ vertices;}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ trans\ =\ glm::mat4(1);}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(0,\ 0,\ 0.0f));}
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
-\DoxyCodeLine{00315\ }
-\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ draw\_line(600,\ 350,\ 1900,\ 350);}
-\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ draw\_line(600,\ 350,\ 600,\ 780);}
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ str\ =\ str\ +\ std::to\_string(\textcolor{keywordtype}{int}(*std::max\_element(std::begin(data),\ std::end(data))));}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 540,\ 750,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00321\ }
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ draw\_scale();}
-\DoxyCodeLine{00323\ \ \ \ \ \}}
-\DoxyCodeLine{00324\ }
-\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw\_scale()\ \{\}}
-\DoxyCodeLine{00326\ \};}
-\DoxyCodeLine{00327\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_chart}{Chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classabs__chart}{abs\_chart}}}
-\DoxyCodeLine{00328\ \{}
-\DoxyCodeLine{00329\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00330\ \ \ \ \ \mbox{\hyperlink{class_chart}{Chart}}(\textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ siz)\ :\ \mbox{\hyperlink{classabs__chart}{abs\_chart}}(len,\ siz)\ \{\}}
-\DoxyCodeLine{00331\ }
-\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_scale()}
-\DoxyCodeLine{00333\ \ \ \ \ \{}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ str\ =\ std::to\_string(\textcolor{keywordtype}{int}(sizing));}
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 1500,\ 280,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00337\ \ \ \ \ \}}
-\DoxyCodeLine{00338\ \};}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00256\ \ \ \ \ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ prepare\_shaders();}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ i\ :\ text\_elements)}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ i-\/>draw();}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00264\ \ \ \ \ \}}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \};}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_chart}{Chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
+\DoxyCodeLine{00269\ \{}
+\DoxyCodeLine{00270\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(std::vector<double>\ \_data);}
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_properties(GLuint\ shader,\ GLuint\ font);}
+\DoxyCodeLine{00273\ \ \ \ \ GLuint\ VAO,\ VBO;}
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keywordtype}{double}\ x,\ y;}
+\DoxyCodeLine{00275\ \};}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_linear__chart}{Linear\_chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_chart}{Chart}}}
+\DoxyCodeLine{00279\ \{}
+\DoxyCodeLine{00280\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00281\ \ \ \ \ \mbox{\hyperlink{class_linear__chart}{Linear\_chart}}(\textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ siz)}
+\DoxyCodeLine{00282\ \ \ \ \ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ data.resize(len);}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ maxHistory.resize(1000);}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ sizing\ =\ siz;}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ length\ =\ 1200;}
+\DoxyCodeLine{00287\ \ \ \ \ \}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ std::vector<double>\ data;}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordtype}{int}\ sizing;}
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordtype}{double}\ length;}
+\DoxyCodeLine{00292\ \ \ \ \ std::deque\ <double>\ maxHistory;}
+\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_properties(GLuint\ shader,\ GLuint\ font)}
+\DoxyCodeLine{00294\ \ \ \ \ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VAO);}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VBO);}
+\DoxyCodeLine{00299\ \ \ \ \ \}}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(std::vector<double>\ \_data)}
+\DoxyCodeLine{00302\ \ \ \ \ \{}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ data\ =\ \_data;}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ min\ =\ std::min\_element(std::begin(data),\ std::end(data));}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ max\ =\ std::max\_element(std::begin(data),\ std::end(data));}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ maxHistory.push\_front(*max);}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ maxHistory.pop\_back();}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ maxHistoryT\ =\ 0;}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 100;\ i++)}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ maxHistoryT\ +=\ maxHistory[i];}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ range\ =\ (*max\ -\/\ 0)\ +\ 1;}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ glm::mat4\ trans;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(600,\ 350,\ 0.0f));}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ GLuint\ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ dtr\ =\ 0;}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ GLfloat*\ vertices\ =\ \textcolor{keyword}{new}\ GLfloat[sizing\ *\ 3\ +\ 3];}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ sizing\ *\ 3;\ i\ +=\ 3)}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ vertices[i]\ =\ dtr\ *\ (length\ /\ sizing);}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ vertices[i\ +\ 1]\ =\ (data[dtr]\ /\ (maxHistoryT\ /\ 100))\ *\ 400;}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ vertices[i\ +\ 2]\ =\ 0;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ dtr++;}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ VBO);}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ \textcolor{keyword}{sizeof}(GLfloat)\ *\ sizing\ *\ 3,\ vertices,\ GL\_DYNAMIC\_DRAW);}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ (GLvoid*)0);}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0);}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
 \DoxyCodeLine{00339\ }
-\DoxyCodeLine{00340\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classage_chart}{ageChart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classabs__chart}{abs\_chart}}}
-\DoxyCodeLine{00341\ \{}
-\DoxyCodeLine{00342\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00343\ \ \ \ \ \mbox{\hyperlink{classage_chart}{ageChart}}(\textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ siz)\ :\ \mbox{\hyperlink{classabs__chart}{abs\_chart}}(len,\ siz)\ \{\}}
-\DoxyCodeLine{00344\ }
-\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_scale()}
-\DoxyCodeLine{00346\ \ \ \ \ \{}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 11;\ i++)}
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ str\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ str\ =\ str\ +\ std::to\_string(i\ *\ 10);}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 600\ +\ i\ *\ 120,\ 330,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00354\ \ \ \ \ \}}
-\DoxyCodeLine{00355\ \};}
-\DoxyCodeLine{00356\ }
-\DoxyCodeLine{00357\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pie__chart}{Pie\_chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_graphic__element}{Graphic\_element}}}
-\DoxyCodeLine{00358\ \{}
-\DoxyCodeLine{00359\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00360\ \ \ \ \ std::vector<double>\ elements\_of\_chart;}
-\DoxyCodeLine{00361\ \ \ \ \ \mbox{\hyperlink{class_pie__chart}{Pie\_chart}}(GLuint\ shader,\ GLuint\ font)}
-\DoxyCodeLine{00362\ \ \ \ \ \{}
-\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&vbo);}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&vao);}
-\DoxyCodeLine{00367\ \ \ \ \ \}}
-\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_properties(GLuint\ shader,\ GLuint\ font)}
-\DoxyCodeLine{00369\ \ \ \ \ \{}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{comment}{//shaderProgram\ =\ shader;}}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{comment}{//fontShader\ =\ font;}}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \textcolor{comment}{//glGenVertexArrays(1,\ \&VAO1);}}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{comment}{//glGenBuffers(1,\ \&VBO1);}}
-\DoxyCodeLine{00374\ \ \ \ \ \}}
-\DoxyCodeLine{00375\ \ \ \ \ GLuint\ vao,\ vbo;}
-\DoxyCodeLine{00376\ \ \ \ \ std::vector<GLfloat>\ shape;}
-\DoxyCodeLine{00377\ }
-\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_slice(GLfloat\ x,\ GLfloat\ y,\ \textcolor{keywordtype}{double}\ radius,\ \textcolor{keywordtype}{double}\ start\_angle,\ \textcolor{keywordtype}{double}\ end\_angle,\ std::vector<float>\ color)\ \{}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ std::vector\ <GLfloat>\ shp;}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ num\_segments\ =\ 2000;}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ theta\ =\ (end\_angle\ -\/\ start\_angle)\ /\ \textcolor{keywordtype}{double}(num\_segments\ -\/\ 1);}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tangetial\_factor\ =\ tanf(theta);}
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ radial\_factor\ =\ cosf(theta);}
-\DoxyCodeLine{00384\ }
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ x1\ =\ radius\ *\ cosf(start\_angle);}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ y1\ =\ radius\ *\ sinf(start\_angle);}
-\DoxyCodeLine{00387\ }
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ shp.push\_back(x);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ shp.push\_back(y);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ shp.push\_back(0);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
-\DoxyCodeLine{00391\ }
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <=\ num\_segments;\ i++)\ \{}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ shp.push\_back(x\ +\ x1);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ shp.push\_back(y\ +\ y1);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ shp.push\_back(0);}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ GLfloat\ tx\ =\ -\/y1;}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ GLfloat\ ty\ =\ x1;}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ x1\ +=\ tx\ *\ tangetial\_factor;}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ +=\ ty\ *\ tangetial\_factor;}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ x1\ *=\ radial\_factor;}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ *=\ radial\_factor;}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00404\ }
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&vao);}
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ glBindVertexArray(vao);}
-\DoxyCodeLine{00407\ }
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&vbo);}
-\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ vbo);}
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ shp.size()\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ shp.data(),\ GL\_DYNAMIC\_DRAW);}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ 0);}
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
-\DoxyCodeLine{00413\ }
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ glBindVertexArray(vao);}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ color[0]/255,\ color[1]/255,\ color[2]/255,\ color[3]/255);}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_TRIANGLE\_FAN,\ 0,\ shp.size()\ /\ 3);}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0,\ 0,\ 0,\ 1);}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ glDeleteBuffers(1,\ \&vbo);}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ glDeleteVertexArrays(1,\ \&vao);}
-\DoxyCodeLine{00420\ }
-\DoxyCodeLine{00421\ \ \ \ \ \}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_LINE\_STRIP,\ 0,\ sizing);}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ glBindVertexArray(0);}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]\ vertices;}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ trans\ =\ glm::mat4(1);}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(0,\ 0,\ 0.0f));}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ draw\_line(600,\ 350,\ 1900,\ 350);}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ draw\_line(600,\ 350,\ 600,\ 780);}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ str\ =\ str\ +\ std::to\_string(\textcolor{keywordtype}{int}(*std::max\_element(std::begin(data),\ std::end(data))));}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 540,\ 750,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ draw\_scale();}
+\DoxyCodeLine{00357\ \ \ \ \ \}}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw\_scale()\ \{\}}
+\DoxyCodeLine{00360\ \};}
+\DoxyCodeLine{00361\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_g_d_p__chart}{GDP\_chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_linear__chart}{Linear\_chart}}}
+\DoxyCodeLine{00362\ \{}
+\DoxyCodeLine{00363\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00364\ \ \ \ \ \mbox{\hyperlink{class_g_d_p__chart}{GDP\_chart}}(\textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ siz)\ :\ \mbox{\hyperlink{class_linear__chart}{Linear\_chart}}(len,\ siz)\ \{\}}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_scale()}
+\DoxyCodeLine{00367\ \ \ \ \ \{}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ str\ =\ std::to\_string(\textcolor{keywordtype}{int}(sizing));}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 1500,\ 280,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00371\ \ \ \ \ \}}
+\DoxyCodeLine{00372\ \};}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_age__chart}{Age\_chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \ \mbox{\hyperlink{class_linear__chart}{Linear\_chart}}}
+\DoxyCodeLine{00375\ \{}
+\DoxyCodeLine{00376\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00377\ \ \ \ \ \mbox{\hyperlink{class_age__chart}{Age\_chart}}(\textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{int}\ siz)\ :\ \mbox{\hyperlink{class_linear__chart}{Linear\_chart}}(len,\ siz)\ \{\}}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_scale()}
+\DoxyCodeLine{00380\ \ \ \ \ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 11;\ i++)}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ str\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ str\ =\ str\ +\ std::to\_string(i\ *\ 10);}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 600\ +\ i\ *\ 120,\ 330,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00388\ \ \ \ \ \}}
+\DoxyCodeLine{00389\ \};}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pie__chart}{Pie\_chart}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_chart}{Chart}}}
+\DoxyCodeLine{00392\ \{}
+\DoxyCodeLine{00393\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00394\ \ \ \ \ std::vector<double>\ elements\_of\_chart;}
+\DoxyCodeLine{00395\ \ \ \ \ \mbox{\hyperlink{class_pie__chart}{Pie\_chart}}(GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{double}\ \_x,\ \textcolor{keywordtype}{double}\ \_y)}
+\DoxyCodeLine{00396\ \ \ \ \ \{}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ x\ =\ \_x;}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ y\ =\ \_y;}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VBO);}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VAO);}
+\DoxyCodeLine{00403\ \ \ \ \ \}}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_properties(GLuint\ shader,\ GLuint\ font)}
+\DoxyCodeLine{00405\ \ \ \ \ \{}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \textcolor{comment}{//shaderProgram\ =\ shader;}}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \textcolor{comment}{//fontShader\ =\ font;}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{comment}{//glGenVertexArrays(1,\ \&VAO1);}}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \textcolor{comment}{//glGenBuffers(1,\ \&VBO1);}}
+\DoxyCodeLine{00410\ \ \ \ \ \}}
+\DoxyCodeLine{00411\ \ \ \ \ std::vector<GLfloat>\ shape;}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_slice(GLfloat\ x,\ GLfloat\ y,\ \textcolor{keywordtype}{double}\ radius,\ \textcolor{keywordtype}{double}\ start\_angle,\ \textcolor{keywordtype}{double}\ end\_angle,\ std::vector<float>\ color)\ \{}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ std::vector\ <GLfloat>\ shp;}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ num\_segments\ =\ 4000;}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ theta\ =\ (end\_angle\ -\/\ start\_angle)\ /\ \textcolor{keywordtype}{double}(num\_segments\ -\/\ 1);}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tangetial\_factor\ =\ tanf(theta);}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ radial\_factor\ =\ cosf(theta);}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ x1\ =\ radius\ *\ cosf(start\_angle);}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ y1\ =\ radius\ *\ sinf(start\_angle);}
 \DoxyCodeLine{00422\ }
-\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(std::vector<Profession>\ data)}
-\DoxyCodeLine{00424\ \ \ \ \ \{}
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ current\_angle\ =\ 0;}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ radius\ =\ 260;}
-\DoxyCodeLine{00427\ \ \ \ \ }
-\DoxyCodeLine{00428\ }
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00430\ }
-\DoxyCodeLine{00431\ }
-\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ glm::mat4\ trans;}
-\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(700,\ 900,\ 0.0f));}
-\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ GLuint\ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
-\DoxyCodeLine{00436\ }
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ start\_angle\ =\ 0.0f,\ end\_angle\ =\ 0.0f;}
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ data.size();\ i++)\ \{}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ end\_angle\ =\ start\_angle\ +\ data[i].percent\_of\_workforce\ *\ 2.0f\ *\ PI;}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ draw\_slice(0,\ 0,\ radius,\ start\_angle,\ end\_angle,\ data[i].color);}
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ start\_angle\ =\ end\_angle;}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00443\ }
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ trans\ =\ glm::mat4(1);}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(0,\ 0,\ 0.0f));}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
-\DoxyCodeLine{00449\ }
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ data.size();\ i++)}
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ data[i].name,\ 550,\ 530\ +\ i\ *\ 25,\ 0.6,\ glm::vec3(0.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ data[i].color[0]\ /\ 255,\ data[i].color[1]\ /\ 255,\ data[i].color[2]\ /\ 255,\ data[i].color[3]\ /\ 255);}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ draw\_quad(533,\ 540\ +\ i*\ 25,\ 10);}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),0,\ 0,\ 0,1);}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00459\ }
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00461\ }
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \textcolor{comment}{//draw\_line(600,\ 350,\ 1900,\ 350);}}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \textcolor{comment}{//draw\_line(600,\ 350,\ 600,\ 780);}}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \textcolor{comment}{//str\ =\ str\ +\ std::to\_string(int(*std::max\_element(std::begin(data),\ std::end(data))));}}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 540,\ 750,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
-\DoxyCodeLine{00467\ }
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \textcolor{comment}{//draw\_scale();}}
-\DoxyCodeLine{00469\ \ \ \ \ \}}
-\DoxyCodeLine{00470\ }
-\DoxyCodeLine{00471\ \ \ \ \ \textcolor{comment}{//virtual\ void\ draw\_scale()\ \{\}}}
-\DoxyCodeLine{00472\ \};}
-\DoxyCodeLine{00473\ }
-\DoxyCodeLine{00474\ }
-\DoxyCodeLine{00475\ }
-\DoxyCodeLine{00476\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}}
-\DoxyCodeLine{00477\ \{}
-\DoxyCodeLine{00478\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00479\ \ \ \ \ std::vector<Multiple\_choice\_panel*>*\ top\_menus;}
-\DoxyCodeLine{00480\ \ \ \ \ std::vector<Multiple\_choice\_panel*>\ root\_menus;}
-\DoxyCodeLine{00481\ \ \ \ \ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}*\ set\_properties(std::vector<Multiple\_choice\_panel*>*\ atop\_menus,\ GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,\ std::string\ atext)}
-\DoxyCodeLine{00482\ \ \ \ \ \{}
-\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
-\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
-\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ x\ =\ ax;}
-\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ y\ =\ ay;}
-\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ size\_x\ =\ sx;}
-\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ size\_y\ =\ sy;}
-\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ text\ =\ atext;}
-\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ top\_menus\ =\ atop\_menus;}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ base\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x,\ y,\ size\_x,\ size\_y,\ text);}
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
-\DoxyCodeLine{00493\ \ \ \ \ \}}
-\DoxyCodeLine{00494\ \ \ \ \ \mbox{\hyperlink{class_quad__button}{Quad\_button}}*\ base;}
-\DoxyCodeLine{00495\ \ \ \ \ \textcolor{keywordtype}{bool}\ active;}
-\DoxyCodeLine{00496\ \ \ \ \ \mbox{\hyperlink{class_information__panel}{Information\_panel}}*\ panel;}
-\DoxyCodeLine{00497\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_button()}
-\DoxyCodeLine{00498\ \ \ \ \ \{}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ base-\/>button\_color\ =\ glm::vec3(0.5,\ 0.5,\ 1);}
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ base-\/>draw();}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
-\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ base-\/>button\_color\ =\ glm::vec3(0,\ 0.0,\ 0);}
-\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0,\ 0,\ 0,\ 1);}
-\DoxyCodeLine{00506\ \ \ \ \ \}}
-\DoxyCodeLine{00507\ \ \ \ \ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
-\DoxyCodeLine{00508\ \ \ \ \ \{}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ root\_menus)}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>mouseCallback(mx,\ my);}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
-\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ t\ =\ active;}
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ top\_menus-\/>size();\ i++)}
-\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (top\_menus-\/>at(i))-\/>active\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ active\ =\ !t;}
-\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00522\ \ \ \ \ \}}
-\DoxyCodeLine{00523\ }
-\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keywordtype}{void}\ init()}
-\DoxyCodeLine{00525\ \ \ \ \ \{}
-\DoxyCodeLine{00526\ }
-\DoxyCodeLine{00527\ \ \ \ \ \}}
-\DoxyCodeLine{00528\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
-\DoxyCodeLine{00529\ \ \ \ \ \{}
-\DoxyCodeLine{00530\ }
-\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
-\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
-\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ base-\/>draw();}
-\DoxyCodeLine{00536\ }
-\DoxyCodeLine{00537\ \ \ \ \ \}}
-\DoxyCodeLine{00538\ \};}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ shp.push\_back(x);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ shp.push\_back(y);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ shp.push\_back(0);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <=\ num\_segments;\ i++)\ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ shp.push\_back(x\ +\ x1);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ shp.push\_back(y\ +\ y1);\ \textcolor{comment}{//\ center\ of\ the\ circle}}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ shp.push\_back(0);}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ GLfloat\ tx\ =\ -\/y1;}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ GLfloat\ ty\ =\ x1;}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ x1\ +=\ tx\ *\ tangetial\_factor;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ +=\ ty\ *\ tangetial\_factor;}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ x1\ *=\ radial\_factor;}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ *=\ radial\_factor;}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ glGenVertexArrays(1,\ \&VAO);}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00442\ }
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ glGenBuffers(1,\ \&VBO);}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ glBindBuffer(GL\_ARRAY\_BUFFER,\ VBO);}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ glBufferData(GL\_ARRAY\_BUFFER,\ shp.size()\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ shp.data(),\ GL\_DYNAMIC\_DRAW);}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ glVertexAttribPointer(0,\ 3,\ GL\_FLOAT,\ GL\_FALSE,\ 3\ *\ \textcolor{keyword}{sizeof}(GLfloat),\ 0);}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ glEnableVertexAttribArray(0);}
+\DoxyCodeLine{00448\ }
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ glBindVertexArray(VAO);}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ color[0]/255,\ color[1]/255,\ color[2]/255,\ color[3]/255);}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ glDrawArrays(GL\_TRIANGLE\_FAN,\ 0,\ shp.size()\ /\ 3);}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0,\ 0,\ 0,\ 1);}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ glDeleteBuffers(1,\ \&VBO);}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ glDeleteVertexArrays(1,\ \&VAO);}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \ \ \ \ \}}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordtype}{void}\ draw(std::vector<Profession>\ data)}
+\DoxyCodeLine{00459\ \ \ \ \ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ current\_angle\ =\ 0;}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ radius\ =\ 260;}
+\DoxyCodeLine{00462\ \ \ \ \ }
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ glm::mat4\ trans;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(x,\ y,\ 0.0f));}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ GLuint\ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ start\_angle\ =\ 0.0f,\ end\_angle\ =\ 0.0f;}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ data.size();\ i++)\ \{}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ end\_angle\ =\ start\_angle\ +\ data[i].percent\_of\_workforce\ *\ 2.0f\ *\ glm::pi<float>();}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ draw\_slice(0,\ 0,\ radius,\ start\_angle,\ end\_angle,\ data[i].color);}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ start\_angle\ =\ end\_angle;}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ trans\ =\ glm::mat4(1);}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ trans\ =\ glm::translate(trans,\ glm::vec3(0,\ 0,\ 0.0f));}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ transformLoc\ =\ glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}transform"{}});}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(transformLoc,\ 1,\ GL\_FALSE,\ glm::value\_ptr(trans));}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ data.size();\ i++)}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ RenderText(fontShader,\ data[i].name,\ x,\ i\ *\ 25\ +\ y\ -\/\ 500,\ 0.6,\ glm::vec3(0.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ data[i].color[0]\ /\ 255,\ data[i].color[1]\ /\ 255,\ data[i].color[2]\ /\ 255,\ data[i].color[3]\ /\ 255);}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ draw\_quad(x\ -\/\ 10,\ i*\ 25\ +\ y\ -\/\ 490,\ 10);}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),0,\ 0,\ 0,1);}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \textcolor{comment}{//draw\_line(600,\ 350,\ 1900,\ 350);}}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \textcolor{comment}{//draw\_line(600,\ 350,\ 600,\ 780);}}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \textcolor{comment}{//str\ =\ str\ +\ std::to\_string(int(*std::max\_element(std::begin(data),\ std::end(data))));}}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ RenderText(fontShader,\ str,\ 540,\ 750,\ 0.3,\ glm::vec3(1.0,\ 0.0f,\ 0.0f));}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{comment}{//draw\_scale();}}
+\DoxyCodeLine{00502\ \ \ \ \ \}}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{comment}{//virtual\ void\ draw\_scale()\ \{\}}}
+\DoxyCodeLine{00505\ \};}
+\DoxyCodeLine{00506\ }
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}\ :\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}}
+\DoxyCodeLine{00510\ \{}
+\DoxyCodeLine{00511\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00512\ \ \ \ \ std::vector<Multiple\_choice\_panel*>*\ top\_menus;}
+\DoxyCodeLine{00513\ \ \ \ \ std::vector<Multiple\_choice\_panel*>\ root\_menus;}
+\DoxyCodeLine{00514\ \ \ \ \ \mbox{\hyperlink{class_multiple__choice__panel}{Multiple\_choice\_panel}}*\ set\_properties(std::vector<Multiple\_choice\_panel*>*\ atop\_menus,\ GLuint\ shader,\ GLuint\ font,\ \textcolor{keywordtype}{int}\ ax,\ \textcolor{keywordtype}{int}\ ay,\ \textcolor{keywordtype}{int}\ sx,\ \textcolor{keywordtype}{int}\ sy,\ std::string\ atext)}
+\DoxyCodeLine{00515\ \ \ \ \ \{}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ shaderProgram\ =\ shader;}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ fontShader\ =\ font;}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ x\ =\ ax;}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ y\ =\ ay;}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ size\_x\ =\ sx;}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ size\_y\ =\ sy;}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ text\ =\ atext;}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ top\_menus\ =\ atop\_menus;}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ base\ =\ (\textcolor{keyword}{new}\ \mbox{\hyperlink{class_quad__button}{Quad\_button}}())-\/>set\_properties(shaderProgram,\ fontShader,\ x,\ y,\ size\_x,\ size\_y,\ text);}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{00526\ \ \ \ \ \}}
+\DoxyCodeLine{00527\ \ \ \ \ \mbox{\hyperlink{class_quad__button}{Quad\_button}}*\ base;}
+\DoxyCodeLine{00528\ }
+\DoxyCodeLine{00529\ \ \ \ \ \mbox{\hyperlink{class_information__panel}{Information\_panel}}*\ panel;}
+\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keywordtype}{void}\ draw\_button()}
+\DoxyCodeLine{00531\ \ \ \ \ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ base-\/>active\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ base-\/>active\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ base-\/>draw();}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ glUseProgram(shaderProgram);}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(shaderProgram,\ \textcolor{stringliteral}{"{}ourColor"{}}),\ 0,\ 0,\ 0,\ 1);}
+\DoxyCodeLine{00540\ \ \ \ \ \}}
+\DoxyCodeLine{00541\ \ \ \ \ \textcolor{keywordtype}{void}\ mouseCallback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00542\ \ \ \ \ \{}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ root\_menus)}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>mouseCallback(mx,\ my);}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ t\ =\ active;}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ top\_menus-\/>size();\ i++)}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (top\_menus-\/>at(i))-\/>active\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ active\ =\ !t;}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00556\ \ \ \ \ \}}
+\DoxyCodeLine{00557\ \ \ \ \ \textcolor{keywordtype}{void}\ mouse\_move\_callback(\textcolor{keywordtype}{double}\ mx,\ \textcolor{keywordtype}{double}\ my)}
+\DoxyCodeLine{00558\ \ \ \ \ \{}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ a\ :\ root\_menus)}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>mouse\_move\_callback(mx,\ my);}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ base-\/>mouse\_move\_callback(mx,\ my);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mx\ >\ (x\ -\/\ size\_x)\ \&\&\ mx\ <\ (x\ +\ size\_x)\ \&\&\ my\ >(y\ -\/\ size\_y)\ \&\&\ my\ <\ (y\ +\ size\_y))}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00568\ \ \ \ \ \}}
+\DoxyCodeLine{00569\ \ \ \ \ \textcolor{keywordtype}{void}\ init()}
+\DoxyCodeLine{00570\ \ \ \ \ \{}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00572\ \ \ \ \ \}}
+\DoxyCodeLine{00573\ \ \ \ \ \textcolor{keywordtype}{void}\ draw()}
+\DoxyCodeLine{00574\ \ \ \ \ \{}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (active)}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ panel-\/>draw();}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ base-\/>draw();}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ \ \ \ \ \}}
+\DoxyCodeLine{00583\ \};}
 
 \end{DoxyCode}

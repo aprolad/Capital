@@ -15,15 +15,6 @@ void \mbox{\hyperlink{class_panel_ae8c659a5494fda0491a42f68bc579955}{mouse\+Call
 \mbox{\hyperlink{class_panel}{Panel}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay, int sx, int sy)
 \item 
 void \mbox{\hyperlink{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}{draw}} ()
-\item 
-void \mbox{\hyperlink{class_panel_ae8c659a5494fda0491a42f68bc579955}{mouse\+Callback}} (double mx, double my)
-\item 
-\mbox{\Hypertarget{class_panel_a48600ecf80d6f89f87bd42970e133ffb}\label{class_panel_a48600ecf80d6f89f87bd42970e133ffb}} 
-\mbox{\hyperlink{class_panel}{Panel}} $\ast$ {\bfseries set\+\_\+properties} (GLuint shader, GLuint font, int ax, int ay, int sx, int sy)
-\item 
-void \mbox{\hyperlink{class_panel_aada3a81cd8a8ca613b30ca45cf6e90bc}{init}} ()
-\item 
-void \mbox{\hyperlink{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}{draw}} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
 \begin{DoxyCompactItemize}
@@ -31,20 +22,8 @@ void \mbox{\hyperlink{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}{draw}} ()
 \mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
 virtual void {\bfseries mouse\+Callback} (double, double)
 \item 
-\mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
-virtual void {\bfseries init} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}\label{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}} 
-virtual void {\bfseries draw} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_ade720e789a8f135982482b18a3219d15}\label{class_graphic__element_ade720e789a8f135982482b18a3219d15}} 
-virtual void {\bfseries prepare\+\_\+shaders} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}\label{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}} 
-virtual void {\bfseries set\+\_\+properties} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
-virtual void {\bfseries mouse\+Callback} (double, double)
+\mbox{\Hypertarget{class_graphic__element_af7074792b1dae4633148d26152ccad6d}\label{class_graphic__element_af7074792b1dae4633148d26152ccad6d}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+callback} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
 virtual void {\bfseries init} ()
@@ -61,7 +40,7 @@ virtual void {\bfseries set\+\_\+properties} ()
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_panel_ae97f4b9dcb4a4b6e4a344b67c36dc918}\label{class_panel_ae97f4b9dcb4a4b6e4a344b67c36dc918}} 
+\mbox{\Hypertarget{class_panel_ab19e82dbfa788a167ceacabd453169cc}\label{class_panel_ab19e82dbfa788a167ceacabd453169cc}} 
 \mbox{\hyperlink{class_quad__button}{Quad\+\_\+button}} {\bfseries buttons} \mbox{[}3\mbox{]}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
@@ -73,16 +52,19 @@ double {\bfseries size\+\_\+x}
 \mbox{\Hypertarget{class_graphic__element_ad03731a155fbad859da28054523d572c}\label{class_graphic__element_ad03731a155fbad859da28054523d572c}} 
 double {\bfseries size\+\_\+y}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}\label{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}} 
-void($\ast$ {\bfseries action} )()
+\mbox{\Hypertarget{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}\label{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}} 
+bool {\bfseries hovered\+\_\+on}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}\label{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
+\mbox{\Hypertarget{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}\label{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}} 
+bool {\bfseries active}
+\item 
+\mbox{\Hypertarget{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}\label{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}} 
+void($\ast$ {\bfseries action} )()
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_panel_a0b1aefd43f309b0b9f6cd90849851001}\label{class_panel_a0b1aefd43f309b0b9f6cd90849851001}} 
+\mbox{\Hypertarget{class_panel_ae141fe8767de9022ad1e9ded83e9261e}\label{class_panel_ae141fe8767de9022ad1e9ded83e9261e}} 
 static int $\ast$ {\bfseries gs} = 0
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
@@ -113,28 +95,8 @@ int {\bfseries y}
 \mbox{\Hypertarget{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}\label{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}} 
 \index{Panel@{Panel}!draw@{draw}}
 \index{draw@{draw}!Panel@{Panel}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
 {\footnotesize\ttfamily void Panel\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
-
-\mbox{\Hypertarget{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}\label{class_panel_a99be88ba1dc7cd6338d5879b8a2737db}} 
-\index{Panel@{Panel}!draw@{draw}}
-\index{draw@{draw}!Panel@{Panel}}
-\doxysubsubsection{\texorpdfstring{draw()}{draw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Panel\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
-
-\mbox{\Hypertarget{class_panel_aada3a81cd8a8ca613b30ca45cf6e90bc}\label{class_panel_aada3a81cd8a8ca613b30ca45cf6e90bc}} 
-\index{Panel@{Panel}!init@{init}}
-\index{init@{init}!Panel@{Panel}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
-{\footnotesize\ttfamily void Panel\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -143,17 +105,7 @@ Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element
 \mbox{\Hypertarget{class_panel_ae8c659a5494fda0491a42f68bc579955}\label{class_panel_ae8c659a5494fda0491a42f68bc579955}} 
 \index{Panel@{Panel}!mouseCallback@{mouseCallback}}
 \index{mouseCallback@{mouseCallback}!Panel@{Panel}}
-\doxysubsubsection{\texorpdfstring{mouseCallback()}{mouseCallback()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Panel\+::mouse\+Callback (\begin{DoxyParamCaption}\item[{double}]{mx,  }\item[{double}]{my }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
-
-
-
-Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}.
-
-\mbox{\Hypertarget{class_panel_ae8c659a5494fda0491a42f68bc579955}\label{class_panel_ae8c659a5494fda0491a42f68bc579955}} 
-\index{Panel@{Panel}!mouseCallback@{mouseCallback}}
-\index{mouseCallback@{mouseCallback}!Panel@{Panel}}
-\doxysubsubsection{\texorpdfstring{mouseCallback()}{mouseCallback()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\doxysubsubsection{\texorpdfstring{mouseCallback()}{mouseCallback()}}
 {\footnotesize\ttfamily void Panel\+::mouse\+Callback (\begin{DoxyParamCaption}\item[{double}]{mx,  }\item[{double}]{my }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
@@ -164,6 +116,5 @@ Reimplemented from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Graphic\+\_\+element.\+h\item 
-Graphics/Graphic\+\_\+element.\+h\item 
-Graphics/Graphic\+\_\+element.\+cpp\end{DoxyCompactItemize}
+Source/\+Visualization/Graphic\+\_\+elements.\+h\item 
+Source/\+Visualization/Graphic\+\_\+elements.\+cpp\end{DoxyCompactItemize}

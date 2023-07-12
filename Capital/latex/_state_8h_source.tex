@@ -1,0 +1,872 @@
+\hypertarget{_state_8h_source}{}\doxysection{State.\+h}
+\label{_state_8h_source}\index{Source/Simulation/State.h@{Source/Simulation/State.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../Visualization/World.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ CAP\_UNIT\_OF\_MEASURE\_NO\ 0\ }}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ CAP\_UNIT\_OF\_MESURE\_KG\ 1}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ CAP\_UNIT\_OF\_MESURE\_MONEY\ 2}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ CAP\_UNIT\_OF\_MESURE\_KM\ 3}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ CAP\_UNIT\_OF\_MEASURE\_SQ\_KM\ 4}}
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_simulation}{Simulation}};}
+\DoxyCodeLine{00020\ \textcolor{keyword}{enum}\ industry\_index\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ farming,}
+\DoxyCodeLine{00022\ \ \ \ \ gathering,}
+\DoxyCodeLine{00023\ \ \ \ \ pottery,}
+\DoxyCodeLine{00024\ \ \ \ \ husbandry,}
+\DoxyCodeLine{00025\ \ \ \ \ textile,}
+\DoxyCodeLine{00026\ \ \ \ \ forestry,}
+\DoxyCodeLine{00027\ \ \ \ \ construction,}
+\DoxyCodeLine{00028\ \ \ \ \ goverment,}
+\DoxyCodeLine{00029\ \ \ \ \ unemployed}
+\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{enum}\ exchange\_index\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ food\_exc,}
+\DoxyCodeLine{00035\ \ \ \ \ wool\_exc,}
+\DoxyCodeLine{00036\ \ \ \ \ pottery\_exc,}
+\DoxyCodeLine{00037\ \ \ \ \ cloth\_exc,}
+\DoxyCodeLine{00038\ \ \ \ \ wood\_exc,}
+\DoxyCodeLine{00039\ \ \ \ \ constr\_exc}
+\DoxyCodeLine{00040\ \ \ }
+\DoxyCodeLine{00041\ \};}
+\DoxyCodeLine{00042\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_state}{State}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_display__value}{Display\_value}}}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}(\textcolor{keywordtype}{int}\ type,\ \textcolor{keywordtype}{double}\ value\ =\ 0)}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ this-\/>type\ =\ type;}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{double}\ value;}
+\DoxyCodeLine{00053\ \ \ \ \ std::string\ result;}
+\DoxyCodeLine{00054\ \ \ \ \ std::vector<std::string>\ unit\_of\_measure\{\ \textcolor{stringliteral}{"{}"{}},\textcolor{stringliteral}{"{}Kg"{}},\ \textcolor{stringliteral}{"{}Denarius"{}},\ \textcolor{stringliteral}{"{}Km"{}},\ \textcolor{stringliteral}{"{}Square\ km"{}}\ \};}
+\DoxyCodeLine{00055\ \ \ \ \ std::vector<std::string>\ exponent\_string\{\ \textcolor{stringliteral}{"{}"{}},\textcolor{stringliteral}{"{}Thousands"{}},\textcolor{stringliteral}{"{}Millions"{}},\ \textcolor{stringliteral}{"{}Billions"{}},\ \textcolor{stringliteral}{"{}Trillions"{}},\ \textcolor{stringliteral}{"{}Quadrillions"{}}\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{operator}\ double()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00058\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{//\ Unary\ operators}}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ operator+()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00064\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ operator-\/()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00069\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_display__value}{Display\_value}}(type,\ -\/\textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{double}\&\textcolor{keyword}{>}(this-\/>value));}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\&\ operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_display__value}{Display\_value}}\&\ other)}
+\DoxyCodeLine{00073\ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ value\ =\ other.value;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\&\ operator=(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\&\ other)}
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ exp\ =\ 0;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ p\ =\ other;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keywordtype}{int}(log10(p))\ >\ 2\ and\ p\ !=\ 0)}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ exp++;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ p\ /=\ 1e3;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ stream\ <<\ std::fixed\ <<\ std::setprecision(3)\ <<\ p;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ result\ =\ stream.str()\ +\ \textcolor{stringliteral}{"{}\ "{}}\ +\ exponent\_string[exp]\ +\ \textcolor{stringliteral}{"{}\ "{}}\ +\ unit\_of\_measure[type];}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ value\ =\ other;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{int}\ type;}
+\DoxyCodeLine{00094\ \ \ \ \ std::string\ postfix;}
+\DoxyCodeLine{00095\ \};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_simulation__date}{Simulation\_date}}}
+\DoxyCodeLine{00099\ \{}
+\DoxyCodeLine{00100\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{class_simulation__date}{Simulation\_date}}()\ \{\}}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{class_simulation__date}{Simulation\_date}}(\textcolor{keywordtype}{int}\ sy)}
+\DoxyCodeLine{00103\ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ starting\_year\ =\ sy;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ days\_from\_start\ =\ 0;}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{int}\ starting\_year;}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{int}\ days\_from\_start;}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ years\_from\_start;}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{int}\ days\_from\_year\_start;}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{int}\ calendar\_years;}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{enum}\ months\ \{\ Jan,\ Feb,\ Mar,\ Apr,\ May,\ Jun,\ Jul,\ Aug,\ Sep,\ Oct,\ Nov,\ Dec\ \};}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{int}\ current\_month;}
+\DoxyCodeLine{00114\ \ \ \ \ std::string\ postfix;}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_date()}
+\DoxyCodeLine{00116\ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ days\_from\_start++;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ years\_from\_start\ =\ days\_from\_start\ /\ 365;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ days\_from\_year\_start\ =\ days\_from\_start\ \%\ 365;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (starting\_year\ <\ 0\ \&\&\ years\_from\_start\ <\ abs(starting\_year))}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ calendar\_years\ =\ abs(starting\_year\ +\ years\_from\_start);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ postfix\ =\ \textcolor{stringliteral}{"{}BC"{}};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ calendar\_years\ =\ starting\_year\ +\ years\_from\_start;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ postfix\ =\ \textcolor{stringliteral}{"{}AD"{}};}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ current\_month\ =\ days\_from\_year\_start\ /\ 31;}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_g_d_p}{GDP}}}
+\DoxyCodeLine{00137\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{struct_g_d_p}{GDP}}()\ :\ total(\mbox{\hyperlink{class_display__value}{Display\_value}}(CAP\_UNIT\_OF\_MESURE\_MONEY))}
+\DoxyCodeLine{00139\ \ \ \ \ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ history.resize(900);}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ total;}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{double}\ private\_consumption;}
+\DoxyCodeLine{00145\ \ \ \ \ std::vector<double>\ history;}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{double}\ calcTotalGdp()}
+\DoxyCodeLine{00147\ \ \ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ total\ =\ private\_consumption;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ history.insert(history.begin(),\ total);}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ history.pop\_back();}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ total;}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ \};}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_geography}{Geography}}}
+\DoxyCodeLine{00156\ \{}
+\DoxyCodeLine{00157\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00158\ \ \ \ \ \mbox{\hyperlink{class_geography}{Geography}}()\ :\ square\_kilometres(CAP\_UNIT\_OF\_MESURE\_KM),\ totalArableLand(CAP\_UNIT\_OF\_MESURE\_KM),\ pastoral\_land(CAP\_UNIT\_OF\_MEASURE\_SQ\_KM)}
+\DoxyCodeLine{00159\ \ \ \ \ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ square\_kilometres\ =\ 10000;}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ pastoral\_land\ =\ 2000;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ totalArableLand\ =\ square\_kilometres\ *\ 0.05;}
+\DoxyCodeLine{00163\ \ \ \ \ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ pastoral\_land;}
+\DoxyCodeLine{00165\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ square\_kilometres;}
+\DoxyCodeLine{00166\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ totalArableLand;}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \};}
+\DoxyCodeLine{00169\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_profession}{Profession}}}
+\DoxyCodeLine{00170\ \{}
+\DoxyCodeLine{00171\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00172\ \ \ \ \ \mbox{\hyperlink{class_profession}{Profession}}(std::string\ n,\ \textcolor{keywordtype}{double}\ percent\_of\_workforce,\ std::vector<float>\ c)}
+\DoxyCodeLine{00173\ \ \ \ \ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ color\ =\ c;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ name\ =\ n;}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ this-\/>percent\_of\_workforce\ =\ percent\_of\_workforce;}
+\DoxyCodeLine{00177\ \ \ \ \ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ std::string\ name;}
+\DoxyCodeLine{00180\ \ \ \ \ std::vector<float>\ color;}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordtype}{double}\ percent\_of\_workforce;}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{double}\ wage;}
+\DoxyCodeLine{00183\ \};}
+\DoxyCodeLine{00184\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_socium}{Socium}}}
+\DoxyCodeLine{00185\ \{}
+\DoxyCodeLine{00186\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{class_socium}{Socium}}();}
+\DoxyCodeLine{00188\ \ \ \ \ \mbox{\hyperlink{class_profession}{Profession}}*\ by\_name(std::string\ target)}
+\DoxyCodeLine{00189\ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::find\_if(worker\_types.begin(),\ worker\_types.end(),}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ [=](\textcolor{keyword}{const}\ \mbox{\hyperlink{class_profession}{Profession}}\&\ obj)\ \{\ return\ obj.name\ ==\ target;\ \});}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ worker\_types.end())}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&(*it);}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00196\ \ \ \ \ \}}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{operator}\ std::vector<double>()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00198\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ std::vector<double>\ t;}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ worker\_types)}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ t.push\_back(a.percent\_of\_workforce);}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00203\ \ \ \ \ \}}
+\DoxyCodeLine{00204\ \ \ \ \ std::vector<Profession>\ worker\_types;}
+\DoxyCodeLine{00205\ \};}
+\DoxyCodeLine{00206\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_demography}{Demography}}}
+\DoxyCodeLine{00207\ \{}
+\DoxyCodeLine{00208\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00209\ \ \ \ \ \mbox{\hyperlink{class_demography}{Demography}}()\ :\ money(\mbox{\hyperlink{class_display__value}{Display\_value}}(0,\ 2))}
+\DoxyCodeLine{00210\ \ \ \ \ \{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ srand(time(0));}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ engine.seed(std::time(0));}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ agePyramid.resize(120);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ population\ =\ 1000;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ totalFertilityRate\ =\ 5;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 120;\ i++)}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ agePyramid[i]\ =\ 0;}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 120;\ i++)}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ agePyramid[i]\ =\ (10\ +\ engine()\ \%\ 1\ -\/\ \textcolor{keywordtype}{double}(i)\ /\ 10)\ *\ 365;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ consumption\_level\ =\ 1;}
+\DoxyCodeLine{00224\ \ \ \ \ \}}
+\DoxyCodeLine{00225\ \ \ \ \ std::mt19937\ engine;}
+\DoxyCodeLine{00226\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ money;}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{double}\ consumption\_level;}
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordtype}{double}\ income;}
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordtype}{double}\ density;}
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordtype}{double}\ birthRate;}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{double}\ population;}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordtype}{double}\ laborPool;}
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{keywordtype}{double}\ dependencyRate;}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordtype}{double}\ totalFertilityRate;}
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordtype}{double}\ fat;}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{double}\ births;}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{double}\ infantMortality;}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordtype}{double}\ delta\_workers;}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordtype}{double}\ foodSupply;}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ std::deque<double>\ agePyramid;}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordtype}{void}\ calc(\textcolor{keywordtype}{int}\ date)}
+\DoxyCodeLine{00244\ \ \ \ \ \{}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ fertilePop\ =\ 0;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ fat\ =\ 0;}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ births\ =\ 0;}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ prevPop\ =\ population;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ population\ =\ 0;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ prev\_workers\ =\ laborPool;}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ laborPool\ =\ 0;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (date\ \%\ 365\ ==\ 0)}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 1;\ i++)}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ agePyramid.push\_front(0);}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ agePyramid.pop\_back();}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 120;\ i++)}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (agePyramid[i]\ <\ 0)}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ agePyramid[i]\ =\ 0;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ population\ +=\ agePyramid[i];}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Расчет\ работоспособного населения}}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 12\ \&\&\ i\ <\ 65)}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ laborPool\ +=\ agePyramid[i];}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ 12)}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ laborPool\ +=\ agePyramid[12]\ *\ (double(date\ \%\ 365)\ /\ 365);}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ dependencyRate\ =\ 1\ -\/\ laborPool\ /\ (population\ +\ 1);}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Расчет\ рождаемости}}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 16\ \&\&\ i\ <\ 45)}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fertilePop\ +=\ agePyramid[i];}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Расчет\ смертности}}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 1\ \&\&\ i\ <\ 120)}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ chanceToDie\ =\ (0.004\ +\ (double(i)\ /\ 80)\ *\ (0.1))\ /\ 365\ *\ (2.3\ -\/\ foodSupply\ /\ 200);}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 90)}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chanceToDie\ *=\ 2\ *\ log(i\ -\/\ 90);}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ agePyramid[i]\ -\/=\ chanceToDie\ *\ agePyramid[i]\ *\ (0.2\ +\ engine()\ \%\ 200\ /\ 100);}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ births\ =\ fertilePop\ *\ totalFertilityRate\ /\ 25\ /\ 365\ /\ 2\ *\ double(0.98\ +\ \textcolor{keywordtype}{double}(rand()\ \%\ 40)\ /\ 1000)\ *\ (0.6\ +\ foodSupply\ /\ 200);}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ agePyramid[0]\ +=\ int(births);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ fat\ =\ prevPop\ +\ births\ -\/\ population;}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ delta\_workers\ =\ laborPool\ -\/\ prev\_workers;}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \}}
+\DoxyCodeLine{00297\ \};}
+\DoxyCodeLine{00298\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_product}{Product}}}
+\DoxyCodeLine{00299\ \{}
+\DoxyCodeLine{00300\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00301\ \ \ \ \ \mbox{\hyperlink{class_product}{Product}}()}
+\DoxyCodeLine{00302\ \ \ \ \ \{\}}
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keywordtype}{double}\ aggregateDemand;}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordtype}{double}\ aggregateSupply;}
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordtype}{double}\ reserves;}
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{keywordtype}{double}\ consumerCoverage;}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordtype}{void}\ calc();}
+\DoxyCodeLine{00308\ \};}
+\DoxyCodeLine{00309\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_order}{Order}}}
+\DoxyCodeLine{00310\ \{}
+\DoxyCodeLine{00311\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00312\ \ \ \ \ \mbox{\hyperlink{class_order}{Order}}(\textcolor{keywordtype}{double}\ q,\ \textcolor{keywordtype}{double}\ p,\ \textcolor{keywordtype}{double}*\ ra)\ :\ quantity\{\ q\ \},\ price\{\ p\ \},\ recepient\_account\{\ ra\ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ ttm\ =\ 30;}
+\DoxyCodeLine{00315\ \ \ \ \ \}}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keywordtype}{void}\ execute(\textcolor{keywordtype}{double}*\ sender\_account)}
+\DoxyCodeLine{00317\ \ \ \ \ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ *sender\_account\ -\/=\ quantity\ *\ price;}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ *recepient\_account\ +=\ quantity\ *\ price;}
+\DoxyCodeLine{00320\ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keywordtype}{void}\ execute(\textcolor{keywordtype}{double}*\ sender\_account,\ \textcolor{keywordtype}{double}\ quantity\_bought)}
+\DoxyCodeLine{00322\ \ \ \ \ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ *sender\_account\ -\/=\ quantity\_bought\ *\ price;}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ *recepient\_account\ +=\ quantity\_bought\ *\ price;}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ quantity\ -\/=\ quantity\_bought;}
+\DoxyCodeLine{00326\ \ \ \ \ \}}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{double}\ execute\_part(\textcolor{keywordtype}{double}*\ sender\_account,\ \textcolor{keywordtype}{double}\ budget)}
+\DoxyCodeLine{00328\ \ \ \ \ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (price\ <\ 0.0001)}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ price\ =\ 0.0001;}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ quantity\_bought\ =\ budget\ /\ price;}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ *sender\_account\ -\/=\ quantity\_bought\ *\ price;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ *recepient\_account\ +=\ quantity\_bought\ *\ price;}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ quantity\ -\/=\ quantity\_bought;}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ quantity\_bought;}
+\DoxyCodeLine{00336\ \ \ \ \ \}}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{double}\ ttm;}
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordtype}{double}\ quantity,\ price;}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordtype}{double}*\ recepient\_account;}
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ compareByPrice(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_order}{Order}}\&\ a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_order}{Order}}\&\ b)\ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.price\ <\ b.price;}
+\DoxyCodeLine{00342\ \ \ \ \ \}}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordtype}{void}\ process(\textcolor{keywordtype}{double}\ cp)}
+\DoxyCodeLine{00344\ \ \ \ \ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ quantity\ *=\ 0.99;}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ttm\ ==\ 0)}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ ttm\ =\ 20;}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ price\ =\ cp\ *\ 1;}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ ttm\ -\/=\ 1;}
+\DoxyCodeLine{00352\ \ \ \ \ \}}
+\DoxyCodeLine{00353\ \};}
+\DoxyCodeLine{00354\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}}
+\DoxyCodeLine{00355\ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(\textcolor{keywordtype}{double}\ a,\ \textcolor{keywordtype}{double}\ m)}
+\DoxyCodeLine{00357\ \ \ \ \ \{}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ amount\_bought\ =\ a;}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ money\_spent\ =\ m;}
+\DoxyCodeLine{00360\ \ \ \ \ \}}
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordtype}{double}\ amount\_bought;}
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordtype}{double}\ money\_spent;}
+\DoxyCodeLine{00363\ \};}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_exchange}{Exchange}}}
+\DoxyCodeLine{00366\ \{}
+\DoxyCodeLine{00367\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00368\ \ \ \ \ \mbox{\hyperlink{class_exchange}{Exchange}}()}
+\DoxyCodeLine{00369\ \ \ \ \ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ current\_price\ =\ 10;}
+\DoxyCodeLine{00371\ \ \ \ \ \}}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ std::deque<Order>\ order\_book;}
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordtype}{double}\ current\_price;}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordtype}{double}\ sold\_quantity;}
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_demand;}
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_supply;}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordtype}{double}\ supply\_to\_demand\_ratio;}
+\DoxyCodeLine{00379\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ sold\_quantity\_d\{\ 0\ \},\ total\_demand\_d\{\ 0\ \},\ total\_supply\_d\{\ 0\ \},\ quantity\_backlog\_d\{\ 0\ \};}
+\DoxyCodeLine{00380\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ current\_price\_d\{2\};}
+\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keywordtype}{double}\ quantity\_backlog;}
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keywordtype}{double}\ money\_spent;}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{double}\ calculate\_excess()}
+\DoxyCodeLine{00384\ \ \ \ \ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ quantity\_backlog\ =\ 0;}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ a\ :\ order\_book)}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ quantity\_backlog\ +=\ a.quantity;}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ quantity\_backlog;}
+\DoxyCodeLine{00392\ \ \ \ \ \}}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordtype}{void}\ process()}
+\DoxyCodeLine{00395\ \ \ \ \ \{}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\_supply\ <\ 0.01)\ total\_supply\ =\ 0.01;}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\_demand\ <\ 0.01)\ total\_demand\ =\ 0.01;}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ sold\_quantity\_d\ =\ sold\_quantity;}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ total\_demand\_d\ =\ total\_demand;}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ total\_supply\_d\ =\ total\_supply;}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ quantity\_backlog\_d\ =\ quantity\_backlog;}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ current\_price\_d\ =\ current\_price;}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (calculate\_excess()\ >\ total\_demand\ *\ 155)}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ current\_price\ /=\ 1.0005;}
+\DoxyCodeLine{00407\ }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\_demand\ >\ total\_supply\ \&\&\ ((sold\_quantity\ /\ total\_supply)\ >\ 0.9))}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ current\_price\ *=\ 1\ +\ (0.003\ *\ (total\_demand\ -\/\ total\_supply)\ /\ total\_demand);}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (total\_demand\ <\ total\_supply*1.1)}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ current\_price\ /=\ 1\ +\ (0.003\ *\ (total\_supply\ -\/\ total\_demand)\ /\ total\_supply);}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ supply\_to\_demand\_ratio\ =\ total\_supply\ /\ total\_demand;}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_price\ <\ 0.001)}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ current\_price\ =\ 0.001;}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ sold\_quantity\ =\ 0;}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ total\_demand\ =\ 0;}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ total\_supply\ =\ 0;}
+\DoxyCodeLine{00425\ \ \ \ \ \}}
+\DoxyCodeLine{00426\ \ \ \ \ \textcolor{keywordtype}{void}\ put\_sell\_order(\textcolor{keywordtype}{double}\ quantity,\ \textcolor{keywordtype}{double}\ price,\ \textcolor{keywordtype}{double}*\ recepient\_account)}
+\DoxyCodeLine{00427\ \ \ \ \ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ total\_supply\ +=\ quantity;}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ a\ =\ \mbox{\hyperlink{class_order}{Order}}(quantity,\ price,\ recepient\_account);}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (order\_book.size()\ >\ 150)}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ order\_book.erase(order\_book.end()-\/1);}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ std::sort(order\_book.begin(),\ order\_book.end(),\ Order::compareByPrice);}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ insertPosition\ =\ std::lower\_bound(order\_book.begin(),\ order\_book.end(),\ a,\ Order::compareByPrice);}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insert\ the\ new\ element\ at\ the\ appropriate\ position}}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ order\_book.insert(insertPosition,\ a);}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \}}
+\DoxyCodeLine{00441\ \ \ \ \ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}\ buy\_amount(\textcolor{keywordtype}{double}\ buy\_amount,\ \textcolor{keywordtype}{double}*\ account)}
+\DoxyCodeLine{00442\ \ \ \ \ \{}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cannot\ buy\ if\ there\ are\ no\ offers\ or\ no\ money}}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ money\_spent\ =\ 0;}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ want\_amount\ =\ buy\_amount;}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ total\_demand\ +=\ buy\_amount;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (order\_book.empty()\ ||\ *account\ <\ 1)}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(0,\ 0);}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ buy\_amount\ >\ 0;\ i++)}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buy\_amount\ >=\ order\_book[0].quantity)}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (order\_book[0].quantity\ *\ order\_book[0].price\ >\ *account)}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ account\_left\ =\ *account;}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buy\_amount\ -\/=\ order\_book[0].execute\_part(account,\ *account);}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ money\_spent\ +=\ account\_left;}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sold\_quantity\ +=\ want\_amount\ -\/\ buy\_amount;}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(want\_amount\ -\/\ buy\_amount,\ money\_spent);}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ order\_book[0].execute(account);}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buy\_amount\ -\/=\ order\_book[0].quantity;}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ money\_spent\ +=\ order\_book[0].quantity\ *\ order\_book[0].price;}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ order\_book.erase(order\_book.begin());}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (order\_book.empty())}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sold\_quantity\ +=\ want\_amount\ -\/\ buy\_amount;}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(want\_amount\ -\/\ buy\_amount,\ money\_spent);}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buy\_amount\ *\ order\_book[0].price\ <\ *account)}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ order\_book[0].execute(account,\ buy\_amount);}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ money\_spent\ +=\ buy\_amount\ *\ order\_book[0].price;}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buy\_amount\ =\ 0;}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ account\_left\ =\ *account;}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buy\_amount\ -\/=\ order\_book[0].execute\_part(account,\ *account);}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ money\_spent\ +=\ account\_left;}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sold\_quantity\ +=\ want\_amount\ -\/\ buy\_amount;}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(want\_amount\ -\/\ buy\_amount,\ money\_spent);}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ sold\_quantity\ +=\ want\_amount\ -\/\ buy\_amount;}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(want\_amount\ -\/\ buy\_amount,\ money\_spent);}
+\DoxyCodeLine{00500\ \ \ \ \ \}}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}\ buy\_money(\textcolor{keywordtype}{double}\ buy\_money\_,\ \textcolor{keywordtype}{double}*\ account)}
+\DoxyCodeLine{00503\ \ \ \ \ \{}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (order\_book.empty()\ ||\ *account\ <\ 1)}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(0,\ 0);}
+\DoxyCodeLine{00506\ }
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ buy\_money\ =\ buy\_money\_;}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_price\ <\ 0.002)}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ current\_price\ =\ 0.001;}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ total\_demand\ +=\ buy\_money\_\ /\ current\_price;}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cannot\ buy\ if\ there\ are\ no\ offers}}
+\DoxyCodeLine{00512\ }
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ bought\ =\ 0;}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ buy\_money\ >\ 0;\ i++)}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buy\_money\ >=\ order\_book[0].quantity\ *\ order\_book[0].price)}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00518\ }
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ order\_book[0].execute(account);}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buy\_money\ -\/=\ order\_book[0].quantity\ *\ order\_book[0].price;}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bought\ +=\ order\_book[0].quantity;}
+\DoxyCodeLine{00522\ }
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ order\_book.erase(order\_book.begin());}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (order\_book.empty())}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sold\_quantity\ +=\ bought;}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(bought,\ buy\_money\_\ -\/\ buy\_money);}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bought\ +=\ order\_book[0].execute\_part(account,\ buy\_money);}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buy\_money\ =\ 0;}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sold\_quantity\ +=\ bought;}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_purchase__check}{Purchase\_check}}(bought,\ buy\_money\_\ -\/\ buy\_money);}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00537\ \ \ \ \ }
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00540\ \ \ \ \ \}}
+\DoxyCodeLine{00541\ }
+\DoxyCodeLine{00542\ \ \ \ \ \textcolor{keywordtype}{double}\ get\_current\_price()}
+\DoxyCodeLine{00543\ \ \ \ \ \{}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ current\_price;}
+\DoxyCodeLine{00545\ \ \ \ \ \}}
+\DoxyCodeLine{00546\ \};}
+\DoxyCodeLine{00547\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_workplace}{Workplace}}}
+\DoxyCodeLine{00548\ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \textcolor{keywordtype}{double}\ vacancies;}
+\DoxyCodeLine{00550\ \ \ \ \ \textcolor{keywordtype}{double}\ quantity;}
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordtype}{double}\ wage;}
+\DoxyCodeLine{00552\ \};}
+\DoxyCodeLine{00553\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_facility}{Facility}}}
+\DoxyCodeLine{00554\ \{}
+\DoxyCodeLine{00555\ \ \ \ \ std::vector<double>\ positions;}
+\DoxyCodeLine{00556\ \};}
+\DoxyCodeLine{00557\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00558\ \{}
+\DoxyCodeLine{00559\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00560\ \ \ \ \ \mbox{\hyperlink{class_industry}{Industry}}(\mbox{\hyperlink{class_state}{State}}*\ \_state)\ :\ \ \ wages(CAP\_UNIT\_OF\_MESURE\_MONEY),\ income(CAP\_UNIT\_OF\_MESURE\_MONEY),\ workforce\_d(0)}
+\DoxyCodeLine{00561\ \ \ \ \ \{\ }
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ workforce.push\_back(\mbox{\hyperlink{struct_workplace}{Workplace}}());}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ typical\_facility.positions.push\_back(10);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ workforce.push\_back(\mbox{\hyperlink{struct_workplace}{Workplace}}());}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ typical\_facility.positions.push\_back(1);}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ state\ =\ \_state;}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i<\ workforce.size();\ i++)}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ workforce[i].wage\ =\ 10;}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ money\ =\ 100000;}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ investment\_account\ =\ 0;}
+\DoxyCodeLine{00571\ \ \ \ \ \}}
+\DoxyCodeLine{00572\ \ \ \ \ \mbox{\hyperlink{struct_facility}{Facility}}\ typical\_facility;}
+\DoxyCodeLine{00573\ \ \ \ \ \textcolor{keywordtype}{double}\ number\_of\_facilities;}
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordtype}{double}\ productivity;}
+\DoxyCodeLine{00575\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ output\{\ CAP\_UNIT\_OF\_MESURE\_KG\ \};}
+\DoxyCodeLine{00576\ \textcolor{comment}{//\ \ double\ vacancies;}}
+\DoxyCodeLine{00577\ \ \ \ \ \textcolor{keywordtype}{double}\ gdp;}
+\DoxyCodeLine{00578\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ income;}
+\DoxyCodeLine{00579\ \ \ \ \ \textcolor{keywordtype}{double}\ money,\ last\_day\_money;}
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordtype}{double}\ last\_day\_balance;}
+\DoxyCodeLine{00581\ \ \ \ \ \textcolor{comment}{//double\ workplace\_count;}}
+\DoxyCodeLine{00582\ \ \ \ \ std::vector<Workplace>\ workforce;}
+\DoxyCodeLine{00583\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_worker\_count;}
+\DoxyCodeLine{00584\ \textcolor{comment}{//\ \ double\ workforce;}}
+\DoxyCodeLine{00585\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ workforce\_d;}
+\DoxyCodeLine{00586\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ wages;}
+\DoxyCodeLine{00587\ \ \ \ \ \textcolor{keywordtype}{double}\ prev\_wage;}
+\DoxyCodeLine{00588\ \ \ \ \ \textcolor{keywordtype}{double}\ expenditure;}
+\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordtype}{double}\ revenue,\ gross\_profit,\ profit\_after\_investment,\ operating\_profit;}
+\DoxyCodeLine{00590\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ revenue\_d\{\ 2\ \},\ gross\_profit\_d\{\ 2\ \},\ profit\_after\_investment\_d\{\ 2\ \},\ operating\_profit\_d\{2\};}
+\DoxyCodeLine{00591\ \ \ \ \ \mbox{\hyperlink{class_display__value}{Display\_value}}\ investment\_account\_d\{\ 2\ \};}
+\DoxyCodeLine{00592\ \ \ \ \ \textcolor{keywordtype}{double}\ payroll;}
+\DoxyCodeLine{00593\ \ \ \ \ \textcolor{keywordtype}{double}\ investment\_account;}
+\DoxyCodeLine{00594\ \ \ \ \ \textcolor{keywordtype}{double}\ consumer\_coverage;}
+\DoxyCodeLine{00595\ \ \ \ \ \mbox{\hyperlink{class_state}{State}}*\ state;}
+\DoxyCodeLine{00596\ \ \ \ \ \textcolor{keywordtype}{void}\ pay\_wage();}
+\DoxyCodeLine{00597\ \ \ \ \ \textcolor{keywordtype}{void}\ invest();}
+\DoxyCodeLine{00598\ \ \ \ \ \textcolor{keywordtype}{void}\ process();}
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ compute()\ =\ 0;}
+\DoxyCodeLine{00600\ \ \ \ \ \textcolor{keywordtype}{void}\ transfer\_money(\textcolor{keywordtype}{double}*\ destination,\ \textcolor{keywordtype}{double}\ amount)}
+\DoxyCodeLine{00601\ \ \ \ \ \{}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ money\ -\/=\ amount;}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ (*destination)\ +=\ amount;}
+\DoxyCodeLine{00604\ \ \ \ \ \}}
+\DoxyCodeLine{00605\ \ \ \ \ \textcolor{keywordtype}{void}\ transfer\_money(\textcolor{keywordtype}{double}*\ source,\ \textcolor{keywordtype}{double}*\ destination,\ \textcolor{keywordtype}{double}\ amount)}
+\DoxyCodeLine{00606\ \ \ \ \ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ (*source)\ -\/=\ amount;}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ (*destination)\ +=\ amount;}
+\DoxyCodeLine{00609\ \ \ \ \ \}}
+\DoxyCodeLine{00610\ }
+\DoxyCodeLine{00611\ \};}
+\DoxyCodeLine{00612\ }
+\DoxyCodeLine{00613\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_unemployed}{Unemployed}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00614\ \{}
+\DoxyCodeLine{00615\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00616\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00617\ \ \ \ \ \textcolor{keywordtype}{void}\ compute()}
+\DoxyCodeLine{00618\ \ \ \ \ \{}
+\DoxyCodeLine{00619\ \ \ \ \ \}}
+\DoxyCodeLine{00620\ \};}
+\DoxyCodeLine{00621\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ compare\_by\_wage\_descending(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_workplace}{Workplace}}*\ a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_workplace}{Workplace}}*\ b)\ \{}
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a-\/>wage\ >\ b-\/>wage;}
+\DoxyCodeLine{00623\ \ \ \ \ \}}
+\DoxyCodeLine{00624\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_goverment}{Goverment}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00625\ \{}
+\DoxyCodeLine{00626\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00628\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00629\ \};}
+\DoxyCodeLine{00630\ }
+\DoxyCodeLine{00631\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_farming}{Farming}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00632\ \{}
+\DoxyCodeLine{00633\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00634\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00635\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00636\ \};}
+\DoxyCodeLine{00637\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_husbandry}{Husbandry}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00638\ \{}
+\DoxyCodeLine{00639\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00640\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00641\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00642\ \};}
+\DoxyCodeLine{00643\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_textile}{Textile}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00644\ \{}
+\DoxyCodeLine{00645\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00646\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00647\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00648\ \};}
+\DoxyCodeLine{00649\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_construction}{Construction}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00650\ \{}
+\DoxyCodeLine{00651\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00652\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00653\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00654\ \};}
+\DoxyCodeLine{00655\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_forestry}{Forestry}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00656\ \{}
+\DoxyCodeLine{00657\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00658\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00659\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00660\ \};}
+\DoxyCodeLine{00661\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_gathering}{Gathering}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00662\ \{}
+\DoxyCodeLine{00663\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00664\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00665\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00666\ \};}
+\DoxyCodeLine{00667\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pottery}{Pottery}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_industry}{Industry}}}
+\DoxyCodeLine{00668\ \{}
+\DoxyCodeLine{00669\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00670\ \ \ \ \ \textcolor{keyword}{using\ }Industry::Industry;}
+\DoxyCodeLine{00671\ \ \ \ \ \textcolor{keywordtype}{void}\ compute();}
+\DoxyCodeLine{00672\ \};}
+\DoxyCodeLine{00673\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_army}{Army}}}
+\DoxyCodeLine{00674\ \{}
+\DoxyCodeLine{00675\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00676\ \ \ \ \ \textcolor{keywordtype}{double}\ size\{15\};}
+\DoxyCodeLine{00677\ \ \ \ \ \textcolor{keywordtype}{double}\ x,\ y;}
+\DoxyCodeLine{00678\ \ \ \ \ \textcolor{keywordtype}{double}\ speed\{\ 1\ \};}
+\DoxyCodeLine{00679\ \ \ \ \ \textcolor{keywordtype}{double}\ tx,\ ty;}
+\DoxyCodeLine{00680\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_move\_target(\textcolor{keywordtype}{double}\ \_tx,\ \textcolor{keywordtype}{double}\ \_ty)}
+\DoxyCodeLine{00681\ \ \ \ \ \{}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ tx\ =\ \_tx;\ }
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ ty\ =\ \_ty;}
+\DoxyCodeLine{00684\ \ \ \ \ \}}
+\DoxyCodeLine{00685\ \ \ \ \ \textcolor{keywordtype}{void}\ move()}
+\DoxyCodeLine{00686\ \ \ \ \ \{}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ glm::vec2\ dir\_vec(tx\ -\/\ x,\ ty\ -\/\ y);}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (glm::length(dir\_vec)\ <\ 1)}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ dir\_vec\ =\ glm::normalize(dir\_vec);}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ x\ +=\ dir\_vec.x;}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ y\ +=\ dir\_vec.y;}
+\DoxyCodeLine{00693\ \ \ \ \ \}}
+\DoxyCodeLine{00694\ \};}
+\DoxyCodeLine{00695\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_state}{State}}}
+\DoxyCodeLine{00696\ \{}
+\DoxyCodeLine{00697\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00698\ \ \ \ \ \mbox{\hyperlink{class_state}{State}}(\mbox{\hyperlink{class_simulation}{Simulation}}*\ sim,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00699\ \ \ \ \ \mbox{\hyperlink{class_simulation}{Simulation}}*\ simulation;}
+\DoxyCodeLine{00700\ \ \ \ \ \mbox{\hyperlink{class_geography}{Geography}}\ geography;}
+\DoxyCodeLine{00701\ \ \ \ \ \mbox{\hyperlink{class_socium}{Socium}}\ socium;}
+\DoxyCodeLine{00702\ \ \ \ \ std::vector<tile*>\ controlled\_tiles;}
+\DoxyCodeLine{00703\ \ \ \ \ \mbox{\hyperlink{struct_g_d_p}{GDP}}\ \mbox{\hyperlink{struct_g_d_p}{GDP}};}
+\DoxyCodeLine{00704\ \ \ \ \ \mbox{\hyperlink{class_army}{Army}}\ army;}
+\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keywordtype}{double}\ total\_wages;}
+\DoxyCodeLine{00706\ \ \ \ \ \textcolor{keywordtype}{double}\ money\_delta;}
+\DoxyCodeLine{00707\ \ \ \ \ std::vector<Industry*>\ industries;}
+\DoxyCodeLine{00708\ \ \ \ \ std::vector<Exchange*>\ exchanges;}
+\DoxyCodeLine{00709\ \ \ \ \ \mbox{\hyperlink{class_demography}{Demography}}\ demography;}
+\DoxyCodeLine{00710\ \ \ \ \ \textcolor{keywordtype}{bool}\ mobilized;}
+\DoxyCodeLine{00711\ \ \ \ \ \textcolor{keywordtype}{void}\ distrubute\_worker\_loss(std::vector<Workplace*>\ \&jobs)}
+\DoxyCodeLine{00712\ \ \ \ \ \{}
+\DoxyCodeLine{00713\ }
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ j\ :\ jobs)}
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \{\ \ }
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \ \ \ \ j-\/>quantity\ +=\ demography.delta\_workers\ *\ (j-\/>quantity\ /\ demography.laborPool);}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00718\ }
+\DoxyCodeLine{00719\ \ \ \ \ \}}
+\DoxyCodeLine{00720\ \ \ \ \ \textcolor{keywordtype}{void}\ mobilize()}
+\DoxyCodeLine{00721\ \ \ \ \ \{}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ mobilized\ =\ !mobilized;}
+\DoxyCodeLine{00723\ \ \ \ \ \}}
+\DoxyCodeLine{00724\ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_jobs()}
+\DoxyCodeLine{00725\ \ \ \ \ \{}
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ std::vector<Workplace*>\ jobs;}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =0;\ i<\ industries.size();i++)}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ j\ :\ industries[i]-\/>workforce)}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jobs.push\_back(\&j);}
+\DoxyCodeLine{00730\ }
+\DoxyCodeLine{00731\ }
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00733\ }
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ average\_wage\ =\ 0;}
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ jobs.size()\ -\/\ 1;\ c++)}
+\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \ average\_wage\ +=\ jobs[c]-\/>wage;}
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ average\_wage\ /=\ jobs.size()\ -\/\ 1;}
+\DoxyCodeLine{00740\ }
+\DoxyCodeLine{00741\ }
+\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Worker\ delta\ distribution}}
+\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (demography.delta\_workers\ <\ 0)}
+\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ \ \ \ \ distrubute\_worker\_loss(jobs);}
+\DoxyCodeLine{00745\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ \ \ \ \ industries[unemployed]-\/>workforce[0].quantity\ +=\ abs(demography.delta\_workers);}
+\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Staff\ turnover}}
+\DoxyCodeLine{00748\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ j\ :\ jobs)}
+\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ change\ =\ j-\/>quantity\ *\ 0.0001;}
+\DoxyCodeLine{00751\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j-\/>wage\ <\ average\_wage)}
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ change\ *=\ 15;}
+\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ \ \ \ \ industries[unemployed]-\/>workforce[0].quantity\ +=\ change;}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \ \ \ \ j-\/>quantity\ -\/=\ change;}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00756\ }
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Separate\ industries\ with\ changing\ employment\ in\ separate\ vector\ to\ avoid\ breaking\ enum\ order\ }}
+\DoxyCodeLine{00758\ }
+\DoxyCodeLine{00759\ \ \ \ \ \ \ \ \ std::sort(jobs.begin(),\ jobs.end(),\ compare\_by\_wage\_descending);}
+\DoxyCodeLine{00760\ }
+\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ total\_workers\ =\ 0;}
+\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ j\ :\ jobs)}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ \ total\_workers\ +=\ j-\/>quantity;}
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00767\ \ \ \ \ }
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hiring\ workers}}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ a\ :\ jobs)}
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00771\ }
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a-\/>vacancies\ >\ 0\ \&\&\ industries[unemployed]-\/>workforce[0].quantity\ >\ 0\ \&\&\ a-\/>wage\ >\ 0)}
+\DoxyCodeLine{00773\ }
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a-\/>vacancies\ >\ industries[unemployed]-\/>workforce[0].quantity\ \&\&\ industries[unemployed]-\/>workforce[0].quantity>1)}
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ }
+\DoxyCodeLine{00776\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ t\ =\ industries[unemployed]-\/>workforce[0].quantity;}
+\DoxyCodeLine{00777\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>vacancies\ -\/=\ t;}
+\DoxyCodeLine{00778\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>quantity\ \ +=\ t;}
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ industries[unemployed]-\/>workforce[0].quantity\ -\/=\ t;}
+\DoxyCodeLine{00780\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (industries[unemployed]-\/>workforce[0].quantity\ >\ a-\/>vacancies)}
+\DoxyCodeLine{00783\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00784\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ industries[unemployed]-\/>workforce[0].quantity\ -\/=\ a-\/>vacancies;}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>quantity\ +=\ a-\/>vacancies;}
+\DoxyCodeLine{00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a-\/>vacancies\ =\ 0;}
+\DoxyCodeLine{00787\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00788\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00789\ }
+\DoxyCodeLine{00790\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ correct\ =\ demography.laborPool\ /\ total\_workers;}
+\DoxyCodeLine{00791\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ j\ :\ jobs)}
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ \{\ \ }
+\DoxyCodeLine{00793\ \ \ \ \ \ \ \ \ \ \ \ \ j-\/>quantity\ *=\ correct;}
+\DoxyCodeLine{00794\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00795\ }
+\DoxyCodeLine{00796\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calc\ percentages}}
+\DoxyCodeLine{00797\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ industries.size();\ c++)}
+\DoxyCodeLine{00798\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00799\ }
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \ \ \ \ \ \ socium.worker\_types[c].percent\_of\_workforce\ =\ industries[c]-\/>total\_worker\_count\ /\ demography.laborPool;}
+\DoxyCodeLine{00801\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00802\ }
+\DoxyCodeLine{00803\ \ \ \ \ \}}
+\DoxyCodeLine{00804\ \ \ \ \ \textcolor{keywordtype}{void}\ populus\_consumption()}
+\DoxyCodeLine{00805\ \ \ \ \ \{}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_g_d_p}{GDP}}.private\_consumption\ =\ 0;}
+\DoxyCodeLine{00807\ }
+\DoxyCodeLine{00808\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ before\ =\ demography.money;}
+\DoxyCodeLine{00809\ }
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ realistic\_demand\ =\ demography.population\ *\ 0.7;}
+\DoxyCodeLine{00811\ }
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Necessary\ buy}}
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ t\ =\ exchanges[food\_exc]-\/>buy\_amount(realistic\_demand,\ \&demography.money.value);}
+\DoxyCodeLine{00814\ }
+\DoxyCodeLine{00815\ \ \ \ \ \ \ \ \ demography.foodSupply\ =\ (t.amount\_bought\ /\ demography.population)/(demography.population/(geography.square\_kilometres*100))\ *\ 100;}
+\DoxyCodeLine{00816\ }
+\DoxyCodeLine{00817\ \ \ \ \ \ \ \ \ exchanges[pottery\_exc]-\/>buy\_amount(demography.population*0.1\ *\ demography.consumption\_level,\ \&demography.money.value);}
+\DoxyCodeLine{00818\ \ \ \ \ \ \ \ \ exchanges[cloth\_exc]-\/>buy\_amount(demography.population*0.01\ *\ demography.consumption\_level,\ \&demography.money.value);}
+\DoxyCodeLine{00819\ \ \ \ \ \ \ \ \ exchanges[wood\_exc]-\/>buy\_amount(demography.population*0.01\ *\ demography.consumption\_level,\ \&demography.money.value);}
+\DoxyCodeLine{00820\ }
+\DoxyCodeLine{00821\ }
+\DoxyCodeLine{00822\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ total\_ratio\ =\ 0;}
+\DoxyCodeLine{00823\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ a\ :\ exchanges)}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ \ \ \ \ total\_ratio\ +=\ a-\/>supply\_to\_demand\_ratio;}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ total\_ratio\ /=\ exchanges.size();}
+\DoxyCodeLine{00826\ }
+\DoxyCodeLine{00827\ }
+\DoxyCodeLine{00828\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((money\_delta)\ >\ 0\ \&\&\ total\_ratio\ >\ 0.8\ \&\&\ demography.money>5e8)}
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \ \ \ \ demography.consumption\_level\ *=\ 1.0001;}
+\DoxyCodeLine{00830\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ if\ (demography.consumption\_level\ >\ 0\ \&\&\ (money\_delta)\ <\ 0)}
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ \ \ \ \ demography.consumption\_level\ /=\ 1.0001;}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \ \ if\ (demography.money>8e8)}
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \ \ \ \ demography.consumption\_level\ *=\ 1.0001;}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Goverment\ buy}}
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ exchanges[food\_exc]-\/>buy\_money(industries[goverment]-\/>money*0.1,\ \&industries[goverment]-\/>money);}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ exchanges[pottery\_exc]-\/>buy\_money(industries[goverment]-\/>money*0.1,\ \&industries[goverment]-\/>money);}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ exchanges[cloth\_exc]-\/>buy\_money(industries[goverment]-\/>money*0.1,\ \&industries[goverment]-\/>money);}
+\DoxyCodeLine{00838\ }
+\DoxyCodeLine{00839\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_g_d_p}{GDP}}.private\_consumption\ +=\ abs(demography.money\ -\/\ before);}
+\DoxyCodeLine{00840\ \ \ \ \ \}}
+\DoxyCodeLine{00841\ }
+\DoxyCodeLine{00842\ \ \ \ \ \textcolor{keywordtype}{void}\ simulate(\textcolor{keywordtype}{int}\ date)}
+\DoxyCodeLine{00843\ \ \ \ \ \{}
+\DoxyCodeLine{00844\ \ \ \ \ \ \ \ \ army.move();}
+\DoxyCodeLine{00845\ }
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ demography.calc(date);}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ b\ =\ demography.money;}
+\DoxyCodeLine{00848\ \ \ \ \ \ \ \ \ calculate\_jobs();}
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ exchanges.size();\ i++)}
+\DoxyCodeLine{00851\ \ \ \ \ \ \ \ \ \ \ \ \ exchanges[i]-\/>process();}
+\DoxyCodeLine{00852\ }
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i<industries.size();\ i++)}
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \ \ \ \ industries[i]-\/>process();}
+\DoxyCodeLine{00855\ }
+\DoxyCodeLine{00856\ \ \ \ \ \ \ \ \ total\_wages\ =\ demography.money\ -\/\ b;}
+\DoxyCodeLine{00857\ \ \ \ \ \ \ \ \ money\_delta\ =\ total\_wages\ -\/\ \mbox{\hyperlink{struct_g_d_p}{GDP}}.private\_consumption;}
+\DoxyCodeLine{00858\ \ \ \ \ \ \ \ \ demography.density\ =\ demography.population\ /\ geography.square\_kilometres;}
+\DoxyCodeLine{00859\ }
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \ \ populus\_consumption();}
+\DoxyCodeLine{00861\ }
+\DoxyCodeLine{00862\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_g_d_p}{GDP}}.calcTotalGdp();}
+\DoxyCodeLine{00863\ }
+\DoxyCodeLine{00864\ }
+\DoxyCodeLine{00865\ \ \ \ \ \}}
+\DoxyCodeLine{00866\ \};}
+
+\end{DoxyCode}

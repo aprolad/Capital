@@ -3,14 +3,14 @@
 Inheritance diagram for Pie\+\_\+chart\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=2.000000cm]{class_pie__chart}
+\includegraphics[height=3.000000cm]{class_pie__chart}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_pie__chart_a2d61f26af7727af910feb10f959b2fd8}\label{class_pie__chart_a2d61f26af7727af910feb10f959b2fd8}} 
-{\bfseries Pie\+\_\+chart} (GLuint shader, GLuint font)
+\mbox{\Hypertarget{class_pie__chart_a65a5659e22e947c6553db17f7adfea22}\label{class_pie__chart_a65a5659e22e947c6553db17f7adfea22}} 
+{\bfseries Pie\+\_\+chart} (GLuint shader, GLuint font, double \+\_\+x, double \+\_\+y)
 \item 
 \mbox{\Hypertarget{class_pie__chart_a0fc01ab598752811ffb32378fb125056}\label{class_pie__chart_a0fc01ab598752811ffb32378fb125056}} 
 void {\bfseries set\+\_\+properties} (GLuint shader, GLuint font)
@@ -21,26 +21,23 @@ void {\bfseries draw\+\_\+slice} (GLfloat x, GLfloat y, double radius, double st
 \mbox{\Hypertarget{class_pie__chart_ad277730e8ba7c6de8931556c9bf680b3}\label{class_pie__chart_ad277730e8ba7c6de8931556c9bf680b3}} 
 void {\bfseries draw} (std\+::vector$<$ \mbox{\hyperlink{class_profession}{Profession}} $>$ data)
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_chart}{Chart}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_chart_a7e40f2a0a38d539a758d00d5dbdf79b3}\label{class_chart_a7e40f2a0a38d539a758d00d5dbdf79b3}} 
+void {\bfseries draw} (std\+::vector$<$ double $>$ \+\_\+data)
+\item 
+\mbox{\Hypertarget{class_chart_af8d249ba194428293a4cc4964101d847}\label{class_chart_af8d249ba194428293a4cc4964101d847}} 
+void {\bfseries set\+\_\+properties} (GLuint shader, GLuint font)
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
 virtual void {\bfseries mouse\+Callback} (double, double)
 \item 
-\mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
-virtual void {\bfseries init} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}\label{class_graphic__element_aa098e2b4bdf09ab9fd1cce7de5d810aa}} 
-virtual void {\bfseries draw} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_ade720e789a8f135982482b18a3219d15}\label{class_graphic__element_ade720e789a8f135982482b18a3219d15}} 
-virtual void {\bfseries prepare\+\_\+shaders} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}\label{class_graphic__element_a4a00735837650c6d799b8e7f035cec77}} 
-virtual void {\bfseries set\+\_\+properties} ()
-\item 
-\mbox{\Hypertarget{class_graphic__element_a96327d10aef2505acab80b7398500f92}\label{class_graphic__element_a96327d10aef2505acab80b7398500f92}} 
-virtual void {\bfseries mouse\+Callback} (double, double)
+\mbox{\Hypertarget{class_graphic__element_af7074792b1dae4633148d26152ccad6d}\label{class_graphic__element_af7074792b1dae4633148d26152ccad6d}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+callback} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}\label{class_graphic__element_a182e1f2a2ec7716e37f1a0cdf8ff3db4}} 
 virtual void {\bfseries init} ()
@@ -60,14 +57,23 @@ virtual void {\bfseries set\+\_\+properties} ()
 \mbox{\Hypertarget{class_pie__chart_abc1d53c8d38b09f039d926e36c308fb1}\label{class_pie__chart_abc1d53c8d38b09f039d926e36c308fb1}} 
 std\+::vector$<$ double $>$ {\bfseries elements\+\_\+of\+\_\+chart}
 \item 
-\mbox{\Hypertarget{class_pie__chart_adc24551a36a2850de863f00cec98d771}\label{class_pie__chart_adc24551a36a2850de863f00cec98d771}} 
-GLuint {\bfseries vao}
-\item 
-\mbox{\Hypertarget{class_pie__chart_af4586a2e4f482baf6f474d157cf6bd3b}\label{class_pie__chart_af4586a2e4f482baf6f474d157cf6bd3b}} 
-GLuint {\bfseries vbo}
-\item 
 \mbox{\Hypertarget{class_pie__chart_afa0614a58ef8076127572c343ea568e9}\label{class_pie__chart_afa0614a58ef8076127572c343ea568e9}} 
 std\+::vector$<$ GLfloat $>$ {\bfseries shape}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_chart}{Chart}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_chart_af4bf8a228ca137fa0bdc316a72bf6fa1}\label{class_chart_af4bf8a228ca137fa0bdc316a72bf6fa1}} 
+GLuint {\bfseries VAO}
+\item 
+\mbox{\Hypertarget{class_chart_a8a1b5161c93e158b5636f60ba385fce6}\label{class_chart_a8a1b5161c93e158b5636f60ba385fce6}} 
+GLuint {\bfseries VBO}
+\item 
+\mbox{\Hypertarget{class_chart_afec19144b4b6895b1048b7326124ab9c}\label{class_chart_afec19144b4b6895b1048b7326124ab9c}} 
+double {\bfseries x}
+\item 
+\mbox{\Hypertarget{class_chart_a2946fa78efc0083755b89dbdc6926556}\label{class_chart_a2946fa78efc0083755b89dbdc6926556}} 
+double {\bfseries y}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
 \begin{DoxyCompactItemize}
@@ -78,11 +84,14 @@ double {\bfseries size\+\_\+x}
 \mbox{\Hypertarget{class_graphic__element_ad03731a155fbad859da28054523d572c}\label{class_graphic__element_ad03731a155fbad859da28054523d572c}} 
 double {\bfseries size\+\_\+y}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}\label{class_graphic__element_a6e7b493c1373640304cee5733aef9ebc}} 
-void($\ast$ {\bfseries action} )()
+\mbox{\Hypertarget{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}\label{class_graphic__element_a7a4e5c557e95dba9df5e90dd622cd6b0}} 
+bool {\bfseries hovered\+\_\+on}
 \item 
-\mbox{\Hypertarget{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}\label{class_graphic__element_a07beeff265041424d6aa8b8dff88b9ab}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
+\mbox{\Hypertarget{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}\label{class_graphic__element_a346e41d61d562e9fd9127847e1c90629}} 
+bool {\bfseries active}
+\item 
+\mbox{\Hypertarget{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}\label{class_graphic__element_ad03a00197f57fe7df00e626a0927e039}} 
+void($\ast$ {\bfseries action} )()
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 \doxysubsubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_graphic__element}{Graphic\+\_\+element}}}
@@ -110,4 +119,4 @@ int {\bfseries y}
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-AMGUI/AMGUI.\+h\end{DoxyCompactItemize}
+Source/\+Visualization/AMGUI.\+h\end{DoxyCompactItemize}

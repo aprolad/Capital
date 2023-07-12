@@ -1,0 +1,147 @@
+\hypertarget{class_farming}{}\doxysection{Farming Class Reference}
+\label{class_farming}\index{Farming@{Farming}}
+Inheritance diagram for Farming\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_farming}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_farming_a1b2b192273737fedca4c01c24ac95240}{compute}} ()
+\item 
+\mbox{\Hypertarget{class_farming_a0dd68a8dc83c77223262d7748ce1227e}\label{class_farming_a0dd68a8dc83c77223262d7748ce1227e}} 
+{\bfseries Industry} (\mbox{\hyperlink{class_state}{State}} $\ast$\+\_\+state)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_industry}{Industry}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_industry_a0dd68a8dc83c77223262d7748ce1227e}\label{class_industry_a0dd68a8dc83c77223262d7748ce1227e}} 
+{\bfseries Industry} (\mbox{\hyperlink{class_state}{State}} $\ast$\+\_\+state)
+\item 
+\mbox{\Hypertarget{class_industry_a24f2c3cf2c3b3115ac460ed90476043b}\label{class_industry_a24f2c3cf2c3b3115ac460ed90476043b}} 
+void {\bfseries pay\+\_\+wage} ()
+\item 
+\mbox{\Hypertarget{class_industry_a64ad1bf5a411197018af9375a1ebdbaf}\label{class_industry_a64ad1bf5a411197018af9375a1ebdbaf}} 
+void {\bfseries invest} ()
+\item 
+\mbox{\Hypertarget{class_industry_a86edf53f8c5288b282178d10b4e8468f}\label{class_industry_a86edf53f8c5288b282178d10b4e8468f}} 
+void {\bfseries process} ()
+\item 
+\mbox{\Hypertarget{class_industry_aa3f3a6bd569b743bfa827814f3ee3f75}\label{class_industry_aa3f3a6bd569b743bfa827814f3ee3f75}} 
+virtual void {\bfseries compute} ()=0
+\item 
+\mbox{\Hypertarget{class_industry_a2f6bd83814eb35a3632b9880b5c63a71}\label{class_industry_a2f6bd83814eb35a3632b9880b5c63a71}} 
+void {\bfseries transfer\+\_\+money} (double $\ast$destination, double amount)
+\item 
+\mbox{\Hypertarget{class_industry_a9bd0ed669d75d684688671469cf8cfcb}\label{class_industry_a9bd0ed669d75d684688671469cf8cfcb}} 
+void {\bfseries transfer\+\_\+money} (double $\ast$source, double $\ast$destination, double amount)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+\doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_industry}{Industry}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_industry_a2527aaaf9e2013e6c651f13640a3a0f4}\label{class_industry_a2527aaaf9e2013e6c651f13640a3a0f4}} 
+\mbox{\hyperlink{struct_facility}{Facility}} {\bfseries typical\+\_\+facility}
+\item 
+\mbox{\Hypertarget{class_industry_a8e8c409d6b923fd0a4c2d5eb0bd161c8}\label{class_industry_a8e8c409d6b923fd0a4c2d5eb0bd161c8}} 
+double {\bfseries number\+\_\+of\+\_\+facilities}
+\item 
+\mbox{\Hypertarget{class_industry_a871ae8bd5813d420f25d12c357727cf8}\label{class_industry_a871ae8bd5813d420f25d12c357727cf8}} 
+double {\bfseries productivity}
+\item 
+\mbox{\Hypertarget{class_industry_ac7387b3257f800bb1521301ce7cb3aa5}\label{class_industry_ac7387b3257f800bb1521301ce7cb3aa5}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries output} \{ CAP\+\_\+\+UNIT\+\_\+\+OF\+\_\+\+MESURE\+\_\+\+KG \}
+\item 
+\mbox{\Hypertarget{class_industry_a3c20a1d4afe36a98c36725ca02312fbf}\label{class_industry_a3c20a1d4afe36a98c36725ca02312fbf}} 
+double {\bfseries gdp}
+\item 
+\mbox{\Hypertarget{class_industry_ab35d0be5da3f31df4e134bfacc7e6c73}\label{class_industry_ab35d0be5da3f31df4e134bfacc7e6c73}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries income}
+\item 
+\mbox{\Hypertarget{class_industry_adaa64d6b17fd6d9d6a3b08b3dc7443bf}\label{class_industry_adaa64d6b17fd6d9d6a3b08b3dc7443bf}} 
+double {\bfseries money}
+\item 
+\mbox{\Hypertarget{class_industry_a1263e0ffe6897857c0c7b10b2485eb94}\label{class_industry_a1263e0ffe6897857c0c7b10b2485eb94}} 
+double {\bfseries last\+\_\+day\+\_\+money}
+\item 
+\mbox{\Hypertarget{class_industry_ad73ba32940dbc6edfef948d8c8128487}\label{class_industry_ad73ba32940dbc6edfef948d8c8128487}} 
+double {\bfseries last\+\_\+day\+\_\+balance}
+\item 
+\mbox{\Hypertarget{class_industry_a91099b54e9d49b777175b6ac8606c9f9}\label{class_industry_a91099b54e9d49b777175b6ac8606c9f9}} 
+std\+::vector$<$ \mbox{\hyperlink{struct_workplace}{Workplace}} $>$ {\bfseries workforce}
+\item 
+\mbox{\Hypertarget{class_industry_a391b7ad8d0a1437501459faa9f2fb811}\label{class_industry_a391b7ad8d0a1437501459faa9f2fb811}} 
+double {\bfseries total\+\_\+worker\+\_\+count}
+\item 
+\mbox{\Hypertarget{class_industry_abd89c65b9116646e66a3e5dd3ff89e1e}\label{class_industry_abd89c65b9116646e66a3e5dd3ff89e1e}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries workforce\+\_\+d}
+\item 
+\mbox{\Hypertarget{class_industry_a93ed906b2932388add50ff0a41b09661}\label{class_industry_a93ed906b2932388add50ff0a41b09661}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries wages}
+\item 
+\mbox{\Hypertarget{class_industry_a56cf5013a2b391c0842bf67db2203d0f}\label{class_industry_a56cf5013a2b391c0842bf67db2203d0f}} 
+double {\bfseries prev\+\_\+wage}
+\item 
+\mbox{\Hypertarget{class_industry_a4628b551c46398c6c74c40d51450101e}\label{class_industry_a4628b551c46398c6c74c40d51450101e}} 
+double {\bfseries expenditure}
+\item 
+\mbox{\Hypertarget{class_industry_aa792f0c31f947282884b11053fe9cd39}\label{class_industry_aa792f0c31f947282884b11053fe9cd39}} 
+double {\bfseries revenue}
+\item 
+\mbox{\Hypertarget{class_industry_aaef8f4ab4141f27738d0808c3d111ca5}\label{class_industry_aaef8f4ab4141f27738d0808c3d111ca5}} 
+double {\bfseries gross\+\_\+profit}
+\item 
+\mbox{\Hypertarget{class_industry_aec4529c745fbec591bc937f0d98565cf}\label{class_industry_aec4529c745fbec591bc937f0d98565cf}} 
+double {\bfseries profit\+\_\+after\+\_\+investment}
+\item 
+\mbox{\Hypertarget{class_industry_a41a8b2fbfb856f0b9b0a5d9ec53c2630}\label{class_industry_a41a8b2fbfb856f0b9b0a5d9ec53c2630}} 
+double {\bfseries operating\+\_\+profit}
+\item 
+\mbox{\Hypertarget{class_industry_af0252e8b731afeff4a3d972b1ede2e1b}\label{class_industry_af0252e8b731afeff4a3d972b1ede2e1b}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries revenue\+\_\+d} \{ 2 \}
+\item 
+\mbox{\Hypertarget{class_industry_a8270a116b992b8502a8b2469858b2392}\label{class_industry_a8270a116b992b8502a8b2469858b2392}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries gross\+\_\+profit\+\_\+d} \{ 2 \}
+\item 
+\mbox{\Hypertarget{class_industry_a26d770975391c53633c04778b5007d71}\label{class_industry_a26d770975391c53633c04778b5007d71}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries profit\+\_\+after\+\_\+investment\+\_\+d} \{ 2 \}
+\item 
+\mbox{\Hypertarget{class_industry_aa01ed570f7f282b855212f8b91ac3e1e}\label{class_industry_aa01ed570f7f282b855212f8b91ac3e1e}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries operating\+\_\+profit\+\_\+d} \{2\}
+\item 
+\mbox{\Hypertarget{class_industry_a0cb629ada365ad28a70598077315a7e5}\label{class_industry_a0cb629ada365ad28a70598077315a7e5}} 
+\mbox{\hyperlink{class_display__value}{Display\+\_\+value}} {\bfseries investment\+\_\+account\+\_\+d} \{ 2 \}
+\item 
+\mbox{\Hypertarget{class_industry_a71f993298321064dd3d2a2bd254d77b0}\label{class_industry_a71f993298321064dd3d2a2bd254d77b0}} 
+double {\bfseries payroll}
+\item 
+\mbox{\Hypertarget{class_industry_a35592bca32b8d9a956e757760bb3e0f3}\label{class_industry_a35592bca32b8d9a956e757760bb3e0f3}} 
+double {\bfseries investment\+\_\+account}
+\item 
+\mbox{\Hypertarget{class_industry_a802fe5d2972fd35842718e0f5dab378f}\label{class_industry_a802fe5d2972fd35842718e0f5dab378f}} 
+double {\bfseries consumer\+\_\+coverage}
+\item 
+\mbox{\Hypertarget{class_industry_a7b39ef5e52c887ff72b4ac3ecbd17767}\label{class_industry_a7b39ef5e52c887ff72b4ac3ecbd17767}} 
+\mbox{\hyperlink{class_state}{State}} $\ast$ {\bfseries state}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_farming_a1b2b192273737fedca4c01c24ac95240}\label{class_farming_a1b2b192273737fedca4c01c24ac95240}} 
+\index{Farming@{Farming}!compute@{compute}}
+\index{compute@{compute}!Farming@{Farming}}
+\doxysubsubsection{\texorpdfstring{compute()}{compute()}}
+{\footnotesize\ttfamily void Farming\+::compute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_industry}{Industry}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Source/\+Simulation/State.\+h\item 
+Source/\+Simulation/Simulation.\+cpp\end{DoxyCompactItemize}

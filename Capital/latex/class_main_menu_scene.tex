@@ -9,6 +9,9 @@ Inheritance diagram for Main\+Menu\+Scene\+:\begin{figure}[H]
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{class_main_menu_scene_a508e23eaded23980997ec2b54a66bfeb}\label{class_main_menu_scene_a508e23eaded23980997ec2b54a66bfeb}} 
+{\bfseries Main\+Menu\+Scene} (GLuint shader\+Prog, GLuint font\+Sh, int $\ast$ch\+SC)
+\item 
 void \mbox{\hyperlink{class_main_menu_scene_af430fbf0d3f0ad07afacd3c838328b48}{construct\+\_\+scene}} ()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_scene}{Scene}}}
@@ -17,8 +20,14 @@ void \mbox{\hyperlink{class_main_menu_scene_af430fbf0d3f0ad07afacd3c838328b48}{c
 \mbox{\Hypertarget{class_scene_a3a38ea467564c446e3ca19df0b92ba37}\label{class_scene_a3a38ea467564c446e3ca19df0b92ba37}} 
 virtual void {\bfseries draw} ()
 \item 
-\mbox{\Hypertarget{class_scene_a1200d3c3dc88dad91a4f303fb3d52a98}\label{class_scene_a1200d3c3dc88dad91a4f303fb3d52a98}} 
-virtual void {\bfseries mouse\+Invoke} (double mx, double my)
+\mbox{\Hypertarget{class_scene_a4f3c6b336c38600d2cec6c1a54a4ee37}\label{class_scene_a4f3c6b336c38600d2cec6c1a54a4ee37}} 
+virtual void {\bfseries mouse\+Invoke} (double mx, double my, int button, int action)
+\item 
+\mbox{\Hypertarget{class_scene_a5044f8b320d8a0b53dbf724022d13c17}\label{class_scene_a5044f8b320d8a0b53dbf724022d13c17}} 
+virtual void {\bfseries mouse\+Scroll\+Invoke} (double mx, double my)
+\item 
+\mbox{\Hypertarget{class_scene_a6441ed3db06a4222d1d0f3148ece4f68}\label{class_scene_a6441ed3db06a4222d1d0f3148ece4f68}} 
+virtual void {\bfseries mouse\+\_\+move\+\_\+invoke} (double mx, double my)
 \item 
 \mbox{\Hypertarget{class_scene_a1bcf9e51340c9c75298dea1852c40aa4}\label{class_scene_a1bcf9e51340c9c75298dea1852c40aa4}} 
 virtual void {\bfseries keyboard\+\_\+callback} (GLFWwindow $\ast$window, int key, int scancode, int action, int mode)
@@ -33,11 +42,11 @@ virtual void {\bfseries initialize} (GLuint shader\+Prog, GLuint font\+Sh, int $
 \doxysubsubsection*{Public Attributes inherited from \mbox{\hyperlink{class_scene}{Scene}}}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{class_scene_a60634e2327a627312ca3b72d966b8588}\label{class_scene_a60634e2327a627312ca3b72d966b8588}} 
+bool {\bfseries enemy}
+\item 
 \mbox{\Hypertarget{class_scene_a209d92ce2c4301a1b57e9f7d22408530}\label{class_scene_a209d92ce2c4301a1b57e9f7d22408530}} 
 GLFWwindow $\ast$ {\bfseries window}
-\item 
-\mbox{\Hypertarget{class_scene_a978fed2c90f706a6faa65a1fd411a85d}\label{class_scene_a978fed2c90f706a6faa65a1fd411a85d}} 
-\mbox{\hyperlink{class_simulation}{Simulation}} $\ast$ {\bfseries simulation}
 \item 
 \mbox{\Hypertarget{class_scene_a06bdf7e596a5b1ff8959a269afe99858}\label{class_scene_a06bdf7e596a5b1ff8959a269afe99858}} 
 GLuint {\bfseries shader\+Program}
@@ -71,5 +80,5 @@ Reimplemented from \mbox{\hyperlink{class_scene}{Scene}}.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-scene.\+h\item 
-Scene.\+cpp\end{DoxyCompactItemize}
+Source/\+Visualization/Scene.\+h\item 
+Source/\+Visualization/Scene.\+cpp\end{DoxyCompactItemize}
