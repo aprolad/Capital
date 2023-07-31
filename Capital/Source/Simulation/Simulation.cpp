@@ -126,7 +126,7 @@ void Industry::invest()
 	if (workforce[0].vacancies < number_of_facilities/5 && investment_account > inc*state->exchanges[constr_exc]->current_price/10)
 	{
 		number_of_facilities += inc;
-		transfer_money(&investment_account, &state->industries[construction]->money, inc*state->exchanges[constr_exc]->current_price/10);
+		transfer_money(&investment_account, &state->industries["Construction"]->money, inc * state->exchanges[constr_exc]->current_price / 10);
 	}
 
 
@@ -177,7 +177,7 @@ void Industry::pay_wage()
 
 	double taxes = payroll * 0.03;
 	double netto_salary = payroll - taxes;
-	state->industries[goverment]->money += taxes;
+	state->industries["Goverment"]->money += taxes;
 
 	wages = workforce[0].wage;
 

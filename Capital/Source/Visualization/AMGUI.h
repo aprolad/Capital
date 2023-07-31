@@ -391,7 +391,6 @@ public:
 class Pie_chart : virtual public Chart
 {
 public:
-	std::vector<double> elements_of_chart;
 	Pie_chart(GLuint shader, GLuint font, double _x, double _y)
 	{
 		x = _x;

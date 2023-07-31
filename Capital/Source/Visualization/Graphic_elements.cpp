@@ -1,5 +1,6 @@
 #pragma once
-
+#include <cstdlib> 
+#include <ctime>  
 #include "Visualization.h"
 #include "Graphic_elements.h"
 extern Visualization visualization;
@@ -22,10 +23,10 @@ void Goverment_menu::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 24);
 
-	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries[goverment]->workforce[0].quantity);
-	panel->add_dynamic_text_element("Goverment budget:  ", " ",  x_slot * 4, y_slot * 21, &simulation.player.industries[goverment]->revenue);
+	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries["Goverment"]->workforce[0].quantity);
+	panel->add_dynamic_text_element("Goverment budget:  ", " ",  x_slot * 4, y_slot * 21, &simulation.player.industries["Goverment"]->revenue);
 
-	panel->add_dynamic_text_element("Wages: ", &simulation.player.industries[goverment]->wages.result, x_slot * 4, y_slot * 19);
+	panel->add_dynamic_text_element("Wages: ", &simulation.player.industries["Goverment"]->wages.result, x_slot * 4, y_slot * 19);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 }
 
@@ -77,7 +78,7 @@ void Service_sector_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[construction];
+	Industry* industry = simulation.player.industries["Construction"];
 	Exchange* ex1 = simulation.player.exchanges[constr_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -122,15 +123,15 @@ void Economics_menu::init()
 
 	panel->add_dynamic_text_element("Delta workers: ", " D ", x_slot * 6, y - 450, &simulation.player.demography.delta_workers);
 
-	panel->add_dynamic_text_element("Enemployed: ", " D ", x_slot * 6, y - 500, &simulation.player.industries[unemployed]->workforce[0].quantity);
+	panel->add_dynamic_text_element("Enemployed: ", " D ", x_slot * 6, y - 500, &simulation.player.industries["Unemployed"]->workforce[0].quantity);
 
 	//panel->add_dynamic_text_element("Wheat Price: ", " Tonnes", x, y - 750, &simulation.foodExc.current_price);
 
-	panel->add_dynamic_text_element("Agri money:  ", " Square km", x, y - 550, &simulation.player.industries[farming]->money);
-	panel->add_dynamic_text_element("Gath money:  ", " Square km", x, y - 600, &simulation.player.industries[gathering]->money);
-	panel->add_dynamic_text_element("Pottery money:  ", " Square km", x, y - 750, &simulation.player.industries[pottery]->money);
-	panel->add_dynamic_text_element("Animal money:  ", " Square km", x, y - 650, &simulation.player.industries[husbandry]->money);
-	panel->add_dynamic_text_element("Cloth money:  ", " Square km", x, y - 700, &simulation.player.industries[textile]->money);
+	panel->add_dynamic_text_element("Agri money:  ", " Square km", x, y - 550, &simulation.player.industries["Farming"]->money);
+	panel->add_dynamic_text_element("Gath money:  ", " Square km", x, y - 600, &simulation.player.industries["Gathering"]->money);
+	panel->add_dynamic_text_element("Pottery money:  ", " Square km", x, y - 750, &simulation.player.industries["Pottery"]->money);
+	panel->add_dynamic_text_element("Animal money:  ", " Square km", x, y - 650, &simulation.player.industries["Husbandry"]->money);
+	panel->add_dynamic_text_element("Cloth money:  ", " Square km", x, y - 700, &simulation.player.industries["Textile"]->money);
 	panel->add_dynamic_text_element("pop money: ", &simulation.player.demography.money.result, x, y - 950);
 	base = (new Quad_button())->set_properties(shaderProgram, fontShader, x, y, size_x, size_y, text);
 
@@ -169,7 +170,7 @@ void Gathering_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[gathering];
+	Industry* industry = simulation.player.industries["Gathering"];
 	Exchange* ex1 = simulation.player.exchanges[food_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -199,7 +200,7 @@ void Farming_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[farming];
+	Industry* industry = simulation.player.industries["Farming"];
 	Exchange* ex1 = simulation.player.exchanges[food_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -231,7 +232,7 @@ void Forestry_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[forestry];
+	Industry* industry = simulation.player.industries["Forestry"];
 	Exchange* ex1 = simulation.player.exchanges[wood_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -263,7 +264,7 @@ void Husbandry_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[husbandry];
+	Industry* industry = simulation.player.industries["Husbandry"];
 	Exchange* ex1 = simulation.player.exchanges[wool_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -293,7 +294,7 @@ void Pottery_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[pottery];
+	Industry* industry = simulation.player.industries["Pottery"];
 	Exchange* ex1 = simulation.player.exchanges[pottery_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -323,7 +324,7 @@ void Textile_panel::init()
 {
 	int x_slot = visualization.window_resolution.x / 50;
 	int y_slot = visualization.window_resolution.y / 50;
-	Industry* industry = simulation.player.industries[textile];
+	Industry* industry = simulation.player.industries["Textile"];
 	Exchange* ex1 = simulation.player.exchanges[cloth_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
@@ -383,11 +384,11 @@ void Society_profession_panel::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
-	panel->add_dynamic_text_element("Cloth wages: ", &simulation.player.industries[textile]->wages.result, x_slot * 13, y_slot * 23);
+	panel->add_dynamic_text_element("Cloth wages: ", &simulation.player.industries["Textile"]->wages.result, x_slot * 13, y_slot * 23);
 
-	panel->add_dynamic_text_element("Cloth income: ", &simulation.player.industries[textile]->income.result, x_slot * 13, y_slot * 21);
+	panel->add_dynamic_text_element("Cloth income: ", &simulation.player.industries["Textile"]->income.result, x_slot * 13, y_slot * 21);
 
-	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries[textile]->workforce_d.result, x_slot * 13, y_slot * 19);
+	panel->add_dynamic_text_element("Workforce: ", &simulation.player.industries["Textile"]->workforce_d.result, x_slot * 13, y_slot * 19);
 
 	panel->add_dynamic_text_element("Cloth price:  ", " ", x_slot * 13, y_slot * 17, &simulation.player.exchanges[cloth_exc]->current_price);
 
@@ -407,7 +408,11 @@ void Society_profession_panel::draw()
 		for (auto a : root_menus)
 			a->draw();
 		//chart->draw(std::vector(simulation.population.agePyramid.begin() + 1, simulation.population.agePyramid.end()));
-		chart->draw(simulation.player.socium.worker_types);
+		std::vector<Profession> data;
+		std::srand(static_cast<unsigned int>(std::time(nullptr)));
+		for (auto& t : simulation.player.industries)
+			data.push_back(Profession(t.first, t.second->total_worker_count / simulation.player.demography.laborPool, std::vector<float>{float(std::rand() % 256), float(std::rand() % 256), float(std::rand() % 256), 1}));
+		chart->draw(data);
 	}
 }
 

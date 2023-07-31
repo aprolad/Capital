@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <unordered_map>
 #include "../Visualization/World.h"
 
 #define CAP_UNIT_OF_MEASURE_NO 0 
@@ -17,7 +18,7 @@
 #define CAP_UNIT_OF_MESURE_KM 3
 #define CAP_UNIT_OF_MEASURE_SQ_KM 4
 class Simulation;
-enum industry_index {
+enum industry_index11 {
     farming,
     gathering,
     pottery,
@@ -704,7 +705,7 @@ public:
 	Army army;
 	double total_wages;
 	double money_delta;
-	std::vector<Industry*> industries;
+	std::unordered_map<std::string, Industry*> industries;
 	std::vector<Exchange*> exchanges;
 	Demography demography;
 	bool mobilized;
@@ -724,8 +725,8 @@ public:
 	void calculate_jobs()
 	{
 		std::vector<Workplace*> jobs;
-		for (int i =0; i< industries.size();i++)
-			for (auto& j : industries[i]->workforce)
+		for (auto t : industries)
+			for (auto& j : t.second->workforce)
 				jobs.push_back(&j);
 
 
@@ -743,14 +744,14 @@ public:
 		if (demography.delta_workers < 0)
 			distrubute_worker_loss(jobs);
 		else
-			industries[unemployed]->workforce[0].quantity += abs(demography.delta_workers);
+			industries["Unemployed"]->workforce[0].quantity += abs(demography.delta_workers);
 		// Staff turnover
 		for (auto& j : jobs)
 		{
 			double change = j->quantity * 0.0001;
 			if (j->wage < average_wage)
 				change *= 15;
-			industries[unemployed]->workforce[0].quantity += change;
+			industries["Unemployed"]->workforce[0].quantity += change;
 			j->quantity -= change;
 		}
 
@@ -769,19 +770,19 @@ public:
 		for (auto& a : jobs)
 		{
 
-			if (a->vacancies > 0 && industries[unemployed]->workforce[0].quantity > 0 && a->wage > 0)
+			if (a->vacancies > 0 && industries["Unemployed"]->workforce[0].quantity > 0 && a->wage > 0)
 
-				if (a->vacancies > industries[unemployed]->workforce[0].quantity && industries[unemployed]->workforce[0].quantity>1)
+				if (a->vacancies > industries["Unemployed"]->workforce[0].quantity && industries["Unemployed"]->workforce[0].quantity>1)
 				{	
-					double t = industries[unemployed]->workforce[0].quantity;
+					double t = industries["Unemployed"]->workforce[0].quantity;
 					a->vacancies -= t;
 					a->quantity  += t;
-					industries[unemployed]->workforce[0].quantity -= t;
+					industries["Unemployed"]->workforce[0].quantity -= t;
 					break;
 				}
-				else if (industries[unemployed]->workforce[0].quantity > a->vacancies)
+				else if (industries["Unemployed"]->workforce[0].quantity > a->vacancies)
 				{
-					industries[unemployed]->workforce[0].quantity -= a->vacancies;
+					industries["Unemployed"]->workforce[0].quantity -= a->vacancies;
 					a->quantity += a->vacancies;
 					a->vacancies = 0;
 				}
@@ -793,32 +794,46 @@ public:
 			j->quantity *= correct;
 		}
 
-		// Calc percentages
-		for (int c = 0; c < industries.size(); c++)
-		{
 
-			socium.worker_types[c].percent_of_workforce = industries[c]->total_worker_count / demography.laborPool;
-		}
 
 	}
+	void populus_consume(double population, double consumption_level)
+	{
+		auto t = exchanges[food_exc]->buy_amount(population * 0.7, &demography.money.value);
+
+		exchanges[pottery_exc]->buy_amount(population*0.1 * consumption_level, &demography.money.value);
+		exchanges[cloth_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);
+		exchanges[wood_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);
+	}
+
 	void populus_consumption()
 	{
 		GDP.private_consumption = 0;
 
 		double before = demography.money;
 
-		double realistic_demand = demography.population * 0.7;
-
-		// Necessary buy
-		auto t = exchanges[food_exc]->buy_amount(realistic_demand, &demography.money.value);
-
-		demography.foodSupply = (t.amount_bought / demography.population)/(demography.population/(geography.square_kilometres*100)) * 100;
-
-		exchanges[pottery_exc]->buy_amount(demography.population*0.1 * demography.consumption_level, &demography.money.value);
-		exchanges[cloth_exc]->buy_amount(demography.population*0.01 * demography.consumption_level, &demography.money.value);
-		exchanges[wood_exc]->buy_amount(demography.population*0.01 * demography.consumption_level, &demography.money.value);
 
 
+		// Calculate average wage of all industries
+		int jnum = 0;
+		double average_wage = 0;
+		for (auto t : industries)
+			for (auto a : t.second->workforce)
+			{
+				jnum++;
+				average_wage += a.wage;
+			}
+		average_wage /= jnum;
+
+
+		demography.foodSupply = 100 * demography.consumption_level /(demography.population/(geography.square_kilometres*100));
+
+		// Populus buying stuff
+		for (auto& t : industries)
+			for (auto& a : t.second->workforce)
+				populus_consume(a.quantity, demography.consumption_level * a.wage/average_wage);
+
+		// For checking if there point in rising consumption level(Can people buy enough products to make sense to rise QOL)
 		double total_ratio = 0;
 		for (auto& a : exchanges)
 			total_ratio += a->supply_to_demand_ratio;
@@ -832,9 +847,9 @@ public:
 		if (demography.money>8e8)
 			demography.consumption_level *= 1.0001;
 		// Goverment buy
-		exchanges[food_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
-		exchanges[pottery_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
-		exchanges[cloth_exc]->buy_money(industries[goverment]->money*0.1, &industries[goverment]->money);
+		exchanges[food_exc]->buy_money(industries["Goverment"]->money*0.1, &industries["Goverment"]->money);
+		exchanges[pottery_exc]->buy_money(industries["Goverment"]->money*0.1, &industries["Goverment"]->money);
+		exchanges[cloth_exc]->buy_money(industries["Goverment"]->money*0.1, &industries["Goverment"]->money);
 
 		GDP.private_consumption += abs(demography.money - before);
 	}
@@ -850,8 +865,8 @@ public:
 		for (int i = 0; i < exchanges.size(); i++)
 			exchanges[i]->process();
 
-		for (int i = 0; i<industries.size(); i++)
-			industries[i]->process();
+		for (auto &t : industries)
+			t.second->process();
 
 		total_wages = demography.money - b;
 		money_delta = total_wages - GDP.private_consumption;
