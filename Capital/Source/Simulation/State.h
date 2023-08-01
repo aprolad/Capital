@@ -131,11 +131,12 @@ struct GDP
 	}
 
 	Display_value total;
+	double real_private_consumption;
 	double private_consumption;
 	std::vector<double> history;
 	double calcTotalGdp()
 	{
-		total = private_consumption;
+		total = real_private_consumption;
 		history.insert(history.begin(), total);
 		history.pop_back();
 		return total;
@@ -336,11 +337,13 @@ class Exchange
 public:
 	Exchange()
 	{
+		prev_price.resize(365);
 		current_price = 10;
 	}
 
 	std::deque<Order> order_book;
 	double current_price;
+	std::deque<double> prev_price;
 	double sold_quantity;
 	double total_demand;
 	double total_supply;
@@ -365,6 +368,8 @@ public:
 		if (total_supply < 0.01) total_supply = 0.01;
 		if (total_demand < 0.01) total_demand = 0.01;
 
+		prev_price.push_back(current_price);
+		prev_price.pop_front();
 		sold_quantity_d = sold_quantity;
 		total_demand_d = total_demand;
 		total_supply_d = total_supply;
@@ -784,17 +789,24 @@ public:
 	}
 	void populus_consume(double population, double consumption_level)
 	{
-		auto t = exchanges[food_exc]->buy_amount(population * 0.7 + population*0.2 * consumption_level, &demography.money.value);
-
-		exchanges[pottery_exc]->buy_amount(population*0.1 * consumption_level, &demography.money.value);
-		exchanges[cloth_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);
-		exchanges[wood_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);
+		auto t = exchanges[food_exc]->buy_amount(population * 0.7 + population*0.3 * consumption_level, &demography.money.value);
+		GDP.private_consumption += t.money_spent;
+		GDP.real_private_consumption += t.amount_bought * exchanges[food_exc]->prev_price[0];
+		t = exchanges[pottery_exc]->buy_amount(population*0.1 * consumption_level, &demography.money.value);
+		GDP.private_consumption += t.money_spent;
+		GDP.real_private_consumption += t.amount_bought * exchanges[pottery_exc]->prev_price[0];
+		t = exchanges[cloth_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);
+		GDP.private_consumption += t.money_spent;
+		GDP.real_private_consumption += t.amount_bought * exchanges[cloth_exc]->prev_price[0];
+		t = exchanges[wood_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);
+		GDP.private_consumption += t.money_spent;
+		GDP.real_private_consumption += t.amount_bought * exchanges[wood_exc]->prev_price[0];
 	}
 
 	void populus_consumption()
 	{
 		GDP.private_consumption = 0;
-
+		GDP.real_private_consumption = 0;
 		double before = demography.money;
 
 
@@ -830,13 +842,13 @@ public:
 		else if (demography.consumption_level > 0 && (money_delta) < 0)
 			demography.consumption_level /= 1.0001;
 		if (demography.money>8e8)
-			demography.consumption_level *= 1.0001;
+			demography.consumption_level *= 1.00014;
 		// Goverment buy
 		exchanges[food_exc]->buy_money(industries["Goverment"]->money*0.1, &industries["Goverment"]->money);
 		exchanges[pottery_exc]->buy_money(industries["Goverment"]->money*0.1, &industries["Goverment"]->money);
 		exchanges[cloth_exc]->buy_money(industries["Goverment"]->money*0.1, &industries["Goverment"]->money);
 
-		GDP.private_consumption += abs(demography.money - before);
+
 	}
 
 	void simulate(int date)
@@ -856,6 +868,8 @@ public:
 		total_wages = demography.money - b;
 		money_delta = total_wages - GDP.private_consumption;
 		demography.density = demography.population / geography.square_kilometres;
+		// YoY inflation
+		//std::cout << GDP.private_consumption / (GDP.real_private_consumption+1)<<std::endl;
 
 		populus_consumption();
 

@@ -12,7 +12,7 @@ void Farming::compute()
 
 void Goverment::compute()
 {
-
+	number_of_facilities = state->demography.population / 200;
 }
 
 void Gathering::compute()
@@ -60,26 +60,27 @@ void Textile::compute()
 {
 
 	output = total_worker_count * 0.1;
-	double stockpile_fill = stockpile / (output * 0.5 * 100);
+	double material_consumption = output * 0.5;
+	double stockpile_fill = stockpile / (material_consumption * 100);
 	double miss = 1 - stockpile_fill;
-	if (stockpile < output * 0.5 * 200)
+	if (stockpile < material_consumption * 200)
 	{
-		auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5, &money);
+		auto t = state->exchanges[wool_exc]->buy_amount(material_consumption, &money);
 		stockpile += t.amount_bought;
 		expenditure += t.money_spent;
 	}
-	if (stockpile < output * 0.5 * 100)
+	if (stockpile < material_consumption * 100)
 	{
-		auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5 * miss, &money);
+		auto t = state->exchanges[wool_exc]->buy_amount(material_consumption * miss, &money);
 		stockpile += t.amount_bought;
 		expenditure += t.money_spent;
 	}
-	if (stockpile > (output * 0.5))
+	if (stockpile > (material_consumption))
 		material_coverage = 1;
 	else
-		material_coverage = stockpile / (output * 0.5);
+		material_coverage = stockpile / (material_consumption);
 
-	stockpile -= output * 0.5 * material_coverage;
+	stockpile -= material_consumption * material_coverage;
 	if (material_coverage < 0.001)
 		material_coverage = 0.001;
 
@@ -102,12 +103,29 @@ void Forestry::compute()
 void Construction::compute()
 {
 	output = total_worker_count * 0.2;
-	auto t = state->exchanges[wood_exc]->buy_amount(output * 0.5, &money);
-	output.value += 0.1;
-	material_coverage = t.amount_bought / (output * 0.5);
-	if (material_coverage < 0.1)
-		material_coverage = 0.1;
-	expenditure += t.money_spent;
+	double material_consumption = output * 0.5;
+	double stockpile_fill = stockpile / (material_consumption * 300);
+	double miss = 1 - stockpile_fill;
+	if (stockpile < material_consumption * 500)
+	{
+		auto t = state->exchanges[wool_exc]->buy_amount(material_consumption, &money);
+		stockpile += t.amount_bought;
+		expenditure += t.money_spent;
+	}
+	if (stockpile < material_consumption * 300)
+	{
+		auto t = state->exchanges[wool_exc]->buy_amount(material_consumption * miss, &money);
+		stockpile += t.amount_bought;
+		expenditure += t.money_spent;
+	}
+	if (stockpile > (material_consumption))
+		material_coverage = 1;
+	else
+		material_coverage = stockpile / (material_consumption);
+
+	stockpile -= material_consumption * material_coverage;
+	if (material_coverage < 0.001)
+		material_coverage = 0.001;
 
 	state->exchanges[constr_exc]->put_sell_order(output * material_coverage, state->exchanges[constr_exc]->get_current_price(), &money);
 
@@ -168,8 +186,8 @@ void Industry::pay_wage()
 		if (workforce[i].quantity < 1)
 			workforce[i].quantity = 1;
 		// arbitary vacancies creation
-		if (workforce[i].vacancies < 1000)
-			number_of_facilities += 1;
+		//if (workforce[i].vacancies < 1000)
+		//	number_of_facilities += 1;
 	}
 
 	invest();

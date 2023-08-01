@@ -23,7 +23,7 @@ void Goverment_menu::init()
 
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 5, y_slot * 24);
 
-	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries["Goverment"]->workforce[0].quantity);
+	panel->add_dynamic_text_element("Workers:  ", " ",  x_slot * 4, y_slot * 17, &simulation.player.industries["Goverment"]->workforce[1].quantity);
 	panel->add_dynamic_text_element("Goverment budget:  ", " ",  x_slot * 4, y_slot * 21, &simulation.player.industries["Goverment"]->revenue);
 
 	panel->add_dynamic_text_element("Wages: ", &simulation.player.industries["Goverment"]->wages.result, x_slot * 4, y_slot * 19);
@@ -80,7 +80,12 @@ void Service_sector_panel::init()
 	int y_slot = visualization.window_resolution.y / 50;
 	Industry* industry = simulation.player.industries["Construction"];
 	Exchange* ex1 = simulation.player.exchanges[constr_exc];
+
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
+
+	panel->add_dynamic_text_element("NOF: ", "", x_slot * 13, y_slot * 31, &industry->number_of_facilities);
+
+	panel->add_dynamic_text_element("Stockpile: ", "", x_slot * 13, y_slot * 29, &industry->stockpile);
 
 	panel->add_dynamic_text_element("Gatherers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -174,6 +179,8 @@ void Gathering_panel::init()
 	Exchange* ex1 = simulation.player.exchanges[food_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
 
+	panel->add_dynamic_text_element("NOF: ", "", x_slot * 13, y_slot * 31, &industry->number_of_facilities);
+
 	panel->add_dynamic_text_element("Gatherers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
 	panel->add_dynamic_text_element("Workforce: ", &industry->workforce_d.result, x_slot * 13, y_slot * 25);
@@ -203,6 +210,8 @@ void Farming_panel::init()
 	Industry* industry = simulation.player.industries["Farming"];
 	Exchange* ex1 = simulation.player.exchanges[food_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
+
+	panel->add_dynamic_text_element("NOF: ", "", x_slot * 13, y_slot * 31, &industry->number_of_facilities);
 
 	panel->add_dynamic_text_element("Farming wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
