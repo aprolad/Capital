@@ -18,19 +18,8 @@
 #define CAP_UNIT_OF_MESURE_KM 3
 #define CAP_UNIT_OF_MEASURE_SQ_KM 4
 class Simulation;
-enum industry_index11 {
-    farming,
-    gathering,
-    pottery,
-    husbandry,
-	textile,
-	forestry,
-	construction,
-	goverment,
-	unemployed
-};
-
-
+class Industry;
+class State;
 enum exchange_index {
 	food_exc,
 	wool_exc,
@@ -40,7 +29,7 @@ enum exchange_index {
 	constr_exc
   
 };
-class State;
+
 
 class Display_value
 {
@@ -53,7 +42,7 @@ public:
 	double value;
 	std::string result;
 	std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km", "Square km" };
-	std::vector<std::string> exponent_string{ "","Thousands","Millions", "Billions", "Trillions", "Quadrillions" };
+	std::vector<std::string> exponent_string{ "","Thousands","Millions", "Billions", "Trillions", "Quadrillions", "", ""};
 
 	operator double() const
 	{
@@ -170,7 +159,7 @@ public:
 class Profession
 {
 public:
-	Profession(std::string n, double percent_of_workforce, std::vector<float> c)
+	Profession(std::string n, double percent_of_workforce, glm::vec4 c)
 	{
 		color = c;
 		name = n;
@@ -178,32 +167,11 @@ public:
 	}
 
 	std::string name;
-	std::vector<float> color;
+	glm::vec4 color;
 	double percent_of_workforce;
 	double wage;
 };
-class Socium
-{
-public:
-	Socium();
-	Profession* by_name(std::string target)
-	{
-		auto it = std::find_if(worker_types.begin(), worker_types.end(),
-			[=](const Profession& obj) { return obj.name == target; });
-		if (it != worker_types.end())
-			return &(*it);
-		else
-			return nullptr;
-	}
-	operator std::vector<double>() const
-	{
-		std::vector<double> t;
-		for (auto a : worker_types)
-			t.push_back(a.percent_of_workforce);
-		return t;
-	}
-	std::vector<Profession> worker_types;
-};
+
 class Demography
 {
 public:
@@ -409,12 +377,13 @@ public:
 		if (total_demand > total_supply && ((sold_quantity / total_supply) > 0.9))
 		{
 
-			current_price *= 1 + (0.003 * (total_demand - total_supply) / total_demand);
+			current_price *= 1 + (0.03 * (total_demand - total_supply) / total_demand);
 		}
 		else if (total_demand < total_supply*1.1)
-			current_price /= 1 + (0.003 * (total_supply - total_demand) / total_supply);
+			current_price /= 1 + (0.03 * (total_supply - total_demand) / total_supply);
 
-
+		if (sold_quantity / total_supply < 0.9)
+			current_price /= 1.01;
 		supply_to_demand_ratio = total_supply / total_demand;
 
 
@@ -547,9 +516,14 @@ public:
 };
 struct Workplace
 {
+	Workplace(Industry* _a)
+	{
+		parent = _a;
+	}
 	double vacancies;
 	double quantity;
 	double wage;
+	Industry* parent;
 };
 struct Facility
 {
@@ -558,21 +532,28 @@ struct Facility
 class Industry
 {
 public:
-	Industry(State* _state) :   wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
+	Industry(State* _state, glm::vec4 _color, short _sector) :   wages(CAP_UNIT_OF_MESURE_MONEY), income(CAP_UNIT_OF_MESURE_MONEY), workforce_d(0)
 	{ 
-		workforce.push_back(Workplace());
+		color = _color;
+		sector_of_economy = _sector;
+		workforce.push_back(Workplace(this));
 		typical_facility.positions.push_back(10);
-		workforce.push_back(Workplace());
+		workforce.push_back(Workplace(this));
 		typical_facility.positions.push_back(1);
 		state = _state;
 		for (int i = 0; i< workforce.size(); i++)
 			workforce[i].wage = 10;
 		money = 100000;
 		investment_account = 0;
+		material_coverage = 1;
 	}
+	double stockpile;
+	double material_coverage;
 	Facility typical_facility;
 	double number_of_facilities;
 	double productivity;
+	glm::vec4 color;
+	short sector_of_economy;
 	Display_value output{ CAP_UNIT_OF_MESURE_KG };
 //	double vacancies;
 	double gdp;
@@ -699,7 +680,6 @@ public:
 	State(Simulation* sim, double);
 	Simulation* simulation;
 	Geography geography;
-	Socium socium;
 	std::vector<tile*> controlled_tiles;
 	GDP GDP;
 	Army army;
@@ -748,8 +728,13 @@ public:
 		// Staff turnover
 		for (auto& j : jobs)
 		{
-			double change = j->quantity * 0.0001;
-			if (j->wage < average_wage)
+
+
+
+			double change = j->quantity * 0.0003;
+			if (j->parent->operating_profit / j->parent->revenue < 0.01)
+				change *= 10;
+			else if (j->wage < average_wage)
 				change *= 15;
 			industries["Unemployed"]->workforce[0].quantity += change;
 			j->quantity -= change;
@@ -770,7 +755,7 @@ public:
 		for (auto& a : jobs)
 		{
 
-			if (a->vacancies > 0 && industries["Unemployed"]->workforce[0].quantity > 0 && a->wage > 0)
+			if (a->vacancies > 0 && industries["Unemployed"]->workforce[0].quantity > 0 && a->wage > 0 && a->parent->material_coverage > 0.9)
 
 				if (a->vacancies > industries["Unemployed"]->workforce[0].quantity && industries["Unemployed"]->workforce[0].quantity>1)
 				{	
@@ -799,7 +784,7 @@ public:
 	}
 	void populus_consume(double population, double consumption_level)
 	{
-		auto t = exchanges[food_exc]->buy_amount(population * 0.7, &demography.money.value);
+		auto t = exchanges[food_exc]->buy_amount(population * 0.7 + population*0.2 * consumption_level, &demography.money.value);
 
 		exchanges[pottery_exc]->buy_amount(population*0.1 * consumption_level, &demography.money.value);
 		exchanges[cloth_exc]->buy_amount(population*0.01 * consumption_level, &demography.money.value);

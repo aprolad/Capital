@@ -60,14 +60,32 @@ void Textile::compute()
 {
 
 	output = total_worker_count * 0.1;
-	auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5, &money);
-	double material_coverage = t.amount_bought / (output * 0.5);
-	if (material_coverage < 0.1)
-		material_coverage = 0.1;
-	//std::cout << "1 "<<material_coverage << std::endl;
-	expenditure += t.money_spent;
+	double stockpile_fill = stockpile / (output * 0.5 * 100);
+	double miss = 1 - stockpile_fill;
+	if (stockpile < output * 0.5 * 200)
+	{
+		auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5, &money);
+		stockpile += t.amount_bought;
+		expenditure += t.money_spent;
+	}
+	if (stockpile < output * 0.5 * 100)
+	{
+		auto t = state->exchanges[wool_exc]->buy_amount(output * 0.5 * miss, &money);
+		stockpile += t.amount_bought;
+		expenditure += t.money_spent;
+	}
+	if (stockpile > (output * 0.5))
+		material_coverage = 1;
+	else
+		material_coverage = stockpile / (output * 0.5);
 
-	//std::cout << revenue << std::endl;
+	stockpile -= output * 0.5 * material_coverage;
+	if (material_coverage < 0.001)
+		material_coverage = 0.001;
+
+
+
+
 	state->exchanges[cloth_exc]->put_sell_order(output * material_coverage, state->exchanges[cloth_exc]->get_current_price(), &money);
 
 
@@ -86,7 +104,7 @@ void Construction::compute()
 	output = total_worker_count * 0.2;
 	auto t = state->exchanges[wood_exc]->buy_amount(output * 0.5, &money);
 	output.value += 0.1;
-	double material_coverage = t.amount_bought / (output * 0.5);
+	material_coverage = t.amount_bought / (output * 0.5);
 	if (material_coverage < 0.1)
 		material_coverage = 0.1;
 	expenditure += t.money_spent;
@@ -107,6 +125,7 @@ void Industry::process()
 	expenditure = 0;
 	auto t = state->exchanges[constr_exc]->buy_amount(total_worker_count * 0.001, &money);
 	expenditure += t.money_spent;
+
 	compute();
 
 	pay_wage();
@@ -161,19 +180,18 @@ void Industry::pay_wage()
 	{
 		share += workforce[i].quantity * (1 + i * 3);
 	}
-	share = (profit_after_investment * 0.95) / share;
+	share = (profit_after_investment * 0.9) / share;
 	for (int i = 0; i < workforce.size(); i++)
 	{
 		workforce[i].wage = share * (1 + i*3);
 		(workforce[i].wage < 0) ? workforce[i].wage = 0 : workforce[i].wage;
 		payroll += workforce[i].wage * workforce[i].quantity + money / 50;
-	//	std::cout << workforce[i].quantity<<" vaca "<< workforce[i].vacancies<<" wage "<<workforce[i].wage<< workforce.size() << std::endl;
 	}
-	//std::cout << std::endl;
+
 	if (payroll > money)
-		{
+	{
 			payroll = money;
-		}
+	}
 
 	double taxes = payroll * 0.03;
 	double netto_salary = payroll - taxes;
@@ -188,9 +206,4 @@ void Industry::pay_wage()
 
 }
 
-
-Socium::Socium()
-{
-	
-}
 

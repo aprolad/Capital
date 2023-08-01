@@ -193,6 +193,7 @@ public:
 		this->text = atext;
 		return this;
 	}
+
 	void draw()
 	{
 		prepare_shaders();
@@ -202,10 +203,24 @@ public:
 		}
 		else
 		{
+
+			std::string result;
+			std::vector<std::string> unit_of_measure{ "","Kg", "Denarius", "Km", "Square km" };
+			std::vector<std::string> exponent_string{ "","Thousands","Millions", "Billions", "Trillions", "Quadrillions", "", ""};
+
+			int exp = 0;
+			double p = *binded_value;
+			while (int(log10(p)) > 2 and p != 0)
+			{
+				exp++;
+				p /= 1e3;
+			}
 			std::stringstream stream;
-			stream << std::fixed << std::setprecision(3) << *binded_value;
-			std::string s = stream.str();
-			RenderText(fontShader, text + s + postfix, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
+			stream << std::fixed << std::setprecision(3) << p;
+			result = text + stream.str() + " " + exponent_string[exp] + " " + unit_of_measure[0];
+
+
+			RenderText(fontShader, result, x - 100 * 0.85, y, text_size, glm::vec3(1.0, 0.0f, 0.0f));
 		}
 	}
 
@@ -235,7 +250,7 @@ public:
 	}
 	void add_dynamic_text_element(std::string atext, std::string* text, int x, int y)
 	{
-		Dynamic_text_element<std::string*>* t = (new Dynamic_text_element<std::string*>())->set_properties(text, shaderProgram, fontShader, x, y, atext);
+		Dynamic_text_element<double*>* t = (new Dynamic_text_element<double*>())->set_properties(text, shaderProgram, fontShader, x, y, atext);
 		t->init();
 		text_elements.push_back(t);
 
@@ -409,7 +424,7 @@ public:
 	}
 	std::vector<GLfloat> shape;
 
-	void draw_slice(GLfloat x, GLfloat y, double radius, double start_angle, double end_angle, std::vector<float> color) {
+	void draw_slice(GLfloat x, GLfloat y, double radius, double start_angle, double end_angle, glm::vec4 color) {
 		std::vector <GLfloat> shp;
 		int num_segments = 4000;
 		double theta = (end_angle - start_angle) / double(num_segments - 1);

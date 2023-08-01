@@ -33,30 +33,29 @@ State::State(Simulation* sim, double start_pos)
 				}
 
 
+		using glm::vec4;
 
 
-		socium = Socium();
+		industries["Farming"] = new Farming(this, vec4(76, 175, 80, 1), 1);
 
-		industries["Farming"] = new Farming(this);
+		industries["Gathering"] =new Gathering(this, vec4(255, 152, 0, 1), 1);
 
-		industries["Gathering"] =(new Gathering(this));
+		industries["Pottery"] =(new Pottery(this, vec4(121, 85, 72, 1), 1));
 
-		industries["Pottery"] =(new Pottery(this));
+		industries["Husbandry"] =(new Husbandry(this, vec4(155, 52, 0, 1), 1));
 
-		industries["Husbandry"] =(new Husbandry(this));
-
-		industries["Textile"] =(new Textile(this));
+		industries["Textile"] =(new Textile(this, vec4(55, 52, 0, 1), 1));
 
 
-		industries["Forestry"] =(new Forestry(this));
+		industries["Forestry"] =(new Forestry(this, vec4(0, 255, 0, 1), 1));
 
-		industries["Construction"] =(new Construction(this));
-
-
-		industries["Goverment"] =(new Goverment(this));
+		industries["Construction"] =(new Construction(this, vec4(0, 0, 0, 1), 1));
 
 
-		industries["Unemployed"] =(new Unemployed(this));
+		industries["Goverment"] =(new Goverment(this, vec4(255, 0, 0, 1), 1));
+
+
+		industries["Unemployed"] =(new Unemployed(this, vec4(0, 0, 255, 1), 1));
 
 
 

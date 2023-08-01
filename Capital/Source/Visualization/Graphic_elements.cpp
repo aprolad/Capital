@@ -327,6 +327,8 @@ void Textile_panel::init()
 	Industry* industry = simulation.player.industries["Textile"];
 	Exchange* ex1 = simulation.player.exchanges[cloth_exc];
 	panel = (new Information_panel())->set_properties(shaderProgram, fontShader, x_slot * 20, y_slot * 21, 350);
+	//	panel->add_dynamic_text_element("MD: ", "", x, y - 250, &simulation.player.money_delta);
+	panel->add_dynamic_text_element("Stockpile: ", "", x_slot * 13, y_slot * 29, &industry->stockpile);
 
 	panel->add_dynamic_text_element("Weavers wages: ", &industry->wages.result, x_slot * 13, y_slot * 27);
 
@@ -409,9 +411,9 @@ void Society_profession_panel::draw()
 			a->draw();
 		//chart->draw(std::vector(simulation.population.agePyramid.begin() + 1, simulation.population.agePyramid.end()));
 		std::vector<Profession> data;
-		std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	
 		for (auto& t : simulation.player.industries)
-			data.push_back(Profession(t.first, t.second->total_worker_count / simulation.player.demography.laborPool, std::vector<float>{float(std::rand() % 256), float(std::rand() % 256), float(std::rand() % 256), 1}));
+			data.push_back(Profession(t.first, t.second->total_worker_count / simulation.player.demography.laborPool, t.second->color));
 		chart->draw(data);
 	}
 }
